@@ -1,0 +1,1320 @@
+Title:
+css: styles.css
+author: Dmitry Diky
+author-email:diwil@mail.ru
+
+<pre>
+$Id$
+
+Introduction.
+
+Things to add:
+* A brief introduction to the MSP430 processors.
+* A brief introduction to the GNU compiler tools.
+* The programmers that made this tool set possible ;)
+* Mention the MSP430 mailing list and how to subscribe.
+
+This document is based upon version 3.0 of the GNU C compiler. It also refers
+to version 2.11 of GNU binutils.
+
+
+
+
+2. Installing the GNU Tools
+
+This chapter shows how to build and install a complete development
+environment for the MSP430 processors using the GNU tool-set. (These steps
+worked on my system, which is running FreeBSD 4.0 and 5-current.  If there
+are problems with any of these instructions on your system, please let me
+know so we can resolve any problems.)
+
+I created an area for the MSP430 tools under /usr/local to keep this stuff
+separate from the base system:
+
+$ su
+$ mkdir /usr/local/msp430
+
+As root, I chown'ed /usr/local/msp430 to my normal account. 
+
+$ su
+$ chown diwil.diwil /usr/local/msp430
+
+This way, I don't have to be root to install the tools. All the instructions
+assume the tools will be installed in this location. If you want to place
+them in a different locations you need to specify the new location using the
+--prefix=... option during configure.
+
+
+2.1. GNU Binutils 
+
+Before the compiler can be built, various utilities need to be installed.
+Since the compiler converts C only to assembly language, an assembler and
+linker (and librarian, etc.) need to be built and installed for the MSP430
+processors. The GNU binutils can provide this support.
+
+
+2.1.1. Downloading the Source
+
+Get 
+	binutils-2.11
+	gcc-core-3.0
+and optionaly 
+	gcc-g++-3.0.tar.gz
+form any of GNU mirror sites - http://gcc.gnu.org/mirrors.html
+Also, download msp430-libc from http://mspgcc.sourceforge.net
+
+2.1.2. Building the Project
+
+The first step is to pull the source from the archive and apply the patches
+to the code.
+
+*** NOTE *** Patches not yet available
+
+Building binutils first:
+
+$ mkdir binutils
+$ cd binutils
+$ bunzip2 -c ../binutils-2.11.tar.bz2 | tar xf -
+$ cd ..
+$ cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login
+$ cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co binutils
+$ cd binutils/binutils-2.11
+$ ./configure --target=msp430 --prefix=/usr/local/msp430
+$ gmake
+If 'gmake' fails, type 'make' (Most Linux users should do)
+$ gmake install
+$ cd ../../
+
+Building C compiler.
+
+$ mkdir gcc
+$ cd gcc
+$ gunzip -c ../gcc-core-3.0.tar.gz | tar xf -
+$ cd ..
+$ cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login
+$ cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co gcc
+$ cd gcc/gcc-2.11
+$ ./configure --target=msp430 --prefix=/usr/local/msp430
+$ gmake
+If 'gmake' fails, type 'make' (Most Linux users should do)
+$ gmake install
+$ cd ../../
+
+Building C++ compiler.
+... will be explained later, when I build stdc++-v3 library
+
+
+Building libc
+
+$ cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login
+$ cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co msp430-libc
+$ cd msp430-libc
+$ cd src
+$ gmake
+
+Now, if you have specified different --prefix in binutils and gcc configure,
+edit Makefile and specify correct prefix
+
+$ gmake install
+
+$ cd ../../
+
+
+Now GNU tools have been built for MSP430 micro controller.
+
+Download pybsl software
+
+$ cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login
+$ cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co pybsl
+
+This has some python executables. In order to run it I had to build
+python2.2. Earlier versions did not work.
+
+
+3. Using the GNU Tools
+
+Go to msp430-libc/examples directory and find some examples, how to use
+msp430 tools. Simply typing 'make' (not gmake on any system!) see, what
+flags being passed to the compiler. At the end you will get some executable
+files which obviously will not run on your host system. Why? What next? How
+to make the MPU running?
+
+Ok, here is an answer. You have built ELF file, which has inside the binary
+code. Optionally it contains symbol table (variable names and types
+information) and debugging information. This file cannot be downloaded
+directly to the MPU. You have to use a format converter to produce a code
+which a programmer understands. 
+GNU  binutils have 'msp430-objcopy'. Type
+	msp430-objcopy -O ihex [your elf file] m.ihex
+Now m.ihex will be a file which contains Intel hex code for msp430 of your
+sources. Most programmers understand it.
+
+For example, for empty main:
+int main(){}
+
+$ msp430-gcc -O -mmcu=msp430x110 m.c 
+$ msp430-objcopy -O ihex a.out m.hex
+
+m.hex is (attention! Ihex format has CRLF at the end of line for any host
+system) :
+:10FC0000B240805A20013F4050FC3E4000023D403F
+:10FC100000020D9E06241D53FE4F00001E530F9D33
+:10FC2000FB2B3F4000023D4000020D9F06241D5368
+:10FC3000CF4300001F530F9DFB2B304044FC30404E
+:10FC400042FC00133140800230404CFC0243FE3F36
+:10FFE0003EFC3EFC3EFC3EFC3EFC3EFC3EFC3EFC41
+:10FFF0003EFC3EFC3EFC3EFC3EFC3EFC3EFC00FC6F
+:040000030000FC00FD
+:00000001FF
+
+
+The code is obviously TOOOOOooo big for the procedure which does nothing.
+The understand why, read
+
+4. Application Start-up
+
+The standard library includes a start-up module that prepares the
+environment for running applications written in C. Several versions of the
+start-up script are available because each processor has different set-up
+requirements. The compiler, msp430-gcc, selects the appropriate module based
+upon the processor specified by command line options (see Appendix A).
+
+
+For the MSP430 processors, the start-up module is responsible for the following
+tasks:
+
+* Providing a default vector table.
+* Providing default interrupt handlers.
+* Initializing the globally-reserved registers.
+* Initializing the watchdog.
+* Initializing the mcucr register.
+* Initializing the data segment.
+* Zeroing out the .bss segment.
+* Jumping to main(). (A jump is used, rather than a call, to save space on
+  the stack. main() is not expected to return. )
+
+The start-up module contains a default interrupt vector table. The contents
+of the table are filled with predefined function names which can be
+overridden by the programmer. This is discussed completely in Chapter XX.
+The last entry in the table, however, is the address of the reset vector.
+The _reset_vector__ is defined to be a weak symbol, which means that if the
+application doesn't define it, the linker will use the value from the
+library (or module).
+
+Look at the disassembled code (msp430-objdump -DS a.out):
+
+------------------------- cut ------------------------------------
+a.out:     file format elf32-msp430
+
+Disassembly of section .text:
+
+0000fc00 <_reset_vector__>:
+    fc00:	b2 40 80 5a 	mov	#23168,	&0x0120	;  #0x5a80
+    fc04:	20 01 
+    fc06:	3f 40 50 fc 	mov	#-944,	r15	;  #0xfc50
+    fc0a:	3e 40 00 02 	mov	#512,	r14	;  #0x0200
+    fc0e:	3d 40 00 02 	mov	#512,	r13	;  #0x0200
+    fc12:	0d 9e       	cmp	r14,	r13	
+    fc14:	06 24       	jz	$+14     	;  abs dst addr 0xfc22
+    fc16:	1d 53       	inc	r13		
+    fc18:	fe 4f 00 00 	mov.b	@r15+,	0(r14)	
+    fc1c:	1e 53       	inc	r14		
+    fc1e:	0f 9d       	cmp	r13,	r15	
+    fc20:	fb 2b       	jnc	$-8      	;  abs dst addr 0xfc18
+    fc22:	3f 40 00 02 	mov	#512,	r15	;  #0x0200
+    fc26:	3d 40 00 02 	mov	#512,	r13	;  #0x0200
+    fc2a:	0d 9f       	cmp	r15,	r13	
+    fc2c:	06 24       	jz	$+14     	;  abs dst addr 0xfc3a
+    fc2e:	1d 53       	inc	r13		
+    fc30:	cf 43 00 00 	mov.b	#0,	0(r15)	;  subst r3 with As==00
+    fc34:	1f 53       	inc	r15		
+    fc36:	0f 9d       	cmp	r13,	r15	
+    fc38:	fb 2b       	jnc	$-8      	;  abs dst addr 0xfc30
+    fc3a:	30 40 44 fc 	br	#0xfc44	
+
+0000fc3e <_unexpected_1_>:
+    fc3e:	30 40 42 fc 	br	#0xfc42	
+
+0000fc42 <_unexpected_>:
+    fc42:	00 13       	reti			
+
+0000fc44 <main>:
+    fc44:	31 40 80 02 	mov	#640,	SP	;  #0x0280
+    fc48:	30 40 4c fc 	br	#0xfc4c	
+
+0000fc4c <__stop_progExec__>:
+    fc4c:	02 43       	clr	SR		
+    fc4e:	fe 3f       	jmp	$-2      	;  abs dst addr 0xfc4c
+Disassembly of section .data:
+Disassembly of section .vectors:
+
+0000ffe0 <InterruptVectors>:
+    ffe0:	3e fc       	interrupt service routine at 0xfc3e
+    ffe2:	3e fc       	interrupt service routine at 0xfc3e
+    ffe4:	3e fc       	interrupt service routine at 0xfc3e
+    ffe6:	3e fc       	interrupt service routine at 0xfc3e
+    ffe8:	3e fc       	interrupt service routine at 0xfc3e
+    ffea:	3e fc       	interrupt service routine at 0xfc3e
+    ffec:	3e fc       	interrupt service routine at 0xfc3e
+    ffee:	3e fc       	interrupt service routine at 0xfc3e
+    fff0:	3e fc       	interrupt service routine at 0xfc3e
+    fff2:	3e fc       	interrupt service routine at 0xfc3e
+    fff4:	3e fc       	interrupt service routine at 0xfc3e
+    fff6:	3e fc       	interrupt service routine at 0xfc3e
+    fff8:	3e fc       	interrupt service routine at 0xfc3e
+    fffa:	3e fc       	interrupt service routine at 0xfc3e
+    fffc:	3e fc       	interrupt service routine at 0xfc3e
+    fffe:	00 fc       	interrupt service routine at 0xfc00
+
+------------------------- cut ------------------------------------
+
+Ok. Lets start from the end. Every msp430 device has interrupt vectors table
+located at 0xffe0. So, here we can see, that on execution begins, the PC
+loaded with the address 0xfc00. _reset_vector__ located at this address.
+Here, first of all, watchdog timer being initialized.
+
+Then the program copies initialized global variables to RAM (0xfc0a - 0xfc20). 
+After it uninitialized globals being cleared (0xfc22 - 0xfc3a).
+At the end of this procedure we jump to 'main' which located at 0xfc44.
+
+In main one can see, that we copy value 0x0280 to r1. It initializes a stack
+pointer, taking into account the space required for local variables.
+
+Then, as long as main does nothing, it jumps to __stop_progExec__. At this
+point SR zeroed. Next assembler instruction is jump to __stop_progExec__.
+This provides end-of-program-execution.
+
+In this module, the application use
+_etext - end of .text section. The point where initial values of global
+variables being coded,
+__data_start - start of ram,
+_edata - end of data RAM (_edata-__data_start is a size of .data segment),
+__bss_start - a point where uninitialized variables resides in RAM,
+__bss_end - end of this segment ,
+__stack - is ... stack...
+
+All of these variables can be overridden with -Wl,--defsym=[symname]=(value)
+For example, to define stack to 0x111, use '-Wl,--defsym=__stack=0x111'.
+
+In most cases it is not necessary to redefine these values. They can be
+obtained from the user application as:
+...
+extern int __stack;
+int m;
+(int *)m = &__stack;
+/* now m filled with __stack value */
+...
+
+Please note, that these values do not change once been initialized.
+
+The startup code adds a litter overhead to the application. The size of the
+startup code is 80 bytes without interrupt vector table. If you do not like
+this approach, you can define your own startup code.
+
+4.1 Redefine startup procedure
+
+By defining _reset_vector__ in the user application, the linker will not
+link standard startup code. For example:
+
+#include <io.h>
+
+NAKED(_reset_vector__)
+{
+	/* place your startup code here */
+
+	/* Make shure, the branch to main (or to your start
+	   routine) is the last line in the function */
+	__asm__ __volatile__("br #main"::);
+}
+
+Then we'll get 
+---
+a.out:     file format elf32-msp430
+
+Disassembly of section .text:
+
+0000fc00 <__zero_vector>:
+    fc00:       30 40 04 fc     br      #0xfc04
+
+0000fc04 <_unexpected_>:
+    fc04:       00 13           reti
+
+0000fc06 <_reset_vector__>:
+    fc06:       00 3c           jmp     $+2             ;  abs dst addr 0xfc08
+
+0000fc08 <main>:
+    fc08:       31 40 80 02     mov     #640,   SP      ;  #0x0280
+    fc0c:       30 40 10 fc     br      #0xfc10
+
+0000fc10 <__stop_progExec__>:
+    fc10:       02 43           clr     SR
+    fc12:       fe 3f           jmp     $-2             ;  abs dst addr 0xfc10
+Disassembly of section .data:
+Disassembly of section .vectors:
+[skip]
+---
+
+Please note, if you declare your own startup, you have to take care about
+global variables initial values.
+
+An another way to define reset, is to use _RESET() macro:
+
+_RESET()
+{
+	/* place your startup code here */
+	__asm__ __volatile__("br #main"::);
+}
+
+
+4.2 Redefine end up procedure
+
+From the example above you can see, that main jumps to __stop_progExec__,
+which can be redefined the same way in the user code. However, it is possible
+to save some space, specifying return point for main:
+
+	msp430-gcc -mendup-at=main ...
+
+Then, you'll get:
+
+...
+0000fc08 <main>:
+    fc08:       31 40 80 02     mov     #640,   SP      ;  #0x0280
+    fc0c:       30 40 10 fc     br      #0xfc08
+...
+
+And __stop_progExec__ will not be linked.
+
+4.3 Initializing stack.
+
+Stack initialization performed in main's prologue. This is suitable for
+most cases. But if user redefines startup and needs some space allocated on
+stack, the stack has to be initialized. For example:
+
+NAKED(_reset_vector__)
+{
+	__asm__ __volatile__("mov #__data_start, r1"::);
+	/* your code */
+	__asm__ __volatile__("br #main"::);
+}
+
+*** NOTE *** DO NOT USE IAR's registers defenition PC, SP and SR cause GNU
+assembler does not handle it. Instead use r0, r1 and r2.
+
+
+Then stack finally will be initialized in main(). Normally, the stack bottom
+initial address is a top of ram. If you want to reserve some RAM space,
+which is not accessible for the compiler, you may specify -mno-stack-init
+flag and then define startup as follows:
+
+#define STACKINITIALVALUE	0x0111	// for example
+
+NAKED(_reset_vector__)
+{
+	char a[100];	// will be allocated on stack
+	__asm__ __volatile__("mov #__data_start, r1"::);
+	
+	/* your startup code here */
+	
+	/* init stack */
+	__asm__ __volatile__("mov %0, r1"
+				:
+				: "i" (STACKINITIALVALUE)
+				);
+	/* jump to main */
+	__asm__ __volatile__("br #main"::);
+}
+
+If you do not nake the function declaration, please note, that on function
+exit, the frame pointer value will be added to the r1, So, stack init should
+be as follows:
+
+*** NOTE *** Frame pointer register r4 and arguments pointer register r5
+values are compilated in some misterious way. So, use the with care (see
+Appendix B)
+
+...
+__asm__ __volatile__("mov %0, r1" :: "i" (STACKINITIALVLUE) );
+__asm__ __volatile__("sub #.L__FrameSize__reset_vector__, r1"::);
+...
+
+The variable '.L__FrameSize_[function name]' defined by the compiler and has a
+value of the stack space required.
+
+
+For example:
+----
+#define STACKINITIALVLUE 0x111
+
+void set(char *a) {}	// dummy
+void reset(char *a) {}  // dummy
+
+void _reset_vector__()
+{
+        __asm__ __volatile__("mov       #__data_start ,r1"::);
+        {
+                char a[100];
+                set(a);
+                reset(a);
+        }
+        __asm__ __volatile__("mov %0, r1"::"i" (STACKINITIALVLUE));
+        __asm__ __volatile__("sub #.L__FrameSize__reset_vector__, r1"::);
+	__asm__ __volatile__("br #main"::);
+}
+
+int main(){ }
+----
+
+Will result as (msp430-gcc -O m.c -mendup-at=main -mno-stack-init):
+
+---
+a.out:     file format elf32-msp430
+
+Disassembly of section .text:
+
+0000fc00 <__zero_vector>:
+    fc00:       30 40 04 fc     br      #0xfc04
+
+0000fc04 <_unexpected_>:
+    fc04:       00 13           reti
+
+0000fc06 <set>:
+    fc06:       30 41           ret
+
+0000fc08 <reset>:
+    fc08:       30 41           ret
+
+0000fc0a <_reset_vector__>:
+    fc0a:       31 80 64 00     sub     #100,   SP      ;  #0x0064
+    fc0e:       31 40 00 02     mov     #512,   SP      ;  #0x0200
+    fc12:       0f 41           mov     r1,     r15
+    fc14:       b0 12 06 fc     call    #-1018          ;  #0xfc06
+    fc18:       0f 41           mov     r1,     r15
+    fc1a:       b0 12 08 fc     call    #-1016          ;  #0xfc08
+    fc1e:       31 40 11 01     mov     #273,   SP      ;  #0x0111
+    fc22:       30 40 30 fc     br      #0xfc30
+    fc26:       31 80 64 00     sub     #100,   SP      ;  #0x0064
+    fc2a:       31 50 64 00     add     #100,   SP      ;  #0x0064
+    fc2e:       30 41           ret
+
+0000fc30 <main>:
+    fc30:       30 40 30 fc     br      #0xfc30
+....
+---
+
+I personally do not like this approach. Later, I'll make something like
+attribute for main() with which the stack pointer can be adjusted.
+... just made it. see Chapter 5.2
+
+
+
+
+There are two more functions __zero_vector and _unexpected_ which are not
+described here. They are part of interrupt processing scheme and we'll talk
+about it in the interrupt API chapter. 
+
+
+
+5. Memory APIs
+
+
+MSP430 architecture processors use a single address space to map data and
+code. Since registers are 16 bit wide and the CPU cannot access word (16
+bit) wide variables located at even addresses.
+
+GNU C compiler for msp430 supports the following base data types:
+
+char	 	1 byte  (8 bits)
+int		2 bytes (can be 8 bit with -mint8 flag)	
+long 		4 bytes
+long long	8 bytes
+float		4 bytes
+
+and unsigned ones. Pointers are 2 bytes wide.
+
+
+
+
+All global const variables resides in ROM and normally placed in .text
+section. Access to const variable does not differ from accessing to any type
+of variables. You can however place const vars to RAM using attribute
+section(".data")) as follows:
+
+const char __attribute__ ((section(".data"))) foo = 1;
+
+Please note, that if you declare variables r0 - r15, the assembler will
+prepend '_' in order to allow the assembler to distinguish them from
+registers names. (I think I'll change this, cause gcc does not use PC
+relative addressing modes. So, in any instruction, which uses any var, # or
+& chars will state before that var).
+
+Variables of size > 1 are located at even addresses. Variables of size 1 can
+be located at both even and odd addresses.
+
+
+5.1 Access to SFRs.
+
+All special function registers declared in io.h file. So, if you want to
+use SFRs and do not want to declare them, include io.h file and specify MCU
+arch in command line as described in Appendix A. 
+
+You can consider any SFR as a normal variable, which mapped to the special
+memory location and you do not have to care which one exactly.
+
+To write to SFR, just issue a command like: 
+SFR = smts;
+
+To read SFR, issue:
+smts = SFR;
+
+
+All SFRs declared as volatile. This implies a-la Harvard architecture gcc
+behavior for read-modify-write: mov SFR's value to register, modify
+register, write to SFR. However, gcc port for msp430, takes into account the
+fact, that one insn can read and modify SFR:
+	and.b	#1, &0x0120 
+and gcc produces a good code. But, if you still experienced a tricky
+generated code behavior, you can disable this feature by specifying
+'-mno-volatile-workaround' flag.
+
+
+5.2 Save space on stack
+
+Declaring 
+
+	int RESERVE_RAM(10) main() {...}
+
+will reserve 10 bytes of memory which resides at the top of ram and will not
+be accessble by the gcc. So, you can use them for, for instance, PUC restarts.
+
+
+
+6. Interrupt API
+
+This has been changed completely recently.
+
+Interrupt should be declared as:
+
+#include <signal.h>
+
+interrupt (INTERRUPT_VECTOR) IntServiceRoutine(void) {...}
+	- just a usual interrupt.
+
+interrupt (INTERRUPT_VECTOR) [wakeup, enablenested]  IntServiceRoutine(void) {...}
+
+attributes wakeup and enablenested declared in signal.h
+
+Wakeup attribute forces the compiler to restore full-power mode at exit from
+ISR. Enablenested inserts eint insn before function prologue.
+
+For every arch NOVECTOR macro is defined.
+
+if ISR declared as:
+interrupt (NOVECTOR) [wakeup, enablenested] IntServiceRoutine(void) {...}
+then gcc will not assign an interrupt vector for this routine.
+
+
+_RESET() macro is declared to use it when start-up procedure has to be
+changed. See example above.
+
+
+6.1 Where the interrupt vectors table comes from?
+
+The interrupt vectors table is defined in startup files crtXXX. These files
+linked automatically when project builds. For every MPU arch a specific
+table loaded. Undefined interrupts will result _unexpected_1_ call, which
+branches to _unexpected_. The last one can be redefined in user code.
+
+If you do not like this, you can define your own interrupt vector table as:
+
+/* Define interrupt vector table */
+
+INTERRUPT_VECTORS = {
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        wakeup_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector, 
+        zero_vector,
+        zero_vector,
+        reset_vector
+};
+
+In this case you have to pass '-nostartfiles' to the compiler. See examples
+for more code details.
+
+6.2 Function Reference
+
+	eint - enable interrupts
+
+#include <signal.h>
+
+Syntax:
+	void eint(void);
+
+Description: 
+
+Enable global interrupt by setting global interrupt enable bit.This function
+actually compiles into a single line of assembly, so there is no function
+call overhead.
+
+
+
+	dint - disable interrupts
+
+#include <signal.h>
+
+Syntax:
+        void dint(void);
+
+Description: 
+
+Disable global interrupt by clearing global interrupt enable bit.This
+function actually compiles into a single line of assembly, so there is no
+function call overhead.
+
+
+	_RESET() - declare users start-up
+
+#include <signal.h>
+
+Syntax:
+	_RESET() {}
+
+
+
+	UNEXPECTED() - declare users unexpected ISR
+
+#include <signal.h>
+
+Syntax:
+	UNEXPECTED(){}
+
+
+
+
+
+7. I/O APIs
+
+
+7.1. I/O Port APIs
+
+See section 5.1
+
+7.2 Function Reference
+
+	WRITE_SR - set value of Status Register r2
+
+#include <io.h>
+
+Syntax:
+	void WRITE_SR(uint16_t x);
+
+Description:
+Writes 16 bit value of x in r2.
+
+
+
+	READ_SR	- get value of Status Register r2
+
+#include <io.h>
+
+Syntax:
+        uint16_t READ_SR(void );
+
+Description:
+Reads 16 bit value of x in r2.
+
+
+	_BIS_SR	- set bits in r2
+
+#include <io.h>
+
+Syntax:
+	void _BIS_SR(uint16_t x);
+
+Description:
+Sets bits in r2 with 'bis'.
+
+
+	_BIC_SR	- clear bits in r2
+
+#include <io.h>
+
+Syntax:
+
+	void _BIC_SR(uint16_t x);
+Description:
+Clear bits in r2 with 'bic'.
+
+
+	
+
+	SFR_CMD execute a command with SFR.
+
+#include <io.h>
+Syntax:
+	SFR_CMD(cmd, (typeof SFR) sfr, (typeof SFR) val);
+
+Description:
+Performs an operation on SFR, which neither be optimized nor
+modified by the compiler. Example:
+
+	SFR_CMD(bis.b, IE1,WDTIE) - enable watchdog interrupt.
+
+This can be done also as 
+
+	IE1 |= WDTIE;
+
+
+
+
+
+8. Standard library
+
+There are some standard library functions, which are:
+
+abs()
+bsearch()
+exit()
+malloc()
+rand()
+strtoul()
+abort()
+atoi()
+labs()
+setjmp()
+abort()
+atol()
+errno()
+ldiv()
+qsort()
+strtol()
+ffs()
+memcpy()
+strcat()
+strdup()
+strncmp()
+strspn()
+atol()
+memmove()
+strchr()
+strlcat()
+strncpy()
+strstr()
+bcmp()
+memccpy()
+memset()
+strcmp()
+strlcpy()
+strpbrk()
+strtok()
+bcopy()
+memchr()
+rindex()
+strcpy()
+strlen()
+strrchr()
+swab()
+bzero()
+memcmp()
+strcasecmp()
+strcspn()
+strncat()
+strsep()
+snprintf()
+sprintf()
+
+These functions API can be found in bsd manuals.
+
+*** NOTE ***
+
+(mind format conversions in sprintf():
+ %d, %x, etc. without flags stay for ints - 2 byte vars;
+ %lx, %ld, etc. being used to print longs)
+
+
+
+uprintf(void (*func)(char c), const char *fmt,...);
+
+ - the same as sprintf(), except user must provide output function for
+printing character. This function must accept 'char' as a parameter and
+return void (for example send a character to UART or something). User
+function is responsible for mutexes, slow interface, etc. uprintf() will not
+return untill all characters printed.
+
+
+
+
+
+
+APPENDIX A
+
+
+This appendix describes the msp430-specific changes to the GNU toolset. See
+the GNU documentation for options that are common to all processor targets.
+For options list type 'msp430-gcc --target-help'
+
+
+A.1 Compiler options.
+
+  -mno-volatile-workaround  Do not perform volatile workaround for bitwise
+				operations
+  -mno-stack-init           No stack init in main()
+  -mforce-hw-mul            Force hardware multiplier
+  -mint8                    Assume int to be 8 bit integer
+  -mendup-at=               Jump to specified routine at the end of main()
+  -mmcu=                    Specify the MCU name
+  -minit-stack=             Specify the initial stack address
+  -mreorder		    Revert registers allocation order
+  -minline-hwmul	    Issue inline code for 32-bit integers for
+			    devices with hardware multiplier.
+  -mcall-shifts		    Use subroutine calls for shift operations.
+			    This may save some space for shifts extensive
+			    applications.
+
+
+
+Known MCU names:
+         msp1		any MCU w/o hardware multiplier
+         msp2		any MCU with hardware multiplier
+         msp430x110
+         msp430x112
+         msp430x122
+         msp430x123
+         msp430x133
+         msp430x135
+         msp430x147
+         msp430x148
+         msp430x149
+         msp430x412
+         msp430x413
+         msp430x311
+         msp430x312
+         msp430x313
+         msp430x314
+         msp430x315
+         msp430x323
+         msp430x325
+         msp430x336
+         msp430x337
+         msp430x1101
+         msp430x1111
+         msp430x1121
+
+
+A.2 Compiler defined Symbols
+
+The compiler defines symbols that the source code can use to adjust its
+compilation.
+
+MSP430		- for every arch
+__MSP430__	- for every arch 
+__MSP430_XXX__	- where XXX one from the list above (__MSP430_149__ for example)
+
+Include path for standard includes is also defined by the compiler.
+
+
+Appendix B
+
+B.1 Register Usage
+
+If you are going to interface assembly routines with your C code, you need
+to know how GCC uses the registers. This section describes how registers are
+allocated and used by the compiler.
+(You can override gcc settings by issuing -ffixed-regs=...)
+
+r0,r2,r3 - are fixed registers and not used by the compiler in any way.
+They cannot be used for register temporary arguments as well.
+
+r1 - is a stack pointer. The compiler modifies it only in function
+prologue/epilogue and when issues a function call with a long argument list.
+Do not modify it under any circumstances!!!
+
+r4 - frame pointer. This can be used by the compiler, when va_args function
+call being performed. When no such call required and optimization is turned
+on, this register is eliminated by stack pointer register.
+
+r5 - argument pointer. This can be used by the compiler, when long arg list
+call being performed. It refers to the stack position before function call.
+Normally, when optimization is turned on, this register usage is eliminated
+and arg list accessed via stack pointer register.
+
+Use last two with care. If gcc uses them for pointer's purposes, 
+these initial values after function's prologue:
+
+r5 = r1 + [size of pushed regs in prologue] + 2 bytes;
+r4 = r1 - [frame size];
+where r1 value is r1 on function entry minus size of pushed regs in
+prologue.
+
+r15,r14,r13,r12 - are call cloberred (in general) registers. If you
+interfacing gcc with assembler language, you do not have to save these
+registers (except in interrupt service routines).
+
+*** NOTE *** some library calls (such as divmodM, mulM) clobber some
+registers (r8 - r11). GCC minds this fact during code generation and will
+save clobbered registers on stack in calling function.
+
+All other register are call used registers. If you interfacing gcc with
+assembler language, you have to save them on stack and restore before exit.
+
+Registers allocated in order from r12 to r15, r11 to r0 and from r15 to r0
+with -mreorder flag. Please use this order if you plug in you assembler
+functions.
+
+char, int and pointer variables take one register.  long and float variables
+take two register in little-endian order - LSB goes in lower register.
+long long var takes 4 registers in little-endian order.
+
+
+
+A.2 Function call conventions
+
+Fixed Argument Lists: Function arguments are allocated left to right. They
+are assigned from r15 to r12. If more parameters are passed than will fit in
+the registers, the rest are passed on the stack. This should be avoided
+since the code takes a performance hit when using variables residing on the
+stack.
+
+
+Variable Argument Lists: Parameters passed to functions that have a variable
+argument list (printf, scanf, etc.) are all passed on the stack. char
+parameters are extended to ints.
+
+*** NOTE *** strarg, varargs and calls whith parameter list size over 8
+bytes cannot be used with interrupt function. In this case frame pointer can
+be adjusted incorrectly, which results in unpredictable code behaviour.
+
+Return Values: char, int and pointer being returned in r15
+long and float return in r15:r14
+long long returns in r15:r14:r13:r12
+
+In case the return value wider than 64 bits, it returns in memory. The first
+'hidden' argument to function call will be a memory address. All other
+arguments will be allocated in usual way from r14.
+
+
+
+A.3 Calls definitions.
+
+All variables names are not transformed in any way, except ones with names
+r0 - r15. For them '_' prepended. Aliasing declaration (int A asm("M");)
+will not change alias. If M being specified as a direct address (see SFRs
+defenitions for example), gcc will not 'globalize' this symbol. So, you can
+include these 'address' defenitions into any header file.
+
+Every function call starts from function prologue. In the prologue passes
+call used registers (r4-r11 and r4-r15 for interrupt functions) on stack.
+Then stack pointer being adjusted by subtracting frame size from r1. Naked
+functions does not issue prologue. 'interrupt' attribute forces to save all
+function used registers.
+
+In every function defenition 
+	.L__FrameSize_[function name]=[frame size]
+defined. 
+For example:
+
+main:
+.L__FrameSize_main=0x12
+
+It can be used as an immediate variable in inline assembly:
+	__asm__ __volatile__("add #.L__FrameSize_main, r1"::);
+
+
+Every  function call ends up with a function epilogue where, first of all, 
+stack pointer adjusted by adding frame size to r1. The registers being
+popped from stack.
+ret insn issued for usual calls, reti for interrupts, and a sequence
+	bic #0xf0,0(r1) 
+	reti
+for waked-up interrupts.
+
+
+main() function only adjusts stack pointer, unless -mno-stack-init specified.
+main() does not save registers.
+main() does not return. 
+main() jumps to __stop_progExec__ at the end unless -mendup-at=...
+being passed to the compiler.
+
+
+Appendix C
+
+C.1 Assembler extensions:
+
+GNU msp430-as supports TI assembler style. Some extensions are:
+
+@Rn as destination treated as 0(Rn)
+0(Rn) as source treated as @Rn
+
+jmp +N skips next N bytes (use with care)
+jmp $+-N advances/rewinds PC N bytes from current location
+jmp -N rewinds PC N bytes from current location
+
+
+Appendix D
+
+Inline assembly.
+
+D.1 Syntax:
+
+In an assembler instruction using 'asm', you can specify the operands of the
+instruction using C expressions.  This means you need not guess which
+registers or memory locations will contain the data you want to use.
+
+You must specify an assembler instruction template much like what appears
+in an assembler language, plus an operand constraint string for each
+operand.
+
+For example:
+	asm("mov %1, %0": "=r" (result): "m" (source) );	
+
+Here 'source' is the C expression for the input operand while 'result'
+is that of the output operand. '=' indicates, that the operand is an output.
+m and r are constraints and inicate which types of addressing mode gcc has
+to use in the operand.
+
+Each asm statement is devided by colons into four parts:
+1.  The assembler instructions, defined as a single string constant:
+	"mov %1, %0"
+2.  A list of output operands, separated by commas. Our example uses just one:
+	"=r" (result)
+3.  A comma separated list of input operands. Again our example uses one
+operand only:
+	"m" (source)
+4.  Clobbered registers, left empty in our example.
+
+So, the pattern is: 
+	asm( (string assm statement) : [outputs]:[inputs]:[clobbers]);
+
+In ou example %0 refers to result, %1 refers to source and so on.
+
+Each input and output operand is described by a constraint string followed
+by a C expression in parantheses.
+MSP430-AVR knows the following constraint characters:
+m - memory operand
+I - integer operand
+r - register operand
+i - immediate operand (int constants in most cases)
+P - constants, generated by r2 and r3
+and some other constraints which are common for gcc. MSP430-gcc does not use
+any other constraints cause of the mcu core architecture.
+
+Didgit in constraint indicates, that the current operand must occupy the same
+location as operand 'digit' :
+
+	asm ("add %2,%0" : "=r" (foo) : "r" (foo), "m" (bar));
+is 
+	foo += bar;
+and will result in assembler output as:
+	
+	mov &foo, r12
+/* #APP */
+	add &bar, r12
+/* #NOAPP */
+	mov r12, &foo	; foo is a global variable.
+
+
+   If you are writing a header file that should be includable in ANSI C
+programs, write '_asm__' instead of 'asm'.
+If there are only unused output operands, you will then also
+need to specify 'volatile' for the 'asm' construct.
+
+Percent '%' sign follwed by digit forces gcc to substitude an operand
+'digit'. For 4 and 8 byte operands use %A, %B, %C, %D modifiers:
+
+#define LONGVAL	0x12345678l
+
+{
+	long a,b;
+	...
+	asm("mov %A2, %A0 \n\t"
+	    "mov %B2, %B0 \n\t" 
+	    "mov %A2, %A1 \n\t" 
+	    "mov %B2, %B1 \n\t" 
+
+		: "=r"((long)a),"=m"((long)b)
+		: "i"((long)LONGVAL) );
+	...
+}
+
+this will result as ('b' declared within a block):
+	...
+/* #APP */
+	mov #llo(305419896), r12
+	mov #lhi(305419896), r13
+	mov #llo(305419896), 4(r1) ; mov #llo(305419896), &b   <- if b declared
+	mov #lhi(305419896), 6(r1) ; mov #lhi(305419896), &b+2 <- as global var
+/* #NOAPP*/
+	mov r12, 0(r1)
+	mov r13, 2(r1)
+	...
+
+So,
+
+%A[digit] acts as %[digit] for memory and register operands and wraps
+integer value into #llo(), where #llo is an assembler macro, which extracts
+lower 16 bits.
+
+%B add 1 to register number, 2 to address constants, and substitudes #lhi()
+for integer consts.
+
+%C add 2 to reg, 4 to addr const and #hlo() for consts.
+
+%D add 3 to reg, 6 to mem, #hhi() for consts.
+
+I,J,K,L modifiers do the same, except they add 1 to address and register.
+They being used only in zero_extendMN operations.
+
+There is also %E modifier, which substitudes Rn from (mem:xx (reg:xx n)) as
+@Rn. This is a usefull modifier for first element on stack or for pointers.
+!!! Do not use it unless you know exactly what are you doing !!!
+
+
+D.2 Registers, variables and labels.
+
+As long as gcc does not check (and it cannot) the assembler syntax, you're
+can do anything within assembler asm() statement. However, please note, that
+gcc does not use r0,r2,r3. Therefore, if you mention one of these registers
+as an output parameter in asm() statement or as an alias for register
+variable, gcc will substitude some another register instead. If r2,r3,r0
+being used as input parameters, you'll get an error: `asm' operand requires
+impossible reload.
+
+Variables can be used in normal way within asm() statement (mind name
+conversion for [Rr][0-15] names)
+
+Gcc defines labels with the following patterns:
+.Lfe%= (%= modifier stands for a unique number for entire file)	- function
+						end label
+.L__Frame_size_%s 	- see above
+.L%=			- local label for almost all purposes :)
+
+Following labels defined for some expanded operands:
+.Lsren%=		
+.Lsrcl%=
+.Lsre%=
+.Lae%=
+.Lmsn%=
+.Lcsn%=
+.Lsend%=
+.Lsst%=
+.Leaq%=			
+.LcmpSIe%=
+
+So, do not use these patterns. You can use any else label as you wish. Please 
+note, that if label starts from .L it means, that the label is local and cannot
+be seen from another file as well as in disassembled output with objdump.
+
+D.3 Library calls.
+
+There are some library functs used by GCC for code generation.
+
+All of them use non-standard argument passing scheme. So, do not use them in
+your assembly code unless absolutelly sure what's going on. Namelly:
+
+Multiplication:
+__mul{qi,hi,si}3
+__umul{qi,hi,si}3
+__umulsi3hw
+
+If destination is in HI mode (16 bit) or QI mode (8 bit), for archetectures
+without hardware multiplier, the first argument being passed in r10, 
+second - 12, returns in r14.
+In SI mode (32 bit): first in r11:r10, second r13:r12, result in r14:r15.
+
+In both cases input arguments are clobbered after function returns.
+
+Division:
+__divmod{qi,hi,si}4
+__udivmod{qi,hi,si}4
+
+If destination is in HI mode (16 bit) or QI mode (8 bit):
+inputs are in r12, r10 (r12 / r10); 
+outputs are in r12 - quotant, r14 - reminder;
+r10, r11 and r13 are clobbered.
+
+In SI mode (32 bit):
+inputs are in r13:r12 and r11:r10;
+outputs are in r13:r12 - quotant, r15:r14 - reminder;
+r8,r9,r10,r11 are cloberred.
+
+All of float point library calls can be used in usual way 
+(when allpicable - just help me to force this process :).
+
+
+Appendix E
+
+Tips and tricks.
+
+1. If you're sure, that main never exits, use -mendup-at=main flag. This
+   will save 6 bytes or ROM.
+
+2. Avoid passing long argument list to functions. Avoid long returns from
+   functions. Perfect function is int, void or pointer returned one. 
+
+3. Avoid initialization of global variables within a small function call.
+   Instead, assign a value during variable defenition.
+
+4. Avoid char -> another type conversions: char variables located everywhere
+   in ram, while word vars only at even addresses. So, the code given:
+	const char *a = "1234";
+	int k;
+	k = *((int *)((char *a)+3));
+   will result unpredictable CPU behaviour. (sigbus on UNIX)
+ 
+5. Avoid to use global variables of small size - waste of ram.
+
+6. Avoid to use volatiles unless absolutely necessary.
+
+7. Use int instead of char ot unsigned char if you want 8 bit integer. (or fix me)
+
+8. Inspect assembler code (-S compiler flag). The compiler cannot eliminate
+   dead code in some cases. Do not write dead code :)
+
+9. Do not declare your own SFR. They are all declared in include files in
+   the way to achieve maximum code performance.
+
+10. Avoid to use float '+,-' operations - waste of time (or help me to write
+    float library).
+
+11. Use shift instead of multiplication on constants 2^N (actually, the
+    compiler has to do this job for you when optimization is turned on)
+
+12. Use unsigned int for indices - the compiler will snip _lots_ of code.
+
+13. Use 'switch - case' instead of consequent if-then-else.
+
+14. Use logical 'or' instead of '+' for bitmasks.
+
+15. Use 'alloca' instead of 'malloc' for locals.
+
+16. Appart from C++ recomendations ;), it would be better to 
+	#define SMTS	1234567890l
+    instead of declaring
+	const long smts = 1234567890l;
+
+17. Bit thests and something:
+
+    At 'while((long)a&0x80000l);' the programm will hang, unless 'a' declared
+    as volatile. So, do it!
+
+
+
+Do not do anytihng unless you know what you're doing :)
+
+
+
+---------------------------
+Did I miss something?
+diwil at mail.ru
+
+
+</pre>

@@ -16,8 +16,8 @@ from LinkFixer import LinkFixer
 
 
 sitelinks = [
-    ('index.html',             'Home'),
-    ('doc.html',               'Documentation'),
+    ('index.html',                    'Home'),
+    ('manual/book1.html',             'Documentation'),
     ('http://sf.net/projects/mspgcc', 'mspgcc Project page on SourceForge'),
     ]
 

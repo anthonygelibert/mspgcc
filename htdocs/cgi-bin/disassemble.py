@@ -246,7 +246,7 @@ if __name__ == '__main__':
         if options.binary is not None:
             sys.stderr.write("---- file: %s ----\n" % options.binary)
             if options.binary:
-                import msp430, msp430.memory
+                import msp430, msp430.memory, msp430.elf
                 data = msp430.memory.Memory()
                 try:
                     data.loadFile(options.binary)

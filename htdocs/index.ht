@@ -7,15 +7,14 @@ css: styles.css
 Older news are <A href="news.html">here</A>.
 </P>
  -->
-<H1>GCC Toolchain for MSP430</H1>
-<P>Here you can find patches to the GCC and Binutils sources which add the embedded processor MSP430
-as a new target.
-Additionally we provide tools so that a work environment can be built for your favorite machine.
-</P>
-
-<P>The compiler and assembler as our tools are targeted on multiple platform support.
-They are developed and run on BSD, Linux and Win32 systems.
-You're no longer limited to Windows when you want to use the MSP430 processor.
+<H1>The GCC toolchain for the Texas Instruments MSP430 MCUs</H1>
+<P>Here you will find a port of the GCC toolchain for the Texas Instruments
+MS4P430 famuly of ultra low power MCUs, This includes the iGNU C compiler (GCC),
+the assembler and linker (binutils), the debugger (GDB), and some other tools
+needed to make complete development environment for the MSP430. These tools
+can be used on Windows, Linux, BSD and most other falvours of Unix. Hoever, the
+full debug environment is currently limited to Windows, Linux and BSD.
+MSP430 development is no longer limited to Windows!
 </P>
 
 <P>Here is the <A href="http://sourceforge.net/projects/mspgcc/">project page on SourceForge</A>

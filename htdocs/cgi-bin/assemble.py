@@ -412,31 +412,32 @@ def assemble(line):
                 print '*** Syntax Error: unknown instruction "%s"' % (insn)
 
 
-if len(sys.argv) > 1:
-    assemble(sys.argv[1])
-else:
-    import cgi, os
-    #cgitb is not available in py 1.5.2
-    #import cgitb
-    #cgitb.enable()
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        assemble(sys.argv[1])
+    else:
+        import cgi, os
+        #cgitb is not available in py 1.5.2
+        #import cgitb
+        #cgitb.enable()
 
-    try:
-        print "Content-Type: text/html"
-        print
-        fields = cgi.FieldStorage()
-        if fields.has_key("line"):
-            line = fields['line'].value
-            print "<H3>Assembling the following line:</H3>"
-            print "<pre>", line, "</pre>"
-            print "<H3>Results in the following machine code:</H3>"
-            print "<pre>"
-            assemble(line)
-            print "</pre>"
-        else:
-            print "please go to the correct form to enter the data for this CGI!"
-    except:
-        print "there was an error :-("
-        import traceback
-        traceback.print_exc(file=sys.stdout)
+        try:
+            print "Content-Type: text/html"
+            print
+            fields = cgi.FieldStorage()
+            if fields.has_key("line"):
+                line = fields['line'].value
+                print "<H3>Assembling the following line:</H3>"
+                print "<pre>", line, "</pre>"
+                print "<H3>Results in the following machine code:</H3>"
+                print "<pre>"
+                assemble(line)
+                print "</pre>"
+            else:
+                print "please go to the correct form to enter the data for this CGI!"
+        except:
+            print "there was an error :-("
+            import traceback
+            traceback.print_exc(file=sys.stdout)
 
 

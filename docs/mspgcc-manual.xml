@@ -3002,7 +3002,7 @@ to allow access to the parallel port. If there is a binary file for
 install <emphasis>libHIL.so</emphasis>.</para>
 
 <para>Copy the <emphasis>libHIL</emphasis> source code from the
-<quote>jtag/hardware_access/HILppdev</quote> directory in the CVS repository
+<quote>jtag/hardware_access</quote> directory in the CVS repository
 at the mspgcc web-site. Then, build and install it with the following commands:
 <screen><prompt>$</prompt> <userinput>cd jtag/hardware_access</userinput>
 <prompt>$</prompt> <userinput>make</userinput>

@@ -1,4 +1,4 @@
-.PHONY: all html pdf manual-html faq-html faq-pdf manual-pdf clean clean-workfiles
+.PHONY: all html pdf manual-html faq-html faq-pdf manual-pdf clean clean-workfiles FORCE
 
 all:  html pdf
 html: manual-html faq-html
@@ -29,6 +29,19 @@ clean-workfiles:
 	rm -f mspgcc-manual.aux mspgcc-manual.log mspgcc-manual.out mspgcc-manual.tex
 	rm -f faq.aux faq.log faq.out faq.tex
 
+htmldir:
+	mkdir -p html
+
+faq-eclipse: FORCE htmldir
+	xsltproc --stringparam base.dir html/faq/ --stringparam html.stylesheet ../styles.css /usr/share/xml/docbook/stylesheet/nwalsh/eclipse/eclipse.xsl faq.xml
+	mv toc.xml toc-faq.xml
+
+manual-eclipse: FORCE htmldir
+	xsltproc --stringparam base.dir html/manual/ --stringparam html.stylesheet ../styles.css /usr/share/xml/docbook/stylesheet/nwalsh/eclipse/eclipse.xsl mspgcc-manual.xml
+	mv toc.xml toc-manual.xml
+
 clean: clean-workfiles
 	rm -f mspgcc-manual.pdf faq.pdf
 	rm -rf faq manual
+
+FORCE:

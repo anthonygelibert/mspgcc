@@ -18,9 +18,18 @@ POSIX compatible systems). The command line options are compatible with pyBSL an
 </P>
 
 <P>The hardware design is open. The schematics can be found in the CVS module
-"hardware/serialJTAG". The firmware for this design is here:
-<A href="serjtag.zip">serjtag.zip</A> (<10k). This is still experimental and in
-developement, but it works on my desk ;-)
+"hardware/serialJTAG". A binary of the firmware for this design is here:
+<A href="serjtag.zip">serjtag.zip</A> (&lt;10k, beta).
+</P>
+The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
+For the PC:<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co pyserjtag</code><BR>
+For the adapter:<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co serJTAGfirmware</code><BR>
+For the hardware (Eagle schematics):<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co hardware/serialJTAG</code><BR>
+don't forget to login first if you want to get either of those above:<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
 </P>
 
 <P>Why? The parallel port has some drawbacks such as missing OS support for bit banging.

@@ -22,7 +22,7 @@ via. a FET (and all the other JTAG adapters that are based on the same schematic
 </P>
 
 <P>gdbproxy is based on the gdbproxy 0.7 program which can be found
-<A href="http://world.std.com/~qqi/labslave/gdbproxy.html">here</A>. It was
+<A href="http://world.std.com/~qqi/labslave/rproxy.html">here</A>. It was
 intended that the MSP430 code just be added to the existing gdbproxy code.
 However, the gdbproxy code has now been so heavily modified it looks like
 it has forked and thus was given the new name "gdbproxy". Sorry. Forking is

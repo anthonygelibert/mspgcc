@@ -1,9 +1,12 @@
-Title: mspgcc - Tools
+Title: mspgcc - News
 css: styles.css
 
 <H2>News</H2>
+<P>2003.06.10: A new mspgcc manual and FAQ are now available on line.</P>
+<P>2003.03.03: The MSP430 port of binutils has now been merged into the official <A href="http://sources.redhat.com/binutils">binutils</A>
+    source tree. All future releases (and current snapshots> of binutils will contain MSP430 support.</P>
 <P>2002.10.30: New JTAG debug proxy for Linux and Win32.
-    See the <A href="tools.html#rproxy">tools</A> page for more info.</P>
+    See the <A href="tools.html#gdbproxy">tools</A> page for more info.</P>
 
 <P>2002.09.24: New JTAG download library _including_ sources for Linux and Win32, pyjtag updated.
     On the <A href="tools.html#pyjtag">tools</A> page are more infos.</P>

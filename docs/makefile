@@ -31,5 +31,4 @@ clean-workfiles:
 
 clean: clean-workfiles
 	rm -f mspgcc-manual.pdf faq.pdf
-	rm -f faq/* manual/*
-	rmdir -f faq manual
+	rm -rf faq manual

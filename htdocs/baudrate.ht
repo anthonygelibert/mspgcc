@@ -1,7 +1,7 @@
 Title: mspgcc - MSP430 USART Baudrate Calculator
 css: styles.css
 
-<form action="http://igbt.sel.eesc.sc.usp.br/~pzn/cgi-bin/msp-uart.cgi" method="get">
+<form action="/cgi-bin/msp-uart.pl" method="get">
     <table border="0">
         <TR><TD>Clock:</TD>         <TD><input type="text" name="clock" value=""> Hz</TD></TR>
         <TR><TD>Baud rate:</TD>     <TD><input type="text" name="baud" value=""> bps</TD></TR>

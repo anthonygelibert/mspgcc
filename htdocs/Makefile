@@ -1,5 +1,7 @@
 # Make rules for www.python.org ht->html generation.  SOURCES
 # indirection filters out "*.ht" value when no ht files are around.
+THEUSER = cliechti@mspgcc.sf.net
+
 SOURCES =	$(shell echo *.ht)
 TARGETS =	$(filter-out *.html,$(SOURCES:%.ht=%.html)) $(EXTRA_TARGETS)
 GENERATED_HTML= $(SOURCES:.ht=.html)
@@ -10,9 +12,12 @@ HTSTYLE =	mspgccGenerator
 HTALLFLAGS =	-f -s $(HTSTYLE)
 HTFLAGS =	$(HTALLFLAGS) -r $(HTROOT)
 
-DEST = 		cliechti@mspgcc.sf.net:/home/groups/m/ms/mspgcc/htdocs
-EXCLUDES =	--exclude CVS
+DEST = 		$(THEUSER):/home/groups/m/ms/mspgcc/htdocs
+CGIDEST = 	$(THEUSER):/home/groups/m/ms/mspgcc/cgi-bin
+EXCLUDES =	--exclude=CVS --exclude=cgi-bin
+CGIEXCLUDES =	--exclude=CVS
 ARGS = 		--rsh=ssh -v -r -l -t --update --delete $(EXCLUDES)
+CGIARGS = 	--rsh=ssh -v -r -l -t --update --delete $(CGIEXCLUDES)
 
 .SUFFIXES:	.ht .html
 
@@ -27,5 +32,10 @@ clean:
 	-rm -f *~
 	-rm $(GENERATED_HTML)
 
-install: all
+install: docinstall cgiinstall
+
+docinstall: all
 	rsync $(ARGS) . $(DEST)
+
+cgiinstall:
+	rsync $(CGIARGS) cgi-bin/ $(CGIDEST)

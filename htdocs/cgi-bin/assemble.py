@@ -152,36 +152,36 @@ def _buildArg(insn, argstring, bytemode):
         else:
             n = n & 0xffff
         if n==4:
-            return 2, 2, None, 0
+            return 2, 2, None, 0, 0
         elif n==8 and insn != 'push':   #MSP430 has a push bug....
-            return 3, 2, None, 0
+            return 3, 2, None, 0, 0
         elif n==0:
-            return 0, 3, None, 0
+            return 0, 3, None, 0, 0
         elif n==1:
-            return 1, 3, None, 0
+            return 1, 3, None, 0, 0
         elif n==2:
-            return 2, 3, None, 0
+            return 2, 3, None, 0, 0
         elif n==-1 or (bytemode and n==0xff) or (not bytemode and n==0xffff):
-            return 3, 3, None, 0
+            return 3, 3, None, 0, 0
         else:
-            return 3, 0, g.group(1), 0
+            return 3, 0, g.group(1), 0, 1
 
     g = absolute.match(argstring)       #absolute mode
-    if g: return 1, 2, g.group(1), 0
+    if g: return 1, 2, g.group(1), 0, 1
 
     g = indexed.match(argstring)        #indexed mode
-    if g: return 1, regnumbers[g.group(2)], g.group(1), 0
+    if g: return 1, regnumbers[g.group(2)], g.group(1), 0, 1
 
     g = post_inc.match(argstring)       #post_inc mode
-    if g: return 3, regnumbers[g.group(1)], None, 0
+    if g: return 3, regnumbers[g.group(1)], None, 0, 1
 
     g = indirect.match(argstring)       #indirect mode
-    if g: return 2, regnumbers[g.group(1)], None, 0
+    if g: return 2, regnumbers[g.group(1)], None, 0, 1
 
     if argstring in regnumbers.keys():  #register mode
-        return 0, regnumbers[argstring], None, 0
+        return 0, regnumbers[argstring], None, 0, 0
 
-    return 1,0,argstring, 1             #symbolic mode
+    return 1,0,argstring, 1, 1          #symbolic mode
 
 #take a string(insn) and arguments (two of them) and return a list
 def assembleDoubleOperandInstruction(insn,*args):
@@ -193,9 +193,11 @@ def assembleDoubleOperandInstruction(insn,*args):
     if args[0] == None or args[1] == None:
         raise 'Syntax error: "%s" needs two arguments' % insn
 
-    as, src, op1, rel1 = _buildArg(insn,args[0], bytemode)
-    ad, dst, op2, rel2 = _buildArg(insn,args[1], bytemode)
+    as, src, op1, rel1, c1 = _buildArg(insn, args[0], bytemode)
+    ad, dst, op2, rel2, c2 = _buildArg(insn, args[1], bytemode)
     if ad > 1: raise "argument not suitable as destination"
+    cycles = 1 + c1 + c2*2
+    if ad == 0 and dst == 0: cycles = cycles + 1 #destination PC adds one
     out = [[
             'OPC',
             _buildDoubleOperand(
@@ -208,10 +210,12 @@ def assembleDoubleOperandInstruction(insn,*args):
     if op1:
         if rel1: out.append( ['PCREL', myint(op1)] )
         else:    out.append( ['DW', myint(op1)] )
+        if not (src == 0 and as == 3): cycles = cycles + 1 #add one, if its not immediate
     if op2:
         if rel2: out.append( ['PCREL', myint(op2)] )
         else:    out.append( ['DW', myint(op2)] )
-    return out
+        cycles = cycles + 1
+    return out, cycles
 
 #take a string(insn) and arguments (one of them) and return a list
 def assembleSingleOperandInstruction(insn,*args):
@@ -220,25 +224,37 @@ def assembleSingleOperandInstruction(insn,*args):
         raise "Error: not a valid single operand instruction"
     if args[0] is None:
         raise "Error: need at least one argument"
-    ad, dst, op, rel = _buildArg(insn, args[0], bytemode)
+    ad, dst, op, rel, c = _buildArg(insn, args[0], bytemode)
+    cycles = 1 + c*2
+    if ad == 0:
+        if dst == 0: cycles = cycles + 1 #destination PC adds one
+        if insn == 'push': cycles = cycles + 2
+        if insn == 'call': cycles = cycles + 3
+    elif ad == 1 or ad == 2:
+        if insn == 'push' or insn == 'call': cycles = cycles + 1
+    elif ad == 3:
+        print "ad", ad, c
+        if insn == 'push': cycles = cycles + 1
+        if insn == 'call': cycles = cycles + 2
     out = [[
             'OPC',
             _buildSingleOperand(
                 _singleopnames[insn],
                 bytemode,
-                ad,dst),
+                ad, dst),
             '%s%s %s' % (insn, (bytemode and '.b' or ''),args[0])
         ]]
     if op:
         if rel:  out.append( ['PCREL', myint(op)] )
         else:    out.append( ['DW', myint(op)] )
-    return out
+        if not (dst == 0 and ad == 3): cycles = cycles + 1
+    return out, cycles
 
 #take a string(insn) and arguments (one of them) and return a list
 def assembleJumpInstruction(insn,*args):
     if insn not in _jumpopnames.keys():
         raise "Error: not a valid jump instruction"
-    
+    cycles = 2
     if args[0] in (".", "$"):
         target = -2
     else:
@@ -256,7 +272,7 @@ def assembleJumpInstruction(insn,*args):
                 target,
                 ),
             '%s %s' % (insn, args[0])
-        ],)
+        ],), cycles
 
 #these instructions are emulated by using one of the insn above
 #some of depend on the constant registers to be efficient
@@ -373,12 +389,12 @@ def assemble(line):
         if insn:
             minsn, bytemode = _insnMode(insn)
             if minsn in instructions.keys():
-                iop = apply(instructions[minsn], (string.lower(insn), arg1, arg2))
+                iop, cycles = apply(instructions[minsn], (string.lower(insn), arg1, arg2))
                 for x in iop:
                     mode, code = x[0:2]
                     args = x[2:]
                     if args:
-                        print "\t", args[0]
+                        print "\t", args[0], "  (%d cycle%s)" % (cycles, cycles > 1 and 's' or '')
                     if type(code) == type(0):
                         print "%s\t0x%04x" % (mode, code&0xffff)
                     else:

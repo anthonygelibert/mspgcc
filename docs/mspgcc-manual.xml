@@ -3004,8 +3004,8 @@ install <emphasis>libHIL.so</emphasis>.</para>
 <para>Copy the <emphasis>libHIL</emphasis> source code from the
 <quote>jtag/hardware_access/HILppdev</quote> directory in the CVS repository
 at the mspgcc web-site. Then, build and install it with the following commands:
-<screen><prompt>$</prompt> <userinput>cd jtag/hardware_access/HILppdev</userinput>
-<prompt>$</prompt> <userinput>make libHIL.so</userinput>
+<screen><prompt>$</prompt> <userinput>cd jtag/hardware_access</userinput>
+<prompt>$</prompt> <userinput>make</userinput>
 <prompt>$</prompt> <userinput>su</userinput>
 <prompt>$</prompt> <userinput>mv libHIL.so /usr/local/lib</userinput>
 <prompt>$</prompt> <userinput>ldconfig</userinput>

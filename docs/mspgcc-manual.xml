@@ -2353,9 +2353,12 @@ Registers r8, r9, r10, and r11 are cloberred.</para>
 obey the mspgcc ABI rules (when applicable - just help me to force this
 process :).</para>
 </sect1>
+</chapter>
 
-<sect1 id="tips-and-tricks">
-<title>Tips &amp; tricks</title>
+<chapter id="tips-and-tricks">
+<title>Tips and trick for efficient programming</title>
+<para>As well as the usual things a good programmer will do, there are some
+issues specific to mspgcc which you should be aware of.</para>
 <orderedlist>
 <listitem><para>If you are sure your main routine will never exit, you can use the
     <quote>-mendup-at=main</quote> flag when compiling. This
@@ -2457,7 +2460,6 @@ for (i = 0;  i &lt; 1234;  i++);
     predictable.</para></listitem>
 </orderedlist>
 <para>Do not do anything unless you know what you're doing :)</para>
-</sect1>
 </chapter>
 
 <chapter id="hardware-tools">
@@ -2600,6 +2602,22 @@ will put all the necessary information into the compiled binary file to
 allow symbolic debugging in GDB. It makes the binary files rather big, but
 the actual downloaded code is not affected.</para>
 </sect1>
+<sect1 id="assembling-programs">
+<title>Assembling assembly language programs</title>
+<para>
+You can use GCC to build assembly language programs, as well as C language ones.
+If the extension of your assembly language file is '.s', the following command
+will assemble it:
+<screen>
+<prompt>$</prompt> <userinput>msp430-gcc -D_GNU_ASSEMBLER_ -x assembler-with-cpp -c f.s -o f.o [options]</userinput>
+</screen>
+If the extension of your assembly language file is '.S', following command will
+assembl it:
+<screen>
+<prompt>$</prompt> <userinput>msp430-gcc -D_GNU_ASSEMBLER_ -c file.s -o file.o [options]</userinput>
+</screen>
+</para>
+</sect1>
 </chapter>
 
 <chapter id="programming-and-debugging-msp430s">
@@ -2624,6 +2642,22 @@ target remote localhost:2000
 </literallayout>
 </blockquote>
 or whatever well known port you have <emphasis>msp430-gdbproxy</emphasis> listening at.</para>
+<para><emphasis>msp430-gdbproxy</emphasis> understands several MSP430 specific
+commands, as well as the standard GDB ones.</para>
+<informaltable>
+<tgroup cols="3">
+<tbody>
+<row><entry>help</entry><entry></entry><entry>This help text</entry></row>
+<row><entry>erase</entry><entry>blank, 'info', 'main', or 'all',</entry><entry>Erase target Flash</entry></row>
+<row><entry>puc</entry><entry></entry><entry>Reset target over JTAG, using PUC</entry></row>
+<row><entry>reset</entry><entry></entry><entry>Reset target over JTAG, using hardware reset</entry></row>
+<row><entry>identify</entry><entry></entry><entry>Identify what target is connected to the JTAG port</entry></row>
+<row><entry>jtag</entry><entry>blank, 'release', or "hold'</entry><entry>Define/report how JTAG is to be handled when a program is running</entry></row>
+<row><entry>vcc</entry><entry>&lt;voltage&gt;</entry><entry>Define/report the VCC of the MSP430</entry></row>
+<row><entry>dump</entry><entry></entry><entry>[for debug] Read out target registers</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
 </sect1>
 
 <sect1 id="downloading-code-to-a-target-processor">

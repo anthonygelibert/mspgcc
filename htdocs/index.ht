@@ -2,8 +2,9 @@ Title: mspgcc - GCC toolchain for MSP430
 css: styles.css
 
 <P><B>NEW</B><br>
-<LI>2002.09.24: New JTAG download library _including_ sources for Linux and Win32, pyjtag updated.
-    On the <A href="tools.html#pyjtag">tools</A> page are more infos.<BR>
+<LI>2002.10.30: Test versions of a new JTAG debugging interface for Linux
+    and Windows are available for download. See the 
+    <A href="tools.html#rproxy">tools</A> page for more info.<BR>
 <BR>
 Older news are <A href="news.html">here</A>.
 </P>

@@ -1,0 +1,2902 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1.2//EN" "docbook/xml-dtd-4.1.2/docbookx.dtd">
+<book>
+  <bookinfo>
+    <date>2003-06-12</date>
+    <title>mspgcc</title>
+    <subtitle>A port of the GNU tools to the Texas Instruments MSP430 microcontrollers</subtitle>
+    <releaseinfo>documentation in progress</releaseinfo>
+    <authorgroup>
+      <author>
+        <firstname>Steve</firstname>
+        <surname>Underwood</surname>
+      </author>
+    </authorgroup>
+    <address>
+      <email>steveu@coppice.org</email>
+    </address>
+    <copyright>
+      <year>2003</year>
+      <holder>Steve Underwood</holder>
+    </copyright>
+    <legalnotice>
+      <para>
+        This document can be freely redistributed according to the
+        terms of the GNU General Public License.
+      </para>
+    </legalnotice>
+  </bookinfo>
+
+  <toc></toc>
+
+<chapter id="what-is-mspgcc">
+<title>What is mspgcc?</title>
+<para>mspgcc is a port of the GNU C and assembly language toolchain to the Texas
+Instruments MSP430 family of low-power microcontrollers. It is currently being
+used for production programs in C and assembly language. It is being be used
+on:
+<itemizedlist>
+<listitem><para>Windows 98SE, Me, NT, 2000 and XP.</para></listitem>
+<listitem><para>Linux (A 2.4.x or later kernel is required for full debugger support).</para></listitem>
+<listitem><para>BSD Unix (??? required for full debugger support).</para></listitem>
+</itemizedlist>
+Parts of mspgcc have been merged into the official GNU versions of the
+toolchain. It is planned to merge the remainder at a suitable date.</para>
+
+<para>The source code for the unmerged parts of mspgcc, and binary installers,
+may be obtained from the <ulink url="http://mspgcc.sourceforge.net">mspgcc
+web-site</ulink>. Source code for the standard GNU tools may be obtained from
+the <ulink url="http://www.gnu.org">GNU</ulink> website, or one their mirrors.</para>
+
+<para>There is an active mailing list available for mspgcc users at the
+<ulink url="http://mspgcc.sourceforge.net">mspgcc web-site</ulink> where users can
+get help with any problems they may find using mspgcc.</para>
+
+<sect1 id="the-gnu-binutils">
+<title>The GNU Binutils</title>
+<para>The GNU assembler, linker and various support utilities are collectively
+known as 'binutils'. The mspgcc port of binutils has been merged into the
+official version. However, at the time of writing there is no official
+release of binutils containing MSP430 support. There are development
+snapshots available, and all future official releases should contain
+MSP430 support.</para>
+</sect1>
+
+<sect1 id="the-gnu-gcc-c-compiler">
+<title>The GNU GCC C Compiler</title>
+<para>The mspgcc port of the GNU C compiler is currently based on version
+3.2.3 of GNU GCC. It supports all the current variants of the MSP430
+processor, and comes with a full set of header files for the processors,
+and a basic 'libc' library. Signed and unsigned integers of 8, 16, 32,
+and 64 bit lengths are supported. Floating point is supported, but only for
+single precision floating values - no double precision. Currently only C
+is supported. However, support for C++, Fortran and other languages
+supported by <emphasis>GCC</emphasis> might be added. Currently the mspgcc port fo the C
+compiler is stable, and suitable for production use. At the time of
+writing it is necessary to download a set of patches for the official
+GNU C compiler from the mspgcc web-site. When practical, these will be merged
+into the official GNU GCC releases.</para>
+</sect1>
+
+<sect1 id="the-gnu-gdb-and-insight-debuggers">
+<title>The GNU GDB and Insight debuggers</title>
+<para>The mspgcc port of the GNU GDB debugger is currently based on version
+5.1.1. This can be used with the Texas Instruments JTAG interface when used
+with an additional program called msp430-gdbproxy, and a TI FET tool. GDB is
+a command line tool. Various graphical front ends are available for it. A
+merged graphical front end, called Insight, is also available.</para>
+
+<para>Generally any of the available GUI front ends for GDB will work with
+<emphasis>msp430-gdb</emphasis> on Linux, or other Unix like platforms. However,
+many of these front ends do not function, or do not function well, on
+Windows machines. Some require (e.g. GVD) require a Windows NT based
+machine (i.e. Windows NT, 2000 or XP machines), and will not work on
+a Windows 98 or Me machine. Choosing and installing front ends other
+than Insight is left as an excercise for the reader.</para>
+</sect1>
+
+<sect1 id="extras">
+<title>Extras</title>
+<para>In addition to the GNU tools, a few extra programs are available from the
+mspgcc web-site. These include software to program the flash memory of an MSP430
+using the bootstrap loader (BSL) built into the MSP430 flash devices.</para>
+</sect1>
+</chapter>
+
+<chapter id="installing-mspgcc">
+<title>Installing mspgcc</title>
+<sect1 id="windows-installation">
+<title>Windows installation</title>
+<para>If you are running Windows 98, Me, NT, 2000 or XP you can download a one
+step installer program for mspgcc from the mspgcc web-site
+<ulink url="http://sourceforge.net/project/showfiles.php?group_id=42303">download
+page</ulink>. Download it. Run it. Choose the default installation directory,
+unless you have a very good reason to do otherwise. In most cases the default
+option to install everything is the right choice. Once component - giveio -
+will automatically not install on Windows 98 or Me machines, as it is not
+needed. It provides raw access to the parallel port on machines using Windows
+NT, 2000 or XP. If you are running Windows 98 or Me you will be prompted to
+add the installation path for the mspgcc programs to your PATH environment
+variable. For Windows NT, 2000 or XP this will be done automatically for
+you.</para>
+
+<para>The Windows mspgcc installer uses the library cygwin1.dll, which is part of
+the Cygwin package. You may only have one copy of this on your machine. The
+installer checks if this file exists, and will not install its own copy if
+it does. If you already have Cygwin installed, you may need to check it is
+up to date. Older versions of cygwin1.dll may not function correctly with
+mspgcc.</para>
+
+<para>If you wish to debug MSP430 programs using the JTAG interface you will use a
+parallel port on your computer to communicate with the JTAG tool. If other
+software is using this interface (e.g. a print spooler) you may have trouble.
+If you have any diffculty communicating with the JTAG interface, check for
+conflicting uses of the parallel port.</para>
+</sect1>
+
+<sect1 id="redhat-linux-installation">
+<title>RedHat Linux installation</title>
+<para>If you are running RedHat Linux (7.1 or later) RPMs for some parts of mspgcc
+are currently available from the mspgcc web-site, and a complete set should be
+available soon.</para>
+
+<para>If you wish to debug MSP430 programs using the JTAG interface you will use
+a parallel port on your computer to communicate with the JTAG tool. If other
+software is using this interface (e.g. a print spooler) you may have trouble.
+If you have any diffculty communicating with the JTAG interface, check for
+conflicting uses of the parallel port.</para>
+</sect1>
+
+<sect1 id="installation-on-other-platforms">
+<title>Installation on other platforms</title>
+<para>You can build mspgcc from source code for many other platforms. Most
+installations of Linux with kernels greater than 2.4.0 can fully support
+mspgcc. Some versions of BSD Unix can too. On other Unix like platforms
+everything except the JTAG interface should work OK. The JTAG interface
+requires raw access to a parallel port. Drivers for this do not
+currently exist for these platforms.</para>
+
+<para>If you are running a version of the Linux kernel earlier than 2.4.0
+you will not be able to drive the JTAG interface. The driver needed for
+raw access to the parallel port does not exist for these kernels (although
+someone is currently working on this). However, you can still use the rest
+of the mspgcc tools to write and compile code, and use the bootstrap loader
+(BSL) to program devices. The bootstrap loader requires nothing more than a
+standard serial port.</para>
+
+<para>On platforms without parallel port, it may be possible to use the serial
+bootstrap loader (BSL). One implementation of a downloader can be found on the
+<ulink url="http://mspgcc.sourceforge.net">mspgcc web-site</ulink> look for
+pyBSL.</para>
+</sect1>
+</chapter>
+
+<chapter id="an-introduction-to-the-ti-msp430">
+<title>An introduction to the TI MSP430 low-power microcontrollers</title>
+<sect1 id="overview">
+<title>Overview</title>
+<para>The MSP430 is a very clean 16-bit byte-addressed processor with a 64K
+unified address space, and memory-mapped peripherals.  The current family
+includes a variety of on-chip peripherals, and ranges from a 20-pin
+package with 1K of ROM and 128 bytes of RAM to 100-pin packages with
+60K of ROM and 2K of RAM. Devices with greater RAM and ROM, and additional
+peripheral blocks are in development.</para>
+
+<para>The MSP430 excels where low power consumption is important. Many
+applications, such as water meters, are currently achieving more than
+10 years operation from a single button cell battery. If low power is not
+critical, well, the MSP430 is a nice elegant device to use, anyway. It
+programs very well in C, making assembly language programming unnecessary.
+There is no memory bank switching to make the compiler's life difficult; it
+uses normal RAM for its stack; it has a clean 16 bit instruction set. In fact,
+it is somewhat like an ordinary desktop RISC processor, but requires very
+little power.</para>
+</sect1>
+
+<sect1 id="the-memory-map">
+<title>The memory map</title>
+<para>All current MSP430s share a common memory map. The amount of each type of
+memory varies with the device, but the overall layout is common.</para>
+
+<para>The main ROM is always at the highest addresses.  In the 60K version it
+extends from address 0x1100 to 0xFFFF (see below for what happens between
+0x1000 and 0x10FF). Some devices use mask programmed ROM or EPROM. All the
+more recent parts are available with flash (electrically erasable) memory,
+and have a mask programmed option for high volume users. If the device has
+flash memory, it is erasable in 512 byte pages. The device can self-program
+its own flash memory, although this imposes some constraints on the supply
+voltage.</para>
+
+<para>At the low end of memory is a 512 byte space for the memory-mapped
+peripherals. The first 256 bytes of this are on an 8-bit bus, and can
+only be accessed 8 bits at a time. The second 256 bytes are on a 16-bit bus,
+and can only be accessed 16 bits at a time.</para>
+
+<para>RAM begins at address 0x200. If there is 2K of RAM, it extends from
+address 0x0200 to 0x9FF.</para>
+
+<para>Processors with flash memory have a 1K serial bootloader ROM at addresses
+0x0C00 to 0x0FFF.  This is unalterable, masked, ROM. It contains a factory
+set program to erase and reprogram the on board flash memory. (see later for
+other programming and debug options).</para>
+
+<para>Processors with flash memory also have an additional 128 or 256 bytes of
+flash memory between addresses 0x1000 and 0x107F or 0x10FF. The only real
+difference between this and the main flash memory is that this is erasable
+in 128 byte pages. This makes it more suitable for efficiently handling
+configuration data.</para>
+</sect1>
+
+<sect1 id="the-register-set">
+<title>The register set</title>
+<para>The processor has 16 16-bit registers, although only 12 of them are truly
+general purpose.  The first four have dedicated uses:
+
+<itemizedlist>
+<listitem><para>r0 (aka PC) is the program counter.  You can jump by assigning to r0, and
+  immediate constants are fetched from the instruction stream using
+  the post-increment addressing mode on r0.  The PC is always even.</para></listitem>
+
+<listitem><para>r1 (aka SP) is the stack pointer.  This is used by call and push
+instructions, and by interrupt handling.  There is only one stack pointer;
+the MSP430 doesn't have anything resembling a supervisor mode.
+The stack pointer is always even; It is unclear if the LSB is even
+implemented.</para></listitem>
+
+<listitem><para>r2 (aka SR) is the status register.  Its bits are assigned as follows:
+<informaltable frame="all">
+<tgroup cols="16" align="center" colsep="1" rowsep="1">
+<colspec colname="bit15" />
+<colspec colname="bit14" />
+<colspec colname="bit13" />
+<colspec colname="bit12" />
+<colspec colname="bit11" />
+<colspec colname="bit10" />
+<colspec colname="bit9" />
+<colspec colname="bit8" />
+<colspec colname="bit7" />
+<colspec colname="bit6" />
+<colspec colname="bit5" />
+<colspec colname="bit4" />
+<colspec colname="bit3" />
+<colspec colname="bit2" />
+<colspec colname="bit1" />
+<colspec colname="bit0" />
+<thead>
+<row>
+<entry align="center">15</entry>
+<entry align="center">14</entry>
+<entry align="center">13</entry>
+<entry align="center">12</entry>
+<entry align="center">11</entry>
+<entry align="center">10</entry>
+<entry align="center">9</entry>
+<entry align="center">8</entry>
+<entry align="center">7</entry>
+<entry align="center">6</entry>
+<entry align="center">5</entry>
+<entry align="center">4</entry>
+<entry align="center">3</entry>
+<entry align="center">2</entry>
+<entry align="center">1</entry>
+<entry align="center">0</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry namest="bit15" nameend="bit9">Reserved</entry>
+<entry>V</entry>
+<entry>SCG1</entry>
+<entry>SCG0</entry>
+<entry>OSCOFF</entry>
+<entry>CPUOFF</entry>
+<entry>GIE</entry>
+<entry>N</entry>
+<entry>Z</entry>
+<entry>GC</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+  SCG (system clock generator), OSCOFF (oscillator off), and CPUOFF are
+  used to control the various low-power modes.</para>
+
+  <para>GIE is the global interrupt enable.  Turning off this bit masks
+  interrupts.  (NOTE: it may be delayed by 1 cycle, so an interrupt may
+  be taken after the instruction after GIE is cleared.  Add a NOP or
+  clear GIE one instruction earlier than your real "critical section".)</para>
+
+  <para>N, Z, C and V are the usual processor status bits, set as a side effect
+  to instruction execution.  If r2 is specified as a destination, the
+  explicitly written bits override the side effects.  An instruction sets
+  all 4 bits, or none of them.  Logical instructions set C to the
+  opposite of Z (C is set if the result is NOT zero), and clear V to 0.</para>
+
+  <para>C is a "carry" bit as opposed to a "borrow" bit when subtracting.
+  That is, subtract with carry of A-B computes A + ~B + Carry.
+  (~ is the C "not" or "bitwise invert" operator.)</para>
+
+  <para>Note that the basic move instruction does NOT set these bits (unless
+  it's a move to r2).</para></listitem>
+
+<listitem><para>r3 is hardwired to 0.  If specified as a source, its value is 0.
+  If specified as a destination, the value is discarded.</para></listitem>
+</itemizedlist>
+r2 and r3 have no use as pointers. When specified in the context of a 
+pointer they provide an alternate function - common constant values. This is
+one of the important features of the MSP430 instruction set, allowing it
+to achieve a high level of code density, and a flexible instruction set. These
+constant registers can provide the numbers -1, 1, 2, 4 or 8. So, for example,
+the "clr x" is actually emulated by the instruction "mov #0,x". The constant
+"0" is taken from the constant register r3. The assembler understands both
+"clr x" and "mov #0,x", and produces the same code for either. Many RISC and
+RISC like architectures suffer poor code density. The constant registers allow
+the MSP430 to achieve a very competitive code density. They also make the code
+faster, as less program memory read cycles are needed. See below for the
+actual encoding used to select a particular constant.</para>
+
+<para>Note that some assemblers for the MSP430 allow the use of the alternate
+names "PC" for "r0", "SP" for "r1", and "SR" for "r2". GNU msp430 binutils
+does not understand these alternate names. You must use "r0", "r1" or
+"r2".</para>
+</sect1>
+
+<sect1 id="the-available-addressing-modes">
+<title>The available addressing modes</title>
+<para>MSP430 instructions have at most two operands, a source and a
+destination.</para>
+
+<para>All instructions are 16 bits long, followed by at most two optional offsets
+words, one for each of the source and the destination.</para>
+
+<para>The source operand (or the only operand of one-operand instructions)
+is specified with 2 addressing mode bits and 4 register select bits:
+<informaltable>
+<tgroup cols="3">
+<tbody>
+<row><entry>00&nbsp;nnnn</entry><entry>Rn</entry><entry>Register direct</entry></row>
+<row><entry>01&nbsp;nnnn</entry><entry>offset(Rn)</entry><entry>Register indexed</entry>
+</row>
+<row><entry>10&nbsp;nnnn</entry><entry>@Rn</entry><entry>Register indirect</entry></row>
+<row><entry>11&nbsp;nnnn</entry><entry>@Rn+</entry><entry>Register indirect with
+post-increment</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+The only addressing mode that uses an extension word is the indexed mode.
+A 16-bit offset can reach anywhere in the address space.</para>
+
+<para>The destination operand in a two-operand instruction has only one
+addressing mode bit, which selects either register direct or indexed.
+Register indirect can obviously be faked up with a zero index.</para>
+
+<para>Operand addresses are computed in a simple, sequential way.  The
+C statement
+<programlisting role="C">
+*p++ *= 2;
+</programlisting>
+can be implemented as
+<programlisting role="asm">
+add @Rn+,-2(Rn)
+</programlisting>
+because the source operand is computed completely (including the
+register post-increment) before the destination is computed.</para>
+
+<para>When r0 (the program counter) is used as a base address, indexed mode
+provides PC-relative addressing.  This is, in fact, the usual way that
+TI's MSP430 assembler accesses operands when a label is referred to.</para>
+
+<para>@r0 just specifies the following instruction word in ROM, but @r0+
+specifies that word and skips over it.  In other word, an immediate
+constant!  You can just write #1234 and the assembler will specify the
+addressing mode properly.</para>
+
+<para>r1, the stack pointer, can be used with any addressing mode, but @r1+
+always increments by 2 bytes, even on a byte access.</para>
+
+<para>When r2 (the status register) or r3 (the zero register) are specified,
+the addressing mode bits are decoded specially:
+<informaltable>
+<tgroup cols="3">
+<tbody>
+<row><entry>00&nbsp;0010</entry><entry>r2</entry><entry>Normal access</entry></row>
+<row><entry>01&nbsp;0010</entry><entry>&amp;&lt;location&gt;</entry><entry>Absolute
+addressing. The extension word is used as the address directly. The leading
+&amp; is TI's way of indicating that the usual PC-relative addressing should
+not be used.</entry></row>
+<row><entry>10&nbsp;0010</entry><entry>#4</entry><entry>This encoding specifies the
+immediate constant 4.</entry></row>
+<row><entry>11&nbsp;0010</entry><entry>#8</entry><entry>This encoding specifies the
+immediate constant 8.</entry></row>
+<row><entry>00&nbsp;0011</entry><entry>#0</entry><entry>This encoding specifies the
+immediate constant 0.</entry></row>
+<row><entry>01&nbsp;0011</entry><entry>#1</entry><entry>This encoding specifies the
+immediate constant 1.</entry></row>
+<row><entry>10&nbsp;0011</entry><entry>#2</entry><entry>This encoding specifies the
+immediate constant 2.</entry></row>
+<row><entry>11&nbsp;0011</entry><entry>#-1</entry><entry>This specifies the
+all-bits-set constant, -1.</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+</sect1>
+
+<sect1 id="byte-and-word-issues">
+<title>Byte and word issues</title>
+<para>The MSP430 is byte-addressed, and little-endian. Word operands must be 
+located at even addresses. Most instructions have a byte/word bit, which
+selects the operand size. Appending <quote>.b</quote> to an instruction makes
+it a byte operation. Appending <quote>.w</quote> to an instruction, to make
+it a word operation, is also legal. However, since it is also the default
+behaviour, if you add nothing, it is generally omitted. A byte instruction
+with a register destination clears the high 8 bits of the register to 0. Thus,
+the following would clear the top byte of the register, leaving the lower
+byte unchanged:
+<programlisting role="asm">
+mov.b Rn,Rn
+</programlisting>
+</para>
+
+<para>The on-chip peripherals are divided into an 8-bit bank and a 16-bit bank.
+The 8-bit peripherals must only be accessed using 8-bit instructions;
+using a 16-bit access produces garbage in the high byte.
+The 16-bit peripherals must only be accessed at even addresses.
+Byte accesses to even addresses are legal, but not usually useful.</para>
+
+<para>The processor's behaviour when a word is accessed at an odd location is
+poorly documented. In all current processors the lower bit is just
+silently ignored. The effect is, therefore, the same as specifying an address
+which is one less.</para>
+
+<para>It should be noted that the the byte and word addressing behaviour of the
+MSP430 prevents the processor supporting strict compliance with the standard
+C language. In standard C everything should be copiable, by copying at the byte
+level. This usually has little impact on the types of embedded program for
+which the MSP430 is typically used. However, it can sometimes catch you out!
+</para>
+</sect1>
+
+<sect1 id="the-instruction-set">
+<title>The instruction set</title>
+<para>All instructions are 16 bits long, and there are only three instruction
+formats:
+<informaltable>
+<tgroup cols="16" align="center" colsep="1" rowsep="1">
+<colspec colname="bit15" />
+<colspec colname="bit14" />
+<colspec colname="bit13" />
+<colspec colname="bit12" />
+<colspec colname="bit11" />
+<colspec colname="bit10" />
+<colspec colname="bit9" />
+<colspec colname="bit8" />
+<colspec colname="bit7" />
+<colspec colname="bit6" />
+<colspec colname="bit5" />
+<colspec colname="bit4" />
+<colspec colname="bit3" />
+<colspec colname="bit2" />
+<colspec colname="bit1" />
+<colspec colname="bit0" />
+<thead>
+<row>
+<entry align="center">15</entry>
+<entry align="center">14</entry>
+<entry align="center">13</entry>
+<entry align="center">12</entry>
+<entry align="center">11</entry>
+<entry align="center">10</entry>
+<entry align="center">9</entry>
+<entry align="center">8</entry>
+<entry align="center">7</entry>
+<entry align="center">6</entry>
+<entry align="center">5</entry>
+<entry align="center">4</entry>
+<entry align="center">3</entry>
+<entry align="center">2</entry>
+<entry align="center">1</entry>
+<entry align="center">0</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry>0</entry>
+<entry>0</entry>
+<entry>0</entry>
+<entry>1</entry>
+<entry>0</entry>
+<entry>0</entry>
+<entry namest="bit9" nameend="bit7">Opcode</entry>
+<entry namest="bit6" nameend="bit6">B/W</entry>
+<entry namest="bit5" nameend="bit4">Ad</entry>
+<entry namest="bit3" nameend="bit0">Dest reg</entry>
+</row>
+<row>
+<entry>0</entry>
+<entry>0</entry>
+<entry>1</entry>
+<entry namest="bit12" nameend="bit10">Condition</entry>
+<entry namest="bit9" nameend="bit0">PC offset (10 bit)</entry>
+</row>
+<row>
+<entry namest="bit15" nameend="bit12">Opcode</entry>
+<entry namest="bit11" nameend="bit8">Source reg</entry>
+<entry namest="bit7" nameend="bit7">Ad</entry>
+<entry namest="bit6" nameend="bit6">B/W</entry>
+<entry namest="bit5" nameend="bit4">As</entry>
+<entry namest="bit3" nameend="bit0">Dest reg</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+
+<para><emphasis>As</emphasis> and <emphasis>Ad</emphasis> are the source and
+destination addressing modes. <emphasis>B/W</emphasis> is a bit that is set
+to 1 for byte instructions. 2-operand opcodes begin at 0100 = 4.</para>
+
+<para>As you can see, there are at most 8+8+12 = 28 instructions to keep
+track of, which is nice and simple.</para>
+
+<para>One-operand instructions:
+<informaltable>
+<tgroup cols="3">
+<tbody>
+<row><entry>000</entry><entry>RRC(.B)</entry><entry>9-bit rotate right through carry.
+       C-&gt;msbit-&gt;...-&gt;lsbit-&gt;C.
+        Clear the carry bit beforehand to do a logical right shift.</entry></row>
+<row><entry>001</entry><entry>SWPB</entry><entry>Swap 8-bit register halves.  No byte
+form.</entry></row>
+<row><entry>010</entry><entry>RRA(.B)</entry><entry>Badly named, this is an 8-bit arithmetic
+right shift.</entry></row>
+<row><entry>011</entry><entry>SXT</entry><entry>Sign extend 8 bits to 16.  No byte
+form.</entry></row>
+<row><entry>100</entry><entry>PUSH(.B)</entry><entry>Push operand on stack.  Push byte
+decrements SP by 2. CPU BUG: PUSH #4 and PUSH #8 do not work when the short
+encoding using @r2 and @r2+ is used.  The workaround, to use a 16-bit
+immediate, is trivial, so TI do not plan to fix this bug.</entry></row>
+<row><entry>101</entry><entry>CALL</entry><entry>Fetch operand, push PC, then assign operand
+value to PC. Note the immediate form is the most commonly used. There is no
+easy way to perform a PC-relative call; the PC-relative addressing mode
+fetches a word and uses it as an absolute address. This has no byte
+form.</entry></row>
+<row><entry>110</entry><entry>RETI</entry><entry>Pop SP, then pop PC.  Note that because
+flags like CPUOFF are in the stored status register, the CPU will normally
+return to the low-power mode it was previously in. This can be changed by
+adjusting the SR value stored on the stack before invoking RETI (see below).
+The operand field is unused.</entry></row>
+<row><entry>111</entry><entry>Not used</entry><entry>The MSP430 actually only has 27
+instructions.</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+<para>The status flags are set by RRA, RRC, SXT, and RETI.</para>
+<para>The status flags are NOT set by PUSH, SWPB, and CALL.</para>
+
+<para>Relative jumps.  These are all PC-relative jumps, adding twice
+the sign-extended offset to the PC, for a jump range of -1024 to +1022.
+<informaltable>
+<tgroup cols="3">
+<tbody>
+<row><entry>000</entry><entry>JNE/JNZ</entry><entry>Jump if Z==0 (if !=)</entry></row>
+<row><entry>001</entry><entry>JEQ/Z</entry><entry>Jump if Z==1 (if ==)</entry></row>
+<row><entry>010</entry><entry>JNC/JLO</entry><entry>Jump if C==0 (if unsigned <)</entry></row>
+<row><entry>011</entry><entry>JC/JHS</entry><entry>Jump if C==1 (if unsigned >=)</entry></row>
+<row><entry>100</entry><entry>JN</entry><entry>Jump if N==1  Note there is no "JP" if N==0!</entry></row>
+<row><entry>101</entry><entry>JGE</entry><entry>Jump if N==V (if signed >=)</entry></row>
+<row><entry>110</entry><entry>JL</entry><entry>Jump if N!=V (if signed <)</entry></row>
+<row><entry>111</entry><entry>JMP</entry><entry>Jump unconditionally</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+
+<para>Two-operand instructions.  These basically perform
+<emphasis>dest = src op dest</emphasis> operations. However,
+MOV doesn't fetch the destination, and CMP and BIT do not write
+to the destination. All are valid in their 8 and 16 bit forms.</para>
+
+<para>Operands are written in the order <emphasis>src,dest</emphasis>.
+<informaltable>
+<tgroup cols="4">
+<tbody>
+<row><entry>0100</entry><entry>MOV src,dest</entry><entry>dest = src</entry><entry>The status
+flags are NOT set.</entry></row>
+<row><entry>0101</entry><entry>ADD src,dest</entry><entry>dest += src</entry></row>
+<row><entry>0110</entry><entry>ADDC src,dest</entry><entry>dest += src + C</entry></row>
+<row><entry>0111</entry><entry>SUBC src,dest</entry><entry>dest += ~src + C</entry></row>
+<row><entry>1001</entry><entry>SUB src,dest</entry><entry>dest -= src</entry><entry>Implemented
+as dest += ~src + 1.</entry></row>
+<row><entry>1001</entry><entry>CMP src,dest</entry><entry>dest - src</entry><entry>Sets status
+only; the destination is not written.</entry></row>
+<row><entry>1010</entry><entry>DADD src,dest</entry><entry>dest += src + C, BCD.</entry></row>
+<row><entry>1011</entry><entry>BIT src,dest</entry><entry>dest &amp; src</entry><entry>Sets
+status only; the destination is not written.</entry></row>
+<row><entry>1100</entry><entry>BIC src,dest</entry><entry>dest &amp;= ~src</entry><entry>The
+status flags are NOT set.</entry></row>
+<row><entry>1101</entry><entry>BIS src,dest</entry><entry>dest |= src</entry><entry>The status
+flags are NOT set.</entry></row>
+<row><entry>1110</entry><entry>XOR src,dest</entry><entry>dest ^= src</entry></row>
+<row><entry>1111</entry><entry>AND src,dest</entry><entry>dest &amp;=- src</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+
+<para>There are a number of zero- and one-operand pseudo-operations that
+can be built from these two-operand forms. These are usually referred
+to as "emulated" instructions:
+<informaltable>
+<tgroup cols="3">
+<tbody>
+<row><entry>NOP</entry><entry>MOV r3,r3</entry><entry>Any register from r3 to r15 would
+do the same thing.</entry></row>
+<row><entry>POP dst</entry><entry>MOV @SP+,dst</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+Note that other forms of a NOP instruction can be constructed as emulated instructions,
+which take different numbers of cycles to execute. These can sometimes be useful in
+constructing accurate timing patterns in software.
+</para>
+
+<para>Branch and return can be done by moving to PC (r0):
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row><entry>BR dst</entry><entry>MOV dst,PC</entry></row>
+<row><entry>RET</entry><entry>MOV @SP+,PC</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+
+<para>The constants were chosen to make status register (r2) twiddling efficient:
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row><entry>CLRC</entry><entry>BIC #1,SR</entry></row>
+<row><entry>SETC</entry><entry>BIS #1,SR</entry></row>
+<row><entry>CLRZ</entry><entry>BIC #2,SR</entry></row>
+<row><entry>SETZ</entry><entry>BIS #2,SR</entry></row>
+<row><entry>CLRN</entry><entry>BIC #4,SR</entry></row>
+<row><entry>SETN</entry><entry>BIS #4,SR </entry></row>
+<row><entry>DINT</entry><entry>BIC #8,SR</entry></row>
+<row><entry>EINT</entry><entry>BIC #8,SR</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+
+<para>Shift and rotate left is done with add:
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row><entry>RLA(.B) dst</entry><entry>ADD(.B) dst,dst</entry></row>
+<row><entry>RLC(.B) dst</entry><entry>ADDC(.B) dst,dst</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+
+<para>Some common one-operand instructions:
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row><entry>INV(.B) dst</entry><entry>XOR(.B) #-1,dst</entry></row>
+<row><entry>CLR(.B) dst</entry><entry>MOV(.B) #0,dst</entry></row>
+<row><entry>TST(.B) dst</entry><entry>CMP(.B) #0,dst</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+
+<para>Increment and decrement (by one or two):
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row><entry>DEC(.B) dst</entry><entry>SUB(.B) #1,dst</entry></row>
+<row><entry>DECD(.B) dst</entry><entry>SUB(.B) #2,dst</entry></row>
+<row><entry>INC(.B) dst</entry><entry>ADD(.B) #1,dst</entry></row>
+<row><entry>INCD(.B) dst</entry><entry>ADD(.B) #2,dst</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+
+<para>Adding and subtracting only the carry bit:
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row><entry>ADC(.B) dst</entry><entry>ADDC(.B) #0,dst</entry></row>
+<row><entry>DADC(.B) dst</entry><entry>DADD(.B) #0,dst</entry></row>
+<row><entry>SBC(.B) dst</entry><entry>SUBC(.B) #0,dst</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+</sect1>
+
+<sect1 id="instruction-timing">
+<title>Instruction timing</title>
+<para>Generally, instructions take 1 cycle per word of memory accessed.</para>
+
+<para>Thus, start with 1 cycle for the instruction itself.  Then add 1 cycle
+for a memory source, 2 cycles for a memory destination, and one additional
+cycle per offset word.</para>
+
+<para>Note that in two-operand instructions, memory destinations
+require an offset word, so they cost a total of 3 cycles.</para>
+
+<para>This holds even for instructions (MOV, CMP and BIT) that
+only access the destination once.</para>
+
+<para>Short immediate constants (using r2 or r3) count
+as register operands for instruction timing purposes.</para>
+
+<para>Exceptions to this rule are:
+<itemizedlist>
+<listitem><para>A 2-operand instruction which writes to PC (r0) takes an extra
+  cycle if it's only one word long (i.e. source not indexed).</para></listitem>
+<listitem><para>Jumps take 2 cycles, whether taken or not.</para></listitem>
+<listitem><para>PUSH, CALL and RETI are special:
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row><entry>PUSH Rn</entry><entry>3 cycles</entry></row>
+<row><entry>PUSH @Rn, @Rn+, #x</entry><entry>4 cycles</entry></row>
+<row><entry>PUSH offset(Rn)</entry><entry>5 cycles</entry></row>
+<row><entry>CALL Rn</entry><entry>4 cycles</entry></row>
+<row><entry>CALL @Rn</entry><entry>4 cycles</entry></row>
+<row><entry>CALL @Rn+, #x</entry><entry>5 cycles</entry></row>
+<row><entry>CALL offset(Rn)</entry><entry>5 cycles</entry></row>
+<row><entry>RETI</entry><entry>5 cycles</entry></row>
+</tbody>
+</tgroup>
+</informaltable></para></listitem>
+</itemizedlist>
+</para>
+
+<para>Other CPU operations take following times to execute:
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row><entry>Interrupt</entry><entry>6 cycles</entry></row>
+<row><entry>Reset</entry><entry>4 cycles</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+</sect1>
+
+<sect1 id="interrupts">
+<title>Interrupts</title>
+<para>The MSP430 supports 16 exception vectors, from 0xFFE0 to 0xFFFF.
+There are 14 maskable interrupts which are assigned to peripherals
+in a model-dependent way.  The first 14 can be masked by clearing the
+GIE bit in the status register.  The last two are non-maskable: 0xFFFC
+is the NMI vector, and 0xFFFE is the reset vector.</para>
+
+<para>Actually, all of the "non-maskable" interrupt sources are maskable,
+just not with the GIE bit.  They are:
+<itemizedlist>
+<listitem><para>The RST/NMI pin can be configured to send an NMI rather than
+  reset the processor when pulled low.</para></listitem>
+<listitem><para>Flash access violation.</para></listitem>
+<listitem><para>An oscillator fault occurs.  The more recent MSP430 devices use a on chip
+  system clock called the FLL - frequency locked loop. This can be programmed
+  to provide a range of core clock frequencies which are phase locked to
+  an external crystal (usually a 32kHz watch type crystal). If the frequency
+  adjustment reaches the extreme limits, and the loop cannot lock, an
+  oscillator fault is declared.</para>
+  
+  <para>Other MSP430 devices use a different oscillator module. Here the oscillator
+  fault flag is set when one of the oscillators does not oscillate. The CPU
+  should be using an alternate oscillator if this happens.</para></listitem>
+</itemizedlist>
+</para>
+
+<para>Handling an interrupt (other than RESET) consists of:
+<itemizedlist>
+<listitem><para>Push PC on stack.</para></listitem>
+<listitem><para>Push SR on stack.</para></listitem>
+<listitem><para>Choose the highest priority interrupt to service.</para></listitem>
+<listitem><para>If the interrupt has only one source, reset the interrupt request bit.
+  If there are multiple possible sources, leave them for software to poll.</para></listitem>
+<listitem><para>If this is an NMI, clear enable bits for the three NMI sources mentioned
+  above.</para></listitem>
+<listitem><para>Clear the SR (except for SCG0), disabling interrupts and power-saving.</para></listitem>
+<listitem><para>Fetch the interrupt vector into the PC</para></listitem>
+<listitem><para>Start executing the interrupt handler</para></listitem>
+</itemizedlist>
+</para>
+
+<para>A reset is similar, but doesn't save any state.</para>
+
+<para>You can nest interrupt handlers by disabling the current source and
+setting the GIE bit back to 1.</para>
+
+<para>Note that there are no exceptions internal to the processor
+such as divide by zero or address error.  You can cause exceptions
+or reset by writing to peripherals.</para>
+</sect1>
+
+<sect1 id="the-hardware-multiplier">
+<title>The hardware multiplier</title>
+<para>Some MSP430 processors have, as a memory-mapped peripheral, a hardware
+16x16->32 multiply/accumulate unit.  This is accessed via eight 16-bit
+registers from 0x0130 to 0x013F.</para>
+
+<para>Writing the first operand specifies the operation type depending on
+the address used:
+<itemizedlist>
+<listitem><para>0x0130 - MPY	unsigned multiply.</para></listitem>
+<listitem><para>0x0132 - MPYS	signed multiply.</para></listitem>
+<listitem><para>0x0134 - MAC	unsigned multiply-accumulate.</para></listitem>
+<listitem><para>0x0136 - MACS	signed multiply-accumulate.</para></listitem>
+</itemizedlist>
+</para>
+<para>Writing the second operand to 0x0138 starts the operation.  The product
+is available in 0x013A(SumLo), 0x013C(SumHi) and 0x013E(SumExt) with only
+2 cycles of latency.  Thus, you can fetch the result with the next
+instruction if it's an indexed or absolute addressing mode.</para>
+
+<para>If you use a register indirect or post-increment mode, you need to
+insert a nop (or something) between writing the second operand and
+reading the results.</para>
+
+<para>The accumulator (SumLo and SumHi) is only 32 bits.  SumExt is set to
+the carry (0 or 1) of the 32+32-bit sum in a MAC operation, but the old
+value of SumExt is not used.</para>
+
+<para>In MPYS and MACS, SumExt is just the sign-extension of SumHi (0 or -1),
+which is not tremendously useful.</para>
+
+<para>While all registers can be read back, the operation specified by the
+first operand's address is not recoverable by an interrupt handler.
+Thus, it is not possible to context-switch the multiplier unless you
+add some sort of wrapper software (locking or shadow registers) around it.</para>
+
+<para>All registers are read/write except:
+<itemizedlist>
+<listitem><para>The first four are actually aliases for one register, so they
+always read the same value.</para></listitem>
+<listitem><para>SumExt is not writable.</para></listitem>
+</itemizedlist>
+</para>
+
+<para>The multiplier is one 16-bit peripheral where a byte write might make
+sense.  A byte write is zero-extended to 16 bits, which allows
+8-bit unsigned operands to be used naturally.</para>
+
+<para>Once the first operand has been written, multiple second operands can
+be written without changing it.  For example, when evaluating a polynomial
+by Horner's rule
+<blockquote>
+<literallayout>
+a + b*x + c*x^2 + d*x^3 = (((d * x + c) * x) + b) * x + a
+</literallayout>
+</blockquote>
+Then x can be written to the first operand register just once.</para>
+</sect1>
+
+<sect1 id="low-power-modes">
+<title>Low power modes</title>
+<para>Low power operation is a key feature of the MSP430. Its design gives very low
+leakage, and it operates from a single supply rail. This gives an extremely
+low current drain when the processor is in standby mode. Several low power modes
+are supported, which balance the needs of different applications. As the number
+of the LPM mode number rises, the number of things disabled on the chip also
+rises:
+<itemizedlist>
+<listitem><para>LPM0 - The CPU is disabled.</para></listitem>
+<listitem><para>LPM1 - The loop control for the fast clock (MCLK) is also disabled.</para></listitem>
+<listitem><para>LPM2 - The fast clock (MCLK) is also disabled.</para></listitem>
+<listitem><para>LPM3 - The DCO oscillator and its DC generator are also disabled.</para></listitem>
+<listitem><para>LPM4 - The crystal oscillator is also disabled.</para></listitem>
+</itemizedlist>
+</para>
+
+<para>As the LPM mode rises power consumption decreases, but the time needed
+to wake up increases. Note, however, that the MSP430's design keeps even
+the worst case wakeup time fairly low. For example, the parts which use the
+FLL system clock module need only a few microseconds to get the FLL locked
+after waking up.</para>
+
+<para>The MSP430 is switched into a low power mode by altering bits in the status
+register. Typically processing within an interrupt routine will determine
+when the processor needs to change from a low power mode to normal operation,
+and alters those same status register bits to achieve that. It does this by
+directly modifying the memory location where the processor's status register
+was pushed onto the stack at the start of the interrupt. When the interrupt
+routine returns, using the RETI instruction, the altered status register 
+value is loaded into the processor status register, and the processor
+continues operation in the newly selected mode. The C language tools support
+an easy method to handle this.</para>
+</sect1>
+
+<sect1 id="programming-the-flash-memory">
+<title>Programming the flash memory</title>
+<para>An MSP430s using flash ROM can program themselves using software, but
+there is an initial chicken-and-egg problem getting the programming software
+into the chip in the first instance.</para>
+
+<para>Fortunately, there are two ways you can do this on a "bare" MSP430:
+<itemizedlist>
+<listitem><para>Via the JTAG interface</para></listitem>
+<listitem><para>Via the bootstrap loader</para></listitem>
+</itemizedlist>
+</para>
+<para>JTAG is a JEDEC-standard in-circuit testing interface.  It uses 4 pins:
+mode, clock, data in and data out.  It's basically a big shift register.
+You can chain devices together by connecting the in and out pins to make
+one giant whole-board shift register, and take over the I/O pins for
+various sorts of board testing.</para>
+
+<para>There are also a few opcodes reserved to for manufacturer extensions,
+which TI uses for remote access and debugging purposes.</para>
+
+<para>All MSP430 devices have a JTAG port, although on the 20- and 28-pin
+parts, the pins are multiplexed with normal I/O pins and only
+a dedicated "test" pin is needed, to enable the JTAG functionality.</para>
+
+<para>The full capabilities of TI's extensions to the JTAG port are rather
+extensive, and include stopping and single-stepping the processor.
+See TI's app. note slaa149 for details.</para>
+
+<para>But, in particular, you can perform arbitrary memory accesses, and
+thereby program the flash ROM.</para>
+
+<para>This is quick, if you can do all the complex wiggling of the JTAG
+control lines fast enough, but that's rather complex piece of work.</para>
+
+<para>An alternative is a bootstrap loader that is included on all
+flash MSP430 processors and uses standard 9600 baud asynchronous
+communications. For those parts with 2k of RAM you can download a
+replacement BSL and use 38400 baud. Downloading this at 9600 baud,
+and then flashing at 38400 baud is faster for programs larger than
+about 10k bytes.</para>
+
+<para>This is also invoked by special wiggling of the TEST input while
+RESET is active.  (For parts with a dedicated JTAG interface, and
+thus no TEST pin, TCK is used instead.)</para>
+
+<para>All this requires is some level-shifters and a serial port.
+See TI application notes slaa089a and slaa096b for details.</para>
+</sect1>
+
+<sect1 id="decoding-part-numbers">
+<title>Decoding part numbers</title>
+<para>What does something like MSP430F1121 mean?</para>
+
+<para>The letter indicates the type of ROM on board:
+<itemizedlist>
+<listitem><para>C - Mask ROM.  This is programmed at manufacturing time.</para></listitem>
+<listitem><para>E - UV-EPROM.  This comes in a windowed package and is erasable with UV.
+	This requires a special high voltage supply to program.</para></listitem>
+<listitem><para>F - Flash ROM.  This is electrically erasable, and can be programmed
+	with normal operating voltages.</para></listitem>
+<listitem><para>P - One-time programmable.  This is an E part in a cheaper windowless
+	package.  Once programmed, it cannot be erased.</para></listitem>
+</itemizedlist>
+</para>
+
+<para>Note that only the original 3xx series parts use UV-EPROM.  Everything
+after that uses Flash ROM.  Programming the EPROM parts is done over the
+JTAG port.</para>
+
+<para>The first digit after the letter is the overall family: 1, 3 or 4.
+They are roughly in increasing order of capability, but there's a lot
+of range.  Parts are generally upward-compatible within a family.</para>
+
+<para>Basically, 1xx parts don't have an LCD controller, while all the
+3xx parts do.  Both families have models with ADCs; the 11x2 parts
+have a 10-bit ADC, while others have a 12-bit ADC.  Some parts
+have hardware UARTS, although any of them can bit-bang it.</para>
+
+<para>Initially, the 1xx parts were small 20- and 28-pin parts, and the 3xx parts
+were 56 or 64 pins.  However, the 1xx parts have grown up and the
+13x and higher packages come in 64-pin packages, while the 3xx
+parts range from a 48-pin 31xS subset to 100 pins.</para>
+
+<para>The second digit is the device within a family.  Again, generally
+higher numbers are more capable, but it varies a lot.  As a general overview:
+<itemizedlist>
+<listitem><para>11x: 20-pin parts.  11x1 adds comparator, 11x2 adds ADC10.</para></listitem>
+<listitem><para>12x: 28-pin parts, like 11x1 but with more I/O and USART.</para></listitem>
+<listitem><para>13x: 64-pin parts, adding lots more I/O, another timer, USART, and
+ADC12.</para></listitem>
+<listitem><para>14x: 64-pin parts, like 13x but with a hardware multiplier and a second
+USART.</para></listitem>
+<listitem><para>15x: Like 13x, but adding 2xDAC12, 3xDMA, brownout reset and I2C.</para></listitem>
+<listitem><para>16x: Like 14x, but adding 2xDAC12, 3xDMA, brownout reset and I2C.</para></listitem>
+
+<listitem><para>31x: 56 pins, basic device with I/O, timers, comparator/timer,
+LCD driver.</para></listitem>
+<listitem><para>32x: 64 pins, like 31x but with ADC12+2 (can be kludged to do 14 bits).</para></listitem>
+<listitem><para>33x: 100 pins, like 31x with more I/O and LCD, multiplier, and USART.</para></listitem>
+
+<listitem><para>41x: 64 pins, basic device with I/O, timers, comparator, LCD driver.</para></listitem>
+<listitem><para>43x: 80 or 100 pins, more LCD, ADC12, second timer, USART, second
+crystal oscillator.</para></listitem>
+<listitem><para>44x: 100 pins, like 43x but with a hardware multiplier, second USART and
+     expanded timer.</para></listitem>
+</itemizedlist>
+A fourth digit, if present, is a sub-version number.  A '1121 is a '112
+with a little bit extra (an analog comparator for software ADC).  A
+'1122 is a '112 with a 10-bit ADC.
+(Exception: the 161x parts.)</para>
+
+<para>The third digit encodes the amount of memory on the chip:
+<itemizedlist>
+<listitem><para>xx0:  1K ROM,  128 RAM</para></listitem>
+<listitem><para>xx1:  2K ROM,  128 RAM</para></listitem>
+<listitem><para>xx2:  4K ROM,  256 RAM</para></listitem>
+<listitem><para>xx3:  8K ROM,  256 RAM</para></listitem>
+<listitem><para>xx4: 12K ROM,  512 RAM</para></listitem>
+<listitem><para>xx5: 16K ROM,  512 RAM</para></listitem>
+<listitem><para>xx6: 24K ROM, 1024 RAM</para></listitem>
+<listitem><para>xx7: 32K ROM, 1024 RAM</para></listitem>
+<listitem><para>xx8: 48K ROM, 2048 RAM</para></listitem>
+<listitem><para>xx9: 60K ROM, 2048 RAM</para></listitem>
+</itemizedlist>
+The 16x series adds:
+<itemizedlist>
+<listitem><para>xx10: 32K ROM, 5K RAM</para></listitem>
+<listitem><para>xx11: 48K ROM, 10K RAM</para></listitem>
+</itemizedlist>
+Note the 161x numbers are an exception to the usual 4th digit rule.</para>
+</sect1>
+</chapter>
+
+<chapter id="msp430-specific-extensions-to-gnu">
+<title>MSP430 specific extensions to the GNU toolchain</title>
+<para>This section describes the MSP430-specific extensions to the GNU toolset.
+You should refer to the GNU documentation for information about the standard
+features of the GNU tools.</para>
+
+<sect1 id="compiler-options">
+<title>Compiler options</title>
+<para>The compiler recognises the following MSP430 specific command line
+parameters:
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row><entry>-mno-volatile-workaround</entry><entry>Do not perform volatile
+workaround for bitwise operations</entry></row>
+<row><entry>-mno-stack-init</entry><entry>No stack init in main()</entry></row>
+<row><entry>-mforce-hw-mul</entry><entry>Force hardware multiplier</entry></row>
+<row><entry>-mdisable-hwmul</entry><entry>Do not use hardware multiplier</entry></row>
+<row><entry>-mint8</entry><entry>Assume int to be 8 bit integer</entry></row>
+<row><entry>-mendup-at=</entry><entry>Jump to specified routine at the end of
+main()</entry></row>
+<row><entry>-mmcu=</entry><entry> Specify the MCU name</entry></row>
+<row><entry>-minit-stack=</entry><entry>Specify the initial stack address</entry></row>
+<row><entry>-mreorder</entry><entry>Revert registers allocation order</entry></row>
+<row><entry>-minline-hwmul</entry><entry>Issue inline code for 32-bit integers for
+devices with hardware multiplier.</entry></row>
+<row><entry>-mcall-shifts</entry><entry>Use subroutine calls for shift operations.
+                          This may save some space for shift intensive
+                          applications.</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+The current MCU names are currently recognised for the <quote>-mmcu</quote>
+parameter:
+<literallayout>
+msp1            any MCU w/o hardware multiplier
+msp2            any MCU with hardware multiplier
+msp430x110      msp430x112
+msp430x1101
+msp430x1111     msp430x1121
+msp430x1122     msp430x1132
+msp430x122      msp430x123
+msp430x1222     msp430x1232
+msp430x1331     msp430x1351
+msp430x133      msp430x135
+msp430x147      msp430x148      msp430x149
+msp430x155      msp430x156      msp430x157
+msp430x167      msp430x168      msp430x169
+msp430x311      msp430x312      msp430x313      msp430x314      msp430x315
+msp430x323      msp430x325      msp430x336      msp430x337
+msp430x412      msp430x413
+msp430x435      msp430x436      msp430x437
+msp430x447      msp430x448      msp430x449
+</literallayout>
+</para>
+</sect1>
+
+<sect1 id="compiler-defined-symbols">
+<title>Compiler defined symbols</title>
+<para>The compiler defines some symbols, so the header files and source code
+can easily behave in an MCU dependant manner. These are:
+<itemizedlist>
+<listitem><para>MSP430</para></listitem>
+<listitem><para>__MSP430__</para></listitem>
+<listitem><para>__MSP430_xxx__, where xxx is replaced by the number of the MCU variant
+(e.g. __MSP430_149__ is defined for the msp430x149).</para></listitem>
+</itemizedlist>
+</para>
+</sect1>
+
+<sect1 id="the-mspgcc-header-files">
+<title>The mspgcc header files</title>
+<para>The include path for the standard header files is automatically defined
+by the compiler. The header file "&lt;io.h&gt;" is usually included at the
+start of all mspgcc source files. This defines all TI's standard
+definitions for the MCU variant being used, along with some mspgcc
+specific extensions.</para>
+
+<para>If you have used other software tools for the MSP430, you will find mspgcc's
+header file handling a little different and a little simpler to use. There is
+a header file for each peripheral module type. Where variants of a module
+exist (e.g. the UART exists in versions with and without I2C facilities),
+switches are used to select the appropriate defines. There is a customised
+header file for each MCU group (e.g. msp430x44x.h for the msp430x447,
+msp430x448 and msp430x449). &lt;io.h&gt; inlcudes the appropriate header
+file, based on the command line "-mmcu" parameter. If you program for a
+number of different MSP430 parts, nothing needs to be changed in your source
+code to rebuild it for a different chip.</para>
+</sect1>
+
+<sect1 id="writing-interrupt-service-routines">
+<title>Writing interrupt service routines</title>
+<para>mspgcc allows interrupt service routines to be written efficiently in C.
+To access the interrupt features of mspgcc the header file
+<literallayout>
+#include &lt;signal.h&gt;
+</literallayout>
+should be included in any source files where interrupt service routines are
+defined.</para>
+
+<para>To make a routine an interrupt service routine, define it as follows:
+<programlisting role="C">
+interrupt (INTERRUPT_VECTOR) IntServiceRoutine(void)
+{
+    /* Any normal C code */
+}
+</programlisting>
+where <quote>INTERRUPT_VECTOR</quote> is replaced with the name of the actual
+vector to be serviced. Definitions for these may be found in the header files.
+The generated code will save any registers used within the interrupt routine,
+and use the "RETI", rather than the usual "RET" instruction, to exit from
+the routine. The vector table will automatically point to the routine.
+Further interrupt related attributes are also recognised:
+<programlisting role="C">
+interrupt (INTERRUPT_VECTOR) [wakeup, enablenested] IntServiceRoutine(void)
+{
+    /* Any normal C code */
+}
+</programlisting>
+The <quote>wakeup</quote> attribute makes the compiler alway force exit from
+any low power modes that may be in force at exit from the routine. See later
+for ways to gain greater control of the lower power modes.
+<quote>enablenested</quote> causes an interrupt enable instruction to be inserted
+before the function prologue. This allows other higher priority
+interrupts to be serviced while handling the current one. Use this feature
+with care if you use it in conjunction with <quote>wakeup</quote>!</para>
+
+<para>Although interrupt service routines normally accept no arguments, it is
+possible to define a function with the <quote>interrupt</quote> attribute and
+an argument list. The compiler will correctly allow for the extra register
+(r2) pushed on the stack, when accessing parameters on the stack. Parameters
+passed in registers are, obviously, unaffected by this. The ability to
+define functions in this way is provided for completeness. Their usefulness
+may be limited.</para>
+
+<para>It should be noted that there is a performance hit associated with any
+function calls within an interrupt service routine (unless the function is
+of the <quote>inline</quote> type, which does not result in an actual function
+call instruction). Any call requires the compiler save register r12, r13, r14
+and r15 on the stack during the function call. For example, something as
+simple as:
+<programlisting role="C">
+uint32_t localtime;
+
+void incloctime()
+{
+    localtime++;
+}
+
+interrupt(BASICTIMER_VECTOR) isr()
+{
+    incloctime();
+}
+</programlisting>
+will cause the overhead of saving these registers to occur, even though
+none of them are using within the called function. In this case, declaring
+<quote>incloctime</quote> as <quote>static inline</quote> will make things
+much more efficient.
+</para>
+
+<para>For every device, the macros <quote>NOVECTOR</quote> and
+<quote>RESET_VECTOR</quote> are defined. If an interrupt service routine is
+declared as
+<programlisting role="C">
+interrupt (NOVECTOR) [wakeup, enablenested] IntServiceRoutine(void)
+{
+    /* Any normal C code */
+}
+</programlisting>
+GCC will not assign an interrupt vector for this routine. The code generated
+for the routine itself will be just the same as for any real interrupt vector.
+Similarly the macro <quote>RESET_VECTOR()</quote> can be used as the vector name
+when the standard reset start-up routine needs to be replaced with a
+customised one.</para>
+</sect1>
+
+<sect1 id="customising-the-interrupt-vector-table">
+<title>Customising the interrupt vector table</title>
+<para>The interrupt vectors table is defined in the startup file for each device -
+<quote>crtXXX</quote>. These files are automatically linked when a project is
+built. The tables are customised for the specific interrupt vectors present
+in each device. Undefined interrupts will result in a call to
+<quote>_unexpected_1_</quote>, which branches to <quote>_unexpected_</quote>.
+<quote>_unexpected_</quote> can be redefined in your code.</para>
+
+<para>If you wish, you can completely customise the interrupt vector table,
+by defining your own, like this:
+<programlisting role="C">
+/* Define interrupt vector table */
+
+INTERRUPT_VECTORS =
+{
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        wakeup_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector, 
+        zero_vector,
+        zero_vector,
+        reset_vector
+};
+</programlisting>
+For this to work you must give the coomand line argument
+<quote>'-nostartfiles'</quote> to the gcc.</para>
+</sect1>
+
+<sect1 id="controlling-interrupt-processing">
+<title>Controlling interrupt processing</title>
+<para>There are some function definitions in <quote>signal.h</quote> to make
+interrupt control easier.</para>
+
+<para>
+<funcsynopsis>
+  <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
+  <funcprototype>
+  <funcdef>void <function>eint</function></funcdef>
+  <paramdef>void</paramdef>
+  </funcprototype>
+</funcsynopsis>
+Enable interrupts by setting the global interrupt enable bit. This function
+actually compiles to a single instruction, so there is no function call
+overhead. <quote>_EINT()</quote> is defined as an alternative name for this
+function, for compatibility with other MSP430 tools.</para>
+
+<para>
+<funcsynopsis>
+  <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
+  <funcprototype>
+  <funcdef>void <function>dint</function></funcdef>
+  <paramdef>void</paramdef>
+  </funcprototype>
+</funcsynopsis>
+Disable interrupts by clearing the global interrupt enable bit. This function
+actually compiles to a single instruction, so there is no function call
+overhead. <quote>_DINT()</quote> is defined as an alternative name for this
+function, for compatibility with other MSP430 tools.</para>
+
+<para>
+<funcsynopsis>
+  <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
+  <funcprototype>
+  <funcdef>void <function>_RESET</function></funcdef>
+  <paramdef>void</paramdef>
+  </funcprototype>
+</funcsynopsis>
+You may declare your own version of the <quote>_RESET()</quote> function to
+override the default reset vector handler.</para>
+
+<para>
+<funcsynopsis>
+  <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
+  <funcprototype>
+  <funcdef>void <function>UNEXPECTED</function></funcdef>
+  <paramdef>void</paramdef>
+  </funcprototype>
+</funcsynopsis>
+You may declare your own version of the <quote>UNEXPECTED()</quote> function to
+override the default handling of unexpected interrupts (i.e. ones for which
+no specific interrupt service routine has been defined).</para>
+</sect1>
+
+<sect1 id="data-types-and-memory-handling">
+<title>Data types and memory handling</title>
+
+<para>MSP430 architecture processors use a single address space to map data and
+code. The registers and memory are 16 bits wide, and the CPU can only read
+and write 16 bit data at even addresses. If you attempt to read or write a
+16 bit value at an odd address, the CPU behaves as if the LSB is not set.
+The processor has no exception handling. The MSP430 can read and write 8 bit
+data at any address.</para>
+
+<para>The C compiler supports the following basic data types
+<itemizedlist>
+<listitem><para>char - 1 byte (8 bits)</para></listitem>
+<listitem><para>int - 2 bytes (can be chnaged to 8 bits with the <quote>-mint8</quote> compiler flag)</para></listitem>
+<listitem><para>long - 4 bytes</para></listitem>
+<listitem><para>long long - 8 bytes</para></listitem>
+<listitem><para>float - 4 bytes</para></listitem>
+</itemizedlist>
+All the integer types are supported in signed and unsigned forms. Pointers
+are always 2 bytes wide.</para>
+
+<para>All global variables with the <quote>const</quote> attribute are allocated
+in the main ROM space. They are normally placed in the .text section.
+Accessing <quote>const</quote> variable is no different than accessing to any
+other type of variable. If the device uses flash memory and the flash memory
+is enabled for writing, you can write to the flash. You can place
+<quote>const</quote> variables to RAM, using the attribute
+<quote>section(".data"))</quote> as follows:
+<programlisting role="C">
+const char __attribute__ ((section(".data"))) foo = 1;
+</programlisting>
+Please note that if you declare variables r0 - r15, the assembler will
+prepend '_' in order to allow the assembler to distinguish them from
+the registers names.</para>
+
+<para>Variables larger than one byte are always located at an even address.
+Single byte variables can be located at any address.</para>
+</sect1>
+
+<sect1 id="accessing-the-msp430-peripheral-registers">
+<title>Accessing the MSP430's peripheral registers - the SFRs</title>
+<para>The MSP430's memory mapped peripheral registers are termed special
+function registers (SFRs). The SFRs valid for the device you are using are
+declared when you include <quote>io.h</quote> in your source code, and specify
+the MCU architecture in the <emphasis>GCC</emphasis> command line.</para>
+
+<para>You can consider any SFR as a normal variable, which is simply mapped to
+the specific memory location. You do not have to care about exactly which
+one.</para>
+
+<para>SFRs are read from and written to using normal C assignments, so:
+<programlisting role="C">
+SFR = value;
+</programlisting>
+will write from to and SFR, and
+<programlisting role="C">
+variable = SFR;
+</programlisting>
+will read from one.</para>
+
+<para>All SFRs are declared as <quote>volatile</quote>. This implies a-la Harvard
+architecture <emphasis>GCC</emphasis> behaviour for read-modify-write: mov SFR's value to a
+register, modify the register, write back to the SFR. However, the GCC
+port for the MSP430 takes into account the possibility that this can often
+be reduced to something like:
+<programlisting role="asm">
+and.b	#1, &amp;0x0120 
+</programlisting>
+and the appropriate code is produced. This optimisation can be switched off
+with the <quote>-mno-volatile-workaround</quote> compiler flag.</para>
+</sect1>
+
+<sect1 id="reserving-space-above-the-stack">
+<title>Reserving space above the stack</title>
+<para>Declaring the <quote>main</quote> routine in the form
+<programlisting role="C">
+int RESERVE_RAM(10) main()
+{
+    ...
+}
+</programlisting>
+will reserve 10 bytes of memory, which resides at the top of RAM and will not
+be used by your C code. This is useful for things like PUC restarts, or data
+which should persist across resets.
+</para>
+</sect1>
+
+<sect1 id="handling-the-status-register">
+<title>Handling the status register</title>
+<para>Several routines are available to assist in handling the status register.
+These should be used with care. Altering the status register bits in an
+uncontrolled way could badly affect the operation of your program. 
+<funcsynopsis>
+  <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
+  <funcprototype>
+  <funcdef>void <function>WRITE_SR</function></funcdef>
+  <paramdef>const uint16_t<parameter>x</parameter></paramdef>
+  </funcprototype>
+</funcsynopsis>
+Set the value of the status register (r2).
+<funcsynopsis>
+  <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
+  <funcprototype>
+  <funcdef>uint16_t <function>READ_SR</function></funcdef>
+  <paramdef>void</paramdef>
+  </funcprototype>
+</funcsynopsis>
+Read the value of the status register (r2).
+<funcsynopsis>
+  <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
+  <funcprototype>
+  <funcdef>void <function>BIS_SR</function></funcdef>
+  <paramdef>const uint16_t <parameter>x</parameter></paramdef>
+  </funcprototype>
+</funcsynopsis>
+Set bits in the status register (r2), using the <quote>bis</quote> instruction.
+<funcsynopsis>
+  <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
+  <funcprototype>
+  <funcdef>void <function>BIC_SR</function></funcdef>
+  <paramdef>const uint16_t <parameter>x</parameter></paramdef>
+  </funcprototype>
+</funcsynopsis>
+Clear bits in the status register (r2), using the <quote>bic</quote> instruction.
+<funcsynopsis>
+  <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
+  <funcprototype>
+  <funcdef><function>SFR_CMD</function></funcdef>
+  <paramdef><parameter>cmd</parameter></paramdef>
+  <paramdef>(typeof SFR) <parameter>sfr</parameter></paramdef>
+  <paramdef>(typeof SFR) <parameter>val</parameter></paramdef>
+  </funcprototype>
+</funcsynopsis>
+Perform an operation on an SFR, which is neither optimized nor modified
+by the compiler. For example:
+<programlisting role="C">
+	SFR_CMD(bis.b, IE1,WDTIE); /* Enable the watchdog interrupt. */
+</programlisting>
+does the same thing as
+<programlisting role="C">
+	IE1 |= WDTIE;
+</programlisting>
+The main reason for the user to directly access the status register in a C
+program is to switch between the MSP430's low power modes. Although
+non-interrupt code typically put the CPU into a low power mode, it is usually
+inside an interrupt service routine that the decision to switch back to normal
+operation occurs. If the interrupt service routine simply changed the status
+register bits, these would simply change back at as the routine exists, and
+the CPU would return to a low power state. To avoid this, the status register
+stored on the stack must be altered, so the change of processor mode occurs
+as the interrupt service routine exits, and the stack is popped. Two routines
+are defined to assist in this task.</para>
+<para>
+<funcsynopsis>
+  <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
+  <funcprototype>
+  <funcdef>void <function>_BIS_SR_IRQ</function></funcdef>
+  <paramdef>int16_t <parameter>x</parameter></paramdef>
+  </funcprototype>
+</funcsynopsis>
+Set bits in the copy of the status register stored on the statck.</para>
+
+<para>
+<funcsynopsis>
+  <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
+  <funcprototype>
+  <funcdef>void <function>_BIC_SR_IRQ</function></funcdef>
+  <paramdef>int16_t <parameter>x</parameter></paramdef>
+  </funcprototype>
+</funcsynopsis>
+Clear bits in the copy of the status register stored on the statck.</para>
+
+<para>These functions should only be used within interrupt service routines.
+At present <emphasis>GCC</emphasis> issues a warning when these functions are used, but the correct
+code is produced. To make these functions (and the BIS_SR and BIC_SR) easier
+to use for switching LPM modes, the following values are defined when
+<quote>io.h</quote> is included in your source code
+<itemizedlist>
+<listitem><para><quote>LPM0_bits</quote> - the combination of status register bit which
+selects LPM 0.</para></listitem>
+<listitem><para><quote>LPM1_bits</quote> - the combination of status register bit which
+selects LPM 1.</para></listitem>
+<listitem><para><quote>LPM2_bits</quote> - the combination of status register bit which
+selects LPM 2.</para></listitem>
+<listitem><para><quote>LPM3_bits</quote> - the combination of status register bit which
+selects LPM 3.</para></listitem>
+<listitem><para><quote>LPM4_bits</quote> - the combination of status register bit which
+selects LPM 4.</para></listitem>
+</itemizedlist>
+You can also use these names without the suffix <quote>_bits</quote>.
+</para>
+</sect1>
+
+<sect1 id="the-standard-library-functions">
+<title>The standard library functions</title>
+<para>The MSP430 version of libc contains a subset of the standard C library
+functions. These are:
+<blockquote>
+<literallayout>
+abs()           bsearch()           exit()          malloc()
+rand()          strtoul()           abort()         atoi()
+labs()          setjmp()            abort()         atol()
+errno()         ldiv()              qsort()         strtol()
+ffs()           memcpy()            strcat()        strdup()
+strncmp()       strspn()            atol()          memmove()
+strchr()        strlcat()           strncpy()       strstr()
+bcmp()          memccpy()           memset()        strcmp()
+strlcpy()       strpbrk()           strtok()        bcopy()
+memchr()        rindex()            strcpy()        strlen()
+strrchr()       swab()              bzero()         memcmp()
+strcasecmp()    strcspn()           strncat()       strsep()
+snprintf()      sprintf()
+</literallayout>
+</blockquote>
+The full definition of these functions can be found in any C manual, including the
+on line documentation for the GNU tools. They will not be detailed here.</para>
+
+<para>Take care with format conversions in sprintf():
+<itemizedlist>
+<listitem><para>%d, %x, etc. convert 16 bit variables</para></listitem>
+<listitem><para>%lx, %ld, etc. convert 32 bit long variables.</para></listitem>
+</itemizedlist>
+</para>
+
+<para>
+The function
+<blockquote>
+<literallayout>
+uprintf(void (*func)(char c), const char *fmt,...);
+</literallayout>
+</blockquote>
+is similar to <quote>sprintf()</quote>, except that caller provides an output
+function for printing, rather than an output buffer. This function must accept
+a single <quote>char</quote> parameter, and return <quote>void</quote> (for example
+to send a character to a UART). The user function is responsible for mutexes,
+slow interfaces, etc. <quote>uprintf()</quote> will not return until all
+characters have been printed.</para>
+</sect1>
+
+<sect1 id="starting-from-reset">
+<title>Starting from reset</title>
+<para>The standard library includes a start-up module that prepares the
+environment for running applications written in C. Several versions of the
+start-up script are available because each processor has different set-up
+requirements. The <emphasis>msp430-gcc</emphasis> compiler selects the appropriate module
+based on the processor specified in the command line options.</para>
+
+<para>The start-up module is responsible for the following tasks
+<itemizedlist>
+<listitem><para>Providing a default vector table.</para></listitem>
+<listitem><para>Providing default interrupt handlers.</para></listitem>
+<listitem><para>Initializing the watchdog timer.</para></listitem>
+<listitem><para>Initializing the .data segment.</para></listitem>
+<listitem><para>Zeroing the .bss segment.</para></listitem>
+<listitem><para>Jumping to main(). (A jump is used, rather than a call, to save space on
+the stack. main() is not expected to return.)</para></listitem>
+</itemizedlist>
+The start-up module contains a default interrupt vector table. The contents
+of the table are filled with predefined function names which can be
+overridden by the programmer. The last entry in the table, however,
+is the address of the reset vector. The <quote>_reset_vector__</quote> is
+defined as a weak symbol. This means that if the application doesn't define it,
+the linker will use the version in the library (or module). However, a user
+defined version will take precedence.</para>
+
+<para>Look at the disassembled code produced by
+<screen>
+<prompt>$</prompt><userinput>msp430-objdump -DS a.out</userinput>
+</screen>
+
+<literallayout>
+a.out:     file format elf32-msp430
+
+Disassembly of section .text:
+
+0000fc00 &lt;_reset_vector__&gt;:
+    fc00:	b2 40 80 5a 	mov	#23168,	&amp;0x0120	;  #0x5a80
+    fc04:	20 01
+    fc06:	3f 40 50 fc 	mov	#-944,	r15	;  #0xfc50
+    fc0a:	3e 40 00 02 	mov	#512,	r14	;  #0x0200
+    fc0e:	3d 40 00 02 	mov	#512,	r13	;  #0x0200
+    fc12:	0d 9e       	cmp	r14,	r13
+    fc14:	06 24       	jz	$+14     	;  abs dst addr 0xfc22
+    fc16:	1d 53       	inc	r13
+    fc18:	fe 4f 00 00 	mov.b	@r15+,	0(r14)
+    fc1c:	1e 53       	inc	r14
+    fc1e:	0f 9d       	cmp	r13,	r15
+    fc20:	fb 2b       	jnc	$-8      	;  abs dst addr 0xfc18
+    fc22:	3f 40 00 02 	mov	#512,	r15	;  #0x0200
+    fc26:	3d 40 00 02 	mov	#512,	r13	;  #0x0200
+    fc2a:	0d 9f       	cmp	r15,	r13
+    fc2c:	06 24       	jz	$+14     	;  abs dst addr 0xfc3a
+    fc2e:	1d 53       	inc	r13		
+    fc30:	cf 43 00 00 	mov.b	#0,	0(r15)	;  subst r3 with As==00
+    fc34:	1f 53       	inc	r15		
+    fc36:	0f 9d       	cmp	r13,	r15	
+    fc38:	fb 2b       	jnc	$-8      	;  abs dst addr 0xfc30
+    fc3a:	30 40 44 fc 	br	#0xfc44	
+
+0000fc3e &lt;_unexpected_1_&gt;:
+    fc3e:	30 40 42 fc 	br	#0xfc42	
+
+0000fc42 &lt;_unexpected_&gt;:
+    fc42:	00 13       	reti			
+
+0000fc44 &lt;main>:
+    fc44:	31 40 80 02 	mov	#640,	SP	;  #0x0280
+    fc48:	30 40 4c fc 	br	#0xfc4c	
+
+0000fc4c &lt;__stop_progExec__&gt;:
+    fc4c:	02 43       	clr	SR		
+    fc4e:	fe 3f       	jmp	$-2      	;  abs dst addr 0xfc4c
+Disassembly of section .data:
+Disassembly of section .vectors:
+
+0000ffe0 &lt;InterruptVectors&gt;:
+    ffe0:	3e fc       	interrupt service routine at 0xfc3e
+    ffe2:	3e fc       	interrupt service routine at 0xfc3e
+    ffe4:	3e fc       	interrupt service routine at 0xfc3e
+    ffe6:	3e fc       	interrupt service routine at 0xfc3e
+    ffe8:	3e fc       	interrupt service routine at 0xfc3e
+    ffea:	3e fc       	interrupt service routine at 0xfc3e
+    ffec:	3e fc       	interrupt service routine at 0xfc3e
+    ffee:	3e fc       	interrupt service routine at 0xfc3e
+    fff0:	3e fc       	interrupt service routine at 0xfc3e
+    fff2:	3e fc       	interrupt service routine at 0xfc3e
+    fff4:	3e fc       	interrupt service routine at 0xfc3e
+    fff6:	3e fc       	interrupt service routine at 0xfc3e
+    fff8:	3e fc       	interrupt service routine at 0xfc3e
+    fffa:	3e fc       	interrupt service routine at 0xfc3e
+    fffc:	3e fc       	interrupt service routine at 0xfc3e
+    fffe:	00 fc       	interrupt service routine at 0xfc00
+</literallayout>
+OK. Lets start from the end. Every MSP430 device has interrupt vectors table
+located at 0xffe0. So, here we can see, that as execution begins, the PC is
+loaded with the address 0xfc00. <quote>_reset_vector__</quote> is located at this
+address.</para>
+
+<para>The first thing that happens is the watchdog timer is initialized. Then
+the program copies the initialized global variables to RAM (0xfc0a - 0xfc20). 
+After this, the uninitialized globals are cleared (0xfc22 - 0xfc3a).
+After this, we jump to 'main', which is located at 0xfc44.</para>
+
+<para>In main, we copy the value 0x0280 to r1. This initializes the stack pointer,
+taking into account the space required for local variables.</para>
+
+<para>Next, as long as main does nothing, it jumps to
+<quote>__stop_progExec__</quote>. At this point the SR is zeroed. The next
+instruction is jump to <quote>__stop_progExec__</quote>. This is the
+end of program execution.</para>
+
+<para>In this module, the application uses:
+<itemizedlist>
+<listitem><para><quote>_etext</quote> - end of the <quote>.text</quote> section. The
+place where the initial values of global variables are stored.</para></listitem>
+<listitem><para><quote>__data_start</quote> - the start of RAM.</para></listitem>
+<listitem><para><quote>_edata</quote> - the end of data RAM
+(<quote>_edata - __data_start</quote> is the size of the
+<quote>.data</quote> segment).</para></listitem>
+<listitem><para><quote>__bss_start</quote> - the place where uninitialized variables resides
+in RAM.</para></listitem>
+<listitem><para><quote>__bss_end</quote> - the end of this segment.</para></listitem>
+<listitem><para><quote>__stack</quote> - the stack.</para></listitem>
+</itemizedlist>
+</para>
+
+<para>All of these variables can be overridden with -Wl,--defsym=[symname]=(value)
+For example, to set the initial stack point to0x280, use
+<userinput>-Wl,--defsym=__stack=0x280</userinput>.</para>
+
+<para>In most cases it is not necessary to redefine these values. They can be
+obtained from the user application as follows
+<programlisting role="C">
+...
+extern int __stack;
+int m;
+
+(int *) m = &amp;__stack;
+
+/* now m contains the address of the stack */
+...
+</programlisting>
+Please note that these values do not change once they have been
+initialized.</para>
+
+<para>The startup code adds a litter overhead to the application. The size of the
+startup code is 80 bytes without interrupt vector table. If you do not like
+this approach, you can define your own startup code.</para>
+</sect1>
+
+<sect1 id="redefining-the-startup-procedure">
+<title>Redefining the startup procedure</title>
+<para>By defining _reset_vector__ in the user application, the linker will not
+link standard startup code. For example:
+<programlisting role="C">
+#include &lt;io.h&gt;
+
+NAKED(_reset_vector__)
+{
+	/* place your startup code here */
+
+	/* Make shure, the branch to main (or to your start
+	   routine) is the last line in the function */
+	__asm__ __volatile__("br #main"::);
+}
+</programlisting>
+produces the following code
+<blockquote>
+<literallayout>
+a.out:     file format elf32-msp430
+
+Disassembly of section .text:
+
+0000fc00 &lt;__zero_vector&gt;:
+    fc00:       30 40 04 fc     br      #0xfc04
+
+0000fc04 &lt;_unexpected_&gt;:
+    fc04:       00 13           reti
+
+0000fc06 &lt;_reset_vector__&gt;:
+    fc06:       00 3c           jmp     $+2             ;  abs dst addr 0xfc08
+
+0000fc08 &lt;main&gt;:
+    fc08:       31 40 80 02     mov     #640,   SP      ;  #0x0280
+    fc0c:       30 40 10 fc     br      #0xfc10
+
+0000fc10 &lt;__stop_progExec__&gt;:
+    fc10:       02 43           clr     SR
+    fc12:       fe 3f           jmp     $-2             ;  abs dst addr 0xfc10
+Disassembly of section .data:
+Disassembly of section .vectors:
+[skip]
+</literallayout>
+</blockquote>
+Please note that if you declare your own startup, you must take care about
+initialising the values of global variables.</para>
+
+<para>Another way to define the reset routine is to use the _RESET() macro:
+<programlisting role="C">
+_RESET()
+{
+	/* place your startup code here */
+	__asm__ __volatile__("br #main"::);
+}
+</programlisting>
+</para>
+</sect1>
+
+<sect1 id="redefining-the-end-up-procedure">
+<title>Redefining the end up procedure</title>
+<para>From the example above you can see, that main jumps to
+<quote>__stop_progExec__</quote>, which can be redefined the same way in
+the user code. However, it is possible to save some space, by specifying
+the return point as <quote>main()</quote>. If you compile with
+<blockquote>
+<screen>
+<prompt>$</prompt> <userinput>msp430-gcc -mendup-at=main ...</userinput>
+</screen>
+</blockquote>
+you will get
+<blockquote>
+<literallayout>
+...
+0000fc08 &lt;main&gt;:
+    fc08:       31 40 80 02     mov     #640,   SP      ;  #0x0280
+    fc0c:       30 40 10 fc     br      #0xfc08
+...
+</literallayout>
+</blockquote>
+and <quote>__stop_progExec__</quote> will not be linked.</para>
+</sect1>
+
+<sect1 id="initializing-the-stack">
+<title>Initializing the stack</title>
+
+<para>Stack initialization is performed in the prologue of <quote>main()</quote>. This
+suits most cases. However, you redefine startup, and needs some space allocated on
+the stack, the stack has to be explicitly initialized. For example:
+<programlisting role="C">
+#define STACKINITIALVALUE	0x0280
+
+NAKED(_reset_vector__)
+{
+    /* Initialise the stack */
+    __asm__ __volatile__("mov %0, r1"::"i" (STACKINITIALVALUE));
+
+    /* Your startup code goes here */
+
+    __asm__ __volatile__("br #main"::);
+}
+</programlisting>
+*** NOTE *** DO NOT USE the register definitions PC, SP and SR, which some
+other MSP430 tools (e.g. IAR) recognise. The <emphasis>as</emphasis> assembler in
+<emphasis>binutils</emphasis> does not recognise these names. Instead use r0,
+r1 and r2.</para>
+
+<para>The stack finally will be initialized in main(). Normally, the initial 
+stack pointer address is at top of RAM. If you want to reserve some RAM space,
+which is not accessible by the compiler, you may specify -mno-stack-init
+flag and then define startup as follows:
+<programlisting role="C">
+#define STACKINITIALVALUE	0x0280
+
+NAKED(_reset_vector__)
+{
+    char a[100];	/* Will be allocated on the stack */
+
+    __asm__ __volatile__("mov       #__data_start ,r1"::);
+
+    /* Your startup code goes here */
+
+    /* Initialise the stack */
+    __asm__ __volatile__("mov %0, r1"::"i" (STACKINITIALVALUE));
+    /* Jump to main */
+    __asm__ __volatile__("br #main"::);
+}
+</programlisting>
+If you do not make the function declaration NAKED, note that on function
+exit, the frame pointer value will be added to r1. Therefore, the stack
+initialisation should be as follows:
+<programlisting role="C">
+...
+__asm__ __volatile__("mov %0, r1" :: "i" (STACKINITIALVLUE) );
+__asm__ __volatile__("sub #.L__FrameSize__reset_vector__, r1"::);
+...
+</programlisting>
+*** NOTE *** The frame pointer register (r4) and arguments pointer register (r5)
+values are compiled in a mysterious way. Use them with care.</para>
+
+<para>The variable <quote>.L__FrameSize_[function name]</quote> is defined by the
+compiler, and has a value of the stack space required by the function. For
+example:
+<programlisting role="C">
+#define STACKINITIALVALUE 0x280
+
+void set(char *a) {}	// dummy
+void reset(char *a) {}  // dummy
+
+void _reset_vector__()
+{
+    __asm__ __volatile__("mov       #__data_start ,r1"::);
+    {
+        char a[100];
+        set(a);
+        reset(a);
+    }
+    __asm__ __volatile__("mov %0, r1"::"i" (STACKINITIALVALUE));
+    __asm__ __volatile__("sub #.L__FrameSize__reset_vector__, r1"::);
+    __asm__ __volatile__("br #main"::);
+}
+
+int main()
+{
+    ...
+}
+</programlisting>
+compiled with
+<screen>
+<prompt>$</prompt> <userinput>msp430-gcc -O m.c -mendup-at=main -mno-stack-init</userinput>
+</screen>
+will result in:
+<blockquote>
+<literallayout>
+---
+a.out:     file format elf32-msp430
+
+Disassembly of section .text:
+
+0000fc00 &lt;__zero_vector&gt;:
+    fc00:       30 40 04 fc     br      #0xfc04
+
+0000fc04 &lt;_unexpected_&gt;:
+    fc04:       00 13           reti
+
+0000fc06 &lt;set&gt;:
+    fc06:       30 41           ret
+
+0000fc08 &lt;reset&gt;:
+    fc08:       30 41           ret
+
+0000fc0a &lt;_reset_vector__&gt;:
+    fc0a:       31 80 64 00     sub     #100,   SP      ;  #0x0064
+    fc0e:       31 40 00 02     mov     #512,   SP      ;  #0x0200
+    fc12:       0f 41           mov     r1,     r15
+    fc14:       b0 12 06 fc     call    #-1018          ;  #0xfc06
+    fc18:       0f 41           mov     r1,     r15
+    fc1a:       b0 12 08 fc     call    #-1016          ;  #0xfc08
+    fc1e:       31 40 80 02     mov     #640,   SP      ;  #0x0280
+    fc22:       30 40 30 fc     br      #0xfc30
+    fc26:       31 80 64 00     sub     #100,   SP      ;  #0x0064
+    fc2a:       31 50 64 00     add     #100,   SP      ;  #0x0064
+    fc2e:       30 41           ret
+
+0000fc30 &lt;main&gt;:
+    fc30:       30 40 30 fc     br      #0xfc30
+....
+---
+</literallayout>
+</blockquote>
+In this case, the <quote>RESERVE_RAM</quote> attribute to the <quote>main()</quote>
+function would be a simpler way to achieve the same effect.</para>
+</sect1>
+</chapter>
+
+<chapter id="mspgcc-abi">
+<title>mspgcc's ABI</title>
+<sect1 id="register-usage">
+<title>Register usage</title>
+<para>If you intend to interface assembly routines with your C code, you need
+to know how <emphasis>GCC</emphasis> uses the registers. This section describes how registers are
+allocated and used by the compiler.
+(You can override GCC's settings by issuing -ffixed-regs=...)</para>
+
+<para>r0, r2, and r3 - are fixed registers and not used by the compiler in any
+way. They cannot be used for temporary register arguments either.</para>
+
+<para>r1 - is the stack pointer. The compiler modifies it only in the function
+prologues and epilogues, and when a function call with a long argument list
+occurs. Do not modify it yourself under any circumstances!!!</para>
+
+<para>r4 - is the frame pointer. This can be used by the compiler, when va_args
+is used. When va_args is not used, and optimization is switched on, this
+register is eliminated by the stack pointer.</para>
+
+<para>r5 - argument pointer. This can be used by the compiler, when a function
+call with a long argument list is performed. It refers to the stack position
+before the function call. Normally, when optimization is turned on, this
+register usage is eliminated and the argument list is accessed via the
+stack pointer.</para>
+
+<para>Use the last two with care. If <emphasis>GCC</emphasis> uses them as these pointers, 
+their values, after the function's prologue are:
+<itemizedlist>
+<listitem><para>r5 = r1 + [size of registers pushed in the prologue] + 2 bytes;</para></listitem>
+<listitem><para>r4 = r1 - [frame size];</para></listitem>
+</itemizedlist>
+where r1 is its value on function entry, minus the size of registers pushed in
+the prologue.</para>
+
+<para>r12, r13, r14, and r15 - are call cloberred (in general) registers. If you
+are interfacing C with assembler language, you do not have to save these
+registers, except in interrupt service routines.</para>
+
+<para>*** NOTE *** some library calls (such as divmodM, mulM) clobber some
+registers (r8 - r11). <emphasis>GCC</emphasis> allows for this during code generation, and will
+save clobbered registers on the stack in the calling function.</para>
+
+<para>All other registers are caller used registers. If you are interfacing C with
+assembler language, you must save them on the stack and restore them before
+exit.</para>
+
+<para>Registers are allocated in the order r12 to r15, r11 to r0, and from r15 to
+r0 with -mreorder flag. Please use this order if you plug in assembly language
+functions.</para>
+
+<para>char, int and pointer variables take one register.  long and float variables
+take two registers, in little-endian order (i.e. the LSB goes in lower numbered
+register). long long int variables take 4 registers, in little-endian order.</para>
+</sect1>
+
+<sect1 id="function-calling-conventions">
+<title>Function calling conventions</title>
+<sect2 id="fixed-argument-lists">
+<title>Fixed argument lists</title>
+<para>Function arguments are allocated left to right. They
+are assigned from r15 to r12. If more parameters are passed than will fit in
+the registers, the rest are passed on the stack. This should be avoided
+since the code takes a performance hit when using variables residing on the
+stack.</para>
+</sect2>
+
+<sect2 id="variable-argument-lists">
+<title>Variable argument lists</title>
+<para>Parameters passed to functions that have a variable argument list
+(printf, scanf, etc.) are all passed on the stack. Any char parameters are
+extended to ints.</para>
+</sect2>
+
+<sect2 id="return-values">
+<title>Return values</title>
+<para>The various functions types return the results as follows:
+<itemizedlist>
+<listitem><para>char, int and pointer functions return their values r15</para></listitem>
+<listitem><para>long and float functions return their values in r15:r14</para></listitem>
+<listitem><para>long long functions return their values r15:r14:r13:r12</para></listitem>
+</itemizedlist>
+</para>
+
+<para>If the returned value wider than 64 bits, it is returned in memory. The
+first 'hidden' argument to such a function call will be a memory address.
+All other arguments will be allocated in the usual way, from r14.</para>
+</sect2>
+</sect1>
+
+<sect1 id="call-definitions">
+<title>Call definitions</title>
+<para>Variables names are not transformed in any way, except those with the names
+r0 to r15. For these a '_' is prepended to the name. Aliasing a declaration
+(int A asm("M");) will not change the alias. If "M "is specified as a direct
+address (see the SFR definitions for example), <emphasis>GCC</emphasis> will not 'globalize' the
+symbol. So, you can include these 'address' definitions in any header file.</para>
+
+<para>Each function call starts with a function prologue. The prologue pushes
+caller used registers (r4-r11, or r4-r15 for interrupt functions) onto the
+stack. The stack pointer is then adjusted by subtracting the frame size from
+r1. Naked functions do not issue a prologue. The 'interrupt' attribute forces
+all registers used within the function to be saved on the stack.</para>
+
+<para>In every function definition
+<blockquote>
+<literallayout>
+.L__FrameSize_[function name]=[frame size]
+</literallayout>
+</blockquote>
+is defined. For example:
+<blockquote>
+<literallayout>
+main:
+.L__FrameSize_main=0x12
+</literallayout>
+</blockquote>
+It can be used as an immediate variable in in line assembly code. For example
+<programlisting role="C">
+__asm__ __volatile__("bic #0xf0, .L__FrameSize_main(r1)"::);
+</programlisting>
+is similar to using the _BIC_SR_IRQ function.
+</para>
+
+<para>Every  function call ends with a function epilogue. Here, the stack
+pointer is adjusted by adding the frame size to r1. The registers save
+registers are the popped from the stack. The function then returns. Normal
+functions just issue a "ret" instruction. Functions with the interrupt
+attribute issue a "reti" instruction. For wake-up interrupts the sequence:
+<programlisting role="asm">
+bic #0xf0,0(r1) 
+reti
+</programlisting>
+is used.</para>
+
+<para>The function "main" is handled specially:
+<itemizedlist>
+<listitem><para>main() sets the stack pointer, unless -mno-stack-init is specified
+on the <emphasis>GCC</emphasis> command line.</para></listitem>
+<listitem><para>main() does not save registers.</para></listitem>
+<listitem><para>main() does not return. </para></listitem>
+<listitem><para>main() jumps to <quote>__stop_progExec__</quote> at the end unless
+<quote>-mendup-at=</quote> is specified on the <emphasis>GCC</emphasis> command line.</para></listitem>
+</itemizedlist>
+</para>
+</sect1>
+
+<sect1 id="assembler-extensions">
+<title>Assembler extensions</title>
+<para>GNU msp430-as supports TI style assembler syntax. Some extensions are:</para>
+<itemizedlist>
+<listitem><para>@Rn as destination treated as 0(Rn)</para></listitem>
+<listitem><para>0(Rn) as source treated as @Rn</para></listitem>
+
+<listitem><para>jmp +N skips next N bytes (use with care).</para></listitem>
+<listitem><para>jmp $+-N advances/rewinds PC N bytes from current location.</para></listitem>
+<listitem><para>jmp -N rewinds PC N bytes from current location.</para></listitem>
+</itemizedlist>
+</sect1>
+</chapter>
+
+<chapter id="using-inline-assembly-language-in-c">
+<title>Using inline assembly language in C programs with mspgcc</title>
+<para>mspgcc tries to be largely compatible with the other C language toolchains
+for the MSP430. Inline assembly language is one area where this is impractical.
+mspgcc uses the usual <emphasis>GCC</emphasis> syntax for inline assembly language, with a few
+extensions to deal with MSP430 specific issues. At first sight GCC's way of
+handling inline assembly language may seem a little more difficult to use than
+some of the alternatives. It is, however, generally more efficient and
+powerful than those alternatives.</para>
+
+<sect1 id="inline-assembly-language-syntax">
+<title>Inline assembly language syntax</title>
+<para>mspgcc supports the standard GNU inline assembler feature 'asm'. In an
+assembler instruction using 'asm', you can specify the operands of the
+instruction using C expressions.  This means you need not guess which
+registers or memory locations will contain the data you want to use.</para>
+
+<para>You must specify an assembler instruction template much like what appears
+in an assembler language, plus an operand constraint string for each
+operand. For example:
+<programlisting role="C">
+asm("mov %1, %0": "=r" (result): "m" (source));
+</programlisting>
+This could also be written:
+<programlisting role="C">
+asm("mov %src,%res": [res] "=r" (result): [src] "m" (source));
+</programlisting>
+which may be clearer. Here 'source' is the C expression for the input operand
+while 'result' is that of the output operand. '=' indicates, that the operand
+is an output. m and r are constraints and inicate which types of addressing
+mode <emphasis>GCC</emphasis> has to use in the operand. These constraints are fully documented
+in the GNU GCC documentation.</para>
+
+<para>Each asm statement is divided into four parts, by colons:
+<orderedlist>
+<listitem><para>The assembler instructions, defined as a single string constant:
+<blockquote>
+    <literallayout>"mov %src, %res"</literallayout>
+</blockquote>
+</para></listitem>
+<listitem><para>A list of output operands, separated by commas. Our example uses just one,
+and defines the identifier "res" for it:
+<blockquote>
+    <literallayout>[res] "=r" (result)</literallayout>
+</blockquote>
+</para></listitem>
+<listitem><para>A comma separated list of input operands. Again, our example uses just one
+    operand, and defines the identifier "src" for it:
+<blockquote>
+    <literallayout>[src] "m" (source)</literallayout>
+</blockquote>
+</para></listitem>
+<listitem><para>The clobbered registers. This is left empty in our example, as nothing
+is clobbered.</para></listitem>
+</orderedlist>
+So, the complete pattern is: 
+<programlisting role="C">
+asm((string asm statement) : [outputs]:[inputs]:[clobbers]);
+</programlisting>
+</para>
+
+<para>Each input and output operand is described by a constraint string followed
+by a C expression in parantheses. msp430-gcc recognises the following
+constraint characters:
+<itemizedlist>
+<listitem><para>m - memory operand.</para></listitem>
+<listitem><para>I - integer operand.</para></listitem>
+<listitem><para>r - register operand.</para></listitem>
+<listitem><para>i - immediate operand (int constants in most cases).</para></listitem>
+<listitem><para>P - constants, generated by r2 and r3.</para></listitem>
+</itemizedlist>
+and some other constraints which are common to all processors supported by GCC.
+These constraints cause the compiler to automatically generate preamble and
+postamble code, allocate registers, and save and restore anything necessary to
+ensure the assembly language is efficiently and compatibly handled. For
+example
+<programlisting role="C">
+    asm("add %[bar],%[foo]"
+        : [foo] "=r" (foo)
+        : [foo] "r" (foo), [bar] "m" (bar));
+</programlisting>
+is equivalent to
+<programlisting role="C">
+    foo += bar;
+</programlisting>
+and will result in the following generated assembly language (assuming "foo"
+is a global variable)
+<programlisting role="asm">
+    mov &amp;foo, r12
+/* #APP */
+    add &amp;bar, r12
+/* #NOAPP */
+    mov r12, &amp;foo
+</programlisting>
+</para>
+
+<para>If there are only unused output operands, you will also need to specify
+'volatile' for the 'asm' construct. If you are writing a header file that will
+be included in ANSI C programs, use '__asm__' instead of 'asm' and '__volatile__'
+instead of 'volatile'.</para>
+
+<para>A percent '%' sign followed by a digit or defined tag forces <emphasis>GCC</emphasis> to
+substitute the relevant operand. For 4 and 8 byte operands use the
+A, B, C, and D modifiers to select the appropriate 16 bit chunk of the operand.
+For example:
+<programlisting role="C">
+#define LONGVAL 0x12345678l
+
+{
+    long a,b;
+    ...
+    asm("mov %A2, %A0 \n\t"
+        "mov %B2, %B0 \n\t" 
+        "mov %A2, %A1 \n\t" 
+        "mov %B2, %B1 \n\t" 
+        : "=r"((long)a),"=m"((long)b)
+        : "i"((long)LONGVAL) );
+    ...
+}
+</programlisting>
+or
+<programlisting role="C">
+#define LONGVAL 0x12345678l
+
+{
+    long a,b;
+    ...
+    asm("mov %A[longval], %A[a] \n\t"
+        "mov %B[longval], %B[a] \n\t" 
+        "mov %A[longval], %A[b] \n\t" 
+        "mov %B[longval], %B[b] \n\t" 
+        : [a] "=r" ((long) a), [b] "=m" ((long) b)
+        : [longval] "i"((long) LONGVAL));
+    ...
+}
+</programlisting>
+This will result in something like the following generated assembly language
+(assuming 'a' is declared within the block, and 'b' is declared globally):
+<programlisting role="asm">
+    ...
+/* #APP */
+    mov #llo(305419896), r12
+    mov #lhi(305419896), r13
+    mov #llo(305419896), 4(r1) ; mov #llo(305419896), &amp;b
+    mov #lhi(305419896), 6(r1) ; mov #lhi(305419896), &amp;b+2
+/* #NOAPP*/
+    mov r12, 0(r1)
+    mov r13, 2(r1)
+    ...
+</programlisting>
+</para>
+
+<para>So,
+<itemizedlist>
+<listitem><para>%A[tag] acts as %[tag] for a register or address constant operand,
+or wraps an integer value as #llo(). #llo is an assembler macro, which extracts
+the lower 16 bits of the value.</para></listitem>
+
+<listitem><para>%B[tag] adds 1 to a register number, or 2 to an address constant,
+or substitutes #lhi() for an integer constant.</para></listitem>
+
+<listitem><para>%C[tag] adds 2 to a register number, or 4 to an address constant,
+or substitutes #hlo() for an integer constant.</para></listitem>
+
+<listitem><para>%D[tag] adds 3 to a register number, 6 to an address constant,
+or substitutes #hhi() for an integer constant.</para></listitem>
+</itemizedlist>
+The I, J, K and L modifiers are similar, except they add 1 to an address
+or register. They should only be used in zero_extendMN operations.</para>
+
+<para>There is also a %E modifier, which substitutes Rn from (mem:xx (reg:xx n)) as
+@Rn. This is a useful modifier for the first element on the stack or for
+pointers. !!! Do not use this unless you know exactly what are you doing !!!
+</para>
+</sect1>
+
+<sect1 id="registers-variables-and-labels">
+<title>Registers, variables and labels</title>
+<para>Since <emphasis>GCC</emphasis> cannot check the assembler syntax, you can do anything within
+an assembler asm() statement. However, please note, that
+<emphasis>GCC</emphasis> does not use r0, r2, or r3. Therefore, if you mention one of these registers
+as an output parameter in an asm() statement, or as an alias for register
+variable, <emphasis>GCC</emphasis> will substitute some another register instead. Using r0, r2, or r3
+as input parameters will result in the error "'asm' operand requires
+impossible reload".</para>
+
+<para>Variables can be used in any normal way within asm() statement (mind name
+conversion for [Rr][0-15] names)</para>
+
+<para>GCC defines labels with the following patterns:
+<informaltable>
+<tgroup cols="2">
+<tbody>
+ <row>
+   <entry><quote>.Lfe%=</quote></entry><entry>A function end label</entry>
+ </row>
+ <row>
+   <entry><quote>.L__Frame_size_%s</quote></entry><entry>See above</entry>
+ </row>
+ <row>
+   <entry><quote>.L%=</quote></entry><entry>A local label for almost all purposes :)</entry>
+ </row>
+</tbody>
+</tgroup>
+</informaltable>
+where the %= modifier stands for a unique number within the file.</para>
+
+<para>The following labels are defined for some expanded operands:
+<blockquote>
+<literallayout>
+.Lsren%=
+.Lsrcl%=
+.Lsre%=
+.Lae%=
+.Lmsn%=
+.Lcsn%=
+.Lsend%=
+.Lsst%=
+.Leaq%=
+.LcmpSIe%=
+</literallayout>
+</blockquote>
+so, do not use these patterns. You may use any other label as you wish.
+Please  note, that if label starts from .L it means, that the label is local
+and cannot be seen from another file as well as in disassembled output with
+<emphasis>msp430-objdump</emphasis>.</para>
+</sect1>
+
+<sect1 id="library-calls">
+<title>Library calls</title>
+<para>There are some library functions used by GCC, during code generation. These
+use non-standard argument passing schemes, which do not follow the mspgcc ABI.
+So, do not use them in your assembly code unless you are absolutely sure
+what is going on. Namely:</para>
+
+<para>
+<emphasis>Multiplication:</emphasis>
+<blockquote>
+<literallayout>
+__mul{qi,hi,si}3
+__umul{qi,hi,si}3
+__umulsi3hw
+</literallayout>
+</blockquote>
+For devices without a hardware multiplier, multiply routines are called to
+perform multiplication.
+If the destination is in HI mode (16 bit) or QI mode (8 bit), the first argument
+is passed in r10, and the second in r12. The returned value is in r14.
+In SI mode (32 bit), the first argument is passed in r11:r10, and the second
+in r13:r12. The result in r14:r15. In both cases the input arguments are
+clobbered after the function returns.</para>
+
+<para>
+<emphasis>Division:</emphasis>
+<blockquote>
+<literallayout>
+__divmod{qi,hi,si}4
+__udivmod{qi,hi,si}4
+</literallayout>
+</blockquote>
+If destination is in HI mode (16 bit) or QI mode (8 bit), the numerator is
+passed in r12, and the denominator in r10. The result of the calculation
+r12/r10 is returned with the quotient in r12 and the remainder in r14.
+Registers r10, r11 and r13 are clobbered.</para>
+
+<para>In SI mode (32 bit), the numerator is passed in r13:r12 and denominator
+in r11:r10. The quotient is returned in r13:r12, and the remainder in r15:r14.
+Registers r8, r9, r10, and r11 are cloberred.</para>
+
+<para>All floating point library calls can be used the in the usual way, as these
+obey the mspgcc ABI rules (when applicable - just help me to force this
+process :).</para>
+</sect1>
+
+<sect1 id="tips-andtricks">
+<title>Tips &amp; tricks</title>
+<orderedlist>
+<listitem><para>If you are sure your main routine will never exit, you can use the
+   <quote>-mendup-at=main</quote> flag when compiling. This
+   will save 6 bytes of ROM.</para></listitem>
+
+<listitem><para>Avoid passing long argument list to functions. Avoid returning
+   long values from functions. The best functions types to use are
+   void, int, or pointer. </para></listitem>
+
+<listitem><para>Avoid the initialization of global variables within a small function call.
+   Instead, assign a value during variable definition.</para></listitem>
+
+<listitem><para>Avoid converting chars to another type. char variables can be located
+   anywhere in RAM, while word variables can only be at even addresses.
+   Because of this, the following code:
+<blockquote>
+<literallayout>
+const char *a = "1234";
+int k;
+k = *((int *)((char *a) + 3));
+</literallayout>
+</blockquote>
+     will result in unpredictable CPU behaviour.</para></listitem>
+ 
+<listitem><para>Avoid using global variables of small size - it is a waste of RAM.</para></listitem>
+
+<listitem><para>Avoid using volatiles, unless they are really necessary.</para></listitem>
+
+<listitem><para>Use int instead of char or unsigned char if you want an 8 bit integer.</para></listitem>
+
+<listitem><para>Inspect assembler code (-S compiler flag). The compiler cannot eliminate
+    dead code in some cases. Do not write dead code :)</para></listitem>
+
+<listitem><para>Do not declare your own SFRs. They are all declared in include files in
+    the right way to achieve maximum code performance.</para></listitem>
+
+<listitem><para>Try to minimise the use of addition and subtraction with floating point
+     numbers. These are slow operations.</para></listitem>
+
+<listitem><para>Use shift instead of multiplication by constants which are 2^N
+    (actually, the compiler may to do this for you when optimization
+    is switched on).</para></listitem>
+
+<listitem><para>Use unsigned int for indices - the compiler will snip _lots_ of code.</para></listitem>
+
+<listitem><para>Use 'switch/case' constructs rather than a chain of 'if/else'
+    constructs.</para></listitem>
+
+<listitem><para>Use logical "or" ('|') instead of '+' for bitmasks.</para></listitem>
+
+<listitem><para>Use 'alloca' instead of 'malloc' for locals. In embedded applications
+    trying to avoid any dynamic memory allocation is usually even better ;).
+    </para></listitem>
+
+<listitem><para>Apart from C++ recomendations ;), it would be better to use:
+<programlisting role="C">
+    #define SMTS 1234567890l
+</programlisting>
+instead of declaring
+<programlisting role="C">
+    const long smts = 1234567890l;
+</programlisting>
+</para></listitem>
+
+<listitem><para>If you execute
+<programlisting role="C">
+while ((long) a &amp; 0x80000l);
+</programlisting>
+the program will hang, unless 'a' is declared volatile. So, do it!</para></listitem>
+
+<listitem><para>Delay loops are very sophisticated routines. Normally, users do
+    something like:
+<programlisting role="C">
+    int i = 1234;
+    
+    while (i--);
+</programlisting>
+or
+<programlisting role="C">
+    int i;
+    
+    for (i = 0;  i &lt; 1234;  i++);
+</programlisting>
+    NEITHER WILL NOT WORK AS YOU EXPECT when optimisation is switched on!!!
+    The optimizer will detect dead code in both examples and will eliminate
+    it. It might even eliminate the loop completely. Adding the volatile
+    attribute to the definition of 'i' might help, but don't count on it if
+    'i' is a local variable. The compiler can still detect the calculations
+    are wasteful, and eliminate them.</para>
+    <para>Regardless of these optimisation issues, this type of delay loop is
+    poor programming style - you have no idea how long or short a delay it
+    might produce (although there is an obvious minimum bound!). It would
+    be better, and more reliable to define something like:
+<programlisting role="C">
+static void __inline__ brief_pause(register unsigned int n)
+{
+    __asm__ __volatile__ (
+		"1: \n"
+		" dec	%[n] \n"
+		" jne	1b \n"
+        : [n] "+r"(n));
+}
+</programlisting>
+    and call this routine where needed. This is simple, compact, and
+    predictable.</para></listitem>
+</orderedlist>
+<para>Do not do anything unless you know what you're doing :)</para>
+</sect1>
+</chapter>
+
+<chapter id="hardware-tools">
+<title>Hardware tools</title>
+<sect1 id="what-is-available">
+<title>What is available?</title>
+<para>Texas Instruments produce fairly inexpensive development kits for the
+MSP430 range of processors. These consist of a small prototyping board
+holding the processor, and a JTAG-to-parallel-port adapter suitable
+for any standard PC type machine. Evaluation boards and TI compatible
+JTAG-to-parallel port tools are available from several suppliers,
+including Olimex, SoftBaugh and Lierda. Any of these tools may be used
+with the debug facilities which mspgcc provides.</para>
+</sect1>
+
+<sect1 id="setting-up-the-jtag-interface">
+<title>Setting up the JTAG interface</title>
+<para>You might be able to just plug the 25-way D-type from the JTAG FET tool into
+the parallel port of your PC, and the 14-way IDC connector into the receptacle
+on the prototyping card and have no trouble. On the other hand.......read on!</para>
+</sect1>
+
+<sect1 id="parallel-port-issue-with-windows">
+<title>Parallel port issue with Windows</title>
+<para>If you are running Windows 98 or Windows Me the parallel port should
+basically just work, as long as you ensure no other drivers (such as printer
+drivers) are configured to use the port. If you are running Windows NT, 2000,
+or XP you need a driver to provide transparent access to the parallel port,
+so it can be used directly by the mspgcc software. The driver for this is
+called <emphasis>giveio</emphasis>, and is normally installed automatically by the Windows
+installer program. If you find you cannot access the parallel port with
+msp430-gdbproxy, check that <emphasis>giveio</emphasis> is installed and running.</para>
+</sect1>
+
+<sect1 id="parallel-port-issues-with-linux">
+<title>Parallel port issues with Linux</title>
+<para>If you are running a version of Linux based on a 2.0.x or 2.2.x kernel
+you will not be able to use the JTAG debug tools. The other parts of mspgcc
+- C compiler, assembler, linker, etc. - can be used with any version of Linux.
+However Linux kernels prior to 2.4 did not support the ppdev raw parallel port
+access device driver needed by msp430-gdbproxy.</para>
+
+<para>If a printer daemon is configured to use the parallel port you wish to
+use for mspgcc you will need to stop that printer daemon before
+<emphasis>msp430-gdbproxy</emphasis> can access the port.</para>
+
+<para>Check that your Linux kernel actually has raw parallel-port support. If
+you are running a vanilla Red Hat or Debian distribution, this should be
+the case already. Type
+<literallayout>
+<prompt>$</prompt> <userinput>cat /proc/devices</userinput>
+</literallayout>
+and look for an entry referring to "ppdev". If there isn't one you will need
+to recompile your kernel. This is only likely of you have a custom kernel.</para>
+
+<para>If a printer daemon is using the parallel port, stop it. A command like:
+<literallayout>
+<prompt>$</prompt> <userinput>/etc/rc.d/init.d/lpd stop</userinput>
+</literallayout>
+will do this on any Red Hat Linux machine, and many other distributions.</para>
+
+<para>Check that permissions of the raw parallel-port device(/dev/parport0). It
+should be readable and writable by whichever user will run 'msp430-gdbproxy'.
+<emphasis>Don't run 'msp430-gdbproxy' as root just to get around this. Set the
+permissions properly, and maximise the security of your machine!</emphasis></para>
+
+<para>For use on your own desktop machine, it is OK to set the permissions
+for <quote>/dev/parport0</quote> to 666 (read and write allowed for everybody)
+and then run 'msp430-gdbproxy' from your own shell.</para>
+
+<para>For shared machines, set the permissions for <quote>/dev/parport0</quote>
+to 660, and make it a member of a suitable group. 'lp' will probably do, but
+it might be tidier to generate a new group for this purpose (say, mspgcc
+or jtag) and use that. Make 'msp430-gdbproxy' a member of that group, and
+set its SGID bit.</para>
+
+<para>You should now be able to run <emphasis>msp430-gdbproxy</emphasis>. Whilst gaining
+confidence in the tools, it might be a good idea to run <emphasis>msp430-gdbproxy</emphasis>
+with debugging on in a window of its own so it can be monitored for any
+signs of trouble.
+<literallayout>
+<prompt>$</prompt> <userinput>/usr/local/sbin/msp430-gdbproxy --debug msp430</userinput>
+</literallayout>
+for instance. The --help argument will make it list its options.</para>
+</sect1>
+
+<sect1 id="msp430-evaluation-and-prototyping-cards">
+<title>MSP430 evaluation and prototyping cards</title>
+<para>If are using the evaluation kits from TI, there are a couple of points
+to beware of.</para>
+<para>If you are running your MSP430 chip from less than 3.6V, make sure
+you've removed the zero ohm link r8, and refitted it as r9. If you do not
+do this, all sorts of things can go wrong. The JTAG interface will try to
+drive signals referenced to the parallel-port's 5V signals. It seems
+this then messes up the MSP430 whose core is running on whatever rails
+you've decided upon externally.</para>
+
+<para>More details on this are provided by Texas's own document on the
+CDROM that came with the FET kit. The CDROM is nearly un-navigable, but the
+file you want is "./Literature/Literature - MSP 430/User's Guide/FET Users
+Guide/MSP-FET430P140 Users Guide.pdf" assuming you're starting from the
+root directory of the CDROM. Page 28 has a circuit diagram. Beware of the minor
+version differences between the prototyping cards.</para>
+</sect1>
+</chapter>
+
+<chapter id="compiling-and-linking-msp430-programs">
+<title>Compiling and linking MSP430 programs</title>
+<sect1 id="getting-started">
+<title>Getting started</title>
+<para>Remember to use msp430-gcc (or msp430-as) and msp430-ld when developing
+code. The easiest thing to do is to put lines saying:
+<blockquote>
+<literallayout>
+CC=msp430-gcc
+LD=msp430-ld
+</literallayout>
+</blockquote>
+at the top of your Makefiles. It is also a very good idea to specify
+<blockquote>
+<literallayout>
+CFLAGS=-O2
+</literallayout>
+</blockquote>
+or
+<blockquote>
+<literallayout>
+CFLAGS=-g -O2
+</literallayout>
+</blockquote>
+You will almost certainly want <quote>-O2</quote> for any real production code.
+This turns on the C compiler's optimisation. Without it, the code can be quite
+large and slow.</para>
+
+<para>During development specify at least the -g flag during compilation. This
+will put all the necessary information into the compiled binary file to
+allow symbolic debugging in GDB. It makes the binary files rather big, but
+the actual downloaded code is not affected.</para>
+</sect1>
+</chapter>
+
+<chapter id="programming-and-debugging-msp430s">
+<title>Programming and debugging MSP430s</title>
+<sect1 id="using-the-jtag-fet-tool">
+<title>Using the JTAG FET tool</title>
+<para>Before trying to use <emphasis>msp430-gdb</emphasis>, make sure that <emphasis>msp430-gdbproxy</emphasis>
+is running on a suitable well-known port (it uses port 2000 by default).</para>
+<para>Put the following lines into your GDB startup file. For Unix and Linux
+this is the file <quote>.gdbinit</quote> in your home directory. For Windows users
+it is <quote>gdb.ini</quote>:
+<blockquote>
+<literallayout>
+set remoteaddresssize 64
+set remotetimeout 999999
+target remote localhost:2000
+</literallayout>
+</blockquote>
+or whatever well known port you have <emphasis>msp430-gdbproxy</emphasis> listening at.</para>
+</sect1>
+
+<sect1 id="downloading-code-to-a-target-processor">
+<title>Downloading code to a target processor</title>
+<para>Let's assume you have a fully-linked executable called 'foo'. Type:
+</para>
+<screen>
+<prompt>$</prompt> <userinput>msp430-gdb foo</userinput>
+</screen>
+<para>Assuming that you set up your <quote>/.gdbinit</quote> file as suggested
+above, then nothing special has to be done. Otherwise type the three commands
+listed above at the <emphasis>gdb</emphasis> command prompt. It you have
+<emphasis>msp430-gdbproxy</emphasis> running in the foreground in its own window you
+should see evidence of it starting
+to work.</para>
+<para>Type:
+<screen>
+<prompt>$</prompt> <userinput>monitor erase all</userinput>
+</screen>
+and the JTAG interface will clear the flash memory of the MSP430. Type:
+<screen>
+<userinput>load foo</userinput>
+</screen>
+and after a few seconds you should get confirmation that the flash memory
+has been reprogrammed. You need to erase the flash before you can load new code
+into it.</para>
+</sect1>
+
+<sect1 id="running-code">
+<title>Running code</title>
+<para>Logic might tell you to type 'run' in order to run the program.
+<emphasis>Don't</emphasis>. msp430-gdb is built upon the standard GNU GDB, and inherits
+all its behaviour. The 'run' command is appropriate for starting a program
+being debugged on the host. For an embedded target processor the correct
+command is 'continue', or just 'c'.</para>
+
+<para>If the code hits a breakpoint it will stop. Otherwise you need to type ^C
+(control-C) to interrupt the target processor. Assuming you compiled 'foo'
+with the -g flag, <emphasis>msp430-gdb</emphasis> will tell you exactly where it was
+interrupted, and let you inspect the state of registers, memory, variables,
+and so on. In fact, all the normal things you would expect from any other
+implementation of GDB.</para>
+</sect1>
+</chapter>
+
+<chapter id="building-mspgcc-from-source-code">
+<title>Building mspgcc from source code</title>
+<sect1 id="build-introduction">
+<title>Introduction</title>
+<para>Binary installers are provided at the mspgcc web-site for some platforms.
+For others you can build the tools yourself. The source code for everything
+except <emphasis>msp430-gdbproxy</emphasis> is available for download. Even the majority
+of the code for msp430-gdbproxy can be downloaded from the mspgcc web-site,
+where it may be of value to other projects. The only source code which is not
+available is the library which interfaces to the JTAG port of an MSP430, via
+the FET tool. This is TI's proprietary code. They have made it available for
+use in mspgcc, provided the source code is not released.</para>
+</sect1>
+
+<sect1 id="shopping-list">
+<title>Shopping list</title>
+<para>To build mspgcc from source code you will need the standard GNU source code,
+and the MSP430 specific source code.</para>
+
+<sect2 id="the-basic-gnu-packages">
+<title>The basic GNU packages</title>
+<para>The source code for binutils may be obtained from the
+<ulink url="http://sources.redhat.com/binutils/">official binutils web-site</ulink>.
+At the time of writing it is necessary to use a recent snapshot, as the first
+full release of binutils since MSP430 support was merged has not occurred.
+Recent snapshots can be found at
+<ulink url="ftp://sources.redhat.com/pub/binutils/snapshots">
+<quote>ftp://sources.redhat.com/pub/binutils/snapshots</quote></ulink> (about
+10.5MB). The snapshot from 030503 is known to work OK.</para>
+
+<para>Only the core package for <emphasis>GCC</emphasis> is required to build the C compiler. This can
+be found as the file <quote>/releases/gcc-3.2/gcc-core-3.2.3.tar.bz2</quote>
+(about 10MB) at any of the <ulink url="http://gcc.gnu.org/mirrors.html">GNU
+mirror sites</ulink>.</para>
+
+<para>The source code for GDB and Insight (GDB + a GUI) may be obtained from the
+<ulink url="http://sources.redhat.com/gdb/">official GDB web-site</ulink>. The source
+code for GDB 5.1.1 may be found at
+<ulink url="ftp://sources.redhat.com/pub/gdb/old-releases/gdb-5.1.1.tar.bz2">
+<quote>ftp://sources.redhat.com/pub/gdb/old-releases/gdb-5.1.1.tar.bz2</quote></ulink>
+(about 10.5MB). The source for Insight 5.1.1 may be found at
+<ulink url="ftp://sources.redhat.com/pub/gdb/old-releases/insight-5.1.1.tar.bz2">
+<quote>ftp://sources.redhat.com/pub/gdb/old-releases/insight-5.1.1.tar.bz2</quote>
+</ulink> (about 15.5MB).</para>
+</sect2>
+
+<sect2 id="the-mspgcc-specific-code">
+<title>The mspgcc specific code</title>
+<para>At present, the best way to obtain the MSP430 specific source code is
+directly from the <ulink url="http://sourceforge.net/cvs/?group_id=42303">CVS
+repository at the mspgcc project web-site</ulink>, as follows:
+<screen>
+<userinput>export CVSROOT=:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc/</userinput>
+<userinput>export CVS_RSH=ssh</userinput>
+<userinput>cvs login</userinput>
+</screen>
+Just press enter when prompted for the password. Then continue with:
+<screen>
+<userinput>cvs checkout gcc</userinput>
+<userinput>cvs checkout gdb</userinput>
+<userinput>cvs checkout msp430-libc</userinput>
+<userinput>cvs checkout jtag</userinput>
+<userinput>cvs checkout packaging</userinput>
+</screen>
+Do not bother getting the <emphasis>binutils</emphasis> files from CVS. Now the mspgcc 
+<emphasis>binutils</emphasis> code has been merged into the official binutils source tree,
+these CVS files are unnecessary, and no longer maintained.</para>
+</sect2>
+
+<sect2 id="tools-required-to-build-mspgcc">
+<title>Tools required to build mspgcc</title>
+<para>If you are using Linux or BSD Unix you probably have all the tools you need
+already installed on you machine. You just need the basic GNU toolchain -
+GNU make, GCC, binutils, and basic utilities like tar and bzip2.</para>
+
+<para>If you are using Windows you will need to install
+<ulink url="http://cygwin.com/">cygwin</ulink> on your machine. Just go to the
+Cygwin site, and follow the installation instructions (it is really quite
+simple). Make sure you have at least the following packages installed:
+<itemizedlist>
+<listitem><para>GNU make</para></listitem>
+<listitem><para>GCC (host installation)</para></listitem>
+<listitem><para>binutils (host installation)</para></listitem>
+<listitem><para>bzip2 and tar</para></listitem>
+</itemizedlist>
+</para>
+</sect2>
+</sect1>
+
+<sect1 id="the-build-procedure">
+<title>The build procedure</title>
+<para>The build instructions apply to Linux installations. You may need to
+modify them a little for other systems. For example, you might need to
+use <quote>gmake</quote> rather than <quote>make</quote>. On Windows machines
+with Cygwin omit the <quote>su</quote> steps. You can unpack the code in your
+home directory, and compile the tools as a normal user. Only the installation
+need be performed as a superuser.</para>
+
+<para>The files used to build the Windows installer, and Linux RPMs may be found
+in the <quote>packaging</quote> directory at the mspgcc web-site.</para>
+
+<para>First configure, build and install <emphasis>binutils</emphasis>. The following commands
+will unpack the source code, configure binutils as a cross assembly package,
+build and install it:
+<screen>
+<prompt>$</prompt> <userinput>tar --bzip2 -xf binutils-030503.tar.bz2</userinput>
+<prompt>$</prompt> <userinput>cd binutils-030503</userinput>
+<prompt>$</prompt> <userinput>./configure --target=msp430 --prefix=/usr/local/msp430</userinput>
+<prompt>$</prompt> <userinput>make</userinput>
+<prompt>$</prompt> <userinput>su</userinput>
+<prompt>$</prompt> <userinput>make install</userinput>
+</screen>
+You may wish to change the prefix, to install the software in a directory other
+than <quote>/usr/local/msp430</quote>. Common alternatives would be
+<quote>/usr</quote> or your home directory.</para>
+
+<para>Next, ensure the directory in which you installed the <emphasis>binutils</emphasis> binary
+files is included in your <quote>PATH</quote> variable. The next stage will
+require the MSP430 binutils to be functional, when the MSP430 library is
+compiled.</para>
+
+<para>Next, configure, build and install <emphasis>GCC</emphasis>. Make sure you specify the
+same <quote>--prefix</quote> and <quote>--target</quote> that you specified for
+<emphasis>binutils</emphasis>. Unpack the source code, as follows:
+<blockquote>
+<literallayout>
+tar --bzip2 -xf gcc-core-3.2.3.tar.bz2
+</literallayout>
+</blockquote>
+Copy the files from the <quote>gcc/gcc-3.3</quote> directory in the CVS repository
+at the mspgcc web-site into the unpacked <emphasis>GCC</emphasis> source tree. The mismatch between
+the numbering of <emphasis>GCC</emphasis> and this directory is an historical accident. You really
+do want the <quote>gcc/gcc-3.3</quote> to go with <emphasis>GCC</emphasis> version 3.2.3. Now
+build and install <emphasis>GCC</emphasis> with the following commands:
+<screen>
+<prompt>$</prompt> <userinput>cd gcc-3.2.3</userinput>
+<prompt>$</prompt> <userinput>./configure --target=msp430 --prefix=/usr/local/msp430</userinput>
+<prompt>$</prompt> <userinput>make</userinput>
+<prompt>$</prompt> <userinput>su</userinput>
+<prompt>$</prompt> <userinput>make install</userinput>
+</screen>
+</para>
+
+<para>Download <emphasis>msp430-libc</emphasis> as either a tarball or from the CVS repository
+at the mspgcc web-site.
+<screen>
+<prompt>$</prompt> <userinput>cd msp430-libc/src</userinput>
+</screen>
+If you specified something other than <quote>/usr/local/msp430</quote> as the
+prefix, when building <emphasis>binutils</emphasis> and <emphasis>GCC</emphasis>, you will need to edit
+the <emphasis>Makefile</emphasis>. Change <quote>/usr/local/msp430</quote> to the installation
+directory you are actually using. The use the following commands to build and
+install the library:
+<screen>
+<prompt>$</prompt> <userinput>make</userinput>
+<prompt>$</prompt> <userinput>su</userinput>
+<prompt>$</prompt> <userinput>make install</userinput>
+</screen>
+</para>
+
+<para>Now build and install <emphasis>GDB</emphasis>. This procedure works equally well for
+<emphasis>insight-5.1.1</emphasis>. Just replace "<emphasis>gdb</emphasis>" with "<emphasis>insight</emphasis>" in the
+following steps. Make sure that you specify the same <quote>--prefix</quote>
+and <quote>--target</quote> as for <emphasis>binutils</emphasis> and <emphasis>GCC</emphasis>:
+<screen>
+<prompt>$</prompt> <userinput>tar --bzip2 -xf gdb-5.1.1.tar.bz2</userinput>
+</screen>
+Copy the <emphasis>GDB</emphasis> files from the CVS repository at the mspgcc web-site into
+the unpacked <emphasis>GDB</emphasis> source tree. Now build and install <emphasis>GDB</emphasis> with the
+following commands:
+<screen>
+<prompt>$</prompt> <userinput>cd gdb-5.1.1</userinput>
+<prompt>$</prompt> <userinput>./configure --target=msp430 --prefix=/usr/local/msp430</userinput>
+<prompt>$</prompt> <userinput>make</userinput>
+<prompt>$</prompt> <userinput>su</userinput>
+<prompt>$</prompt> <userinput>make install</userinput>
+</screen>
+</para>
+
+<para>The source code for the generic <emphasis>gdbproxy</emphasis> program may be downloaded
+from the mspgcc web-site. However, the MSP430 specific source code is not
+available. If you want to use the generic source code for another project,
+you can. If you want to run <emphasis>msp430-gdbproxy</emphasis> you will need to download
+a binary version. msp430-gdbproxy requires a library - <emphasis>libHIL.so</emphasis> -
+to allow access to the parallel port. If there is a binary file for
+<emphasis>msp430-gdbproxy</emphasis> available for your machine, you should now build and
+install <emphasis>libHIL.so</emphasis>.</para>
+
+<para>Copy the <emphasis>libHIL</emphasis> source code from the
+<quote>jtag/hardware_access/HILppdev</quote> directory in the CVS repository
+at the mspgcc web-site. Then, build and install it with the following commands:
+<screen>
+<prompt>$</prompt> <userinput>cd jtag/hardware_access/HILppdev</userinput>
+<prompt>$</prompt> <userinput>make libHIL.so</userinput>
+<prompt>$</prompt> <userinput>su</userinput>
+<prompt>$</prompt> <userinput>mv libHIL.so /usr/local/lib</userinput>
+<prompt>$</prompt> <userinput>ldconfig</userinput>
+</screen>
+You could actually put the library almost anywhere, but make sure its directory
+is listed in your <quote>LD_LIBRARY_PATH</quote> environment variable.</para>
+
+<para>You can now test the installed tools. Try building an example program, as
+follows:
+<screen>
+<prompt>$</prompt> <userinput>msp430-gcc -mmcu=msp430x148 -o test -O test.c</userinput>
+</screen>
+You could then try producing disassembled text, with
+<screen>
+<prompt>$</prompt> <userinput>msp430-objdump -DS test</userinput>
+</screen>
+Or you could generate Intel format hex output (e.g. for a programmer) with:
+<screen>
+<prompt>$</prompt> <userinput>msp430-objcopy -O ihex test test.ihex</userinput>
+</screen>
+</para>
+
+<para>If you are able to use <emphasis>msp430-gdbproxy</emphasis>, and you have a JTAG FET tool
+(or one of the available compatible devices) you can try debugging a program in
+a target MSP430, using <emphasis>GDB</emphasis> and <emphasis>msp430-gdbproxy</emphasis>.</para>
+
+<para>If all this works OK, you should now have a fully working mspgcc. We hope
+you enjoy using it. If you have any problems, try consulting the archives of
+the mailing lists at the <ulink url="http://mspgcc.sourceforge.net">mspgcc
+web-site</ulink>. If that doesn't help, trying asking questions using the mailing
+list.</para>
+</sect1>
+</chapter>
+</book>

@@ -2434,7 +2434,7 @@ or
 
 for (i = 0;  i &lt; 1234;  i++);
 </programlisting>
-    NEITHER WILL NOT WORK AS YOU EXPECT when optimisation is switched on!!!
+    NEITHER WILL WORK AS YOU EXPECT when optimisation is switched on!!!
     The optimizer will detect dead code in both examples and will eliminate
     it. It might even eliminate the loop completely. Adding the volatile
     attribute to the definition of 'i' might help, but don't count on it if

@@ -3,7 +3,8 @@ css: styles.css
 
 <H2>Single Line MSP430 Assembler</H2>
 <P>You can enter a line of assembler code in the text field below.
-The resulting machine code along with data words is then printed.
+The resulting machine code along with data words and the cycle count
+is printed.
 </P>
 <P>Example: "mov #7, R6"
 </P>

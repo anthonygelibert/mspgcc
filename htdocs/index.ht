@@ -18,9 +18,9 @@ MSP430 development is no longer limited to Windows!
 </P>
 
 <P>Here is the <A href="http://sourceforge.net/projects/mspgcc/">project page on SourceForge</A>
-and here is the <A href="https://sourceforge.net/project/showfiles.php?group_id=42303">download area</a>,
-the <A href="https://sourceforge.net/cvs/?group_id=42303">CVS repository</A>.
-and the <A href="https://sourceforge.net/mail/?group_id=42303">mailing lists</A>.
+and here is the <A href="http://sourceforge.net/project/showfiles.php?group_id=42303">download area</a>,
+the <A href="http://sourceforge.net/cvs/?group_id=42303">CVS repository</A>.
+and the <A href="http://sourceforge.net/mail/?group_id=42303">mailing lists</A>.
 Below is a more detailed description of the subprojects.
 </P>
 
@@ -46,7 +46,7 @@ included in the gcc sources, the libc and crt files are a separate package.</P>
 <P>Where to get? Not for all subprojects are archives available.
 But you can easily download the latest sources with CVS. This procedure is explained
 <a href="http://sourceforge.net/cvs/?group_id=42303">here</a>.
-Look in the <A href="https://sourceforge.net/project/showfiles.php?group_id=42303">
+Look in the <A href="http://sourceforge.net/project/showfiles.php?group_id=42303">
 download area</a> for archives.
 </P>
 

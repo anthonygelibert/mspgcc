@@ -24,7 +24,7 @@ sitelinks = [
 
 class mspgccGenerator(Skeleton, Sidebar, Banner):
     AUTHOR = 'Webmaster'
-    EMAIL = 'cliechti@users.sf.net'
+    EMAIL = 'cliechti (at) users [dot} sf {dot] net'
 
     def __init__(self, file, rootdir, relthis):
         root, ext = os.path.splitext(file)
@@ -39,8 +39,8 @@ class mspgccGenerator(Skeleton, Sidebar, Banner):
         self.__d = {'rootdir': rootdir}
         p.process_sidebar()
         p.sidebar.append((None, '<hr size=1>'))
-        p.sidebar.append(('mailto:diwil@users.sf.net', 'Dmitry Diky'))
-        p.sidebar.append(('mailto:cliechti@users.sf.net', 'Chris Liechti'))
+        p.sidebar.append(('mailto:diwil (at) users [dot} sf {dot] net', 'Dmitry Diky'))
+        p.sidebar.append(('mailto:cliechti (at) users [dot} sf {dot] net', 'Chris Liechti'))
 
         p.sidebar.append(BLANKCELL)
         # It is important not to have newlines between the img tag and the end

@@ -1,5 +1,5 @@
 <!-- -*- html -*- -->
-<h3>Subsections</h3>
+<h3><img alt="MSPGCC" border=0 src="mspgcc-logo-small.jpg"><br>Subsections</h3>
 <li><a href="index.html">Introduction</a>
 <li><a href="news.html">News</a>
 <li><a href="manual/">Documentation</a>

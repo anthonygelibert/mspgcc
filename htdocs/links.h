@@ -6,6 +6,7 @@
 <li><a href="tools.html">Tools</a>
 <li><a href="faq/t2.html">FAQ</a>
 <li><a href="contribute.html">Contribute</a>
+<li><a href="bugreports.html">Reporting bugs</a>
 <li><a href="ref.html">Links</a>
 
 <h3>Useful</h3>

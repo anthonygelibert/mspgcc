@@ -9,7 +9,7 @@ Older news are <A href="news.html">here</A>.
  -->
 <H1>The GCC toolchain for the Texas Instruments MSP430 MCUs</H1>
 <P>Here you will find a port of the GCC toolchain for the Texas Instruments
-MS4P430 famuly of ultra low power MCUs, This includes the iGNU C compiler (GCC),
+MS4P430 famuly of ultra low power MCUs, This includes the GNU C compiler (GCC),
 the assembler and linker (binutils), the debugger (GDB), and some other tools
 needed to make complete development environment for the MSP430. These tools
 can be used on Windows, Linux, BSD and most other falvours of Unix. Hoever, the

@@ -4,7 +4,7 @@ css: styles.css
 <H3>Requirements</H3>
 <P>
 <UL>
-  <LI>GCC sources: <code>/releases/gcc-3.0/gcc-core-3.0.tar.bz2</code> (7.5MB). Use a
+  <LI>GCC sources: <code>/releases/gcc-3.2/gcc-core-3.2.tar.bz2</code> (9.9MB). Use a
       <A href="http://gcc.gnu.org/mirrors.html">mirror</A>
       of your choice to download this file.</LI>
   <LI>Binutils sources: <A href="ftp://sources.redhat.com/pub/binutils/releases/binutils-2.11.tar.bz2">
@@ -71,9 +71,9 @@ copy the files from this site in the sourcetree.<BR>
 Make sure you've specified same <code>--prefix</code> and <code>--target</code>
 for both gcc and binutils:
 <BR>
-<code style="background:lightgrey">tar --bzip2 -xf gcc-core-3.0.tar.bz2</code> unpack the original GNU source tarball<BR>
-copy the files from this site in the sourcetree.<BR>
-<code style="background:lightgrey">cd gcc-3.0</code> go to the gcc source tree<BR>
+<code style="background:lightgrey">tar --bzip2 -xf gcc-core-3.2.tar.bz2</code> unpack the original GNU source tarball<BR>
+copy the files from this site in the sourcetree. You need to the the files from the gcc-3.3 directory of mspgcc (yes, that's right)<BR>
+<code style="background:lightgrey">cd gcc-3.2</code> go to the gcc source tree<BR>
 <code style="background:lightgrey">./configure --target=msp430 --prefix=/usr/local/msp430</code> configure as cross compiler<BR>
 <code style="background:lightgrey">make</code> build the tools, this will take several minutes<BR>
 <code style="background:lightgrey">su</code> login as superuser<BR>

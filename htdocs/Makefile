@@ -15,7 +15,7 @@ HTFLAGS =	$(HTALLFLAGS) -r $(HTROOT)
 DEST = 		$(THEUSER):/home/groups/m/ms/mspgcc/htdocs
 CGIDEST = 	$(THEUSER):/home/groups/m/ms/mspgcc/cgi-bin
 EXCLUDES =	--exclude=CVS --exclude=cgi-bin
-CGIEXCLUDES =	--exclude=CVS
+CGIEXCLUDES =	--exclude=CVS --exclude=not_the_real_cgi_here.txt
 ARGS = 		--rsh=ssh -v -r -l -t --update --delete $(EXCLUDES)
 CGIARGS = 	--rsh=ssh -v -r -l -t --update --delete $(CGIEXCLUDES)
 

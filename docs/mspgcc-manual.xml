@@ -2675,7 +2675,7 @@ in Python scripts e.g. for automatic testing, etc.
 <title>pyJTAG</title>
 <para>pyjtag is a program to use the MSP430 parallel JTAG adapters as simple
 programming tools. Just like msp430-gdbproxy, it works with the devices from
-TI, Olimex, Softbaught, and others. It works with Flash devices (MSP430F1xx
+TI, Olimex, Softbaugh, and others. It works with Flash devices (MSP430F1xx
 and F4xx), and can erase Flash and download or upload both RAM and Flash data
 in an attached device.
 </para>
@@ -2697,15 +2697,12 @@ For more a complete description, including installation notes and usage examples
 readme.txt</ulink>
 </para>
 
-<para><emphasis>Attention!</emphasis> The software needs an additional Python
-extension. Currently there are binary builds for Win32 and Linux.
-</para>
-<para>You can download the needed files here: <ulink url="_parjtag.zip">_parjtag.zip</ulink>(27k).
-</para>
 <para>Requirements:
 <itemizedlist>
-<listitem><para>Win32 version only for Python 2.2, driver for NT/2k/XP included.</para></listitem>
-<listitem><para>Linux version needs ppdev (/dev/parport0 etc.) and thus a 2.4 Kernel.</para></listitem>
+<listitem><para>MSP430 JTAG library, MSP430mspgcc.dll/so,. See "jtag/msp430" in the CVS.</para></listitem>
+<listitem><para>hardware interface library, HIL.dll/so,. See "jtag/hardware_access" in the CVS.</para></listitem>
+<listitem><para>Python extension. See "jtag/python" in the CVS.</para></listitem>
+<listitem><para>Python 2.2</para></listitem>
 </itemizedlist>
 Unpack these files to the pyjtag directory.
 </para>

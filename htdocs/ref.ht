@@ -1,0 +1,19 @@
+Title: mspgcc - References
+css: styles.css
+
+<H2>References</H2>
+<P>
+<UL>
+  <LI><A href="http://gcc.gnu.org/">gcc.gnu.org</A> GCC homepage</LI>
+  <LI><A href="http://sources.redhat.com/binutils/">sources.redhat.com/binutils/</A> Binutils homepage </LI>
+  <LI><A href="http://sourceforge.net/projects/mspgcc/">sourceforge.net/projects/mspgcc</A> (project page on SourceForge)</LI>
+  <LI><A href="http://www.python.org/">www.python.org</A> Python homepage (used by pybsl)</LI>
+  <LI><A href="http://cygwin.com/">cygwin.com</A> cygwin homepage (gcc + unix tools for windows)</LI>
+  <LI><A href="http://www.cvshome.org/">www.cvshome.org</A> CVS homepage (main CVS page)</LI>
+  <LI><A href="http://www.cvsgui.org/">www.cvsgui.org</A> CVS with GUI for Win32</LI>
+</UL>
+MSP430
+<UL>
+  <LI><A href="http://www.ti.com/sc/msp430">http://www.ti.com/sc/msp430</A> MSP430 homepage @ti.com (datasheets, app.notes, etc.)</LI>
+</UL>
+</P>

@@ -1,0 +1,65 @@
+Title: mspgcc - Tools
+css: styles.css
+
+<H2>Tools</H2>
+<H3>Overview</H3>
+<P>You've got a compiler, but what now? Here you can find some tools that make the environment more complete.
+You can find pyBSL which can communicate with the MSP430 BootStrapLoader (ROM) in Flash devices.
+</P>
+<P> JTAG download is under developement and is comming soon!
+</P>
+<P>A simulator is under development. You can step through your programms before downloading
+to a real device.</P>
+
+
+<H3>pyBSL</H3>
+<P>Software for the bootstrap loader. Works with Flash devices (MSP430F1xx and F4xx): erase and
+download new software or upload RAM or Flash data from the device back to the PC.
+</P>
+
+<P>Features:<UL>
+	<LI>loads TI-Text and Intel-hex</LI>
+	<LI>download to Flash and/or RAM, erase, verify</LI>
+	<LI>reset and wait for keypress (to run a device directly from the port power)</LI>
+	<LI>load addres into R0/PC and run</LI>
+	<LI>password file can be any datafile, e.g. the one used to program the device in an earlier session</LI>
+	<LI>upload a memory block MSP->PC (output as binary data or hex dump)</LI>
+	<LI>download a program, execute it, resynchronize and uplaod results. (for testing and calibration)</LI>
+	<LI>written in Python, runs on Win32, BSD, Linux (and other POSIX compatible systems) (and Jython)</LI>
+	<LI>use per command line, or in a Python script</LI>
+        <LI>downloadable replacement MSP430-BSLs</LI>
+</UL>
+
+For more a complete description, including installation notes and usage examples, look at the
+<A href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/pybsl/readme.txt?rev=HEAD&content-type=text/plain">
+readme.txt</A>
+</P>
+
+<P>On the <A href="http://sourceforge.net/projects/mspgcc/">project page</A> is a link to the download area where
+a tarball can be found.
+The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co pybsl</code><BR>
+</P>
+
+<H3>msp430simu</H3>
+<P>The simulator is under development. Currently it allows single stepping through programms, but
+no active peripherals are yet supported (values can be written at any address, but reading has the
+same effect as reading from RAM).
+</P>
+<P>It has a simple GUI with memory and disassembler views, logging
+output, as well as a file open dialog to select intel hex files. Or it can be embedded in Python
+scripts e.g. for automatic testing, etc
+</P>
+
+<P>Requirements:<UL>
+<LI>Python 2.1 or newer</LI>
+<LI>wxPython for the GUI only</LI>
+</UL>
+</P>
+
+<P>
+The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co msp43simu</code><BR>
+</P>

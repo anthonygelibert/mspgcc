@@ -1,0 +1,11 @@
+Title: mspgcc - MSP430 USART Baudrate Calculator
+css: styles.css
+
+<form action="http://igbt.sel.eesc.sc.usp.br/~pzn/cgi-bin/msp-uart.cgi" method="get">
+    <table border="0">
+        <TR><TD>Clock:</TD>         <TD><input type="text" name="clock" value=""> Hz</TD></TR>
+        <TR><TD>Baud rate:</TD>     <TD><input type="text" name="baud" value=""> bps</TD></TR>
+    </table>
+    <input type="submit" name="submit" value="calculate">
+</form>
+Thanks to Pedro Zorzenon Neto &lt;pzn at debian.org&gt;

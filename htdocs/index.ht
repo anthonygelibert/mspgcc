@@ -1,0 +1,56 @@
+Title: mspgcc - GCC toolchain for MSP430
+css: styles.css
+
+<H1>GCC Toolchain for MSP430</H1>
+<P>Here you can find patches to the GCC and Binutils sources which add the embedded processor MSP430
+as a new target.
+Additionally we provide tools so that an work environment can be built for your favorite machine.
+</P>
+
+<P>The compiler and assembler as our tools are targeted on multiple platform support.
+They are developed and run on BSD, Linux and Win32 systems.
+You're no longer limited to Windows when you want to use the MSP430 processor.
+</P>
+
+<P>Here is the <A href="http://sourceforge.net/projects/mspgcc/">project page on SourceForge</A>
+and here is the <A href="https://sourceforge.net/cvs/?group_id=42303">CVS repository</A>.
+There are also <A href="https://sourceforge.net/mail/?group_id=42303">mailing lists</A>.
+Below is a more detailed description of the subprojects.
+</P>
+
+<H2>GCC & Binutils</H2>
+<H3>Overview</H3>
+<P>The binutils is a collection of command line tools to work with assembler and object files for the MSP430.
+They include <B>msp430-as</B> the assembler, <B>msp430-ld</B> the linker and <B>msp430-objcopy</B> a format
+converter (e.g. create intel-hex files). The work on binutils is basicaly done. They run stable and produce
+correct code. The assembler memnonics are compatible with the TI syntax, the control commands and segment names
+are in GNU style.
+</P>
+
+<P>From the GNU Compiler Collection (gcc) we're porting the <B>C compiler</B> (C++ partly done).
+The port on gcc is still in progress watch out for beta releases, comming soon.
+</P><P>GNU C is a full featured compiler:
+ANSI C89 compatible, different levels of optimization, inline assembly, interrupt handlers
+(incl. "wakeup"), floating point etc.
+</P>
+
+<P>A C compiler isn't complete without its library. We provide a basic libc as well as libgcc and crts. These
+libraries contain math-, string- and other functions along with startup- and initialization code. Whereas libgcc is
+included in the gcc sources, the libc and crt files are a separate package.</P>
+
+<P>Where to get? The development is still very active, so not for all subprojects are archives
+available. Look in the <A href="https://sourceforge.net/project/showfiles.php?group_id=42303">
+download area</a> for archives.
+But you can easily download the latest sources with CVS. This procedure is explained below.
+</P>
+
+<P>Contributions are highly welcome. Comments and bug reports are appreciated.
+If you can test the tools, let us know of success or failure (bugs). When you want
+to extend the libraries or add new features, let us know. This is an open source project
+where everyone can make the product better.
+</P>
+
+<BR>
+Hosted on:
+<A href="http://sourceforge.net"><IMG src="http://sourceforge.net/sflogo.php?group_id=42303" width="88" height="31" border="0" alt="SourceForge Logo"></A><BR>
+this page is original location is: <A href="http://mspgcc.sourceforge.net">http://mspgcc.sourceforge.net</A>

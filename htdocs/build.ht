@@ -1,0 +1,83 @@
+Title: mspgcc - Build
+css: styles.css
+
+<H3>Requirements</H3>
+<P>
+<UL>
+  <LI>GCC sources: <code>/releases/gcc-3.0/gcc-core-3.0.tar.bz2</code> (7.5MB). Use a
+      <A href="http://gcc.gnu.org/mirrors.html">mirror</A>
+      of your choice to download this file.</LI>
+  <LI>Binutils sources: <A href="ftp://sources.redhat.com/pub/binutils/releases/binutils-2.11.tar.bz2">
+      <code>binutils-2.11.tar.bz2</code></A> (FTP, 7.5MB)</LI>
+  <LI>The patches from this project.
+      The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
+      <code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+      <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co gcc</code><BR>
+      <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co binutils</code><BR>
+      <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co msp430-libc</code><BR>
+      </LI>
+  <LI>GCC host compiler (for Windows there is <A href="http://cygwin.com/">cygwin</A>).
+      Make sure you have the following tools:<UL>
+      <LI>GNU make</LI>
+      <LI>bzip2 & tar</LI>
+      <LI>binutils and gcc host installation</LI>
+      </UL>
+  </LI>
+</UL>
+
+<H3>Build</H3>
+<P>Build instructions for Linux. On other systems you might need to write <code>gmake</code> instead of
+<code>make</code>. On cygwin leave the <code>su</code> away.
+Enter the <code style="background:lightgrey">gray marked</code> commands in a console window (e.g. BASH).
+You can unpack and compile the tools as normal user, only the installation must be done as superuser.</P>
+
+<P>First configure, build and install <B>binutils</B>:
+<BR>
+<code style="background:lightgrey">tar xIf binutils-2.11.tar.bz2</code> unpack the original GNU source tarball<BR>
+copy the files from this site in the sourcetree. On some systems (e.g. cygwin) you should use option "j" instead of "I".<BR>
+<code style="background:lightgrey">cd binutils-2.11</code> go to the binutils source tree<BR>
+<code style="background:lightgrey">./configure --target=msp430 --prefix=/usr/local/msp430</code> configure as cross assembler<BR>
+<code style="background:lightgrey">make</code> build the tools, this will take several minutes<BR>
+<code style="background:lightgrey">su</code> login as superuser<BR>
+<code style="background:lightgrey">make install</code> install the cross tools on your system.
+</P>
+
+<P>And when the binutils are ok continue to configure, build and install <B>gcc</B>.
+Make sure you've specified same <code>--prefix</code> and <code>--target</code>
+for both gcc and binutils:
+<BR>
+<code style="background:lightgrey">tar xIf gcc-core-3.0.tar.bz2</code> unpack the original GNU source tarball<BR>
+copy the files from this site in the sourcetree. On some systems (e.g. cygwin) you should use option "j" instead of "I".<BR>
+<code style="background:lightgrey">cd gcc-3.0</code> go to the gcc source tree<BR>
+<code style="background:lightgrey">./configure --target=msp430 --prefix=/usr/local/msp430</code> configure as cross compiler<BR>
+<code style="background:lightgrey">make</code> build the tools, this will take several minutes<BR>
+<code style="background:lightgrey">su</code> login as superuser<BR>
+<code style="background:lightgrey">make install</code> install the cross compiler on your system.
+</P>
+
+
+<P>Download <B>msp430-libc</B> and unpack it.<BR>
+<code style="background:lightgrey">cd msp430-libc/src</code> go to the libc sources.<BR>
+Edit Makefile and specify correct prefix if you have specified else than above for binutils and gcc.
+The default is <code>/usr/local/msp430</code><BR>
+<code style="background:lightgrey">make</code> build, this will only take a minute or less<BR>
+<code style="background:lightgrey">su</code> login as superuser<BR>
+<code style="background:lightgrey">make install</code>.
+</P><P>
+make sure you add <code>$prefix/bin</code> to the PATH in order to be able to invoke tools.
+</P>
+
+<P>Now <B>test</B> the cross compiler:<BR>
+<code style="background:lightgrey">msp430-gcc -mmcu=msp430x148 -o test -O test.c</code><BR>
+Then you can produce, for example, disassembled text:<BR>
+<code style="background:lightgrey">msp430-objdump -DS test</code><BR>
+Or intel hex output:<BR>
+<code style="background:lightgrey">msp430-objcopy -O ihex test test.ihex</code><BR>
+</P>
+
+<P><B>Tips</B>: There is a <A href="gcctips.html">collection of snippets</A> from mail messages
+between the developers, from the sourcecode etc., which might be useful.
+</P>
+
+<P>All major gcc, as, ld options supported thought.
+</P>

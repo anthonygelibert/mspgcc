@@ -2808,7 +2808,7 @@ found at
 10.5MB).</para>
 
 <para>Only the core package for <emphasis>GCC</emphasis> is required to build the C
-compiler. This can be found as the file <quote>/releases/gcc-3.2/gcc-core-3.2.3.tar.bz2</quote>
+compiler. This can be found as the file <quote>/releases/gcc-3.2.3/gcc-core-3.2.3.tar.bz2</quote>
 (about 10MB) at any of the <ulink url="http://gcc.gnu.org/mirrors.html">GNU
 mirror sites</ulink>.</para>
 

@@ -99,8 +99,7 @@ For example:
 static __inline__ uint16_t bcd_add16(register uint16_t bcd_a, register uint16_t bcd_b)
 {
     __asm__(
-        " add %[bcd_b],%[bcd_a] \n"
-        " dadd %[bcd_a],%[bcd_a] \n"
+        " dadd %[bcd_b],%[bcd_a] \n"
         : [bcd_a] "+r"(bcd_a)
         : [bcd_b] "r"(bcd_b));
     return bcd_a;
@@ -113,7 +112,7 @@ and you need not touch any assembly language for the rest of your project.
 </sect1>
 
 <sect1 id="q4">
-<title>This thing is free, so its second rate. Right?</title>
+<title>This thing is free, so it's second rate. Right?</title>
 <para>The GNU tools are used extensively in commercial work. It is naive to equate cost
 with value. The mspgcc port is currently stable, and being used to produce good quality
 commercial code. Other tools provide a more integrated GUI appearance, but do not offer

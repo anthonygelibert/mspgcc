@@ -35,9 +35,15 @@ readme.txt</A>
 </P>
 
 <P><B>Attention!</B> The software needs an additional Python extension, which is only available as
-binary. Currently there is a <B>beta</B> version for Win32. Linux version is comming soon.
+binary. Currently there is a <B>beta</B> version for Win32 and Linux.
 </P>
-<P>You can download the needed files here: <A href="_parjtag.zip">_parjtag.zip</A> (23k, only for Python 2.2).
+<P>You can download the needed files here: <A href="_parjtag.zip">_parjtag.zip</A>(20k)<BR>
+Caveats:<UL>
+    <LI>both versions are currently hardwired to LPT1
+    <LI>Win32 version only for Python 2.2
+    <LI>Linux version needs ppdev (/dev/parport0) and thus a 2.4 Kernel.
+</UL>
+<BR>
 Unpack these files to the pyjtag directory.<BR>
 An other warning: The Flash timing cannot accuartely be generated in user mode programms and thus
 this library can generate wrong clocks, which yield to bad written Flash.

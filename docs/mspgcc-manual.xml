@@ -4,7 +4,7 @@
 <!-- $Id$ -->
 <book>
   <bookinfo>
-    <date>2003-08-25</date>
+    <date>2004-02-27</date>
     <title>mspgcc</title>
     <subtitle>A port of the GNU tools to the Texas Instruments MSP430 microcontrollers</subtitle>
     <releaseinfo>documentation in progress</releaseinfo>
@@ -104,6 +104,9 @@ using the bootstrap loader (BSL) built into the MSP430 flash devices.</para>
 
 <chapter id="installing-mspgcc">
 <title>Installing mspgcc</title>
+<para>This section is for people who have platforms for which binary installers
+are available. Those who need to build mspgcc from source code should look at
+the chapter "building mpsgcc from source code".</para>
 <sect1 id="windows-installation">
 <title>Windows installation</title>
 <para>If you are running Windows 98, Me, NT, 2000 or XP you can download a one
@@ -2833,28 +2836,37 @@ and the MSP430 specific source code.</para>
 
 <sect2 id="the-basic-gnu-packages">
 <title>The basic GNU packages</title>
-<para>The source code for binutils may be obtained from the
+<para>
+You will need the standard versions of the GNU tools packages, as follows:
+<itemizedlist>
+<listitem><para>The source code for binutils may be obtained from the
 <ulink url="http://sources.redhat.com/binutils/">official binutils web-site</ulink>.
 Versions of binutils beginning with 2.14 contain support for the MSP430. This can be
 found at
 <ulink url="ftp://sources.redhat.com/pub/binutils/releases/binutils-2.14.tar.bz2">
 <quote>ftp://sources.redhat.com/pub/binutils/releases/binutils-2.14.tar.bz2</quote></ulink> (about
-10.5MB).</para>
+10.5MB).</para></listitem>
 
-<para>Only the core package for <emphasis>GCC</emphasis> is required to build the C
+<listitem><para>Only the core package for <emphasis>GCC</emphasis> is required to build the C
 compiler. This can be found as the file <quote>/releases/gcc-3.2.3/gcc-core-3.2.3.tar.bz2</quote>
 (about 10MB) at any of the <ulink url="http://gcc.gnu.org/mirrors.html">GNU
-mirror sites</ulink>.</para>
+mirror sites</ulink>.</para></listitem>
 
-<para>The source code for GDB and Insight (GDB + a GUI) may be obtained from the
+<listitem><para>The source code for GDB may be obtained from the
 <ulink url="http://sources.redhat.com/gdb/">official GDB web-site</ulink>. The source
 code for GDB 5.1.1 may be found at
 <ulink url="ftp://sources.redhat.com/pub/gdb/old-releases/gdb-5.1.1.tar.bz2">
 <quote>ftp://sources.redhat.com/pub/gdb/old-releases/gdb-5.1.1.tar.bz2</quote></ulink>
-(about 10.5MB). The source for Insight 5.1.1 may be found at
+(about 10.5MB).</para></listitem>
+
+<listitem><para>The source code for Insight (GDB + a GUI) may be obtained from the
+<ulink url="http://sources.redhat.com/gdb/">official GDB web-site</ulink>. The source
+code for Insight 5.1.1 may be found at
 <ulink url="ftp://sources.redhat.com/pub/gdb/old-releases/insight-5.1.1.tar.bz2">
 <quote>ftp://sources.redhat.com/pub/gdb/old-releases/insight-5.1.1.tar.bz2</quote>
-</ulink> (about 15.5MB).</para>
+</ulink> (about 15.5MB).</para></listitem>
+</itemizedlist>
+</para>
 </sect2>
 
 <sect2 id="the-mspgcc-specific-code">

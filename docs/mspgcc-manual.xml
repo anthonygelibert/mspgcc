@@ -2167,7 +2167,7 @@ ensure the assembly language is efficiently and compatibly handled. For
 example
 <programlisting role="C">    asm("add %[bar],%[foo]"
         : [foo] "=r" (foo)
-        : [foo] "r" (foo), [bar] "m" (bar));
+        : "[foo]" (foo), [bar] "m" (bar));
 </programlisting>
 is equivalent to
 <programlisting role="C">foo += bar;
@@ -2898,16 +2898,15 @@ compiled.</para>
 <para>Next, configure, build and install <emphasis>GCC</emphasis>. Make sure you specify the
 same <quote>--prefix</quote> and <quote>--target</quote> that you specified for
 <emphasis>binutils</emphasis>. Unpack the source code, as follows:
-<blockquote>
-<literallayout>tar --bzip2 -xf gcc-core-3.2.3.tar.bz2
-</literallayout>
-</blockquote>
+<screen><prompt>$</prompt> <userinput>tar --bzip2 -xf gcc-core-3.2.3.tar.bz2</userinput>
+</screen>
 Copy the files from the <quote>gcc/gcc-3.3</quote> directory in the CVS repository
 at the mspgcc web-site into the unpacked <emphasis>GCC</emphasis> source tree. The mismatch between
 the numbering of <emphasis>GCC</emphasis> and this directory is an historical accident. You really
-do want the <quote>gcc/gcc-3.3</quote> to go with <emphasis>GCC</emphasis> version 3.2.3. Now
-build and install <emphasis>GCC</emphasis> with the following commands:
-<screen><prompt>$</prompt> <userinput>cd gcc-3.2.3</userinput>
+do want the <quote>gcc/gcc-3.3</quote> to go with <emphasis>GCC</emphasis> version 3.2.3. To copy
+these files, and build and install <emphasis>GCC</emphasis>, use the following commands:
+<screen><prompt>$</prompt> <userinput>cp -a gcc/gcc-3.3/* gcc-3.2.3</userinput>
+<prompt>$</prompt> <userinput>cd gcc-3.2.3</userinput>
 <prompt>$</prompt> <userinput>./configure --target=msp430 --prefix=/usr/local/msp430</userinput>
 <prompt>$</prompt> <userinput>make</userinput>
 <prompt>$</prompt> <userinput>su</userinput>

@@ -1,23 +1,23 @@
 # Make rules for mspgcc.sf.net ht->html generation.  SOURCES
 # indirection filters out "*.ht" value when no ht files are around.
-THEUSER = cliechti@mspgcc.sf.net
+THEUSER = $(shell cat username)
 
 SOURCES =	$(shell echo *.ht)
 TARGETS =	$(filter-out *.html,$(SOURCES:%.ht=%.html)) $(EXTRA_TARGETS)
 GENERATED_HTML= $(SOURCES:.ht=.html)
 
 HTROOT = 	.
-HT2HTML =	D:/prog/python/_thirdparty/ht2html/ht2html.py
+HT2HTML =	ht2html/ht2html.py
 HTSTYLE =	mspgccGenerator
 HTALLFLAGS =	-f -s $(HTSTYLE)
 HTFLAGS =	$(HTALLFLAGS) -r $(HTROOT)
 
 DEST = 		$(THEUSER):/home/groups/m/ms/mspgcc/htdocs
 CGIDEST = 	$(THEUSER):/home/groups/m/ms/mspgcc/cgi-bin
-EXCLUDES =	--exclude=CVS --exclude=cgi-bin
+EXCLUDES =	--exclude=CVS --exclude=cgi-bin --exclude=ht2html
 CGIEXCLUDES =	--exclude=CVS --exclude=not_the_real_cgi_here.txt
-ARGS = 		--rsh=ssh -v -r -l -t --update --delete $(EXCLUDES)
-CGIARGS = 	--rsh=ssh -v -r -l -t --update --delete $(CGIEXCLUDES)
+RARGS = 	--rsh=ssh -v -r -l -t --update --delete $(EXCLUDES)
+CGIRARGS = 	--rsh=ssh -v -r -l -t --update --delete $(CGIEXCLUDES)
 
 .SUFFIXES:	.ht .html
 
@@ -26,6 +26,7 @@ CGIARGS = 	--rsh=ssh -v -r -l -t --update --delete $(CGIEXCLUDES)
 
 all: $(TARGETS)
 
+#dependencies for the ht files
 $(TARGETS): links.h
 
 clean:
@@ -35,7 +36,10 @@ clean:
 install: docinstall cgiinstall
 
 docinstall: all
-	rsync $(ARGS) . $(DEST)
+	rsync $(RARGS) . $(DEST)
 
 cgiinstall:
-	rsync $(CGIARGS) cgi-bin/ $(CGIDEST)
+	rsync $(CGIRARGS) cgi-bin/ $(CGIDEST)
+
+username:
+	echo $(USER)@mspgcc.sf.net >$@

@@ -350,5 +350,35 @@ void the_place_to_jump_to(void)
 </programlisting>
 </para>
 </sect1>
+<sect1 id="q14">
+<title>I keep loosing communication with the target processor, when using
+msp430-gdbproxy and a FET tool. Is mspgcc buggy?</title>
+<para>No doubt there are bugs in mspgcc, but don't blame all your FET tools
+problems on them! People seem to have various problems with FET tools, for
+a variety of reasons.
+<itemizedlist>
+<listitem><para> Communication between your PC and your target processor
+can be affected by ground noise. Ground noise explains some of the problems
+people see. When the target is self-powered (rather than powered from the FET
+tool), and you switch the target off and on, the FET tool sometimes seems
+unable to resynchronise with the target. How troublesome this is seems to
+depend on the particular board design.</para></listitem>
+<listitem><para>If you have an early FET TI tool, which has not been modified
+as per the TI note on this subject, modify it. That causes trouble for some
+people with fast PC (i.e. anything fairly recent).</para></listitem>
+<listitem><para>Do not extend the cable between the FET tool and your target.
+This is asking for trouble.</para></listitem>
+<listitem><para>Some people have reported that if their parallel port is set
+to anything other than SPP mode in the computer's BIOS, they get problems.
+Possibly working in EPP, or other enhanced modes, adversely affects the port's
+timing on these machines.</para></listitem>
+<listitem><para>Some people have trouble with the FET tools when using some
+models of IBM ThinkPad. The signal voltages seem lower than usual on these
+machines, and do not drive the FET tool reliably.</para></listitem>
+</itemizedlist>
+You may notice that none of these issues is specific to mspgcc. They tend to
+affect users of any of the MSP430 tools, under Windows, Linux or BSD.
+</para>
+</sect1>
 </article>
 </book>

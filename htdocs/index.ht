@@ -18,9 +18,14 @@ MSP430 development is no longer limited to Windows!
 </P>
 
 <P>Here is the <A href="http://sourceforge.net/projects/mspgcc/">project page on SourceForge</A>,
-and here is the <A href="http://sourceforge.net/project/showfiles.php?group_id=42303">download area</a>,
-the <A href="http://sourceforge.net/cvs/?group_id=42303">CVS repository</A>,
-and the <A href="http://sourceforge.net/mail/?group_id=42303">mailing lists</A>.
+the <A href="http://sourceforge.net/project/showfiles.php?group_id=42303">download area</a>
+and the <A href="http://sourceforge.net/cvs/?group_id=42303">CVS repository</A>.
+The <A href="http://sourceforge.net/mail/?group_id=42303">mailing lists</A>, especialy the
+mspgcc-users list is a good place for discussions about mspgcc, sugestions, bugreports, ...
+The <a href="http://mspgcc.sourceforge.net/manual/">online manual</a> covers the MSP430
+as processor, the gcc extensions of this port and finaly build
+instructions for those who need to build the toolchain from source.
+The <a href="http://mspgcc.sourceforge.net/faq/">FAQ</a> may be of interest too.
 </P>
 
 <H2>GCC & Binutils</H2>
@@ -33,7 +38,7 @@ available at <A href="http://sources.redhat.com/binutils">http://sources.redhat.
 now contains this MSP430 support.
 </P>
 
-<P>From the GNU Compiler Collection (gcc) we have ported the <B>C compiler</B> (C++ is also partly done).
+<P>From the GNU Compiler Collection (gcc) we have ported the <B>C compiler</B> (C++ without libstdc++).
 </P><P>GNU C is a full featured compiler:
 ANSI C89 compatible, different levels of optimization, inline assembly, interrupt handlers
 (incl. "wakeup"), floating point etc.

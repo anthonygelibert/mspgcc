@@ -49,7 +49,7 @@ same effect as reading from RAM).
 </P>
 <P>It has a simple GUI with memory and disassembler views, logging
 output, as well as a file open dialog to select intel hex files. Or it can be embedded in Python
-scripts e.g. for automatic testing, etc
+scripts e.g. for automatic testing, etc.
 </P>
 
 <P>Requirements:<UL>
@@ -62,4 +62,8 @@ scripts e.g. for automatic testing, etc
 The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
 <code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
 <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co msp43simu</code><BR>
+</P>
+
+<P>
+Note that GDB has a simulation part too, though the simulators don't solve the same problems.
 </P>

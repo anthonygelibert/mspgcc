@@ -1,6 +1,12 @@
 Title: mspgcc - GCC toolchain for MSP430
 css: styles.css
 
+<P><B>NEW</B><br>
+Binary build for Win32 available. You can get it here: 
+<a href="http://www.mikrocontroller.net/msp430.en.htm">http://www.mikrocontroller.net/msp430.en.htm</a><br>
+ - thanks to Andreas Schwarz
+</P>
+
 <P><B>Help Wanted</B><br>
 Interested in participating in a open source project? We have some interesting stuff to work on:<UL>
 <LI>Help with floating point library
@@ -43,11 +49,11 @@ ANSI C89 compatible, different levels of optimization, inline assembly, interrup
 libraries contain math-, string- and other functions along with startup- and initialization code. Whereas libgcc is
 included in the gcc sources, the libc and crt files are a separate package.</P>
 
-<P>Where to get? The development is still very active, so not for all subprojects are archives
-available. Look in the <A href="https://sourceforge.net/project/showfiles.php?group_id=42303">
-download area</a> for archives.
+<P>Where to get? Not for all subprojects are archives available.
 But you can easily download the latest sources with CVS. This procedure is explained
 <a href="http://sourceforge.net/cvs/?group_id=42303">here</a>.
+Look in the <A href="https://sourceforge.net/project/showfiles.php?group_id=42303">
+download area</a> for archives.
 </P>
 
 <P><A href="contribute.html">Contributions</A> are highly welcome. Comments and bug reports are

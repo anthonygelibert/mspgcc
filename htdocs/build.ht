@@ -33,6 +33,8 @@ css: styles.css
     <LI>msp430-libc - release_1
     <LI>gdb - beta
 </UL>
+We're trying to keep the sources in the CVS in a stable state at any time, so you can easily check
+out the HEAD version.
 </P>
 
 <H3>Build</H3>
@@ -45,8 +47,8 @@ You can unpack and compile the tools as normal user, only the installation must 
 
 <P>First configure, build and install <B>binutils</B>:
 <BR>
-<code style="background:lightgrey">tar xIf binutils-2.11.tar.bz2</code> unpack the original GNU source tarball<BR>
-copy the files from this site in the sourcetree. On some systems (e.g. cygwin) you should use option "j" instead of "I".<BR>
+<code style="background:lightgrey">tar --bzip2 -xf binutils-2.11.tar.bz2</code> unpack the original GNU source tarball<BR>
+copy the files from this site in the sourcetree.<BR>
 <code style="background:lightgrey">cd binutils-2.11</code> go to the binutils source tree<BR>
 <code style="background:lightgrey">./configure --target=msp430 --prefix=/usr/local/msp430</code> configure as cross assembler<BR>
 <code style="background:lightgrey">make</code> build the tools, this will take several minutes<BR>
@@ -58,8 +60,8 @@ copy the files from this site in the sourcetree. On some systems (e.g. cygwin) y
 Make sure you've specified same <code>--prefix</code> and <code>--target</code>
 for both gcc and binutils:
 <BR>
-<code style="background:lightgrey">tar xIf gcc-core-3.0.tar.bz2</code> unpack the original GNU source tarball<BR>
-copy the files from this site in the sourcetree. On some systems (e.g. cygwin) you should use option "j" instead of "I".<BR>
+<code style="background:lightgrey">tar --bzip2 -xf gcc-core-3.0.tar.bz2</code> unpack the original GNU source tarball<BR>
+copy the files from this site in the sourcetree.<BR>
 <code style="background:lightgrey">cd gcc-3.0</code> go to the gcc source tree<BR>
 <code style="background:lightgrey">./configure --target=msp430 --prefix=/usr/local/msp430</code> configure as cross compiler<BR>
 <code style="background:lightgrey">make</code> build the tools, this will take several minutes<BR>

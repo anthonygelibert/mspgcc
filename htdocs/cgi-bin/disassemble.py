@@ -87,11 +87,11 @@ def addressMode(bytemode, as = None, ad = None, src = None, dest = None):
                 c = c + 1  #modifying PC gives one cycle penalty
         else:
             if dest == 0:   #PC relative
-                y = '%%(y)s'
+                y = '%(y)s'
                 #y = IndexedRegisterArgument(core, reg=core.PC, offset=pc.next(), bytemode=bytemode)
                 c = c + 3  #fetch + read modify write
             elif dest == 2: #abs
-                y = '&%%(y)s'
+                y = '&%(y)s'
                 #y = MemoryArgument(core, address=pc.next(), bytemode=bytemode)
                 c = c + 3  #fetch + read modify write
             else:           #indexed
@@ -143,6 +143,7 @@ def disassemble(words):
         x = y = None
         if len(words) < 3: words.extend(['UNKNOWN', 'UNKNOWN'])
         opcode = words[0]
+        words = words[1:]   #pop used value
         #single operand
         if ((opcode & 0xf000) == 0x1000 and
                 ((opcode>>7)&0x1f in singleOperandInstructions.keys())
@@ -154,7 +155,7 @@ def disassemble(words):
                 )
             name, addcyles = singleOperandInstructions[(opcode>>7) & 0x1f]
             cycles = cycles + c + addcyles #some functions have additional cycles (push etc)
-            return "%s%s %s" % (name, (bytemode and '.b' or ''), x%{'x':words[1]}), cycles
+            return "%s%s %s" % (name, (bytemode and '.b' or ''), x%{'x':words[0]}), cycles
 
         #double operand
         elif (opcode>>12)&0xf in doubleOperandInstructions.keys():
@@ -167,7 +168,10 @@ def disassemble(words):
                 )
             name, addcyles = doubleOperandInstructions[(opcode>>12) & 0xf]
             cycles = cycles + c + addcyles #some functions have additional cycles (push etc)
-            return "%s%s %s, %s" % (name, (bytemode and '.b' or ''), x%{'x':words[1]}, y%{'y':words[1]}), cycles
+            if '%' in x:
+                x = x % {'x':words[0]}
+                words = words[1:]   #pop used value
+            return "%s%s %s, %s" % (name, (bytemode and '.b' or ''), x, y%{'y':words[0]}), cycles
 
         #jump instructions
         elif ((opcode & 0xe000) == 0x2000 and

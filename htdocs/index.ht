@@ -1,14 +1,12 @@
 Title: mspgcc - GCC toolchain for MSP430
 css: styles.css
 
-<P><B>NEW</B><br>
-<LI>2002.10.30: Test versions of a new JTAG debugging interface for Linux
-    and Windows are available for download. See the 
-    <A href="tools.html#rproxy">tools</A> page for more info.<BR>
+<!-- <P><B>NEW</B><br>
+<LI>2002.10.30: ...<BR>
 <BR>
 Older news are <A href="news.html">here</A>.
 </P>
-
+ -->
 <H1>GCC Toolchain for MSP430</H1>
 <P>Here you can find patches to the GCC and Binutils sources which add the embedded processor MSP430
 as a new target.
@@ -21,8 +19,9 @@ You're no longer limited to Windows when you want to use the MSP430 processor.
 </P>
 
 <P>Here is the <A href="http://sourceforge.net/projects/mspgcc/">project page on SourceForge</A>
-and here is the <A href="https://sourceforge.net/cvs/?group_id=42303">CVS repository</A>.
-There are also <A href="https://sourceforge.net/mail/?group_id=42303">mailing lists</A>.
+and here is the <A href="https://sourceforge.net/project/showfiles.php?group_id=42303">download area</a>,
+the <A href="https://sourceforge.net/cvs/?group_id=42303">CVS repository</A>.
+and the <A href="https://sourceforge.net/mail/?group_id=42303">mailing lists</A>.
 Below is a more detailed description of the subprojects.
 </P>
 

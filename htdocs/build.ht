@@ -4,11 +4,11 @@ css: styles.css
 <H3>Requirements</H3>
 <P>
 <UL>
-  <LI>GCC sources: <code>/releases/gcc-3.2/gcc-core-3.2.tar.bz2</code> (9.9MB). Use a
+  <LI>GCC sources: <code>/releases/gcc-3.2/gcc-core-3.2.3.tar.bz2</code> (10MB). Use a
       <A href="http://gcc.gnu.org/mirrors.html">mirror</A>
       of your choice to download this file.</LI>
-  <LI>Binutils sources: <A href="ftp://sources.redhat.com/pub/binutils/releases/binutils-2.11.tar.bz2">
-      <code>binutils-2.11.tar.bz2</code></A> (FTP, 7.5MB)</LI>
+  <LI>Binutils, a recent snapshot. The official distribution contains our MSP430 support: <A href="ftp://sources.redhat.com/pub/binutils/snapshots">
+      <code>ftp://sources.redhat.com/pub/binutils/snapshots</code></A></LI>
   <LI>optionaly GDB sources: <A href="ftp://sources.redhat.com/pub/gdb/old-releases/gdb-5.1.1.tar.bz2">
       <code>gdb-5.1.1.tar.bz2</code></A> (FTP, 10.5MB)<BR>
       alternatively: GDB with integrated "Insight" GUI (recomended for win32/cygwin):<BR>
@@ -20,7 +20,6 @@ css: styles.css
       The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
       <code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
       <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co gcc</code><BR>
-      <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co binutils</code><BR>
       <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co msp430-libc</code><BR>
       <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co gdb</code><BR>
       </LI>
@@ -30,9 +29,9 @@ css: styles.css
       <LI>bzip2 & tar</LI>
       <LI>binutils and gcc host installation</LI>
       </UL>
-    Note: a Windows binary build is available from
-    <a href="http://www.mikrocontroller.net/msp430.en.htm">http://www.mikrocontroller.net/msp430.en.htm</a>
-    (installer, built with MinGW, no cygwin needed)
+    Note: a Windows binary build is available in our downloads section: 
+        <A href="http://sourceforge.net/project/showfiles.php?group_id=42303">
+        mspgcc-win32 downloads</A>
   </LI>
 </UL>
 
@@ -54,13 +53,12 @@ out the HEAD version.
 You can also look <A href="doc_install.html">here</A> for an other description.
 </P>
 <P>Enter the <code style="background:lightgrey">gray marked</code> commands in a console window (e.g. BASH).
-You can unpack and compile the tools as normal user, only the installation must be done as superuser.</P>
+You can unpack to you home directory and compile the tools as normal user, only the installation must be done as superuser.</P>
 
 <P>First configure, build and install <B>binutils</B>:
 <BR>
-<code style="background:lightgrey">tar --bzip2 -xf binutils-2.11.tar.bz2</code> unpack the original GNU source tarball<BR>
-copy the files from this site in the sourcetree.<BR>
-<code style="background:lightgrey">cd binutils-2.11</code> go to the binutils source tree<BR>
+<code style="background:lightgrey">tar --bzip2 -xf binutils-030503.tar.bz2</code> unpack the original GNU source tarball (you may also use the most recent snapshot instead of the one shown here)<BR>
+<code style="background:lightgrey">cd binutils-030503</code> go to the binutils source tree<BR>
 <code style="background:lightgrey">./configure --target=msp430 --prefix=/usr/local/msp430</code> configure as cross assembler<BR>
 <code style="background:lightgrey">make</code> build the tools, this will take several minutes<BR>
 <code style="background:lightgrey">su</code> login as superuser<BR>
@@ -69,11 +67,11 @@ copy the files from this site in the sourcetree.<BR>
 
 <P>And when the binutils are ok continue to configure, build and install <B>gcc</B>.
 Make sure you've specified same <code>--prefix</code> and <code>--target</code>
-for both gcc and binutils:
+for both gcc and binutils, the msp430-binutils should be in the PATH:
 <BR>
-<code style="background:lightgrey">tar --bzip2 -xf gcc-core-3.2.tar.bz2</code> unpack the original GNU source tarball<BR>
+<code style="background:lightgrey">tar --bzip2 -xf gcc-core-3.2.3.tar.bz2</code> unpack the original GNU source tarball<BR>
 copy the files from this site in the sourcetree. You need to the the files from the gcc-3.3 directory of mspgcc (yes, that's right)<BR>
-<code style="background:lightgrey">cd gcc-3.2</code> go to the gcc source tree<BR>
+<code style="background:lightgrey">cd gcc-3.2.3</code> go to the gcc source tree<BR>
 <code style="background:lightgrey">./configure --target=msp430 --prefix=/usr/local/msp430</code> configure as cross compiler<BR>
 <code style="background:lightgrey">make</code> build the tools, this will take several minutes<BR>
 <code style="background:lightgrey">su</code> login as superuser<BR>
@@ -83,13 +81,13 @@ copy the files from this site in the sourcetree. You need to the the files from 
 
 <P>Download <B>msp430-libc</B> and unpack it.<BR>
 <code style="background:lightgrey">cd msp430-libc/src</code> go to the libc sources.<BR>
-Edit Makefile and specify correct prefix if you have specified else than above for binutils and gcc.
+Edit Makefile and specify correct prefix if you have specified, for binutils and gcc, something else than shown above.
 The default is <code>/usr/local/msp430</code><BR>
 <code style="background:lightgrey">make</code> build, this will only take a minute or less<BR>
 <code style="background:lightgrey">su</code> login as superuser<BR>
 <code style="background:lightgrey">make install</code>.
 </P><P>
-make sure you add <code>$prefix/bin</code> to the PATH in order to be able to invoke tools.
+Make sure you add <code>$prefix/bin</code> to the PATH in order to be able to invoke tools.
 </P>
 
 <P>Now build and install <B>gdb</B>. This procedure works equaly for insight-5.1.1, just replace "gdb"

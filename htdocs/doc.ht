@@ -6,7 +6,15 @@ links: doc_links.h
 
 <P>Specific features, installation and usage of this port is
 documented <a href="doc_intro.html">here</a>.
-Please use the navigation links on the left side.</P>
+Please use the navigation links on the left side.
+You may also look at the
+<A href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/msp430-libc/doc/doc.txt?rev=HEAD&content-type=text/plain">original Text file</A>
+in CVS which may be more recent.</P>
+
+<P>There is also a document with <A href="faq.html">Frequenly Asked Questions (FAQ)</A>.
+You may also look at the
+<A href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/msp430-libc/doc/FAQ?rev=HEAD&content-type=text/plain">original Text file</A>
+in CVS which may be more recent.</P>
 
 <P>The main book about GCC is
 <A href="http://gcc.gnu.org/onlinedocs/gcc-3.0/gcc.html">
@@ -21,4 +29,5 @@ see here for a list: <A href="http://sourceforge.net/mail/?group_id=42303">mspgc
 <P>There are some newsgroups too:
 <LI><A href="news:gnu.gcc.help">gnu.gcc.help</A> - generic questions on GCC
 <LI><A href="news:gnu.utils.help">gnu.utils.help</A> - questions on other GNU tools like "make"
+<LI><A href="news:comp.arch.embedded">comp.arch.embedded</A> - questions around embedded systems
 </P>

@@ -1,11 +1,12 @@
-Title: mspgcc - References
+Title: mspgcc - Links
 css: styles.css
 
-<H2>References</H2>
+<H2>Links</H2>
 <P>
-MSP430
+MSP430 Hardware
 <UL>
-  <LI><A href="http://www.ti.com/sc/msp430">http://www.ti.com/sc/msp430</A> MSP430 homepage @TI.com (datasheets, app.notes, etc.)</LI>
+  <LI><A href="http://www.ti.com/sc/msp430">www.ti.com/sc/msp430</A> TI MSP430 homepage (datasheets, app.notes, etc.)</LI>
+  <LI><A href="http://www.olimex.com/dev">www.olimex.com/dev</A> JTAG adapters, prototype boards</LI>
 </UL>
 
 GNU and other tools
@@ -14,7 +15,7 @@ GNU and other tools
   <LI><A href="http://sources.redhat.com/binutils">sources.redhat.com/binutils</A> Binutils homepage </LI>
   <LI><A href="http://sourceforge.net/projects/mspgcc/">sourceforge.net/projects/mspgcc</A> (project page on SourceForge)</LI>
   <LI><A href="http://www.python.org/">www.python.org</A> Python homepage (used by some tools)</LI>
-  <LI><A href="http://cygwin.com/">cygwin.com</A> cygwin homepage (gcc + unix tools for Windows)</LI>
+  <LI><A href="http://cygwin.com/">cygwin.com</A> cygwin homepage (gcc + un*x tools for Windows)</LI>
 </UL>
 
 CVS

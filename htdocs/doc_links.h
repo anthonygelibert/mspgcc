@@ -1,6 +1,8 @@
 <!-- -*- html -*- -->
 
 <h3>Documentation</h3>
+<li><a href="doc.html">Overview</a>
+<li><a href="faq.html">FAQ</a>
 <li><a href="doc_intro.html">1. Introduction.</a>
 <li><a href="doc_install.html">2. Installing the GNU Tools</a>
 <li><a href="doc_using.html">3. Using the GNU Tools</a>

@@ -6,7 +6,7 @@
 <li><a href="tools.html">Tools</a>
 <li><a href="contribute.html">Contribute</a>
 <li><a href="doc.html">Documentation</a>
-<li><a href="ref.html">References</a>
+<li><a href="ref.html">Links</a>
 
 <h3>Useful</h3>
 <LI><A href="baudrate.html">BaudrateCalc</A>
@@ -18,4 +18,3 @@
 <LI><A href="http://sources.redhat.com/binutils/">Binutils&nbsp;home</A>
 <LI><A href="http://python.org/">Python.org</A>
 <LI><A href="http://cygwin.com/">Cygwin</A>
-

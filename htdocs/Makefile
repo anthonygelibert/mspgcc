@@ -27,7 +27,7 @@ CGIRARGS = 	--rsh=ssh -v -r -l -t --update --delete $(CGIEXCLUDES)
 all: $(TARGETS)
 
 #dependencies for the ht files
-$(TARGETS): links.h
+$(TARGETS): links.h doc_links.h
 
 clean:
 	-rm -f *~

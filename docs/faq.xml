@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1.2//EN" "docbook/xml-dtd-4.1.2/docbookx.dtd">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<!-- $Id$ -->
 <book>
 <article>
   <articleinfo>
-    <date>2003-06-06</date>
+    <date>2003-08-14</date>
     <title>mspgcc and C for the MSP430 FAQ</title>
     <subtitle>FAQ</subtitle>
     <releaseinfo>documentation in progress</releaseinfo>

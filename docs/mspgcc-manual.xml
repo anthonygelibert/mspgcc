@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1.2//EN" "docbook/xml-dtd-4.1.2/docbookx.dtd">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<!-- $Id$ -->
 <book>
   <bookinfo>
-    <date>2003-06-12</date>
+    <date>2003-08-14</date>
     <title>mspgcc</title>
     <subtitle>A port of the GNU tools to the Texas Instruments MSP430 microcontrollers</subtitle>
     <releaseinfo>documentation in progress</releaseinfo>
@@ -55,11 +57,8 @@ get help with any problems they may find using mspgcc.</para>
 <sect1 id="the-gnu-binutils">
 <title>The GNU Binutils</title>
 <para>The GNU assembler, linker and various support utilities are collectively
-known as 'binutils'. The mspgcc port of binutils has been merged into the
-official version. However, at the time of writing there is no official
-release of binutils containing MSP430 support. There are development
-snapshots available, and all future official releases should contain
-MSP430 support.</para>
+known as 'binutils'. Beginning with version 2.14, the official releases of binutils
+contain support for the MSP430 processors.</para>
 </sect1>
 
 <sect1 id="the-gnu-gcc-c-compiler">
@@ -579,11 +578,11 @@ the sign-extended offset to the PC, for a jump range of -1024 to +1022.
 <tbody>
 <row><entry>000</entry><entry>JNE/JNZ</entry><entry>Jump if Z==0 (if !=)</entry></row>
 <row><entry>001</entry><entry>JEQ/Z</entry><entry>Jump if Z==1 (if ==)</entry></row>
-<row><entry>010</entry><entry>JNC/JLO</entry><entry>Jump if C==0 (if unsigned <)</entry></row>
+<row><entry>010</entry><entry>JNC/JLO</entry><entry>Jump if C==0 (if unsigned &lt;)</entry></row>
 <row><entry>011</entry><entry>JC/JHS</entry><entry>Jump if C==1 (if unsigned >=)</entry></row>
 <row><entry>100</entry><entry>JN</entry><entry>Jump if N==1  Note there is no "JP" if N==0!</entry></row>
 <row><entry>101</entry><entry>JGE</entry><entry>Jump if N==V (if signed >=)</entry></row>
-<row><entry>110</entry><entry>JL</entry><entry>Jump if N!=V (if signed <)</entry></row>
+<row><entry>110</entry><entry>JL</entry><entry>Jump if N!=V (if signed &lt;)</entry></row>
 <row><entry>111</entry><entry>JMP</entry><entry>Jump unconditionally</entry></row>
 </tbody>
 </tgroup>
@@ -2671,7 +2670,7 @@ in Python scripts e.g. for automatic testing, etc.
 </para>
 </sect2>
 
-<sect2 ide="pyjtag">
+<sect2 id="pyjtag">
 <title>pyJTAG</title>
 <para>pyjtag is a program to use the MSP430 parallel JTAG adapters as simple
 programming tools. Just like msp430-gdbproxy, it works with the devices from
@@ -2753,15 +2752,14 @@ and the MSP430 specific source code.</para>
 <title>The basic GNU packages</title>
 <para>The source code for binutils may be obtained from the
 <ulink url="http://sources.redhat.com/binutils/">official binutils web-site</ulink>.
-At the time of writing it is necessary to use a recent snapshot, as the first
-full release of binutils since MSP430 support was merged has not occurred.
-Recent snapshots can be found at
-<ulink url="ftp://sources.redhat.com/pub/binutils/snapshots">
-<quote>ftp://sources.redhat.com/pub/binutils/snapshots</quote></ulink> (about
-10.5MB). The snapshot from 030503 is known to work OK.</para>
+Versions of binutils beginning with 2.14 contain support for the MSP430. This can be
+found at
+<ulink url="ftp://sources.redhat.com/pub/binutils/releases/binutils-2.14.tar.bz2">
+<quote>ftp://sources.redhat.com/pub/binutils/releases/binutils-2.14.tar.bz2</quote></ulink> (about
+10.5MB).</para>
 
-<para>Only the core package for <emphasis>GCC</emphasis> is required to build the C compiler. This can
-be found as the file <quote>/releases/gcc-3.2/gcc-core-3.2.3.tar.bz2</quote>
+<para>Only the core package for <emphasis>GCC</emphasis> is required to build the C
+compiler. This can be found as the file <quote>/releases/gcc-3.2/gcc-core-3.2.3.tar.bz2</quote>
 (about 10MB) at any of the <ulink url="http://gcc.gnu.org/mirrors.html">GNU
 mirror sites</ulink>.</para>
 

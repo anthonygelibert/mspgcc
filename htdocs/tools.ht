@@ -74,7 +74,9 @@ to debug real MSP430 programs. They support most of the gdb remote protocol.
 and for Windows users we have 
 <A href="http://mspgcc.sourceforge.net/rproxy-20021030.exe">this</A>, which
 should be used with <A href="http://mspgcc.sourceforge.net/HIL.dll">this DLL</A>.
-Remember these are works in progress, but they are doing useful work for me.
+Don't forget to install GIVEIO if you're using Windows NT/2k/XP (Don't use on Win95/98/ME):
+<A href=http://sourceforge.net/project/showfiles.php?group_id=42303&release_id=119787>download installer</A>.<BR>
+Remember these are works in progress, but they are doing useful work for us.
 The source for HIL.dll can be found in CVS (this part is open source already).
 </P>
 

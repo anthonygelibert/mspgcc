@@ -8,8 +8,8 @@
     <releaseinfo>documentation in progress</releaseinfo>
     <authorgroup>
       <author>
-	<firstname>Steve</firstname>
-	<surname>Underwood</surname>
+        <firstname>Steve</firstname>
+        <surname>Underwood</surname>
       </author>
     </authorgroup>
     <address>
@@ -21,8 +21,8 @@
     </copyright>
     <legalnotice>
       <para>
-	This document can be freely redistributed according to the
-	terms of the GNU General Public License.
+        This document can be freely redistributed according to the
+        terms of the GNU General Public License.
       </para>
     </legalnotice>
   </bookinfo>
@@ -53,7 +53,7 @@ the <ulink url="http://www.gnu.org">GNU</ulink> website, or one their mirrors.</
 get help with any problems they may find using mspgcc.</para>
 
 <sect1 id="the-gnu-binutils">
-<title>The GNU Binutils.</title>
+<title>The GNU Binutils</title>
 <para>The GNU assembler, linker and various support utilities are collectively
 known as 'binutils'. The mspgcc port of binutils has been merged into the
 official version. However, at the time of writing there is no official
@@ -63,7 +63,7 @@ MSP430 support.</para>
 </sect1>
 
 <sect1 id="the-gnu-gcc-c-compiler">
-<title>The GNU GCC C Compiler.</title>
+<title>The GNU GCC C Compiler</title>
 <para>The mspgcc port of the GNU C compiler is currently based on version
 3.2.3 of GNU GCC. It supports all the current variants of the MSP430
 processor, and comes with a full set of header files for the processors,
@@ -79,7 +79,7 @@ into the official GNU GCC releases.</para>
 </sect1>
 
 <sect1 id="the-gnu-gdb-and-insight-debuggers">
-<title>The GNU GDB and Insight debuggers.</title>
+<title>The GNU GDB and Insight debuggers</title>
 <para>The mspgcc port of the GNU GDB debugger is currently based on version
 5.1.1. This can be used with the Texas Instruments JTAG interface when used
 with an additional program called msp430-gdbproxy, and a TI FET tool. GDB is
@@ -147,12 +147,17 @@ installations of Linux with kernels greater than 2.4.0 can fully support
 mspgcc. Some versions of BSD Unix can too. On other Unix like platforms
 everything except the JTAG interface should work OK. The JTAG interface
 requires raw access to a parallel port. Drivers for this no not
-currently exist for older versions of the Linux kernel</para>
+currently exist for older versions of the Linux kernel.</para>
 
 <para>If you are running a version of the Linux kernel earlier than 2.4.0
 you will not be able to drive the JTAG interface. The driver needed for
 raw access to the parallel port does not exist for these kernels. However,
 you can still use the rest of the mspgcc tools to write and compile code.</para>
+
+<para>On platforms without parallel port, it may be possible to use the serial
+bootstrap loader (BSL). One implementation of a downloader can be found on the
+<ulink url="http://mspgcc.sourceforge.net">mspgcc web-site</ulink> look for
+pyBSL.</para>
 </sect1>
 </chapter>
 
@@ -218,17 +223,17 @@ configuration data.</para>
 general purpose.  The first four have dedicated uses:
 
 <itemizedlist>
-<listitem><para>R0 (aka PC) is the program counter.  You can jump by assigning to R0, and
+<listitem><para>r0 (aka PC) is the program counter.  You can jump by assigning to r0, and
   immediate constants are fetched from the instruction stream using
-  the post-increment addressing mode on R0.  The PC is always even.</para></listitem>
+  the post-increment addressing mode on r0.  The PC is always even.</para></listitem>
 
-<listitem><para>R1 (aka SP) is the stack pointer.  This is used by call and push
+<listitem><para>r1 (aka SP) is the stack pointer.  This is used by call and push
 instructions, and by interrupt handling.  There is only one stack pointer;
 the MSP430 doesn't have anything resembling a supervisor mode.
 The stack pointer is always even; It is unclear if the LSB is even
 implemented.</para></listitem>
 
-<listitem><para>R2 (aka SR) is the status register.  Its bits are assigned as follows:
+<listitem><para>r2 (aka SR) is the status register.  Its bits are assigned as follows:
 <informaltable frame="all">
 <tgroup cols="16" align="center" colsep="1" rowsep="1">
 <colspec colname="bit15">
@@ -292,7 +297,7 @@ implemented.</para></listitem>
   clear GIE one instruction earlier than your real "critical section".)</para>
 
   <para>N, Z, C and V are the usual processor status bits, set as a side effect
-  to instruction execution.  If R2 is specified as a destination, the
+  to instruction execution.  If r2 is specified as a destination, the
   explicitly written bits override the side effects.  An instruction sets
   all 4 bits, or none of them.  Logical instructions set C to the
   opposite of Z (C is set if the result is NOT zero), and clear V to 0.</para>
@@ -302,18 +307,18 @@ implemented.</para></listitem>
   (~ is the C "not" or "bitwise invert" operator.)</para>
 
   <para>Note that the basic move instruction does NOT set these bits (unless
-  it's a move to R2).</para></listitem>
+  it's a move to r2).</para></listitem>
 
-<listitem><para>R3 is hardwired to 0.  If specified as a source, its value is 0.
+<listitem><para>r3 is hardwired to 0.  If specified as a source, its value is 0.
   If specified as a destination, the value is discarded.</para></listitem>
 </itemizedlist>
-R2 and R3 have no use as pointers. When specified in the context of a 
+r2 and r3 have no use as pointers. When specified in the context of a 
 pointer they provide an alternate function - common constant values. This is
 one of the important features of the MSP430 instruction set, allowing it
 to achieve a high level of code density, and a flexible instruction set. These
 constant registers can provide the numbers -1, 1, 2, 4 or 8. So, for example,
 the "clr x" is actually emulated by the instruction "mov #0,x". The constant
-"0" is taken from the constant register R3. The assembler understands both
+"0" is taken from the constant register r3. The assembler understands both
 "clr x" and "mov #0,x", and produces the same code for either. Many RISC and
 RISC like architectures suffer poor code density. The constant registers allow
 the MSP430 to achieve a very competitive code density. They also make the code
@@ -321,9 +326,9 @@ faster, as less program memory read cycles are needed. See below for the
 actual encoding used to select a particular constant.</para>
 
 <para>Note that some assemblers for the MSP430 allow the use of the alternate
-names "PC" for "R0", "SP" for "R1", and "SR" for "R2". GNU msp430 binutils
-does not understand these alternate names. You must use "R0", "R1" or
-"R2".</para>
+names "PC" for "r0", "SP" for "r1", and "SR" for "r2". GNU msp430 binutils
+does not understand these alternate names. You must use "r0", "r1" or
+"r2".</para>
 </sect1>
 
 <sect1 id="the-available-addressing-modes">
@@ -353,7 +358,7 @@ A 16-bit offset can reach anywhere in the address space.</para>
 
 <para>The destination operand in a two-operand instruction has only one
 addressing mode bit, which selects either register direct or indexed.
-Register direct can obviously be faked up with a zero index.</para>
+Register indirect can obviously be faked up with a zero index.</para>
 
 <para>Operand addresses are computed in a simple, sequential way.  The
 C statement
@@ -367,24 +372,24 @@ add @Rn+,-2(Rn)
 because the source operand is computed completely (including the
 register post-increment) before the destination is computed.</para>
 
-<para>When R0 (the program counter) is used as a base address, indexed mode
+<para>When r0 (the program counter) is used as a base address, indexed mode
 provides PC-relative addressing.  This is, in fact, the usual way that
 TI's MSP430 assembler accesses operands when a label is referred to.</para>
 
-<para>@R0 just specifies the following instruction word in ROM, but @R0+
+<para>@r0 just specifies the following instruction word in ROM, but @r0+
 specifies that word and skips over it.  In other word, an immediate
 constant!  You can just write #1234 and the assembler will specify the
 addressing mode properly.</para>
 
-<para>R1, the stack pointer, can be used with any addressing mode, but @R1+
+<para>r1, the stack pointer, can be used with any addressing mode, but @r1+
 always increments by 2 bytes, even on a byte access.</para>
 
-<para>When R2 (the status register) or R3 (the zero register) are specified,
+<para>When r2 (the status register) or r3 (the zero register) are specified,
 the addressing mode bits are decoded specially:
 <informaltable>
 <tgroup cols="3">
 <tbody>
-<row><entry>00&nbsp;0010</entry><entry>R2</entry><entry>Normal access</entry></row>
+<row><entry>00&nbsp;0010</entry><entry>r2</entry><entry>Normal access</entry></row>
 <row><entry>01&nbsp;0010</entry><entry>&amp;&lt;location&gt;</entry><entry>Absolute
 addressing. The extension word is used as the address directly. The leading
 &amp; is TI's way of indicating that the usual PC-relative addressing should
@@ -526,7 +531,7 @@ track of, which is nice and simple.</para>
 <tbody>
 <row><entry>000</entry><entry>RRC(.B)</entry><entry>9-bit rotate right through carry.
        C-&gt;msbit-&gt;...-&gt;lsbit-&gt;C.
-	Clear the carry bit beforehand to do a logical right shift.</entry></row>
+        Clear the carry bit beforehand to do a logical right shift.</entry></row>
 <row><entry>001</entry><entry>SWPB</entry><entry>Swap 8-bit register halves.  No byte
 form.</entry></row>
 <row><entry>010</entry><entry>RRA(.B)</entry><entry>Badly named, this is an 8-bit arithmetic
@@ -535,7 +540,7 @@ right shift.</entry></row>
 form.</entry></row>
 <row><entry>100</entry><entry>PUSH(.B)</entry><entry>Push operand on stack.  Push byte
 decrements SP by 2. CPU BUG: PUSH #4 and PUSH #8 do not work when the short
-encoding using @R2 and @R2+ is used.  The workaround, to use a 16-bit
+encoding using @r2 and @r2+ is used.  The workaround, to use a 16-bit
 immediate, is trivial, so TI do not plan to fix this bug.</entry></row>
 <row><entry>101</entry><entry>CALL</entry><entry>Fetch operand, push PC, then assign operand
 value to PC. Note the immediate form is the most commonly used. There is no
@@ -613,7 +618,7 @@ to as "emulated" instructions:
 <informaltable>
 <tgroup cols="3">
 <tbody>
-<row><entry>NOP</entry><entry>MOV R3,R3</entry><entry>Any register from R3 to R15 would
+<row><entry>NOP</entry><entry>MOV r3,r3</entry><entry>Any register from r3 to r15 would
 do the same thing.</entry></row>
 <row><entry>POP dst</entry><entry>MOV @SP+,dst</entry></row>
 </tbody>
@@ -621,7 +626,7 @@ do the same thing.</entry></row>
 </informaltable>
 </para>
 
-<para>Branch and return can be done by moving to PC (R0):
+<para>Branch and return can be done by moving to PC (r0):
 <informaltable>
 <tgroup cols="2">
 <tbody>
@@ -632,7 +637,7 @@ do the same thing.</entry></row>
 </informaltable>
 </para>
 
-<para>The constants were chosen to make status register (R2) twiddling efficient:
+<para>The constants were chosen to make status register (r2) twiddling efficient:
 <informaltable>
 <tgroup cols="2">
 <tbody>
@@ -712,12 +717,12 @@ require an offset word, so they cost a total of 3 cycles.</para>
 <para>This holds even for instructions (MOV, CMP and BIT) that
 only access the destination once.</para>
 
-<para>Short immediate constants (using R2 or R3) count
+<para>Short immediate constants (using r2 or r3) count
 as register operands for instruction timing purposes.</para>
 
 <para>Exceptions to this rule are:
 <itemizedlist>
-<listitem><para>A 2-operand instruction which writes to PC (R0) takes an extra
+<listitem><para>A 2-operand instruction which writes to PC (r0) takes an extra
   cycle if it's only one word long (i.e. source not indexed).</para></listitem>
 <listitem><para>Jumps take 2 cycles, whether taken or not.</para></listitem>
 <listitem><para>PUSH, CALL and RETI are special:
@@ -935,7 +940,7 @@ control lines fast enough, but that's rather complex piece of work.</para>
 flash MSP430 processors and uses standard 9600 baud asynchronous
 communications. For those parts with 2k of RAM you can download a
 replacement BSL and use 38400 baud. Downloading this at 9600 baud,
-and then flashing at 38,400 baud is faster for programs larger than
+and then flashing at 38400 baud is faster for programs larger than
 about 10k bytes.</para>
 
 <para>This is also invoked by special wiggling of the TEST input while
@@ -943,11 +948,11 @@ RESET is active.  (For parts with a dedicated JTAG interface, and
 thus no TEST pin, TCK is used instead.)</para>
 
 <para>All this requires is some level-shifters and a serial port.
-See TI app. notes slaa089a and slaa096b for details.</para>
+See TI application notes slaa089a and slaa096b for details.</para>
 </sect1>
 
 <sect1 id="decoding-part-numbers">
-<title>Decoding part numbers.</title>
+<title>Decoding part numbers</title>
 <para>What does something like MSP430F1121 mean?</para>
 
 <para>The letter indicates the type of ROM on board:
@@ -1037,7 +1042,7 @@ You should refer to the GNU documentation for information about the standard
 features of the GNU tools.</para>
 
 <sect1 id="compiler-options">
-<title>Compiler options.</title>
+<title>Compiler options</title>
 <para>The compiler recognises the following MSP430 specific command line
 parameters:
 <informaltable>
@@ -1047,6 +1052,7 @@ parameters:
 workaround for bitwise operations</entry></row>
 <row><entry>-mno-stack-init</entry><entry>No stack init in main()</entry></row>
 <row><entry>-mforce-hw-mul</entry><entry>Force hardware multiplier</entry></row>
+<row><entry>-mdisable-hwmul</entry><entry>Do not use hardware multiplier</entry></row>
 <row><entry>-mint8</entry><entry>Assume int to be 8 bit integer</entry></row>
 <row><entry>-mendup-at=</entry><entry>Jump to specified routine at the end of
 main()</entry></row>
@@ -1064,8 +1070,8 @@ devices with hardware multiplier.</entry></row>
 The current MCU names are currently recognised for the <quote>-mmcu</quote>
 parameter:
 <literallayout>
-msp1		any MCU w/o hardware multiplier
-msp2		any MCU with hardware multiplier
+msp1            any MCU w/o hardware multiplier
+msp2            any MCU with hardware multiplier
 msp430x110      msp430x112
 msp430x1101
 msp430x1111     msp430x1121
@@ -1305,7 +1311,7 @@ Single byte variables can be located at any address.</para>
 </sect1>
 
 <sect1 id="accessing-the-msp430-peripheral-registers">
-<title>Accessing the MSP430's peripheral registers - the SFRs.</title>
+<title>Accessing the MSP430's peripheral registers - the SFRs</title>
 <para>The MSP430's memory mapped peripheral registers are termed special
 function registers (SFRs). The SFRs valid for the device you are using are
 declared when you include <quote>io.h</quote> in your source code, and specify
@@ -1364,7 +1370,7 @@ uncontrolled way could badly affect the operation of your program.
   <paramdef>const uint16_t<parameter>x</parameter></paramdef>
   </funcprototype>
 </funcsynopsis>
-Set the value of the status register (R2).
+Set the value of the status register (r2).
 <funcsynopsis>
   <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
   <funcprototype>
@@ -1372,7 +1378,7 @@ Set the value of the status register (R2).
   <paramdef>void</paramdef>
   </funcprototype>
 </funcsynopsis>
-Read the value of the status register (R2).
+Read the value of the status register (r2).
 <funcsynopsis>
   <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
   <funcprototype>
@@ -1380,7 +1386,7 @@ Read the value of the status register (R2).
   <paramdef>const uint16_t <parameter>x</parameter></paramdef>
   </funcprototype>
 </funcsynopsis>
-Set bits in the status register (R2), using the <quote>bis</quote> instruction.
+Set bits in the status register (r2), using the <quote>bis</quote> instruction.
 <funcsynopsis>
   <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
   <funcprototype>
@@ -1388,7 +1394,7 @@ Set bits in the status register (R2), using the <quote>bis</quote> instruction.
   <paramdef>const uint16_t <parameter>x</parameter></paramdef>
   </funcprototype>
 </funcsynopsis>
-Clear bits in the status register (R2), using the <quote>bic</quote> instruction.
+Clear bits in the status register (r2), using the <quote>bic</quote> instruction.
 <funcsynopsis>
   <funcsynopsisinfo>#include &lt;signal.h&gt;</funcsynopsisinfo>
   <funcprototype>
@@ -1657,7 +1663,7 @@ this approach, you can define your own startup code.</para>
 </sect1>
 
 <sect1 id="redefining-the-startup-procedure">
-<title>Redefining the startup procedure.</title>
+<title>Redefining the startup procedure</title>
 <para>By defining _reset_vector__ in the user application, the linker will not
 link standard startup code. For example:
 <programlisting role="C">
@@ -1715,7 +1721,7 @@ _RESET()
 </sect1>
 
 <sect1 id="redefining-the-end-up-procedure">
-<title>Redefining the end up procedure.</title>
+<title>Redefining the end up procedure</title>
 <para>From the example above you can see, that main jumps to
 <quote>__stop_progExec__</quote>, which can be redefined the same way in
 the user code. However, it is possible to save some space, by specifying
@@ -1739,11 +1745,11 @@ and <quote>__stop_progExec__</quote> will not be linked.</para>
 </sect1>
 
 <sect1 id="initializing-the-stack">
-<title>Initializing the stack.</title>
+<title>Initializing the stack</title>
 
 <para>Stack initialization is performed in prologue of <quote>main()</quote>. This
 suits most cases. However, if the user redefines startup, and needs some space
-allocated on the stack, the stack has to be exlicitly initialized. For example:
+allocated on the stack, the stack has to be explicitly initialized. For example:
 <programlisting role="C">
 NAKED(_reset_vector__)
 {
@@ -1962,7 +1968,7 @@ All other arguments will be allocated in the usual way, from r14.</para>
 </sect1>
 
 <sect1 id="call-definitions">
-<title>Call definitions.</title>
+<title>Call definitions</title>
 <para>Variables names are not transformed in any way, except those with the names
 r0 to r15. For these a '_' is prepended to the name. Aliasing a declaration
 (int A asm("M");) will not change the alias. If "M "is specified as a direct
@@ -2088,7 +2094,7 @@ is clobbered.</para></listitem>
 </orderedlist>
 So, the complete pattern is: 
 <programlisting role="C">
-asm((string assm statement) : [outputs]:[inputs]:[clobbers]);
+asm((string asm statement) : [outputs]:[inputs]:[clobbers]);
 </programlisting>
 </para>
 
@@ -2137,7 +2143,7 @@ substitute the relevant operand. For 4 and 8 byte operands use the
 A, B, C, and D modifiers to select the appropriate 16 bit chunk of the operand.
 For example:
 <programlisting role="C">
-#define LONGVAL	0x12345678l
+#define LONGVAL 0x12345678l
 
 {
     long a,b;
@@ -2153,7 +2159,7 @@ For example:
 </programlisting>
 or
 <programlisting role="C">
-#define LONGVAL	0x12345678l
+#define LONGVAL 0x12345678l
 
 {
     long a,b;
@@ -2208,12 +2214,12 @@ pointers. !!! Do not use this unless you know exactly what are you doing !!!
 </sect1>
 
 <sect1 id="registers-variables-and-labels">
-<title>Registers, variables and labels.</title>
-<para>Since gcc cannot check the assembler syntax, you can do anything within
+<title>Registers, variables and labels</title>
+<para>Since GCC cannot check the assembler syntax, you can do anything within
 an assembler asm() statement. However, please note, that
-gcc does not use r0, r2, or r3. Therefore, if you mention one of these registers
+GCC does not use r0, r2, or r3. Therefore, if you mention one of these registers
 as an output parameter in an asm() statement, or as an alias for register
-variable, gcc will substitute some another register instead. Using r0, r2, or r3
+variable, GCC will substitute some another register instead. Using r0, r2, or r3
 as input parameters will result in the error "'asm' operand requires
 impossible reload".</para>
 
@@ -2256,11 +2262,11 @@ where the %= modifier stands for a unique number within the file.</para>
 so, do not use these patterns. You may use any other label as you wish.
 Please  note, that if label starts from .L it means, that the label is local
 and cannot be seen from another file as well as in disassembled output with
-<emphasis>objdump</emphasis>.</para>
+<emphasis>msp430-objdump</emphasis>.</para>
 </sect1>
 
 <sect1 id="library-calls">
-<title>Library calls.</title>
+<title>Library calls</title>
 <para>There are some library functions used by GCC, during code generation. These
 use non-standard argument passing schemes, which do not follow the mspgcc ABI.
 So, do not use them in your assembly code unless you are absolutely sure
@@ -2320,7 +2326,7 @@ process :).</para>
    Instead, assign a value during variable definition.</para></listitem>
 
 <listitem><para>Avoid converting chars to another type. char variables can be located
-   anywhere in RAM, while word variables can only at at even addresses.
+   anywhere in RAM, while word variables can only be at even addresses.
    Because of this, the following code:
 <blockquote>
 <literallayout>
@@ -2355,7 +2361,7 @@ k = *((int *)((char *a) + 3));
 <listitem><para>Use 'switch/case' constructs rather than a chain of 'if/else'
     constructs.</para></listitem>
 
-<listitem><para>Use logical 'or' instead of '+' for bitmasks.</para></listitem>
+<listitem><para>Use logical "or" ('|') instead of '+' for bitmasks.</para></listitem>
 
 <listitem><para>Use 'alloca' instead of 'malloc' for locals. In embedded applications
     trying to avoid any dynamic memory allocation is usually even better ;).
@@ -2418,7 +2424,7 @@ static void __inline__ brief_pause(register unsigned int n)
 </chapter>
 
 <chapter id="hardware-tools">
-<title>Hardware tools.</title>
+<title>Hardware tools</title>
 <sect1 id="what-is-available">
 <title>What is available?</title>
 <para>Texas Instruments produce fairly inexpensive development kits for the
@@ -2431,7 +2437,7 @@ with the debug facilities which mspgcc provides.</para>
 </sect1>
 
 <sect1 id="setting-up-the-jtag-interface">
-<title>Setting up the JTAG interface.</title>
+<title>Setting up the JTAG interface</title>
 <para>You might be able to just plug the 25-way D-type from the JTAG FET tool into
 the parallel port of your PC, and the 14-way IDC connector into the receptacle
 on the prototyping card and have no trouble. On the other hand.......read on!</para>
@@ -2461,7 +2467,7 @@ access device driver needed by msp430-gdbproxy.</para>
 use for mspgcc you will need to stop that printer daemon before
 <emphasis>msp430-gdbproxy</emphasis> can access the port.</para>
 
-<para>Check that your linux kernel actually has raw parallel-port support. If
+<para>Check that your Linux kernel actually has raw parallel-port support. If
 you are running a vanilla Red Hat or Debian distribution, this should be
 the case already. Type
 <literallayout>
@@ -2474,7 +2480,7 @@ to recompile your kernel. This is only likely of you have a custom kernel.</para
 <literallayout>
 <prompt>$</prompt> <userinput>/etc/rc.d/init.d/lpd stop</userinput>
 </literallayout>
-will do this on any Red Hat linux machine, and many other distributions.</para>
+will do this on any Red Hat Linux machine, and many other distributions.</para>
 
 <para>Check that permissions of the raw parallel-port device(/dev/parport0). It
 should be readable and writable by whichever user will run 'msp430-gdbproxy'.
@@ -2502,11 +2508,11 @@ for instance. The --help argument will make it list its options.</para>
 </sect1>
 
 <sect1 id="msp430-evaluation-and-prototyping-cards">
-<title>MSP430 evaluation and prototyping cards.</title>
+<title>MSP430 evaluation and prototyping cards</title>
 <para>If are using the evaluation kits from TI, there are a couple of points
 to beware of.</para>
 <para>If you are running your MSP430 chip from less than 3.6V, make sure
-you've removed the zero ohm link R8, and refitted it as R9. If you do not
+you've removed the zero ohm link r8, and refitted it as r9. If you do not
 do this, all sorts of things can go wrong. The JTAG interface will try to
 drive signals referenced to the parallel-port's 5V signals. It seems
 this then messes up the MSP430 whose core is running on whatever rails
@@ -2522,7 +2528,7 @@ version differences between the prototyping cards.</para>
 </chapter>
 
 <chapter id="compiling-and-linking-msp430-programs">
-<title>Compiling and linking MSP430 programs.</title>
+<title>Compiling and linking MSP430 programs</title>
 <sect1 id="getting-started">
 <title>Getting started</title>
 <para>Remember to use msp430-gcc (or msp430-as) and msp430-ld when developing
@@ -2559,7 +2565,7 @@ the actual downloaded code is not affected.</para>
 <chapter id="programming-and-debugging-msp430s">
 <title>Programming and debugging MSP430s</title>
 <sect1 id="using-the-jtag-fet-tool">
-<title>Using the JTAG FET tool.</title>
+<title>Using the JTAG FET tool</title>
 <para>Before trying to use <emphasis>msp430-gdb</emphasis>, make sure that <emphasis>msp430-gdbproxy</emphasis>
 is running on a suitable well-known port (it uses port 2000 by default).</para>
 <para>Put the following lines into your GDB startup file. For Unix and Linux
@@ -2576,7 +2582,7 @@ or whatever well known port you have <emphasis>msp430-gdbproxy</emphasis> listen
 </sect1>
 
 <sect1 id="downloading-code-to-a-target-processor">
-<title>Downloading code to a target processor.</title>
+<title>Downloading code to a target processor</title>
 <para>Let's assume you have a fully-linked executable called 'foo'. Type:
 </para>
 <screen>
@@ -2602,7 +2608,7 @@ into it.</para>
 </sect1>
 
 <sect1 id="running-code">
-<title>Running code.</title>
+<title>Running code</title>
 <para>Logic might tell you to type 'run' in order to run the program.
 <emphasis>Don't</emphasis>. msp430-gdb is built upon the standard GNU GDB, and inherits
 all its behaviour. The 'run' command is appropriate for starting a program
@@ -2614,7 +2620,7 @@ command is 'continue', or just 'c'.</para>
 with the -g flag, <emphasis>msp430-gdb</emphasis> will tell you exactly where it was
 interrupted, and let you inspect the state of registers, memory, variables,
 and so on. In fact, all the normal things you would expect from any other
-implementation of <emphasis>gdb</emphasis>.</para>
+implementation of GDB.</para>
 </sect1>
 </chapter>
 
@@ -2710,7 +2716,7 @@ simple). Make sure you have at least the following packages installed:
 <sect1 id="the-build-procedure">
 <title>The build procedure</title>
 <para>The build instructions apply to Linux installations. You may need to
-modify them a little for other system. For example, you might need to
+modify them a little for other systems. For example, you might need to
 use <quote>gmake</quote> rather than <quote>make</quote>. On Windows machines
 with Cygwin omit the <quote>su</quote> steps. You can unpack the code in your
 home directory, and compile the tools as a normal user. Only the installation
@@ -2739,7 +2745,7 @@ files is included in your <quote>PATH</quote> variable. The next stage will
 require the MSP430 binutils to be functional, when the MSP430 library is
 compiled.</para>
 
-<para>Next, configure, build and install <emphasis>gcc</emphasis>. Make sure you specify the
+<para>Next, configure, build and install <emphasis>GCC</emphasis>. Make sure you specify the
 same <quote>--prefix</quote> and <quote>--target</quote> that you specified for
 <emphasis>binutils</emphasis>. Unpack the source code, as follows:
 <blockquote>
@@ -2778,7 +2784,7 @@ install the library:
 </screen>
 </para>
 
-<para>Now build and install <emphasis>gdb</emphasis>. This procedure works equally well for
+<para>Now build and install <emphasis>GDB</emphasis>. This procedure works equally well for
 <emphasis>insight-5.1.1</emphasis>. Just replace "<emphasis>gdb</emphasis>" with "<emphasis>insight</emphasis>" in the
 following steps. Make sure that you specify the same <quote>--prefix</quote>
 and <quote>--target</quote> as for <emphasis>binutils</emphasis> and <emphasis>GCC</emphasis>:

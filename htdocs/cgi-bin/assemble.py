@@ -416,16 +416,21 @@ def format(iop):
     result = ''
     for mode, code in iop:
         if result:
-            result += '\n'
+            result = result + '\n'
         if type(code) == type(0):
-            result += "%s\t0x%04x" % (mode, code&0xffff)
+            result = result + "%s\t0x%04x" % (mode, code&0xffff)
         else:
-            result += "%s\t%s" % (mode, code)
+            result = result + "%s\t%s" % (mode, code)
     return result
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
-        assemble(sys.argv[1])
+                try:
+                    iop, comment, cycles = assemble(sys.argv[1])
+                    print "\t%s (%d cycle%s)" % (comment, cycles, cycles > 1 and 's' or '')
+                    print format(iop)
+                except AssembleException, e:
+                    print "*** %s" % e
     else:
         import cgi, os
         #cgitb is not available in py 1.5.2

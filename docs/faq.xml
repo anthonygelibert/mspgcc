@@ -58,6 +58,58 @@ large modern processors (x86, Alpha, etc.). You don't have to use it, but it can
 speed up certain types of code. You can only make use of it with assembly language
 programming. However, that can be as simple as a single line of embedded assembly
 language in the middle of a C routine. This is no different with the MSP430.</para>
+
+<para>As an example, an area where you might choose to use assembly language in
+this way is to access the BCD facilities of the MSP430. Many people like to use
+BCD for a variety of things, in small embedded projects. Like most other
+processors, the MSP430 has decimal adjust instructions to make this
+straightforward. You can only gain access to those through assembly language.
+However, the assembly language need only be a few simple routines you create
+once and reuse. They can be simple functions, like:
+<programlisting role="C">
+void bin2bcd16(register uint8_t bcd[3], register uint16_t bin)
+{
+    register int i;
+    register uint16_t decimal_0;
+    register uint16_t decimal_1;
+
+    i = 16;
+    decimal_0 =
+    decimal_1 = 0;
+    __asm__ __volatile__(
+        "1: \n"
+        " rla   %[bin] \n"
+        " dadd  %[decimal_0],%[decimal_0] \n"
+        " dadd  %[decimal_1],%[decimal_1] \n"
+        " dec   %[i] \n"
+        " jnz   1b \n"
+        " mov.b %[decimal_1],0(%[bcd]) \n"
+        " mov.b %[decimal_0],2(%[bcd]) \n"
+        " swpb  %[decimal_0] \n"
+        " mov.b %[decimal_0],1(%[bcd]) \n"
+        : [bcd] "+r"(bcd), [decimal_0] "+r"(decimal_0), [decimal_1] "+r"(decimal_1)
+        : [bin] "r"(bin), [i] "r"(i));
+}
+</programlisting>
+which will convert a 16 bit binary value to a BCD string stored in a byte array.
+They could be simple inlined routines, for very arithmetic operations. Being
+inlined means there will be no call overhead, so it is clean, compact, and fast.
+For example:
+<programlisting role="C">
+static __inline__ uint16_t bcd_add16(register uint16_t bcd_a, register uint16_t bcd_b)
+{
+    __asm__(
+        " add %[bcd_b],%[bcd_a] \n"
+        " dadd %[bcd_a],%[bcd_a] \n"
+        : [bcd_a] "+r"(bcd_a)
+        : [bcd_b] "r"(bcd_b));
+    return bcd_a;
+}
+</programlisting>
+will add two 4 digit BCD values, stored as unsigned integers, and return the
+4 digit BCD result, as an unsigned integer. Create a few routines like this,
+and you need not touch any assembly language for the rest of your project.
+</para>
 </sect1>
 
 <sect1 id="q4">
@@ -231,8 +283,8 @@ last two are not redefined in your code).</para>
 </sect1>
 
 <sect1 id="q13">
-<title>I want to jump from some arbitrary places to my exception handling code, do deal with
-fatal error conditions. Is it possible to do this with mspgcc?</title>
+<title>I want to jump from some arbitrary places to my exception handling code, to
+deal with fatal error conditions. Is it possible to do this with mspgcc?</title>
 <para>Any standards compliant implementation of C, including mspgcc, supports this feature, with
 the routines setjmp() and longjmp(). The following example illustrates their use, with two
 destinations to jump to. You may define any number of destinations. You may jumps from

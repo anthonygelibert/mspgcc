@@ -1,0 +1,85 @@
+Title: mspgcc - I/O API
+css: styles.css
+author: Dmitry Diky
+author-email:diwil@mail.ru
+links: doc_links.h
+
+<H2>7. I/O APIs</H2>
+
+<H3>7.1. I/O Port APIs</H3>
+
+<P>See section <A href="dev_mem.html">5.1</A></P>
+
+<H3>7.2 Function Reference</H3>
+<P>
+<B>WRITE_SR - set value of Status Register r2</B>
+<pre>
+
+#include &lt;io.h&gt;
+
+Syntax:
+	void WRITE_SR(uint16_t x);
+</pre>
+<P>Description:
+Writes 16 bit value of x in r2.</P>
+</P>
+
+<P>
+<B>READ_SR - get value of Status Register r2</B>
+<pre>
+
+#include &lt;io.h&gt;
+
+Syntax:
+        uint16_t READ_SR(void );
+</pre>
+<P>Description:
+Reads 16 bit value of x in r2.</P>
+</P>
+
+<P>
+<B>_BIS_SR - set bits in r2</B>
+<pre>
+
+#include &lt;io.h&gt;
+
+Syntax:
+	void _BIS_SR(uint16_t x);
+</pre>
+<P>Description:
+Sets bits in r2 with 'bis'.</P>
+</P>
+
+<P>
+<B>_BIC_SR - clear bits in r2</B>
+<pre>
+
+#include &lt;io.h&gt;
+
+Syntax:
+
+	void _BIC_SR(uint16_t x);
+</pre>
+<P>Description:
+Clear bits in r2 with 'bic'.</P>
+</P>
+
+<P>
+<B>SFR_CMD execute a command with SFR.</B>
+<pre>
+
+#include &lt;io.h&gt;
+Syntax:
+	SFR_CMD(cmd, (typeof SFR) sfr, (typeof SFR) val);
+</pre>
+<P>Description:
+Performs an operation on SFR, which neither be optimized nor
+modified by the compiler. Example:<pre>
+	SFR_CMD(bis.b, IE1,WDTIE) - enable watchdog interrupt.
+</pre>
+This can be done also as <pre>
+	IE1 |= WDTIE;
+</pre>
+</P>
+
+<P><A href="doc_stdlib.html">Next</a></P>

@@ -1,0 +1,55 @@
+Title:  mspgcc - Using the GNU Tools
+css: styles.css
+author: Dmitry Diky
+author-email:diwil@mail.ru
+links: doc_links.h
+
+<H2>3. Using the GNU Tools</H2>
+
+<P>Go to msp430-libc/examples directory and find some examples, how to use
+msp430 tools. Simply typing 'make' (not gmake on any system!) see, what
+flags being passed to the compiler. At the end you will get some executable
+files which obviously will not run on your host system. Why? What next? How
+to make the MPU running?</P>
+
+<P>Ok, here is an answer. You have built an ELF file, which contains the binary
+code. Optionally it contains a symbol table (variable names and types
+information) and debugging information. This file cannot be downloaded
+directly to the MPU. You have to use a format converter to produce a code
+which a programmer understands.
+GNU binutils have 'msp430-objcopy'. Type
+<pre style="background:lightgrey;font-size:10pt">
+$ msp430-objcopy -O ihex [your elf file] m.ihex
+</pre>
+Now m.ihex will be a file which contains Intel hex code for the msp430 of your
+sources. Most programmers understand it.</P>
+
+<P>For example, for empty main:
+<pre>
+int main(){}
+</pre>
+
+<pre style="background:lightgrey;font-size:10pt">
+$ msp430-gcc -O -mmcu=msp430x110 m.c 
+$ msp430-objcopy -O ihex a.out m.hex
+</pre>
+</P>
+
+<P>m.hex is (attention! Ihex format has CRLF at the end of line for any host
+system) :</P>
+<pre>
+:10FC0000B240805A20013F4050FC3E4000023D403F
+:10FC100000020D9E06241D53FE4F00001E530F9D33
+:10FC2000FB2B3F4000023D4000020D9F06241D5368
+:10FC3000CF4300001F530F9DFB2B304044FC30404E
+:10FC400042FC00133140800230404CFC0243FE3F36
+:10FFE0003EFC3EFC3EFC3EFC3EFC3EFC3EFC3EFC41
+:10FFF0003EFC3EFC3EFC3EFC3EFC3EFC3EFC00FC6F
+:040000030000FC00FD
+:00000001FF
+</pre>
+
+<P>The code is obviously TOOOOOooo big for the procedure which does nothing.
+To understand why, read on...</P>
+
+<A href="doc_startup.html">Next</a>

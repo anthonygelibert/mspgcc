@@ -1,0 +1,19 @@
+Title: mspgcc - Introduction
+css: styles.css
+author: Dmitry Diky
+author-email:diwil@mail.ru
+links: doc_links.h
+
+<H2>1. Introduction.</H2>
+
+<P>Things to add:
+<LI> A brief introduction to the MSP430 processors.
+<LI> A brief introduction to the GNU compiler tools.
+<LI> The programmers that made this tool set possible ;)
+<LI> Mention the MSP430 mailing list and how to subscribe.
+</P>
+
+<P>This document is based upon version 3.0 of the GNU C compiler. It also refers
+to version 2.11 of GNU binutils.</P>
+
+<A href="doc_install.html">Next</a>

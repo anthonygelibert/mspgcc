@@ -1,0 +1,72 @@
+Title: mspgcc - Appendix A
+css: styles.css
+author: Dmitry Diky
+author-email:diwil@mail.ru
+links: doc_links.h
+
+<H2>Appendix A - MSP430 specific</H2>
+
+<P>This appendix describes the msp430-specific changes to the GNU toolset. See
+the GNU documentation for options that are common to all processor targets.
+For options list type 'msp430-gcc --target-help'</P>
+
+
+<H3>A.1 Compiler options.</H3>
+<pre style="font-size:10pt">
+  -mno-volatile-workaround  Do not perform volatile workaround for bitwise
+				operations
+  -mno-stack-init           No stack init in main()
+  -mforce-hw-mul            Force hardware multiplier
+  -mint8                    Assume int to be 8 bit integer
+  -mendup-at=               Jump to specified routine at the end of main()
+  -mmcu=                    Specify the MCU name
+  -minit-stack=             Specify the initial stack address
+  -mreorder		    Revert registers allocation order
+  -minline-hwmul	    Issue inline code for 32-bit integers for
+			    devices with hardware multiplier.
+  -mcall-shifts		    Use subroutine calls for shift operations.
+			    This may save some space for shifts extensive
+			    applications.
+
+
+Known MCU names:
+         msp1		any MCU w/o hardware multiplier
+         msp2		any MCU with hardware multiplier
+         msp430x110
+         msp430x112
+         msp430x122
+         msp430x123
+         msp430x133
+         msp430x135
+         msp430x147
+         msp430x148
+         msp430x149
+         msp430x412
+         msp430x413
+         msp430x311
+         msp430x312
+         msp430x313
+         msp430x314
+         msp430x315
+         msp430x323
+         msp430x325
+         msp430x336
+         msp430x337
+         msp430x1101
+         msp430x1111
+         msp430x1121
+</pre>
+
+<H3>A.2 Compiler defined Symbols</H3>
+
+<P>The compiler defines symbols that the source code can use to adjust its
+compilation:<br>
+
+<code>MSP430</code> - for every arch<br>
+<code>__MSP430__</code> - for every arch<br> 
+<code>__MSP430_XXX__</code> - where XXX one from the list above (<code>__MSP430_149__</code> for example)
+</P>
+
+<P>the include path for standard includes is also defined by the compiler.</P>
+
+<A href="doc_appendixB.html">Next</a>

@@ -9,11 +9,12 @@ It also a possibility to work in a team and train your skills.
 </P>
 
 <P>We have some interseting stuff to work on:<UL>
-<LI>Help with floating point library
-<LI>Revamp documentation (extend, add tips and tutorials)
-<LI>Maintain exmaple projects
-<LI>Write GDB support
-<LI>Extend the simulator
+    <LI>Help with floating point library
+    <LI>Revamp documentation (extend, add tips and tutorials)
+    <LI>Maintain exmaple projects
+    <LI>Write GDB support
+    <LI>Get C++ working
+    <LI>Extend the simulator
 </UL></P>
 
 <P>If you're interested in an other area that is not on this list,
@@ -62,6 +63,10 @@ just to write a backend for the MSP 430</P>
 can be the simulator, another the serial BSL, maybe the JTAG.
 That solution should be flexible and portable. It also enables
 us to use diffrent tools/languages for the driver as C (for GDB).</P>
+
+<h4>Get C++ working</h4>
+<P>Basic support for C++ is already in, but to be able to use is a C++
+library is needed.</P>
 
 <h4>Extend the simulator</h4>
 <P>Add more peripherals with all their registers and configurations.

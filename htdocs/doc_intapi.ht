@@ -1,0 +1,124 @@
+Title: mspgcc - Interrupt API
+css: styles.css
+author: Dmitry Diky
+author-email:diwil@mail.ru
+links: doc_links.h
+
+<H2>6. Interrupt API</H2>
+
+<P>This has been changed completely recently.</P>
+
+<P>Interrupts should be declared as:</P>
+<pre>
+#include &lt;signal.h&gt;
+
+interrupt (INTERRUPT_VECTOR)
+ IntServiceRoutine(void) {...}</pre>
+- just a usual interrupt.
+
+<pre>
+interrupt (INTERRUPT_VECTOR) [wakeup, enablenested]
+ IntServiceRoutine(void) {...}</pre>
+<P>The attributes <code>wakeup</code> and <code>enablenested</code>
+are declared in signal.h</P>
+
+<P>Wakeup attribute forces the compiler to restore full-power mode at exit from
+ISR. <code>enablenested</code> inserts <code>eint</code> insn before function prologue.
+This allows other interrupts while handling one. Use with care in conjunction with
+<codewakeup</code>!</P>
+
+<P>For every arch NOVECTOR macro is defined.</P>
+
+<P>If an ISR is declared as:<pre>
+interrupt (NOVECTOR) [wakeup, enablenested] IntServiceRoutine(void) {...}</pre>
+then gcc will not assign an interrupt vector for this routine.
+</P>
+
+<P>The <code>_RESET()</code> macro is declared to be used when the start-up procedure has to be
+changed. See example above.</P>
+
+
+<H3>6.1 Where the interrupt vectors table comes from?</H3>
+
+<P>The interrupt vectors table is defined in startup files crtXXX. These files
+linked automatically when project builds. For every MPU arch a specific
+table loaded. Undefined interrupts will result _unexpected_1_ call, which
+branches to _unexpected_. The last one can be redefined in user code.</P>
+
+<P>If you do not like this, you can define your own interrupt vector table as:</P>
+<pre>
+/* Define interrupt vector table */
+
+INTERRUPT_VECTORS = {
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        wakeup_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector,
+        zero_vector, 
+        zero_vector,
+        zero_vector,
+        reset_vector
+};
+</pre>
+
+<P>In this case you have to pass <code>'-nostartfiles'</code> to the compiler.
+See examples for more code details.</P>
+
+<H3>6.2 Function Reference</H3>
+<B>eint - enable interrupts</B>
+<pre>
+#include &lt;signal.h&gt;
+
+Syntax:
+	void eint(void);
+</pre>
+<P>Description: 
+
+Enable global interrupt by setting global interrupt enable bit.This function
+actually compiles into a single line of assembly, so there is no function
+call overhead.</P>
+
+
+<B>dint - disable interrupts</B>
+<pre>
+
+#include &lt;signal.h&gt;
+
+Syntax:
+        void dint(void);
+</pre>
+<P>Description: 
+
+Disable global interrupt by clearing global interrupt enable bit.This
+function actually compiles into a single line of assembly, so there is no
+function call overhead.</P>
+
+<B>_RESET() - declare users start-up</B>
+<pre>
+
+#include &lt;signal.h&gt;
+
+Syntax:
+	_RESET() {}
+</pre>
+
+
+
+<B>UNEXPECTED() - declare users unexpected ISR</B>
+<pre>
+
+#include &lt;signal.h&gt;
+
+Syntax:
+	UNEXPECTED(){}
+</pre>
+
+<P><A href="doc_ioapi.html">Next</a></P>

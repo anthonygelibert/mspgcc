@@ -17,6 +17,7 @@ from LinkFixer import LinkFixer
 
 sitelinks = [
     ('index.html',             'Home'),
+    ('doc.html',               'Documentation'),
     ('http://sf.net/projects/mspgcc', 'mspgcc Project page on SourceForge'),
     ]
 
@@ -37,6 +38,7 @@ class mspgccGenerator(Skeleton, Sidebar, Banner):
         # Calculate the sidebar links, adding a few of our own.
         self.__d = {'rootdir': rootdir}
         p.process_sidebar()
+        p.sidebar.append((None, '<hr size=1>'))
         p.sidebar.append(('mailto:diwil@users.sf.net', 'Dmitry Diky'))
         p.sidebar.append(('mailto:cliechti@users.sf.net', 'Chris Liechti'))
 
@@ -110,6 +112,7 @@ class mspgccGenerator(Skeleton, Sidebar, Banner):
             else:
                 # there is no wide body
                 self.__body = text
+        self.__body = self.__body + "<br>"*3
 
     def get_style(self):
         extstyle = self.__parser.get("css", None)

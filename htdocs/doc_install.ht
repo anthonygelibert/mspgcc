@@ -1,0 +1,131 @@
+Title: mspgcc - Installation
+css: styles.css
+author: Dmitry Diky
+author-email:diwil@mail.ru
+links: doc_links.h
+
+<H2>2. Installing the GNU Tools</H2>
+
+<P>This chapter shows how to build and install a complete development
+environment for the MSP430 processors using the GNU tool-set. (These steps
+worked on my system, which is running FreeBSD 4.0 and 5-current.  If there
+are problems with any of these instructions on your system, please let me
+know so we can resolve any problems.)</P>
+
+<P>I created an area for the MSP430 tools under /usr/local to keep this stuff
+separate from the base system:</P>
+
+<pre style="background:lightgrey;font-size:10pt">
+$ su
+$ mkdir /usr/local/msp430
+</pre>
+
+<P>As root, I chown'ed /usr/local/msp430 to my normal account. </P>
+
+<pre style="background:lightgrey;font-size:10pt">
+$ su
+$ chown diwil.diwil /usr/local/msp430
+</pre>
+
+<P>(Note: you don't need to su and chown on cygwin)</P>
+
+<P>This way, I don't have to be root to install the tools. All the instructions
+assume the tools will be installed in this location. If you want to place
+them in a different locations you need to specify the new location using the
+--prefix=... option during configure.</P>
+
+
+<H3>2.1. GNU Binutils</H3>
+
+<P>Before the compiler can be built, various utilities need to be installed.
+Since the compiler converts C only to assembly language, an assembler and
+linker (and librarian, etc.) need to be built and installed for the MSP430
+processors. The GNU binutils can provide this support.</P>
+
+
+<H4>2.1.1. Downloading the Source</H4>
+<P>Get 
+ <li> binutils-2.11
+ <li> gcc-core-3.0
+and optionaly 
+ <li> gcc-g++-3.0.tar.gz
+form any of GNU mirror sites - http://gcc.gnu.org/mirrors.html
+Also, download msp430-libc from http://mspgcc.sourceforge.net</P>
+
+<H4>2.1.2. Building the Project</H4>
+
+<P>The first step is to pull the source from the archive and apply the patches
+to the code.</P>
+
+<P>*** NOTE *** Patches not yet available</P>
+
+<P>Building binutils first:
+<pre style="background:lightgrey;font-size:10pt">
+$ mkdir binutils
+$ cd binutils
+$ bunzip2 -c ../binutils-2.11.tar.bz2 | tar xf -
+$ cd ..
+$ cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login
+$ cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co binutils
+$ cd binutils/binutils-2.11
+$ ./configure --target=msp430 --prefix=/usr/local/msp430
+$ gmake
+</pre>
+If 'gmake' fails, type 'make' (Most Linux users should do)
+<pre style="background:lightgrey;font-size:10pt">
+$ gmake install
+$ cd ../../
+</pre>
+
+<P>Building C compiler.</P>
+<pre style="background:lightgrey;font-size:10pt">
+$ mkdir gcc
+$ cd gcc
+$ gunzip -c ../gcc-core-3.0.tar.gz | tar xf -
+$ cd ..
+$ cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login
+$ cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co gcc
+$ cd gcc/gcc-2.11
+$ ./configure --target=msp430 --prefix=/usr/local/msp430
+$ gmake
+</pre>
+If 'gmake' fails, type 'make' (Most Linux users should do)
+<pre style="background:lightgrey;font-size:10pt">
+$ gmake install
+$ cd ../../
+</pre>
+
+<P>Building C++ compiler.
+... will be explained later, when I build stdc++-v3 library
+</P>
+
+<P>Building libc</P>
+<pre style="background:lightgrey;font-size:10pt">
+$ cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login
+$ cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co msp430-libc
+$ cd msp430-libc
+$ cd src
+$ gmake
+</pre>
+
+<P>Now, if you have specified different --prefix in binutils and gcc configure,
+edit Makefile and specify correct prefix</P>
+
+<pre style="background:lightgrey;font-size:10pt">
+$ gmake install
+
+$ cd ../../
+</pre>
+
+<P>Now GNU tools have been built for MSP430 micro controller.</P>
+
+<P>Download pybsl software</P>
+<pre style="background:lightgrey;font-size:10pt">
+$ cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login
+$ cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co pybsl
+</pre>
+
+<P>This has some python executables. In order to run it I had to build
+python2.2. Earlier versions did not work.</P>
+
+<A href="doc_using.html">Next</a>

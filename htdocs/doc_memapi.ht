@@ -1,0 +1,81 @@
+Title: mspgcc - Memory API
+css: styles.css
+author: Dmitry Diky
+author-email:diwil@mail.ru
+links: doc_links.h
+
+<H2>5. Memory APIs</H2>
+
+
+<P>MSP430 architecture processors use a single address space to map data and
+code. Since registers are 16 bit wide and the CPU cannot access word (16
+bit) wide variables located at even addresses.</P>
+
+<P>GNU C compiler for msp430 supports the following base data types:<pre>
+char	 	1 byte  (8 bits)
+int		2 bytes (can be 8 bit with -mint8 flag)	
+long 		4 bytes
+long long	8 bytes
+float		4 bytes
+</pre>
+and unsigned ones. Pointers are 2 bytes wide.</P>
+
+
+
+<P>All global const variables resides in ROM and normally placed in .text
+section. Access to const variable does not differ from accessing to any type
+of variables. You can however place const vars to RAM using attribute
+section(".data")) as follows:</P>
+<pre>
+const char __attribute__ ((section(".data"))) foo = 1;
+</pre>
+
+<P>Please note, that if you declare variables r0 - r15, the assembler will
+prepend '_' in order to allow the assembler to distinguish them from
+registers names. (I think I'll change this, cause gcc does not use PC
+relative addressing modes. So, in any instruction, which uses any var, # or
+& chars will state before that var).</P>
+
+<P>Variables of size > 1 are located at even addresses. Variables of size 1 can
+be located at both even and odd addresses.</P>
+
+
+<H3>5.1 Access to SFRs.</H3>
+
+<P>All special function registers declared in io.h file. So, if you want to
+use SFRs and do not want to declare them, include io.h file and specify MCU
+arch in command line as described in <A href="doc_appendixA.html">Appendix A</A>. </P>
+
+</P>You can consider any SFR as a normal variable, which mapped to the special
+memory location and you do not have to care which one exactly.</P>
+
+<P>To write to SFR, just issue a command like: </P>
+<pre>SFR = smts;</pre>
+
+<P>To read SFR, issue:</P>
+<pre>smts = SFR;</pre>
+
+
+<P>All SFRs declared as volatile. This implies a-la Harvard architecture gcc
+behavior for read-modify-write: mov SFR's value to register, modify
+register, write to SFR. However, gcc port for msp430, takes into account the
+fact, that one insn can read and modify SFR:
+<pre>
+	and.b	#1, &0x0120 
+</pre>
+and gcc produces a good code. But, if you still experienced a tricky
+generated code behavior, you can disable this feature by specifying
+'-mno-volatile-workaround' flag.
+</P>
+
+<H3>5.2 Save space on stack</H3>
+
+<P>Declaring
+<pre>
+	int RESERVE_RAM(10) main() {...}
+</pre>
+will reserve 10 bytes of memory which resides at the top of ram and will not
+be accessble by the gcc. So, you can use them for, for instance, PUC restarts.
+</P>
+
+<P><A href="doc_intapi.html">Next</a></P>

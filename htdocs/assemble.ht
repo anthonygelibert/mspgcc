@@ -1,0 +1,40 @@
+Title: mspgcc - MSP430 USART Baudrate Calculator
+css: styles.css
+
+<H2>Single Line MSP430 Assembler</H2>
+<P>You can enter a line of assember code in the text field below.
+The resulting machine code along with data words is then printed.
+</P>
+<P>Example: "mov #7, R6"
+</P>
+
+<form action="/cgi-bin/assemble.py" method="get">
+    Input line:<input type="text" name="line" value="">
+    <input type="submit" name="submit" value="assemble">
+</form>
+
+<P>Description of output:<br>
+The first line is the assmber line that is realy interpreted. This
+can be different to the input for emulated instructions.
+<UL>
+    <LI><code>OPC</code>: 16 bit word for the instruction opcode
+    <LI><code>DW</code>: 16 bit data word
+    <LI><code>PCREL</code>: 16 bit relative address to the current pos.
+                The linker would have to calculate the real address here.
+</UL>
+When you use labels instead of nummeric values, those show up again in the
+output.
+</P>
+
+<P>The jump instructions (jxx, e.g. jmp) expect a byte offset, relative
+to the current position. If the jump location is too far way, a "jxx 0"
+instruction comes out, but no error is given!
+</P>
+
+<P>This software uses the constant registers of the MSP. However
+the result can differ from other assembers.
+</P>
+
+<P>And as usual - no warranties that the given information is correct.
+Use at your own risk.
+</P>

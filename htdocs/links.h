@@ -9,6 +9,7 @@
 
 <h3>Useful</h3>
 <LI><A href="baudrate.html">BaudrateCalc</A>
+<LI><A href="assemble.html">Assembler</A>
 
 <h3>Exits</h3>
 <LI><A href="http://www.ti.com/sc/msp430">MSP430@ti.com</A>

@@ -1,0 +1,4 @@
+the real cgi-bin is: /home/projects/m/ms/mspgcc/cgi-bin
+this is: /home/projects/m/ms/mspgcc/htdocs/cgi-bin
+
+chris

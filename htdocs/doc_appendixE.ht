@@ -64,10 +64,29 @@ instead of declaring
 
     At 'while((long)a&0x80000l);' the programm will hang, unless 'a' declared
     as volatile. So, do it!
+
+<LI> Dealy loops are very sophisticated routines. Normally, users do
+    something like:
+<pre>
+    int i = 1234;
+    while(i--);</pre> or
+<pre>
+    for(i=0;i<1234;i++);</pre>
+    
+    BOTH WILL NOT WORK AS YOU EXPECT!!! The optimizer will detect dead code
+    in both examples and will reduce the number of iterrations. So, it may
+    remove loop code, or reduce the loop number. Therefore, use timers when
+    possible. Alternativly, you can mark these loops as volatile:
+<pre>
+    for(i=0;i<1234;i++) __asm__ __volatile__("; loop");</pre>
+    This example does not introduce any extra code and will work as you
+    think.
+
 </OL>
 
 
-<P>Do not do anytihng unless you know what you're doing :)</P>
+
+<P>Do not do anything unless you know what you're doing :)</P>
 
 
 

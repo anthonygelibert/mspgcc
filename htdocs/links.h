@@ -3,6 +3,8 @@
 <li><a href="index.html">Introduction</a>
 <li><a href="build.html">Build</a>
 <li><a href="tools.html">Tools</a>
+<li><a href="contribute.html">Contribute</a>
+<li><a href="doc.html">Documentation</a>
 <li><a href="ref.html">References</a>
 
 <h3>Useful</h3>

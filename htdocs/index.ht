@@ -1,6 +1,12 @@
 Title: mspgcc - GCC toolchain for MSP430
 css: styles.css
 
+<P><B>Help Wanted</B><br>
+Interested in participating in a open source project? We have some interesting stuff to work on:<UL>
+<LI>Help with float point library
+</UL>
+See <A href="contribute.html">here</A> for more infos.</P>
+
 <H1>GCC Toolchain for MSP430</H1>
 <P>Here you can find patches to the GCC and Binutils sources which add the embedded processor MSP430
 as a new target.
@@ -41,14 +47,18 @@ included in the gcc sources, the libc and crt files are a separate package.</P>
 <P>Where to get? The development is still very active, so not for all subprojects are archives
 available. Look in the <A href="https://sourceforge.net/project/showfiles.php?group_id=42303">
 download area</a> for archives.
-But you can easily download the latest sources with CVS. This procedure is explained below.
+But you can easily download the latest sources with CVS. This procedure is explained
+<a href="http://sourceforge.net/cvs/?group_id=42303">here</a>.
 </P>
 
-<P>Contributions are highly welcome. Comments and bug reports are appreciated.
+<P><A href="contribute.html">Contributions</A> are highly welcome. Comments and bug reports are
+appreciated.
 If you can test the tools, let us know of success or failure (bugs). When you want
 to extend the libraries or add new features, let us know. This is an open source project
 where everyone can make the product better.
 </P>
+
+
 
 <BR>
 Hosted on:

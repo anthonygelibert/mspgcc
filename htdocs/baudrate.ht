@@ -8,4 +8,6 @@ css: styles.css
     </table>
     <input type="submit" name="submit" value="calculate">
 </form>
-Thanks to Pedro Zorzenon Neto &lt;pzn at debian.org&gt;
+ 
+You can get the source code <A HREF="http://igbt.sel.eesc.sc.usp.br/~pzn/msp-uart.txt">here</A>.<BR>
+Thanks to Pedro Zorzenon Neto -- pzn at debian.org

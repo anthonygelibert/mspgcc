@@ -83,7 +83,7 @@ def addressMode(bytemode, as = None, ad = None, src = None, dest = None):
         if ad == 0:
             y = '%s' % regnames[dest]
             #y = RegisterArgument(core, reg=core.R[dest], bytemode=bytemode, am=ad)
-            if dest == 0:
+            if dest == 0 and as != 1:
                 c = c + 1  #modifying PC gives one cycle penalty
         else:
             if dest == 0:   #PC relative
@@ -107,9 +107,9 @@ singleOperandInstructions = {
     0x01: ('swpb', 0),
     0x02: ('rra',  0),
     0x03: ('sxt',  0),
-    0x04: ('push', 2),    #write of stack -> 2
-    0x05: ('call', 3),    #write of stack -> 2, modify PC -> 1
-    0x06: ('reti', 5),    #pop SR -> 1, pop PC -> 1, modify PC -> 1,  +2??
+    0x04: ('push', 1),    #write of stack -> 2
+    0x05: ('call', 1),    #write of stack -> 2, modify PC -> 1
+    0x06: ('reti', 3),    #pop SR -> 1, pop PC -> 1, modify PC -> 1
 }
 
 doubleOperandInstructions = {
@@ -150,15 +150,32 @@ def disassemble(words):
                 ((opcode>>7)&0x1f in singleOperandInstructions.keys())
         ):
             bytemode = (opcode>>6) & 1
-            x,y,c = addressMode(bytemode,
-                as=(opcode>>4) & 3,
-                src=opcode & 0xf
-                )
+            as = (opcode>>4) & 3
+            src = opcode & 0xf
+            x,y,c = addressMode(bytemode, as=as, src=src)
             name, addcyles = singleOperandInstructions[(opcode>>7) & 0x1f]
             cycles = cycles + c + addcyles #some functions have additional cycles (push etc)
-            if name=='call' and (opcode>>4) & 3==2: cycles = cycles - 1
-            if '%' in x: usedwords = usedwords + 1
-            return "%s%s %s" % (name, (bytemode and '.b' or ''), x%{'x':words[0]}), usedwords, cycles
+            if not (src == 2 or src == 3):
+                if as == 0:
+                    if src == 0: cycles = cycles + 1 #destination PC adds one
+                    if name == 'push': cycles = cycles + 2
+                    if name == 'call': cycles = cycles + 2
+                elif as == 1 or as == 2:
+                    cycles = cycles + 1
+                elif as == 3:
+                    cycles = cycles + 1
+                    if name == 'call': cycles = cycles + 1
+            else: #this happens for immediate values provided by the constant generators
+                if name == 'push': cycles = cycles + 2 -1
+                if name == 'call': cycles = cycles + 3
+            
+            if '%' in x:
+                x = x % {'x':words[0]}
+                usedwords = usedwords + 1
+            if name != 'reti':
+                return "%s%s %s" % (name, (bytemode and '.b' or ''), x), usedwords, cycles
+            else:
+                return "reti", usedwords, cycles
 
         #double operand
         elif (opcode>>12)&0xf in doubleOperandInstructions.keys():
@@ -175,8 +192,10 @@ def disassemble(words):
                 x = x % {'x':words[0]}
                 words = words[1:]   #pop used value
                 usedwords = usedwords + 1
-            if '%' in y: usedwords = usedwords + 1
-            return "%s%s %s, %s" % (name, (bytemode and '.b' or ''), x, y%{'y':words[0]}), usedwords, cycles
+            if '%' in y:
+                y = y % {'y':words[0]}
+                usedwords = usedwords + 1
+            return "%s%s %s, %s" % (name, (bytemode and '.b' or ''), x, y), usedwords, cycles
 
         #jump instructions
         elif ((opcode & 0xe000) == 0x2000 and

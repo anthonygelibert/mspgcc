@@ -241,22 +241,40 @@ if __name__ == '__main__':
         
         if args:
             insn, words, cycles = disassemble(map(myint, args))
-            print "Parameter disassemble: %s  (%d words %d cycles)" % (insn, words, cycles)
+            sys.stdout.write("Parameter disassemble: %s  (%d words %d cycles)\n" % (insn, words, cycles))
             
         if options.binary is not None:
-            print "---- file: %s ----" % options.binary
-            memory = file(options.binary, 'rb').read()
-            if len(memory) & 1: 
-                print "odd length!!, cutting off last byte"
-                memory = memory[:-1]
-            memwords = [struct.unpack("<H", memory[x:x+2])[0] for x in range(0, len(memory), 2) ]
-            #~ print len(words)
-            offset = 0
-            while offset < len(memwords):
-                insn, words, cycles = disassemble(memwords[offset:])
-                bytes = ' '.join(['%04x' % x for x in memwords[offset:offset+words]])
-                print "0x%04x:  %-16s   %-36s  (%d words %d cycles)" % (options.startadr+offset*2, bytes, insn, words, cycles)
-                offset += words
+            sys.stderr.write("---- file: %s ----\n" % options.binary)
+            if options.binary:
+                import msp430, msp430.memory
+                data = msp430.memory.Memory()
+                try:
+                    data.loadFile(options.binary)
+                except msp430.elf.ELFException:
+                    sys.stderr.write("Attention: parsing binary file\n")
+                    memory = file(options.binary, 'rb').read()
+                    if len(memory) & 1: 
+                        sys.stderr.write("odd length!!, cutting off last byte\n")
+                        memory = memory[:-1]
+                    memwords = [struct.unpack("<H", memory[x:x+2])[0] for x in range(0, len(memory), 2) ]
+                    offset = 0
+                    while offset < len(memwords):
+                        insn, words, cycles = disassemble(memwords[offset:])
+                        bytes = ' '.join(['%04x' % x for x in memwords[offset:offset+words]])
+                        sys.stdout.write("0x%04x:  %-16s %-36s  (%d cycles)\n" % (options.startadr+offset*2, bytes, insn, cycles))
+                        offset += words
+                else:
+                    memwords = []
+                    for seg in data:
+                        memwords = [struct.unpack("<H", seg.data[x:x+2])[0] for x in range(0, len(seg.data), 2) ]
+                        sys.stdout.write("----- Address 0x%04x:\n" % seg.startaddress)
+                        options.startadr = seg.startaddress
+                        offset = 0
+                        while offset < len(memwords):
+                            insn, words, cycles = disassemble(memwords[offset:])
+                            bytes = ' '.join(['%04x' % x for x in memwords[offset:offset+words]])
+                            sys.stdout.write("0x%04x:  %-16s %-36s  (%d cycles)\n" % (options.startadr+offset*2, bytes, insn, cycles))
+                            offset += words
     else:
         import cgi, os
         #cgitb is not available in py 1.5.2

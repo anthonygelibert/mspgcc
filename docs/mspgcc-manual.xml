@@ -2830,8 +2830,8 @@ in the <quote>packaging</quote> directory at the mspgcc web-site.</para>
 <para>First configure, build and install <emphasis>binutils</emphasis>. The following commands
 will unpack the source code, configure binutils as a cross assembly package,
 build and install it:
-<screen><prompt>$</prompt> <userinput>tar --bzip2 -xf binutils-030503.tar.bz2</userinput>
-<prompt>$</prompt> <userinput>cd binutils-030503</userinput>
+<screen><prompt>$</prompt> <userinput>tar --bzip2 -xf binutils-2.14.tar.bz2</userinput>
+<prompt>$</prompt> <userinput>cd binutils-2.14</userinput>
 <prompt>$</prompt> <userinput>./configure --target=msp430 --prefix=/usr/local/msp430</userinput>
 <prompt>$</prompt> <userinput>make</userinput>
 <prompt>$</prompt> <userinput>su</userinput>

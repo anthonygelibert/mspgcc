@@ -2,6 +2,9 @@ Title: mspgcc - Tools
 css: styles.css
 
 <H2>News</H2>
+<P>2002.10.30: New JTAG debug proxy for Linux and Win32.
+    See the <A href="tools.html#rproxy">tools</A> page for more info.</P>
+
 <P>2002.09.24: New JTAG download library _including_ sources for Linux and Win32, pyjtag updated.
     On the <A href="tools.html#pyjtag">tools</A> page are more infos.</P>
 

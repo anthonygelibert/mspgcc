@@ -220,7 +220,7 @@ The proper linker command looks something like:
 Of course, this is a pain to type, so don't! The simple way is to use msp430-gcc as
 a front end to the linker. Then you can just type:
 <screen>
-<prompt>$ </prompt><userinput>msp430-gcc -mmcu=[arch] -L[extra libraries path] -l[extra libs] obj1.o obj2.o ... -o outputfile</userinput>
+<prompt>$ </prompt><userinput>msp430-gcc -mmcu=[arch] -L[extra lib path] -l[extra lib] obj1.o obj2.o ... -o outfile</userinput>
 </screen>
 </para>
 </sect1>
@@ -249,14 +249,14 @@ for the device you are using. You can adjust the boundaries of the existing sect
 add new ones to lay out your code and data any way you want in memory. The linker
 script language is defined in the documentation for binutils. A compiler command such as:
 <screen>
-<prompt>$ </prompt><userinput>msp430-gcc -Wl,--section-start -Wl,-T linker_script.x [other necessary options and files]</userinput>
+<prompt>$ </prompt><userinput>msp430-gcc -Wl,--section-start -Wl,-T linker_script.x [other options and files]</userinput>
 </screen>
 Specifies that the customer linker script "linker_script.x" should be used in place of the
 default one.</para>
 <para>For the simple definition of one special section, it may be easier to just define that
 section on the command line with a command such as:
 <screen>
-<prompt>$ </prompt><userinput>msp430-gcc -Wl,--section-start -Wl,.newsection=0xd400 [other necessary options and files]</userinput>
+<prompt>$ </prompt><userinput>msp430-gcc -Wl,--section-start -Wl,.newsection=0xd400 [other options and files]</userinput>
 </screen>
 which will place .newsection at address 0xd4000. Although this will place objects where you
 want them, it may not reliably fulfill your requirement. it will not ensure that nothing else

@@ -2,10 +2,10 @@
 <h3>Subsections</h3>
 <li><a href="index.html">Introduction</a>
 <li><a href="news.html">News</a>
-<li><a href="build.html">Build</a>
+<li><a href="manual/book1.html">Documentation</a>
 <li><a href="tools.html">Tools</a>
+<li><a href="faq/t2.html">FAQ</a>
 <li><a href="contribute.html">Contribute</a>
-<li><a href="doc.html">Documentation</a>
 <li><a href="ref.html">Links</a>
 
 <h3>Useful</h3>

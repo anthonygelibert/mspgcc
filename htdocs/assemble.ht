@@ -2,7 +2,7 @@ Title: mspgcc - Single Line MSP430 Assembler
 css: styles.css
 
 <H2>Single Line MSP430 Assembler</H2>
-<P>You can enter a line of assember code in the text field below.
+<P>You can enter a line of assembler code in the text field below.
 The resulting machine code along with data words is then printed.
 </P>
 <P>Example: "mov #7, R6"
@@ -14,7 +14,7 @@ The resulting machine code along with data words is then printed.
 </form>
 
 <P>Description of output:<br>
-The first line is the assmbler line that is realy interpreted. This
+The first line is the assembler line that is realy interpreted. This
 can be different to the input for emulated instructions.
 <UL>
     <LI><code>OPC</code>: 16 bit word for the instruction opcode

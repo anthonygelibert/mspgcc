@@ -4,7 +4,7 @@
 <!-- $Id$ -->
 <book>
   <bookinfo>
-    <date>2003-08-14</date>
+    <date>2003-08-25</date>
     <title>mspgcc</title>
     <subtitle>A port of the GNU tools to the Texas Instruments MSP430 microcontrollers</subtitle>
     <releaseinfo>documentation in progress</releaseinfo>
@@ -1059,6 +1059,7 @@ parameters:
 <informaltable>
 <tgroup cols="2">
 <tbody>
+<row><entry>-mmcu=</entry><entry>Specify the MCU name</entry></row>
 <row><entry>-mno-volatile-workaround</entry><entry>Do not perform a volatile
 workaround for bitwise operations.</entry></row>
 <row><entry>-mno-stack-init</entry><entry>Do not initialise the stack as <emphasis>main()</emphasis>
@@ -1066,42 +1067,48 @@ starts.</entry></row>
 <row><entry>-minit-stack=</entry><entry>Specify the initial stack address.</entry></row>
 <row><entry>-mendup-at=</entry><entry>Jump to the specified routine at the end of
 <emphasis>main()</emphasis>.</entry></row>
-<row><entry>-mforce-hw-mul</entry><entry>Force use of a hardware multiplier.</entry></row>
+<row><entry>-mforce-hwmul</entry><entry>Force use of a hardware multiplier.</entry></row>
 <row><entry>-mdisable-hwmul</entry><entry>Do not use the hardware multiplier.</entry></row>
 <row><entry>-minline-hwmul</entry><entry>Issue inline code for 32-bit integer operations
 for devices with a hardware multiplier.</entry></row>
-<row><entry>-mhwmul-no-int</entry><entry>Do not disable and enable interrupts around
+<row><entry>-mnoint-hwmul</entry><entry>Do not disable and enable interrupts around
 hardware multiplier operations. This makes multiplication faster when you are certain
 no hardware multiplier operations will occur at deeper interrupt levels.</entry></row>
-<row><entry>-mint8</entry><entry>Make <emphasis>int</emphasis> mean an 8 bit integer.</entry></row>
-<row><entry>-mmcu=</entry><entry> Specify the MCU name</entry></row>
-<row><entry>-mreorder</entry><entry>Reverse the order in which registers are allocated.</entry></row>
 <row><entry>-mcall-shifts</entry><entry>Use subroutine calls for shift operations.
 This may save some space for shift intensive applications.</entry></row>
 </tbody>
 </tgroup>
 </informaltable>
-The current MCU names are currently recognised for the <quote>-mmcu</quote>
+The following MCU names are currently recognised for the <quote>-mmcu</quote>
 parameter:
-<literallayout>msp1            any MCU w/o hardware multiplier
-msp2            any MCU with hardware multiplier
-msp430x110      msp430x112
-msp430x1101
-msp430x1111     msp430x1121
-msp430x1122     msp430x1132
-msp430x122      msp430x123
-msp430x1222     msp430x1232
-msp430x1331     msp430x1351
-msp430x133      msp430x135
-msp430x147      msp430x148      msp430x149
-msp430x155      msp430x156      msp430x157
-msp430x167      msp430x168      msp430x169
-msp430x311      msp430x312      msp430x313      msp430x314      msp430x315
-msp430x323      msp430x325      msp430x336      msp430x337
-msp430x412      msp430x413
-msp430x435      msp430x436      msp430x437
-msp430x447      msp430x448      msp430x449
-</literallayout>
+<informaltable>
+<tgroup cols="5">
+<tbody>
+<row><entry>msp1</entry><entry>msp2</entry></row>
+<row><entry>msp430x110</entry><entry>msp430x112</entry></row>
+<row><entry>msp430x1101</entry></row>
+<row><entry>msp430x1111</entry><entry>msp430x1121</entry></row>
+<row><entry>msp430x122</entry><entry>msp430x123</entry></row>
+<row><entry>msp430x1222</entry><entry>msp430x1232</entry></row>
+<row><entry>msp430x133</entry><entry>msp430x135</entry></row>
+<row><entry>msp430x1331</entry><entry>msp430x1351</entry></row>
+<row><entry>msp430x147</entry><entry>msp430x148</entry><entry>msp430x149</entry></row>
+<row><entry>msp430x1471</entry><entry>msp430x1481</entry><entry>msp430x1491</entry></row>
+<row><entry>msp430x155</entry><entry>msp430x156</entry><entry>msp430x157</entry></row>
+<row><entry>msp430x167</entry><entry>msp430x168</entry><entry>msp430x169</entry><entry>msp430x1610</entry><entry>msp430x1611</entry></row>
+<row><entry>msp430x311</entry><entry>msp430x312</entry><entry>msp430x313</entry><entry>msp430x314</entry><entry>msp430x315</entry></row>
+<row><entry>msp430x323</entry><entry>msp430x325</entry><entry>msp430x336</entry><entry>msp430x337</entry></row>
+<row><entry>msp430x412</entry><entry>msp430x413</entry></row>
+<row><entry>msp430xE423</entry><entry>msp430xE425</entry><entry>msp430xE427</entry></row>
+<row><entry>msp430xW423</entry><entry>msp430xW425</entry><entry>msp430xW427</entry></row>
+<row><entry>msp430x435</entry><entry>msp430x436</entry><entry>msp430x437</entry></row>
+<row><entry>msp430x447</entry><entry>msp430x448</entry><entry>msp430x449</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+<quote>msp1</quote> means an MCU without a hardware multiplier. <quote>msp2</quote> means an
+MCU with a hardware multiplier. These can be useful to make the compiler generate the
+correct code for a new device, before it is fully supported.
 </para>
 </sect1>
 
@@ -1136,6 +1143,43 @@ msp430x448 and msp430x449). &lt;io.h&gt; inlcudes the appropriate header
 file, based on the command line "-mmcu" parameter. If you program for a
 number of different MSP430 parts, nothing needs to be changed in your source
 code to rebuild it for a different chip.</para>
+</sect1>
+
+<sect1 id="function-attributes">
+<title>Function attributes</title>
+<para>
+A number of special function attributes are supported, to provide access to the special features of
+the MSP430, and the special needs of embedded programming.
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row><entry>reserve(x)</entry><entry>When applied to main(), this reserves <quote>x</quote> bytes of
+RAM above the stack. This cannot be used with C++ (if C++ is supported later on).</entry></row>
+<row><entry>interrupt(x)</entry><entry>Make the function an interrupt service routine for interrupt
+<quote>x</quote>.</entry></row>
+<row><entry>signal</entry><entry>Make an interrupt service routine allow further nested interrupts.</entry></row>
+<row><entry>wakeup</entry><entry>When applied to an interrupt service routine, wake the processor from
+any low power state as the routine exits. When applied to other routines, this attribute is
+silently ignored.</entry></row>
+<row><entry>naked</entry><entry>Do not generate a prologue or epilogue for the function.</entry></row>
+<row><entry>critical</entry><entry>Disable interrupts on entry, and restore the previous interrupt
+state on exit.</entry></row>
+<row><entry>reentrant</entry><entry>Disable interrupts on entry, and always enable them on exit.</entry></row>
+<row><entry>saveprologue</entry><entry>Use a subroutine for the function prologue, to save memory.</entry></row>
+<row><entry>noint_hwmul</entry><entry>Supress the generation of disable and enable interrupt
+instructions around hardware multiplier code.</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+The syntax for using these attributes is <quote>__attribute__((attribute_name(x)))</quote>, where
+<quote>attribute_name</quote> is replaced by the required attribute name, and <quote>x</quote> is
+replaced by a parameter to that attribute. For attributes which do not accept parameters,
+<quote>(x)</quote> should be omitted.</para>
+<para>
+The header file <quote>signal.h</quote> defines a number of alternative names
+for some of these attributes. In the sections below, some of these alternative names are used in
+more detailed discussions of the use of these attributes.
+</para>
 </sect1>
 
 <sect1 id="writing-interrupt-service-routines">
@@ -1324,9 +1368,9 @@ data at any address.</para>
 <para>The C compiler supports the following basic data types
 <itemizedlist>
 <listitem><para>char - 1 byte (8 bits)</para></listitem>
-<listitem><para>int - 2 bytes (can be chnaged to 8 bits with the <quote>-mint8</quote> compiler flag)</para></listitem>
-<listitem><para>long - 4 bytes</para></listitem>
-<listitem><para>long long - 8 bytes</para></listitem>
+<listitem><para>int - 2 bytes (16 bits)</para></listitem>
+<listitem><para>long - 4 bytes (32 bits)</para></listitem>
+<listitem><para>long long - 8 bytes (64 bits)</para></listitem>
 <listitem><para>float - 4 bytes</para></listitem>
 </itemizedlist>
 All the integer types are supported in signed and unsigned forms. Pointers
@@ -1939,9 +1983,8 @@ save clobbered registers on the stack in the calling function.</para>
 assembler language, you must save them on the stack and restore them before
 exit.</para>
 
-<para>Registers are allocated in the order r12 to r15, r11 to r0, and from r15 to
-r0 with -mreorder flag. Please use this order if you plug in assembly language
-functions.</para>
+<para>Registers are allocated in the order r12 to r15, r11 to r0. Please use
+this order if you plug in assembly language functions.</para>
 
 <para>char, int and pointer variables take one register.  long and float variables
 take two registers, in little-endian order (i.e. the LSB goes in lower numbered

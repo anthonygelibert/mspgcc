@@ -2,15 +2,83 @@ Title: mspgcc - Tools
 css: styles.css
 
 <H2>Tools</H2>
-<A name="overview"></A><!-- ******************************* -->
-<H3>Overview</H3>
-<P>You've got a compiler, but what now? Here you can find some tools that make the environment more complete.
-You can find pyBSL which can communicate with the MSP430 BootStrapLoader (ROM) in Flash devices.
+<A name="overview"><H3>Overview</H3></A><!-- ******************************* -->
+<P>You've got a compiler, but what now? Here you can find some tools that make
+the environment more complete. You can find pyBSL which can communicate with
+the MSP430 BootStrapLoader (ROM) in Flash devices.
 </P>
 <P>JTAG download has finally arrived and is currently beta software!
 </P>
-<P>A simulator is under development. You can step through your programms before downloading
-to a real device.</P>
+<P>A simulator is under development. You can step through your programs before
+downloading to a real device.
+</P>
+
+<A name="gdbproxy"><H3>The gdbproxy Flash Emulation Tool (FET) interface for msp430-gdb</H3></A><!-- ******************************* -->
+<P>gdbproxy is a proxy program which sits between msp430-gdb and the TI Flash
+Emulation Tool (FET). The TI FET tool is their JTAG interface, for debugging
+the flash based versions of the MSP430. gdbproxy understands the gdb remote
+protocol over TCP/IP connections, and it understands how to control an MSP430
+via. a FET.
+</P>
+
+<P>gdbproxy is based on the gdbproxy 0.7 program which can be found
+<A href="http://world.std.com/~qqi/labslave/gdbproxy.html">here</A>. It was
+intended that the MSP430 code just be added to the existing gdbproxy code.
+However, the gdbproxy code has now been so heavily modified it looks like
+it has forked. Sorry. Forking is bad.
+</P>
+
+<P>Because gdbproxy relies on proprietary code from TI the full source code
+cannot be opened at this time. The generic code (i.e. the modified gdbproxy
+code, less the MSP430 specific parts) will be made available when a few more
+things have been tidied up. You can build an MSP430 debugger with that, but
+we hope it may be useful to people trying to build similar tools for other
+processors.
+</P>
+
+<P>What we have to offer right now is binary test versions of gdbproxy for
+Linux on i386 and Windows. They are being used, perhaps even as you read this,
+to debug real MSP430 programs. They support most of the gdb remote protocol.
+</P>
+
+<P>For the Linux inclined we offer
+<A href="http://mspgcc.sourceforge.net/gdbproxy-linux-20021030">this</A>
+and for Windows users we have 
+<A href="http://mspgcc.sourceforge.net/gdbproxy-20021030.exe">this</A>, which
+should be used with <A href="http://mspgcc.sourceforge.net/HIL.dll">this DLL</A>.
+Remember these are works in progress, but they are doing useful work for me.
+The source for HIL.dll can be found in CVS (this part is open source already).
+</P>
+
+<P>The following limitations should be noted:
+
+<UL>
+<LI>The IAR and Quadravox tools both loose control of the MSP430 at times. 
+gdbproxy does too, but it has the benefit that it doesn't seem to dump
+core with the same regularity. It should be very hard to loose
+control of the target device - only issues related to certain power saving
+modes are supposed to do it. This will be investigated, as it is a pain.</LI>
+
+<LI>gdb is a general purpose tool. We need to live with what is does. One odd
+thing it does is choose some strange block sizes in which to download code
+to the target device. When it uses large blocks, writing to flash is
+reasonably fast. When it sends tiny blocks, writing to flash gets slowwww......
+Some caching is currently being done, but improvements are needed.</LI>
+
+<LI>It is advisable to put the following in your .gdbinit file:
+<CODE><BR><BR>
+set remoteaddresssize 64<BR>
+set remotetimeout 999999<BR>
+</CODE><BR>
+to make gdbproxy behave nicely.</LI>
+</UL>
+</P>
+
+<P>The linux version requires access to /dev/parport0. The default 
+permissions on many Linux distributions only allow root to do this. Change the
+permissions, and all should be well. The Linux binary was build on a RedHat 7.2
+machine. The Win32 build was built with mingw32.
+</P>
 
 <A name="pyserjtag"></A><!-- ******************************* -->
 <H3>pySerJTAG and Serial-JTAG adapter</H3>
@@ -41,7 +109,7 @@ the user software on the PC can be open source.
 It will allow us to provide debug features in the near future.
 </P>
 
-<A name="rproxy"><A name="gdbproxy">
+<A name="gdbproxy"><A name="gdbproxy">
 <H3>The gdbproxy Flash Emulation Tool (FET) interface for msp430-gdb</H3></A><!-- ******************************* -->
 <P>gdbproxy is a proxy program which sits between msp430-gdb and the TI Flash
 Emulation Tool (FET). The TI FET tool is their JTAG interface, for debugging
@@ -50,10 +118,10 @@ protocol over TCP/IP connections, and it understands how to control an MSP430
 via a FET (and all the other JTAG adapters that are based on the same schematic).
 </P>
 
-<P>gdbproxy is based on the rproxy 0.7 program which can be found
-<A href="http://world.std.com/~qqi/labslave/rproxy.html">here</A>. It was
-intended that the MSP430 code just be added to the existing rproxy code.
-However, the rproxy code has now been so heavily modified it looks like
+<P>gdbproxy is based on the gdbproxy 0.7 program which can be found
+<A href="http://world.std.com/~qqi/labslave/gdbproxy.html">here</A>. It was
+intended that the MSP430 code just be added to the existing gdbproxy code.
+However, the gdbproxy code has now been so heavily modified it looks like
 it has forked and thus got the new name "gdbproxy". Sorry. Forking is bad.
 </P>
 
@@ -101,7 +169,7 @@ Some caching is currently being done, but improvements are needed.</LI>
 set remoteaddresssize 64<BR>
 set remotetimeout 999999<BR>
 </CODE><BR>
-to make rproxy behave nicely.</LI>
+to make gdbproxy behave nicely.</LI>
 </UL>
 </P>
 

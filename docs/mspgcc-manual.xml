@@ -2874,7 +2874,7 @@ code for Insight 5.1.1 may be found at
 <para>At present, the best way to obtain the MSP430 specific source code is
 directly from the <ulink url="http://sourceforge.net/cvs/?group_id=42303">CVS
 repository at the mspgcc project web-site</ulink>, as follows:
-<screen><userinput>export CVSROOT=:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc</userinput>
+<screen><userinput>export CVSROOT=:pserver:anonymous@cvs.sourceforge.net:/cvsroot/mspgcc</userinput>
 <userinput>export CVS_RSH=ssh</userinput>
 <userinput>cvs login</userinput>
 </screen>

@@ -9,12 +9,20 @@ css: styles.css
       of your choice to download this file.</LI>
   <LI>Binutils sources: <A href="ftp://sources.redhat.com/pub/binutils/releases/binutils-2.11.tar.bz2">
       <code>binutils-2.11.tar.bz2</code></A> (FTP, 7.5MB)</LI>
+  <LI>optionaly GDB sources: <A href="ftp://sources.redhat.com/pub/gdb/old-releases/gdb-5.1.1.tar.bz2">
+      <code>gdb-5.1.1.tar.bz2</code></A> (FTP, 10.5MB)<BR>
+      alternatively: GDB with integrated "Insight" GUI (recomended for win32/cygwin):<BR>
+      <A href="ftp://sources.redhat.com/pub/gdb/old-releases/insight-5.1.1.tar.bz2">
+      <code>insight-5.1.1.tar.bz2</code></A> (FTP, 15.5MB)<BR>
+      (ony one of those two is needed)
+      </LI>
   <LI>The patches from this project.
       The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
       <code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
       <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co gcc</code><BR>
       <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co binutils</code><BR>
       <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co msp430-libc</code><BR>
+      <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co gdb</code><BR>
       </LI>
   <LI>GCC host compiler (for Windows there is <A href="http://cygwin.com/">cygwin</A>).
       Make sure you have the following tools:<UL>
@@ -22,6 +30,9 @@ css: styles.css
       <LI>bzip2 & tar</LI>
       <LI>binutils and gcc host installation</LI>
       </UL>
+    Note: a Windows binary build is available from
+    <a href="http://www.mikrocontroller.net/msp430.en.htm">http://www.mikrocontroller.net/msp430.en.htm</a>
+    (installer, built with MinGW, no cygwin needed)
   </LI>
 </UL>
 
@@ -79,6 +90,20 @@ The default is <code>/usr/local/msp430</code><BR>
 <code style="background:lightgrey">make install</code>.
 </P><P>
 make sure you add <code>$prefix/bin</code> to the PATH in order to be able to invoke tools.
+</P>
+
+<P>Now build and install <B>gdb</B>. This procedure works equaly for insight-5.1.1, just replace "gdb"
+with "insight" in the following steps.
+Make sure that you specify the same <code>--prefix</code> and <code>--target</code>
+as for gcc and binutils:
+<BR>
+<code style="background:lightgrey">tar --bzip2 -xf gdb-5.1.1.tar.bz2</code> unpack the original GNU source tarball<BR>
+copy the files from this site in the sourcetree.<BR>
+<code style="background:lightgrey">cd gdb-5.1.1</code> go to the gdb source tree<BR>
+<code style="background:lightgrey">./configure --target=msp430 --prefix=/usr/local/msp430</code> configure as cross compiler<BR>
+<code style="background:lightgrey">make</code> build the tools, this will take several minutes<BR>
+<code style="background:lightgrey">su</code> login as superuser<BR>
+<code style="background:lightgrey">make install</code> install the cross compiler on your system.
 </P>
 
 <P>Now <B>test</B> the cross compiler:<BR>

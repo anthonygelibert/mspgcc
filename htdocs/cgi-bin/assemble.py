@@ -201,7 +201,12 @@ def assembleDoubleOperandInstruction(insn, *args):
     ad, dst, op2, rel2, c2, is_constreg2 = _buildArg(insn, args[1], bytemode)
     if ad > 1: raise ValueError("argument not suitable as destination")
     cycles = 1 + c1 + c2*2
-    if ad == 0 and dst == 0: cycles = cycles + 1 #destination PC adds one
+    if ((ad == 0 and dst == 0) and      #destination == PC
+       as != 1 and                      #but not if absolute, symbolic or indirect mode
+       1
+       #~ not (as == 1 and src == 3)       #except constreg 3
+    ):
+        cycles = cycles + 1 #destination PC adds one
     out = [[
             'OPC',
             _buildDoubleOperand(
@@ -269,11 +274,13 @@ def assembleJumpInstruction(insn,*args):
     else:
         target = myint(args[0])
         if type(target) != type(0):
-            target=0
+            raise TypeError("offset must be a number")
+        if target & 1:
+            raise ValueError("odd offsets are not allowed")
     if -512 <= target/2 <= 511:
         target = (target/2 & 0x3ff)
     else:
-        target = 0
+        raise ValueError("jump target out of range")
     comment = '%s %s' % (insn, args[0])
     return [[
            'OPC',
@@ -451,7 +458,7 @@ if __name__ == '__main__':
                     iop, comment, cycles = assemble(line)
                     print "\t%s (%d cycle%s)" % (comment, cycles, cycles > 1 and 's' or '')
                     print format(iop)
-                except AssembleException, e:
+                except (AssembleException, ValueError, TypeError), e:
                     print "*** %s" % e
                 print "</pre>"
             else:

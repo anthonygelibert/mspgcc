@@ -27,8 +27,8 @@ output.
 </P>
 
 <P>The jump instructions (jxx, e.g. jmp) expect a byte offset, relative
-to the current position. If the jump location is too far way, a "jxx 0"
-instruction comes out, but no error is given!
+to the current position. Only nummeric offsets are allowed. The linker would
+need to calculate the offset when using labels.
 </P>
 
 <P>This software uses the constant registers of the MSP. However

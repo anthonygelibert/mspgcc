@@ -1,0 +1,13 @@
+Title: mspgcc - Tools
+css: styles.css
+
+<H2>News</H2>
+<P>2002.08.01: Parallelport JTAG Beta for Win32. You'll find more on the <A href="tools.html">tools</A> page.<BR>
+</P>
+
+
+<H2>Older news</H2>
+<P>Binary build for Win32 available. You can get it here: 
+<a href="http://www.mikrocontroller.net/msp430.en.htm">http://www.mikrocontroller.net/msp430.en.htm</a><br>
+ - thanks to Andreas Schwarz
+</P>

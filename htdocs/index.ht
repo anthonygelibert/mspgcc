@@ -2,21 +2,14 @@ Title: mspgcc - GCC toolchain for MSP430
 css: styles.css
 
 <P><B>NEW</B><br>
-Binary build for Win32 available. You can get it here: 
-<a href="http://www.mikrocontroller.net/msp430.en.htm">http://www.mikrocontroller.net/msp430.en.htm</a><br>
- - thanks to Andreas Schwarz
+<LI>2002.08.01: Parallelport JTAG Beta for Win32. You'll find more on the <A href="tools.html">tools</A> page.<BR>
+<LI>2002.08.01: New news page. You find it on the left in the naviagtion bar.<BR>
 </P>
-
-<P><B>Help Wanted</B><br>
-Interested in participating in a open source project? We have some interesting stuff to work on:<UL>
-<LI>Help with floating point library
-</UL>
-See <A href="contribute.html">here</A> for more infos.</P>
 
 <H1>GCC Toolchain for MSP430</H1>
 <P>Here you can find patches to the GCC and Binutils sources which add the embedded processor MSP430
 as a new target.
-Additionally we provide tools so that an work environment can be built for your favorite machine.
+Additionally we provide tools so that a work environment can be built for your favorite machine.
 </P>
 
 <P>The compiler and assembler as our tools are targeted on multiple platform support.
@@ -64,6 +57,13 @@ where everyone can make the product better.
 </P>
 
 
+<P><B>Mailing list</B><br>
+Whe have a mailing list for discussions about the MSP430 and GCC. You can subscribe to
+mspgcc-users on <A href="http://sourceforge.net/mail/?group_id=42303">this page</A>.
+
+<P><B>Help Wanted</B><br>
+Interested in participating in a open source project? We have some interesting stuff to work on.
+See <A href="contribute.html">here</A> for more infos.</P>
 
 <BR>
 Hosted on:

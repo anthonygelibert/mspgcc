@@ -1,6 +1,7 @@
 <!-- -*- html -*- -->
 <h3>Subsections</h3>
 <li><a href="index.html">Introduction</a>
+<li><a href="news.html">News</a>
 <li><a href="build.html">Build</a>
 <li><a href="tools.html">Tools</a>
 <li><a href="contribute.html">Contribute</a>

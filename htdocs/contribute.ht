@@ -35,7 +35,7 @@ existing docs.</P>
 <LI>ASCII (hey, were programmers, we like it simple but portable :-)
 <LI>PDF (reading on paper is more convenient and some clean layout
 is a pleasant to see after seeing some webpages...)
-<LI>HTML (access with the most used tool we haev today: the browser)
+<LI>HTML (access with the most used tool we have today: the browser)
 </P>
 
 <P>The root doc should be in a format that's easy to maintain and
@@ -62,7 +62,7 @@ just to write a backend for the MSP 430</P>
 <P>It should communicate through TCP/IP with a device driver. One driver
 can be the simulator, another the serial BSL, maybe the JTAG.
 That solution should be flexible and portable. It also enables
-us to use diffrent tools/languages for the driver as C (for GDB).</P>
+us to use different tools/languages for the driver as C (for GDB).</P>
 
 <h4>Get C++ working</h4>
 <P>Basic support for C++ is already in, but to be able to use is a C++

@@ -80,7 +80,9 @@ _jumpopnames = {
     'jeq':  0x1,
     'jz':   0x1,
     'jnc':  0x2,
+    'jlo':  0x2,
     'jc':   0x3,
+    'jhs':  0x3,
     'jn':   0x4,
     'jge':  0x5,
     'jl':   0x6,
@@ -141,9 +143,11 @@ def _buildJumpOperand( opcode, offset):
     return 0x2000 | opcode<<10 | offset
 
 #return a tuple:
-# (adress mode, register number, memory value or None, 0=abs 1=relative to pc)
+# (adress_mode, register_number, memory_value or None, 0=abs 1=relative to pc, need_addidional_value, is_constreg)
+ABS, PCREL = 0, 1
+NORMAL, CONSTREG = 0, 1
 def _buildArg(insn, argstring, bytemode):
-    argstring=string.strip(argstring)
+    argstring = string.strip(argstring)
     g = immediate.match(argstring)      #immediate mode
     if g: #here we do the constreg optimisation for the msp 430
         n = myint(g.group(1))
@@ -151,51 +155,51 @@ def _buildArg(insn, argstring, bytemode):
             n = n & 0xff
         else:
             n = n & 0xffff
-        if n==4:
-            return 2, 2, None, 0, 0
+        if n==4 and insn != 'push':   #MSP430 has a push bug....
+            return 2, 2, None, ABS, 0, CONSTREG
         elif n==8 and insn != 'push':   #MSP430 has a push bug....
-            return 3, 2, None, 0, 0
+            return 3, 2, None, ABS, 0, CONSTREG
         elif n==0:
-            return 0, 3, None, 0, 0
+            return 0, 3, None, ABS, 0, CONSTREG
         elif n==1:
-            return 1, 3, None, 0, 0
+            return 1, 3, None, ABS, 0, CONSTREG
         elif n==2:
-            return 2, 3, None, 0, 0
+            return 2, 3, None, ABS, 0, CONSTREG
         elif n==-1 or (bytemode and n==0xff) or (not bytemode and n==0xffff):
-            return 3, 3, None, 0, 0
+            return 3, 3, None, ABS, 0, CONSTREG
         else:
-            return 3, 0, g.group(1), 0, 1
+            return 3, 0, g.group(1), ABS, 1, NORMAL
 
     g = absolute.match(argstring)       #absolute mode
-    if g: return 1, 2, g.group(1), 0, 1
+    if g: return 1, 2, g.group(1), ABS, 1, NORMAL
 
     g = indexed.match(argstring)        #indexed mode
-    if g: return 1, regnumbers[g.group(2)], g.group(1), 0, 1
+    if g: return 1, regnumbers[g.group(2)], g.group(1), ABS, 1, NORMAL
 
     g = post_inc.match(argstring)       #post_inc mode
-    if g: return 3, regnumbers[g.group(1)], None, 0, 1
+    if g: return 3, regnumbers[g.group(1)], None, ABS, 1, NORMAL
 
     g = indirect.match(argstring)       #indirect mode
-    if g: return 2, regnumbers[g.group(1)], None, 0, 1
+    if g: return 2, regnumbers[g.group(1)], None, ABS, 1, NORMAL
 
     if argstring in regnumbers.keys():  #register mode
-        return 0, regnumbers[argstring], None, 0, 0
+        return 0, regnumbers[argstring], None, ABS, 0, NORMAL
 
-    return 1,0,argstring, 1, 1          #symbolic mode
+    return 1, 0, argstring, PCREL, 1, NORMAL   #symbolic mode
 
-#take a string(insn) and arguments (two of them) and return a list
-def assembleDoubleOperandInstruction(insn,*args):
+#take a string(insn) and arguments (two of them) and return list, comment, cycles
+def assembleDoubleOperandInstruction(insn, *args):
     insn, bytemode = _insnMode(insn)
 
     if insn not in _doubleopnames.keys():
-        raise "Error: not a valid double operand instruction"
+        raise ValueError("not a valid double operand instruction")
 
     if args[0] == None or args[1] == None:
-        raise 'Syntax error: "%s" needs two arguments' % insn
+        raise ValueError('"%s" needs two arguments' % insn)
 
-    as, src, op1, rel1, c1 = _buildArg(insn, args[0], bytemode)
-    ad, dst, op2, rel2, c2 = _buildArg(insn, args[1], bytemode)
-    if ad > 1: raise "argument not suitable as destination"
+    as, src, op1, rel1, c1, is_constreg1 = _buildArg(insn, args[0], bytemode)
+    ad, dst, op2, rel2, c2, is_constreg2 = _buildArg(insn, args[1], bytemode)
+    if ad > 1: raise ValueError("argument not suitable as destination")
     cycles = 1 + c1 + c2*2
     if ad == 0 and dst == 0: cycles = cycles + 1 #destination PC adds one
     out = [[
@@ -205,8 +209,8 @@ def assembleDoubleOperandInstruction(insn,*args):
                 bytemode,
                 as, src,
                 ad, dst),
-           '%s%s %s' % (insn, (bytemode and '.b' or ''), "%s, %s" % args) #comment
         ]]
+    comment = '%s%s %s' % (insn, (bytemode and '.b' or ''), "%s, %s" % args)
     if op1:
         if rel1: out.append( ['PCREL', myint(op1)] )
         else:    out.append( ['DW', myint(op1)] )
@@ -215,45 +219,50 @@ def assembleDoubleOperandInstruction(insn,*args):
         if rel2: out.append( ['PCREL', myint(op2)] )
         else:    out.append( ['DW', myint(op2)] )
         cycles = cycles + 1
-    return out, cycles
+    return out, comment, cycles
 
-#take a string(insn) and arguments (one of them) and return a list
-def assembleSingleOperandInstruction(insn,*args):
+#take a string(insn) and arguments (one of them) and return list, comment, cycles
+def assembleSingleOperandInstruction(insn, *args):
     insn, bytemode = _insnMode(insn)
     if insn not in _singleopnames.keys():
-        raise "Error: not a valid single operand instruction"
+        raise ValueError("not a valid single operand instruction")
     if args[0] is None:
-        raise "Error: need at least one argument"
-    ad, dst, op, rel, c = _buildArg(insn, args[0], bytemode)
+        raise ValueError("need one argument")
+    ad, dst, op, rel, c, is_constreg = _buildArg(insn, args[0], bytemode)
     cycles = 1 + c*2
-    if ad == 0:
-        if dst == 0: cycles = cycles + 1 #destination PC adds one
+    #~ print "%r" % insn, ad
+    if not is_constreg:
+        if ad == 0:
+            if dst == 0: cycles = cycles + 1 #destination PC adds one
+            if insn == 'push': cycles = cycles + 2
+            if insn == 'call': cycles = cycles + 3
+        elif ad == 1 or ad == 2:
+            if insn == 'push' or insn == 'call': cycles = cycles + 1
+        elif ad == 3:
+            #~ print "ad", ad, c
+            if insn == 'push': cycles = cycles + 1
+            if insn == 'call': cycles = cycles + 2
+    else: #this happens for immediate values provided by the constant generators
         if insn == 'push': cycles = cycles + 2
         if insn == 'call': cycles = cycles + 3
-    elif ad == 1 or ad == 2:
-        if insn == 'push' or insn == 'call': cycles = cycles + 1
-    elif ad == 3:
-        print "ad", ad, c
-        if insn == 'push': cycles = cycles + 1
-        if insn == 'call': cycles = cycles + 2
     out = [[
             'OPC',
             _buildSingleOperand(
                 _singleopnames[insn],
                 bytemode,
                 ad, dst),
-            '%s%s %s' % (insn, (bytemode and '.b' or ''),args[0])
         ]]
+    comment = '%s%s %s' % (insn, (bytemode and '.b' or ''),args[0])
     if op:
         if rel:  out.append( ['PCREL', myint(op)] )
         else:    out.append( ['DW', myint(op)] )
         if not (dst == 0 and ad == 3): cycles = cycles + 1
-    return out, cycles
+    return out, comment, cycles
 
-#take a string(insn) and arguments (one of them) and return a list
+#take a string(insn) and arguments (one of them) and return list, comment, cycles
 def assembleJumpInstruction(insn,*args):
     if insn not in _jumpopnames.keys():
-        raise "Error: not a valid jump instruction"
+        raise ValueError("not a valid jump instruction")
     cycles = 2
     if args[0] in (".", "$"):
         target = -2
@@ -265,21 +274,16 @@ def assembleJumpInstruction(insn,*args):
         target = (target/2 & 0x3ff)
     else:
         target = 0
-    return ([
+    comment = '%s %s' % (insn, args[0])
+    return [[
            'OPC',
-            _buildJumpOperand(
-                _jumpopnames[insn],
-                target,
-                ),
-            '%s %s' % (insn, args[0])
-        ],), cycles
+            _buildJumpOperand(_jumpopnames[insn], target),
+        ]], comment, cycles
 
 def assembleRETI(insn,*args):
-    cycles = 6
-    return ([
-           'OPC', 0x1300,
-            '%s' % (insn,)
-        ],), cycles
+    comment = '%s' % (insn,)
+    cycles = 5
+    return [['OPC', 0x1300]], comment, cycles
 
 #these instructions are emulated by using one of the insn above
 #some of depend on the constant registers to be efficient
@@ -317,7 +321,7 @@ def emulatedInstruction(insn,*args):
     elif insn == 'eint':    return assembleDoubleOperandInstruction('bis','#8','SR')
     elif insn == 'nop':     return assembleDoubleOperandInstruction('mov','R3','R3')
     elif insn == 'ret':     return assembleDoubleOperandInstruction('mov','@SP+','PC')
-    else:                   raise "Error: not a valid emulated instruction"
+    else:                   raise ValueError("not a valid emulated instruction")
 
 
 #string-function matching
@@ -375,7 +379,9 @@ instructions = {
     'jeq':      assembleJumpInstruction,
     'jz':       assembleJumpInstruction,
     'jnc':      assembleJumpInstruction,
+    'jlo':      assembleJumpInstruction,
     'jc':       assembleJumpInstruction,
+    'jhs':      assembleJumpInstruction,
     'jl':       assembleJumpInstruction,
     'jn':       assembleJumpInstruction,
     'jge':      assembleJumpInstruction,
@@ -385,10 +391,12 @@ instructions = {
     'reti':     assembleRETI,
     }
 
-
+class AssembleException(Exception): pass
+    
 #build a list of pseudo instructions from the source
 def assemble(line):
-    g = asmstatement.match(line)
+    """returns list of tuples: input, cycles, [(mode, word), ...]"""
+    g = asmstatement.search(line)
     if g:
         #print g.groups()
         insn  = g.group(2)
@@ -398,19 +406,22 @@ def assemble(line):
         if insn:
             minsn, bytemode = _insnMode(insn)
             if minsn in instructions.keys():
-                iop, cycles = apply(instructions[minsn], (string.lower(insn), arg1, arg2))
-                for x in iop:
-                    mode, code = x[0:2]
-                    args = x[2:]
-                    if args:
-                        print "\t", args[0], "  (%d cycle%s)" % (cycles, cycles > 1 and 's' or '')
-                    if type(code) == type(0):
-                        print "%s\t0x%04x" % (mode, code&0xffff)
-                    else:
-                        print "%s\t%s" % (mode, code)
+                iop, comment, cycles = apply(instructions[minsn], (string.lower(insn), arg1, arg2))
+                return iop, comment, cycles
             else:
-                print '*** Syntax Error: unknown instruction "%s"' % (insn)
+                raise AssembleException('Syntax Error: unknown instruction "%s"' % (insn))
+    raise AssembleException('No MSP430 assembler instruction found')
 
+def format(iop):
+    result = ''
+    for mode, code in iop:
+        if result:
+            result += '\n'
+        if type(code) == type(0):
+            result += "%s\t0x%04x" % (mode, code&0xffff)
+        else:
+            result += "%s\t%s" % (mode, code)
+    return result
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
@@ -431,7 +442,12 @@ if __name__ == '__main__':
                 print "<pre>", line, "</pre>"
                 print "<H3>Results in the following machine code:</H3>"
                 print "<pre>"
-                assemble(line)
+                try:
+                    iop, comment, cycles = assemble(line)
+                    print "\t%s (%d cycle%s)" % (comment, cycles, cycles > 1 and 's' or '')
+                    print format(iop)
+                except AssembleException, e:
+                    print "*** %s" % e
                 print "</pre>"
             else:
                 print "please go to the correct form to enter the data for this CGI!"

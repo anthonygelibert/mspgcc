@@ -1,4 +1,4 @@
-# Make rules for www.python.org ht->html generation.  SOURCES
+# Make rules for mspgcc.sf.net ht->html generation.  SOURCES
 # indirection filters out "*.ht" value when no ht files are around.
 THEUSER = cliechti@mspgcc.sf.net
 

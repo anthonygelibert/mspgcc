@@ -71,7 +71,7 @@ and a basic 'libc' library. Signed and unsigned integers of 8, 16, 32,
 and 64 bit lengths are supported. Floating point is supported, but only for
 single precision floating values - no double precision. Currently only C
 is supported. However, support for C++, Fortran and other languages
-supported by GCC might be added. Currently the mspgcc port fo the C
+supported by <emphasis>GCC</emphasis> might be added. Currently the mspgcc port fo the C
 compiler is stable, and suitable for production use. At the time of
 writing it is necessary to download a set of patches for the official
 GNU C compiler from the mspgcc web-site. When practical, these will be merged
@@ -93,6 +93,13 @@ Windows machines. Some require (e.g. GVD) require a Windows NT based
 machine (i.e. Windows NT, 2000 or XP machines), and will not work on
 a Windows 98 or Me machine. Choosing and installing front ends other
 than Insight is left as an excercise for the reader.</para>
+</sect1>
+
+<sect1 id="extras">
+<title>Extras</title>
+<para>In addition to the GNU tools, a few extra programs are available from the
+mspgcc web-site. These include software to program the flash memory of an MSP430
+using the bootstrap loader (BSL) built into the MSP430 flash devices.</para>
 </sect1>
 </chapter>
 
@@ -146,13 +153,16 @@ conflicting uses of the parallel port.</para>
 installations of Linux with kernels greater than 2.4.0 can fully support
 mspgcc. Some versions of BSD Unix can too. On other Unix like platforms
 everything except the JTAG interface should work OK. The JTAG interface
-requires raw access to a parallel port. Drivers for this no not
-currently exist for older versions of the Linux kernel.</para>
+requires raw access to a parallel port. Drivers for this do not
+currently exist for these platforms.</para>
 
 <para>If you are running a version of the Linux kernel earlier than 2.4.0
 you will not be able to drive the JTAG interface. The driver needed for
-raw access to the parallel port does not exist for these kernels. However,
-you can still use the rest of the mspgcc tools to write and compile code.</para>
+raw access to the parallel port does not exist for these kernels (although
+someone is currently working on this). However, you can still use the rest
+of the mspgcc tools to write and compile code, and use the bootstrap loader
+(BSL) to program devices. The bootstrap loader requires nothing more than a
+standard serial port.</para>
 
 <para>On platforms without parallel port, it may be possible to use the serial
 bootstrap loader (BSL). One implementation of a downloader can be found on the
@@ -415,12 +425,12 @@ all-bits-set constant, -1.</entry></row>
 <sect1 id="byte-and-word-issues">
 <title>Byte and word issues</title>
 <para>The MSP430 is byte-addressed, and little-endian. Word operands must be 
-located at even addresses. All instructions have a byte/word bit, which selects
-the operand size. Appending <quote>.b</quote> to an instruction makes it a byte
-operation. Appending <quote>.w</quote> to an instruction, to make it a word
-operation, is also legal. However, since it is also the default behaviour,
-if you add nothing, it is generally omitted. A byte instruction with a
-register destination clears the high 8 bits of the register to 0. Thus,
+located at even addresses. Most instructions have a byte/word bit, which
+selects the operand size. Appending <quote>.b</quote> to an instruction makes
+it a byte operation. Appending <quote>.w</quote> to an instruction, to make
+it a word operation, is also legal. However, since it is also the default
+behaviour, if you add nothing, it is generally omitted. A byte instruction
+with a register destination clears the high 8 bits of the register to 0. Thus,
 the following would clear the top byte of the register, leaving the lower
 byte unchanged:
 <programlisting role="asm">
@@ -434,13 +444,17 @@ using a 16-bit access produces garbage in the high byte.
 The 16-bit peripherals must only be accessed at even addresses.
 Byte accesses to even addresses are legal, but not usually useful.</para>
 
-<para>Note that this is a violation of the C language rule that everything
-can be copied by copying bytes.</para>
-
 <para>The processor's behaviour when a word is accessed at an odd location is
 poorly documented. In all current processors the lower bit is just
 silently ignored. The effect is, therefore, the same as specifying an address
 which is one less.</para>
+
+<para>It should be noted that the the byte and word addressing behaviour of the
+MSP430 prevents the processor supporting strict compliance with the standard
+C language. In standard C everything should be copiable, by copying at the byte
+level. This usually has little impact on the types of embedded program for
+which the MSP430 is typically used. However, it can sometimes catch you out!
+</para>
 </sect1>
 
 <sect1 id="the-instruction-set">
@@ -566,14 +580,13 @@ the sign-extended offset to the PC, for a jump range of -1024 to +1022.
 <informaltable>
 <tgroup cols="3">
 <tbody>
-<row><entry>000</entry><entry>JNE/JNZ</entry><entry>Jump if Z=0</entry></row>
-<row><entry>001</entry><entry>JEQ/Z</entry><entry>Jump if Z=1</entry></row>
-<row><entry>010</entry><entry>JNC/JLO</entry><entry>Jump if C=0</entry></row>
-<row><entry>011</entry><entry>JC/JHS</entry><entry>Jump if C=1</entry></row>
-<row><entry>100</entry><entry>JN</entry><entry>Jump if N=1  Note that there is no "JP"
-if N=0!</entry></row>
-<row><entry>101</entry><entry>JGE</entry><entry>Jump if N==V</entry></row>
-<row><entry>110</entry><entry>JL</entry><entry>Jump if N!=V</entry></row>
+<row><entry>000</entry><entry>JNE/JNZ</entry><entry>Jump if Z==0 (if !=)</entry></row>
+<row><entry>001</entry><entry>JEQ/Z</entry><entry>Jump if Z==1 (if ==)</entry></row>
+<row><entry>010</entry><entry>JNC/JLO</entry><entry>Jump if C==0 (if unsigned <)</entry></row>
+<row><entry>011</entry><entry>JC/JHS</entry><entry>Jump if C==1 (if unsigned >=)</entry></row>
+<row><entry>100</entry><entry>JN</entry><entry>Jump if N==1  Note there is no "JP" if N==0!</entry></row>
+<row><entry>101</entry><entry>JGE</entry><entry>Jump if N==V (if signed >=)</entry></row>
+<row><entry>110</entry><entry>JL</entry><entry>Jump if N!=V (if signed <)</entry></row>
 <row><entry>111</entry><entry>JMP</entry><entry>Jump unconditionally</entry></row>
 </tbody>
 </tgroup>
@@ -624,6 +637,9 @@ do the same thing.</entry></row>
 </tbody>
 </tgroup>
 </informaltable>
+Note that other forms of a NOP instruction can be constructed as emulated instructions,
+which take different numbers of cycles to execute. These can sometimes be useful in
+constructing accurate timing patterns in software.
 </para>
 
 <para>Branch and return can be done by moving to PC (r0):
@@ -1315,7 +1331,7 @@ Single byte variables can be located at any address.</para>
 <para>The MSP430's memory mapped peripheral registers are termed special
 function registers (SFRs). The SFRs valid for the device you are using are
 declared when you include <quote>io.h</quote> in your source code, and specify
-the MCU architecture in the GCC command line.</para>
+the MCU architecture in the <emphasis>GCC</emphasis> command line.</para>
 
 <para>You can consider any SFR as a normal variable, which is simply mapped to
 the specific memory location. You do not have to care about exactly which
@@ -1332,7 +1348,7 @@ variable = SFR;
 will read from one.</para>
 
 <para>All SFRs are declared as <quote>volatile</quote>. This implies a-la Harvard
-architecture GCC behaviour for read-modify-write: mov SFR's value to a
+architecture <emphasis>GCC</emphasis> behaviour for read-modify-write: mov SFR's value to a
 register, modify the register, write back to the SFR. However, the GCC
 port for the MSP430 takes into account the possibility that this can often
 be reduced to something like:
@@ -1444,7 +1460,7 @@ Set bits in the copy of the status register stored on the statck.</para>
 Clear bits in the copy of the status register stored on the statck.</para>
 
 <para>These functions should only be used within interrupt service routines.
-At present GCC issues a warning when these functions are used, but the correct
+At present <emphasis>GCC</emphasis> issues a warning when these functions are used, but the correct
 code is produced. To make these functions (and the BIS_SR and BIC_SR) easier
 to use for switching LPM modes, the following values are defined when
 <quote>io.h</quote> is included in your source code
@@ -1485,8 +1501,8 @@ strcasecmp()    strcspn()           strncat()       strsep()
 snprintf()      sprintf()
 </literallayout>
 </blockquote>
-The full definition of the functions can be found in any C manual, so they
-will not be detailed here.</para>
+The full definition of these functions can be found in any C manual, including the
+on line documentation for the GNU tools. They will not be detailed here.</para>
 
 <para>Take care with format conversions in sprintf():
 <itemizedlist>
@@ -1522,13 +1538,11 @@ based on the processor specified in the command line options.</para>
 <itemizedlist>
 <listitem><para>Providing a default vector table.</para></listitem>
 <listitem><para>Providing default interrupt handlers.</para></listitem>
-<listitem><para>Initializing the globally-reserved registers.</para></listitem>
-<listitem><para>Initializing the watchdog.</para></listitem>
-<listitem><para>Initializing the mcucr register.</para></listitem>
-<listitem><para>Initializing the data segment.</para></listitem>
-<listitem><para>Zeroing out the .bss segment.</para></listitem>
+<listitem><para>Initializing the watchdog timer.</para></listitem>
+<listitem><para>Initializing the .data segment.</para></listitem>
+<listitem><para>Zeroing the .bss segment.</para></listitem>
 <listitem><para>Jumping to main(). (A jump is used, rather than a call, to save space on
-  the stack. main() is not expected to return. )</para></listitem>
+the stack. main() is not expected to return.)</para></listitem>
 </itemizedlist>
 The start-up module contains a default interrupt vector table. The contents
 of the table are filled with predefined function names which can be
@@ -1614,15 +1628,15 @@ address.</para>
 <para>The first thing that happens is the watchdog timer is initialized. Then
 the program copies the initialized global variables to RAM (0xfc0a - 0xfc20). 
 After this, the uninitialized globals are cleared (0xfc22 - 0xfc3a).
-At the end of this procedure we jump to 'main', which located at 0xfc44.</para>
+After this, we jump to 'main', which is located at 0xfc44.</para>
 
-<para>In main one can see, that we copy value 0x0280 to r1. It initializes the
-stack pointer, taking into account the space required for local variables.</para>
+<para>In main, we copy the value 0x0280 to r1. This initializes the stack pointer,
+taking into account the space required for local variables.</para>
 
-<para>Then, as long as main does nothing, it jumps to
-<quote>__stop_progExec__</quote>. At this point SR zeroed. Next assembler
-instruction is jump to <quote>__stop_progExec__</quote>. This provides
-end-of-program-execution.</para>
+<para>Next, as long as main does nothing, it jumps to
+<quote>__stop_progExec__</quote>. At this point the SR is zeroed. The next
+instruction is jump to <quote>__stop_progExec__</quote>. This is the
+end of program execution.</para>
 
 <para>In this module, the application uses:
 <itemizedlist>
@@ -1640,7 +1654,8 @@ in RAM.</para></listitem>
 </para>
 
 <para>All of these variables can be overridden with -Wl,--defsym=[symname]=(value)
-For example, to define stack to 0x111, use '-Wl,--defsym=__stack=0x111'.</para>
+For example, to set the initial stack point to0x280, use
+<userinput>-Wl,--defsym=__stack=0x280</userinput>.</para>
 
 <para>In most cases it is not necessary to redefine these values. They can be
 obtained from the user application as follows
@@ -1747,42 +1762,46 @@ and <quote>__stop_progExec__</quote> will not be linked.</para>
 <sect1 id="initializing-the-stack">
 <title>Initializing the stack</title>
 
-<para>Stack initialization is performed in prologue of <quote>main()</quote>. This
-suits most cases. However, if the user redefines startup, and needs some space
-allocated on the stack, the stack has to be explicitly initialized. For example:
+<para>Stack initialization is performed in the prologue of <quote>main()</quote>. This
+suits most cases. However, you redefine startup, and needs some space allocated on
+the stack, the stack has to be explicitly initialized. For example:
 <programlisting role="C">
+#define STACKINITIALVALUE	0x0280
+
 NAKED(_reset_vector__)
 {
-	__asm__ __volatile__("mov #__data_start, r1"::);
-	/* your code */
-	__asm__ __volatile__("br #main"::);
+    /* Initialise the stack */
+    __asm__ __volatile__("mov %0, r1"::"i" (STACKINITIALVALUE));
+
+    /* Your startup code goes here */
+
+    __asm__ __volatile__("br #main"::);
 }
 </programlisting>
 *** NOTE *** DO NOT USE the register definitions PC, SP and SR, which some
 other MSP430 tools (e.g. IAR) recognise. The <emphasis>as</emphasis> assembler in
-<emphasis>binutils</emphasis> does not recognise these names. Instead use r0, r1 and r2.</para>
+<emphasis>binutils</emphasis> does not recognise these names. Instead use r0,
+r1 and r2.</para>
 
 <para>The stack finally will be initialized in main(). Normally, the initial 
 stack pointer address is at top of RAM. If you want to reserve some RAM space,
-which is not accessible for the compiler, you may specify -mno-stack-init
+which is not accessible by the compiler, you may specify -mno-stack-init
 flag and then define startup as follows:
 <programlisting role="C">
-#define STACKINITIALVALUE	0x0111	// for example
+#define STACKINITIALVALUE	0x0280
 
 NAKED(_reset_vector__)
 {
-	char a[100];	// will be allocated on stack
-	__asm__ __volatile__("mov #__data_start, r1"::);
+    char a[100];	/* Will be allocated on the stack */
 
-	/* your startup code here */
+    __asm__ __volatile__("mov       #__data_start ,r1"::);
 
-	/* init stack */
-	__asm__ __volatile__("mov %0, r1"
-				:
-				: "i" (STACKINITIALVALUE)
-				);
-	/* jump to main */
-	__asm__ __volatile__("br #main"::);
+    /* Your startup code goes here */
+
+    /* Initialise the stack */
+    __asm__ __volatile__("mov %0, r1"::"i" (STACKINITIALVALUE));
+    /* Jump to main */
+    __asm__ __volatile__("br #main"::);
 }
 </programlisting>
 If you do not make the function declaration NAKED, note that on function
@@ -1801,7 +1820,7 @@ values are compiled in a mysterious way. Use them with care.</para>
 compiler, and has a value of the stack space required by the function. For
 example:
 <programlisting role="C">
-#define STACKINITIALVALUE 0x111
+#define STACKINITIALVALUE 0x280
 
 void set(char *a) {}	// dummy
 void reset(char *a) {}  // dummy
@@ -1855,7 +1874,7 @@ Disassembly of section .text:
     fc14:       b0 12 06 fc     call    #-1018          ;  #0xfc06
     fc18:       0f 41           mov     r1,     r15
     fc1a:       b0 12 08 fc     call    #-1016          ;  #0xfc08
-    fc1e:       31 40 11 01     mov     #273,   SP      ;  #0x0111
+    fc1e:       31 40 80 02     mov     #640,   SP      ;  #0x0280
     fc22:       30 40 30 fc     br      #0xfc30
     fc26:       31 80 64 00     sub     #100,   SP      ;  #0x0064
     fc2a:       31 50 64 00     add     #100,   SP      ;  #0x0064
@@ -1877,7 +1896,7 @@ function would be a simpler way to achieve the same effect.</para>
 <sect1 id="register-usage">
 <title>Register usage</title>
 <para>If you intend to interface assembly routines with your C code, you need
-to know how GCC uses the registers. This section describes how registers are
+to know how <emphasis>GCC</emphasis> uses the registers. This section describes how registers are
 allocated and used by the compiler.
 (You can override GCC's settings by issuing -ffixed-regs=...)</para>
 
@@ -1898,7 +1917,7 @@ before the function call. Normally, when optimization is turned on, this
 register usage is eliminated and the argument list is accessed via the
 stack pointer.</para>
 
-<para>Use the last two with care. If GCC uses them as these pointers, 
+<para>Use the last two with care. If <emphasis>GCC</emphasis> uses them as these pointers, 
 their values, after the function's prologue are:
 <itemizedlist>
 <listitem><para>r5 = r1 + [size of registers pushed in the prologue] + 2 bytes;</para></listitem>
@@ -1912,7 +1931,7 @@ are interfacing C with assembler language, you do not have to save these
 registers, except in interrupt service routines.</para>
 
 <para>*** NOTE *** some library calls (such as divmodM, mulM) clobber some
-registers (r8 - r11). GCC allows for this during code generation, and will
+registers (r8 - r11). <emphasis>GCC</emphasis> allows for this during code generation, and will
 save clobbered registers on the stack in the calling function.</para>
 
 <para>All other registers are caller used registers. If you are interfacing C with
@@ -1972,7 +1991,7 @@ All other arguments will be allocated in the usual way, from r14.</para>
 <para>Variables names are not transformed in any way, except those with the names
 r0 to r15. For these a '_' is prepended to the name. Aliasing a declaration
 (int A asm("M");) will not change the alias. If "M "is specified as a direct
-address (see the SFR definitions for example), GCC will not 'globalize' the
+address (see the SFR definitions for example), <emphasis>GCC</emphasis> will not 'globalize' the
 symbol. So, you can include these 'address' definitions in any header file.</para>
 
 <para>Each function call starts with a function prologue. The prologue pushes
@@ -1994,10 +2013,11 @@ main:
 .L__FrameSize_main=0x12
 </literallayout>
 </blockquote>
-It can be used as an immediate variable in in line assembly code:
+It can be used as an immediate variable in in line assembly code. For example
 <programlisting role="C">
-__asm__ __volatile__("add #.L__FrameSize_main, r1"::);
+__asm__ __volatile__("bic #0xf0, .L__FrameSize_main(r1)"::);
 </programlisting>
+is similar to using the _BIC_SR_IRQ function.
 </para>
 
 <para>Every  function call ends with a function epilogue. Here, the stack
@@ -2014,11 +2034,11 @@ is used.</para>
 <para>The function "main" is handled specially:
 <itemizedlist>
 <listitem><para>main() sets the stack pointer, unless -mno-stack-init is specified
-on the GCC command line.</para></listitem>
+on the <emphasis>GCC</emphasis> command line.</para></listitem>
 <listitem><para>main() does not save registers.</para></listitem>
 <listitem><para>main() does not return. </para></listitem>
 <listitem><para>main() jumps to <quote>__stop_progExec__</quote> at the end unless
-<quote>-mendup-at=</quote> is specified on the GCC command line.</para></listitem>
+<quote>-mendup-at=</quote> is specified on the <emphasis>GCC</emphasis> command line.</para></listitem>
 </itemizedlist>
 </para>
 </sect1>
@@ -2041,7 +2061,7 @@ on the GCC command line.</para></listitem>
 <title>Using inline assembly language in C programs with mspgcc</title>
 <para>mspgcc tries to be largely compatible with the other C language toolchains
 for the MSP430. Inline assembly language is one area where this is impractical.
-mspgcc uses the usual GCC syntax for inline assembly language, with a few
+mspgcc uses the usual <emphasis>GCC</emphasis> syntax for inline assembly language, with a few
 extensions to deal with MSP430 specific issues. At first sight GCC's way of
 handling inline assembly language may seem a little more difficult to use than
 some of the alternatives. It is, however, generally more efficient and
@@ -2067,7 +2087,7 @@ asm("mov %src,%res": [res] "=r" (result): [src] "m" (source));
 which may be clearer. Here 'source' is the C expression for the input operand
 while 'result' is that of the output operand. '=' indicates, that the operand
 is an output. m and r are constraints and inicate which types of addressing
-mode gcc has to use in the operand. These constraints are fully documented
+mode <emphasis>GCC</emphasis> has to use in the operand. These constraints are fully documented
 in the GNU GCC documentation.</para>
 
 <para>Each asm statement is divided into four parts, by colons:
@@ -2133,12 +2153,12 @@ is a global variable)
 </programlisting>
 </para>
 
-<para>If you are writing a header file that will be included in ANSI C
-programs, write '__asm__' instead of 'asm'. If there are only unused
-output operands, you will also need to specify 'volatile' for the
-'asm' construct.</para>
+<para>If there are only unused output operands, you will also need to specify
+'volatile' for the 'asm' construct. If you are writing a header file that will
+be included in ANSI C programs, use '__asm__' instead of 'asm' and '__volatile__'
+instead of 'volatile'.</para>
 
-<para>A percent '%' sign followed by a digit or defined tag forces GCC to
+<para>A percent '%' sign followed by a digit or defined tag forces <emphasis>GCC</emphasis> to
 substitute the relevant operand. For 4 and 8 byte operands use the
 A, B, C, and D modifiers to select the appropriate 16 bit chunk of the operand.
 For example:
@@ -2215,11 +2235,11 @@ pointers. !!! Do not use this unless you know exactly what are you doing !!!
 
 <sect1 id="registers-variables-and-labels">
 <title>Registers, variables and labels</title>
-<para>Since GCC cannot check the assembler syntax, you can do anything within
+<para>Since <emphasis>GCC</emphasis> cannot check the assembler syntax, you can do anything within
 an assembler asm() statement. However, please note, that
-GCC does not use r0, r2, or r3. Therefore, if you mention one of these registers
+<emphasis>GCC</emphasis> does not use r0, r2, or r3. Therefore, if you mention one of these registers
 as an output parameter in an asm() statement, or as an alias for register
-variable, GCC will substitute some another register instead. Using r0, r2, or r3
+variable, <emphasis>GCC</emphasis> will substitute some another register instead. Using r0, r2, or r3
 as input parameters will result in the error "'asm' operand requires
 impossible reload".</para>
 
@@ -2654,7 +2674,7 @@ Recent snapshots can be found at
 <quote>ftp://sources.redhat.com/pub/binutils/snapshots</quote></ulink> (about
 10.5MB). The snapshot from 030503 is known to work OK.</para>
 
-<para>Only the core package for GCC is required to build the C compiler. This can
+<para>Only the core package for <emphasis>GCC</emphasis> is required to build the C compiler. This can
 be found as the file <quote>/releases/gcc-3.2/gcc-core-3.2.3.tar.bz2</quote>
 (about 10MB) at any of the <ulink url="http://gcc.gnu.org/mirrors.html">GNU
 mirror sites</ulink>.</para>
@@ -2754,8 +2774,8 @@ tar --bzip2 -xf gcc-core-3.2.3.tar.bz2
 </literallayout>
 </blockquote>
 Copy the files from the <quote>gcc/gcc-3.3</quote> directory in the CVS repository
-at the mspgcc web-site into the unpacked GCC source tree. The mismatch between
-the numbering of GCC and this directory is an historical accident. You really
+at the mspgcc web-site into the unpacked <emphasis>GCC</emphasis> source tree. The mismatch between
+the numbering of <emphasis>GCC</emphasis> and this directory is an historical accident. You really
 do want the <quote>gcc/gcc-3.3</quote> to go with <emphasis>GCC</emphasis> version 3.2.3. Now
 build and install <emphasis>GCC</emphasis> with the following commands:
 <screen>
@@ -2810,8 +2830,7 @@ you can. If you want to run <emphasis>msp430-gdbproxy</emphasis> you will need t
 a binary version. msp430-gdbproxy requires a library - <emphasis>libHIL.so</emphasis> -
 to allow access to the parallel port. If there is a binary file for
 <emphasis>msp430-gdbproxy</emphasis> available for your machine, you should now build and
-install <emphasis>libHIL.so</emphasis>. If <emphasis>msp430-gdbproxy</emphasis> is not available, then
-<emphasis>libHIL.so</emphasis> will not be of much use to you.</para>
+install <emphasis>libHIL.so</emphasis>.</para>
 
 <para>Copy the <emphasis>libHIL</emphasis> source code from the
 <quote>jtag/hardware_access/HILppdev</quote> directory in the CVS repository
@@ -2831,7 +2850,7 @@ follows:
 <screen>
 <prompt>$</prompt> <userinput>msp430-gcc -mmcu=msp430x148 -o test -O test.c</userinput>
 </screen>
-You could then try producing disassembled text, with:
+You could then try producing disassembled text, with
 <screen>
 <prompt>$</prompt> <userinput>msp430-objdump -DS test</userinput>
 </screen>

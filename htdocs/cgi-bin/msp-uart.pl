@@ -62,7 +62,7 @@ for ($mod=0; $mod<256; $mod++) {
         if ($gmax>$max) { $gmax=$max; $gmaxi=$mod; }
     }
 }
-print "/* uart calculator: http://igbt.sel.eesc.sc.usp.br/~pzn/\n";
+print "/* uart calculator: http://mspgcc.sourceforge.net/baudrate.html\n";
 print "   clock: $xt"."Hz\n";
 print "   baud rate: $br"."bps\n";
 $porc=100*($gmax/$t); $gmax*=1000000;
@@ -70,3 +70,4 @@ printf("   maxerr:%6.3fus %4.2f\% */\n",$gmax,$porc);
 printf("UBR00=0x%02X; UBR10=0x%02X; UMCTL0=0x%02X; // uart 0\n",$div&0xff,($div&0xfff00)>>8,$gmaxi);
 printf("UBR01=0x%02X; UBR11=0x%02X; UMCTL1=0x%02X; // uart 1\n",$div&0xff,($div&0xfff00)>>8,$gmaxi);
 if ($div>0xffff) { print "ERROR: this baud rate is impossible... div > 0xffff\n"; }
+

@@ -6,8 +6,7 @@ docs:     http://ht2html.sourceforge.net/
 download: http://sourceforge.net/projects/ht2html
 
 This pages design is in the file mspgccGenerator.py it also uses
-InlinePython.py, an extension by me. You may need to copy that file
-to the ht2html directory to make it work.
+InlinePython.py, an extension by me.
 
 InlinePython supports two tags: £py-expr£ and <py>py-code</py>
 That code is executed at generation time and the result is substitued with

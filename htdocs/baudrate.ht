@@ -1,7 +1,7 @@
 Title: mspgcc - MSP430 USART Baudrate Calculator
 css: styles.css
 
-<form action="/cgi-bin/msp-uart.pl" method="get">
+<form action="cgi-bin/msp-uart.pl" method="get">
     <table border="0">
         <TR><TD>Clock:</TD>         <TD><input type="text" name="clock" value=""> Hz</TD></TR>
         <TR><TD>Baud rate:</TD>     <TD><input type="text" name="baud" value=""> bps</TD></TR>
@@ -9,5 +9,6 @@ css: styles.css
     <input type="submit" name="submit" value="calculate">
 </form>
  
-You can get the source code <A HREF="http://igbt.sel.eesc.sc.usp.br/~pzn/msp-uart.txt">here</A>.<BR>
+You can get the source code <A HREF="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/htdocs/cgi-bin/msp-uart.pl?rev=HEAD&content-type=text/plain">here</A>.<BR>
 Thanks to Pedro Zorzenon Neto -- pzn at debian.org
+

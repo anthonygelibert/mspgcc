@@ -274,6 +274,13 @@ def assembleJumpInstruction(insn,*args):
             '%s %s' % (insn, args[0])
         ],), cycles
 
+def assembleRETI(insn,*args):
+    cycles = 6
+    return ([
+           'OPC', 0x1300,
+            '%s' % (insn,)
+        ],), cycles
+
 #these instructions are emulated by using one of the insn above
 #some of depend on the constant registers to be efficient
 def emulatedInstruction(insn,*args):
@@ -374,6 +381,8 @@ instructions = {
     'jge':      assembleJumpInstruction,
     'jl':       assembleJumpInstruction,
     'jmp':      assembleJumpInstruction,
+    #special
+    'reti':     assembleRETI,
     }
 
 

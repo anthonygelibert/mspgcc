@@ -140,6 +140,7 @@ jumpInstructions = {
 
 def disassemble(words):
         cycles = 1              #count cycles, start with insn fetch
+        usedwords = 1
         x = y = None
         if len(words) < 3: words.extend(['UNKNOWN', 'UNKNOWN'])
         opcode = words[0]
@@ -156,7 +157,8 @@ def disassemble(words):
             name, addcyles = singleOperandInstructions[(opcode>>7) & 0x1f]
             cycles = cycles + c + addcyles #some functions have additional cycles (push etc)
             if name=='call' and (opcode>>4) & 3==2: cycles = cycles - 1
-            return "%s%s %s" % (name, (bytemode and '.b' or ''), x%{'x':words[0]}), cycles
+            if '%' in x: usedwords = usedwords + 1
+            return "%s%s %s" % (name, (bytemode and '.b' or ''), x%{'x':words[0]}), usedwords, cycles
 
         #double operand
         elif (opcode>>12)&0xf in doubleOperandInstructions.keys():
@@ -172,7 +174,9 @@ def disassemble(words):
             if '%' in x:
                 x = x % {'x':words[0]}
                 words = words[1:]   #pop used value
-            return "%s%s %s, %s" % (name, (bytemode and '.b' or ''), x, y%{'y':words[0]}), cycles
+                usedwords = usedwords + 1
+            if '%' in y: usedwords = usedwords + 1
+            return "%s%s %s, %s" % (name, (bytemode and '.b' or ''), x, y%{'y':words[0]}), usedwords, cycles
 
         #jump instructions
         elif ((opcode & 0xe000) == 0x2000 and
@@ -183,37 +187,38 @@ def disassemble(words):
             if offset & 0x400:  #negative?
                 offset = -((~offset + 1) & 0x7ff)
             cycles = cycles + addcyles #jumps allways have 2 cycles
-            return "%s %s" % (name, offset), cycles
+            return "%s %s" % (name, offset), usedwords, cycles
 
         #unkown instruction
         else:
-            return 'illegal insn 0x%04x' % opcode, [0], None, cycles
+            return 'illegal insn 0x%04x' % opcode, usedwords, cycles
 
-if len(sys.argv) > 1:
-    insn, cycles = disassemble(map(myint, string.split(sys.argv[1])))
-    print "%s  (%d cycles)" % (insn, cycles)
-else:
-    import cgi, os
-    #cgitb is not available in py 1.5.2
-    #import cgitb
-    #cgitb.enable()
+if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        insn, words, cycles = disassemble(map(myint, string.split(sys.argv[1])))
+        print "%s  (%d words %d cycles)" % (insn, words, cycles)
+    else:
+        import cgi, os
+        #cgitb is not available in py 1.5.2
+        #import cgitb
+        #cgitb.enable()
 
-    try:
-        print "Content-Type: text/html"
-        print
-        fields = cgi.FieldStorage()
-        if fields.has_key("values"):
-            values = fields['values'].value
-            print "<H3>Disassembling the following words:</H3>"
-            print "<pre>", values, "</pre>"
-            print "<H3>Results in the following assembler instruction:</H3>"
-            print "<pre>"
-            insn, cycles = disassemble(map(myint, string.split(values)))
-            print "%s  (%d cycles)" % (insn, cycles)
-            print "</pre>"
-        else:
-            print "please go to the correct form to enter the data for this CGI!"
-    except:
-        print "there was an error :-("
-        import traceback
-        traceback.print_exc(file=sys.stdout)
+        try:
+            print "Content-Type: text/html"
+            print
+            fields = cgi.FieldStorage()
+            if fields.has_key("values"):
+                values = fields['values'].value
+                print "<H3>Disassembling the following words:</H3>"
+                print "<pre>", values, "</pre>"
+                print "<H3>Results in the following assembler instruction:</H3>"
+                print "<pre>"
+                insn, words, cycles = disassemble(map(myint, string.split(values)))
+                print "%s  (%d cycles, %d words)" % (insn, cycles, words)
+                print "</pre>"
+            else:
+                print "please go to the correct form to enter the data for this CGI!"
+        except:
+            print "there was an error :-("
+            import traceback
+            traceback.print_exc(file=sys.stdout)

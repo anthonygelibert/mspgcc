@@ -11,8 +11,8 @@ It also a possibility to work in a team and train your skills.
 <P>We have some interseting stuff to work on:<UL>
     <LI>Help with floating point library
     <LI>Revamp documentation (extend, add tips and tutorials)
-    <LI>Maintain exmaple projects
-    <LI>Write GDB support
+    <LI>Maintain example projects
+    <LI>Write GDB support (look into CVS)
     <LI>Get C++ working
     <LI>Extend the simulator
 </UL></P>

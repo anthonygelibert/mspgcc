@@ -25,10 +25,22 @@ css: styles.css
   </LI>
 </UL>
 
+<H3>CVS</H3>
+<P>Available tags on modules in the CVS repository:
+<UL>
+    <LI>binutils - release_1
+    <LI>gcc - release_1
+    <LI>msp430-libc - release_1
+    <LI>gdb - beta
+</UL>
+</P>
+
 <H3>Build</H3>
 <P>Build instructions for Linux. On other systems you might need to write <code>gmake</code> instead of
 <code>make</code>. On cygwin leave the <code>su</code> away.
-Enter the <code style="background:lightgrey">gray marked</code> commands in a console window (e.g. BASH).
+You can also look <A href="doc_install.html">here</A> for an other description.
+</P>
+<P>Enter the <code style="background:lightgrey">gray marked</code> commands in a console window (e.g. BASH).
 You can unpack and compile the tools as normal user, only the installation must be done as superuser.</P>
 
 <P>First configure, build and install <B>binutils</B>:
@@ -73,10 +85,6 @@ Then you can produce, for example, disassembled text:<BR>
 <code style="background:lightgrey">msp430-objdump -DS test</code><BR>
 Or intel hex output:<BR>
 <code style="background:lightgrey">msp430-objcopy -O ihex test test.ihex</code><BR>
-</P>
-
-<P><B>Tips</B>: There is a <A href="gcctips.html">collection of snippets</A> from mail messages
-between the developers, from the sourcecode etc., which might be useful.
 </P>
 
 <P>All major gcc, as, ld options supported thought.

@@ -34,7 +34,6 @@ are in GNU style.
 </P>
 
 <P>From the GNU Compiler Collection (gcc) we're porting the <B>C compiler</B> (C++ partly done).
-The port on gcc is still in progress watch out for beta releases, comming soon.
 </P><P>GNU C is a full featured compiler:
 ANSI C89 compatible, different levels of optimization, inline assembly, interrupt handlers
 (incl. "wakeup"), floating point etc.

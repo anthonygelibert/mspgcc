@@ -20,10 +20,10 @@ MSP430 development is no longer limited to Windows!
 <P>Here is the <A href="http://sourceforge.net/projects/mspgcc/">project page on SourceForge</A>,
 the <A href="http://sourceforge.net/project/showfiles.php?group_id=42303">download area</a>
 and the <A href="http://sourceforge.net/cvs/?group_id=42303">CVS repository</A>.
-The <A href="http://sourceforge.net/mail/?group_id=42303">mailing lists</A>, especialy the
-mspgcc-users list is a good place for discussions about mspgcc, sugestions, bugreports, ...
+The <A href="http://sourceforge.net/mail/?group_id=42303">mailing lists</A>, especially the
+mspgcc-users list is a good place for discussions about mspgcc, suggestions, bug reports, ...
 The <a href="http://mspgcc.sourceforge.net/manual/">online manual</a> covers the MSP430
-as processor, the gcc extensions of this port and finaly build
+as processor, the gcc extensions of this port and finally build
 instructions for those who need to build the toolchain from source.
 The <a href="http://mspgcc.sourceforge.net/faq/">FAQ</a> may be of interest too.
 </P>
@@ -63,7 +63,7 @@ better.
 
 
 <P><B>Mailing list</B><br>
-Whe have a mailing list for discussions about the MSP430 and GCC. You can subscribe to
+We have a mailing list for discussions about the MSP430 and GCC. You can subscribe to
 the <B>mspgcc-users</B. list <A href="http://sourceforge.net/mail/?group_id=42303">here</A>.
 
 <P><B>Help Wanted</B><br>

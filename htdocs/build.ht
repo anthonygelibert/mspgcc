@@ -18,10 +18,10 @@ css: styles.css
       </LI>
   <LI>The patches from this project.
       The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
-      <code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
-      <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co gcc</code><BR>
-      <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co msp430-libc</code><BR>
-      <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co gdb</code><BR>
+      <code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+      <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/mspgcc co gcc</code><BR>
+      <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/mspgcc co msp430-libc</code><BR>
+      <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/mspgcc co gdb</code><BR>
       </LI>
   <LI>GCC host compiler (for Windows there is <A href="http://cygwin.com/">cygwin</A>).
       Make sure you have the following tools:<UL>

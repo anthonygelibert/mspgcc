@@ -23,6 +23,17 @@
 # cgi or command line usage?
 $cgi=1;
 
+sub mod_bit {
+  my ($bit,$byte)=@_;
+  $byte&=0xff;
+  $byte=$byte+($byte<<8);
+  if (((1<<$bit) & $byte) != 0) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
 if ($cgi==1) {
   # using it as a cgi script
   if ( ($ENV{'REQUEST_METHOD'} eq 'GET') ||
@@ -115,7 +126,7 @@ print  "  desired baud rate: $br"."bps\n";
 printf("  division factor: %g\n",$div);
 printf("  effective baud rate: %gbps\n",$xt/$div);
 $gmax=int($gmax*1e10)/1e10;
-printf("  maximum error: %gus %6.2f\%\n",$gmax*1000000,100*$gmax/$t);
+printf("  maximum error: %gus %6.2f%%\n",$gmax*1000000,100*$gmax/$t);
 print  "\n";
 
 print  "  time table (microseconds):\n";
@@ -173,21 +184,10 @@ printf "    end of stopb %9.2f %9.2f  %+7.3g %+6.2f\n",
   $desired*1000000,$effective*1000000,$err*1000000,$err*100/$t;
 
 print "*/\n";
-printf("UBR00=0x%02X; UBR10=0x%02X; UMCTL0=0x%02X; // uart 0\n",
-       $gdiv&0xff,($gdiv&0xfff00)>>8,$gmaxi);
-printf("UBR01=0x%02X; UBR11=0x%02X; UMCTL1=0x%02X; // uart 1\n",
-       $gdiv&0xff,($gdiv&0xfff00)>>8,$gmaxi);
-
+printf("UBR00=0x%02X; UBR10=0x%02X; UMCTL0=0x%02X; /* uart0 %iHz %ibps */\n",
+       $gdiv&0xff,($gdiv&0xfff00)>>8,$gmaxi,
+       $xt,$xt/$div);
+printf("UBR01=0x%02X; UBR11=0x%02X; UMCTL1=0x%02X; /* uart1 %iHz %ibps */\n",
+       $gdiv&0xff,($gdiv&0xfff00)>>8,$gmaxi,
+       $xt,$xt/$div);
 exit 0;
-
-sub mod_bit() {
-  my ($bit,$byte)=@_;
-  $byte&=0xff;
-  $byte=$byte+($byte<<8);
-  if (((1<<$bit) & $byte) != 0) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-

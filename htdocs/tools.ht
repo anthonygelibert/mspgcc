@@ -2,7 +2,8 @@ Title: mspgcc - Tools
 css: styles.css
 
 <H2>Tools</H2>
-<H3>Overview</H3><!-- ******************************* -->
+<A name="overview"></A><!-- ******************************* -->
+<H3>Overview</H3>
 <P>You've got a compiler, but what now? Here you can find some tools that make the environment more complete.
 You can find pyBSL which can communicate with the MSP430 BootStrapLoader (ROM) in Flash devices.
 </P>
@@ -11,14 +12,15 @@ You can find pyBSL which can communicate with the MSP430 BootStrapLoader (ROM) i
 <P>A simulator is under development. You can step through your programms before downloading
 to a real device.</P>
 
-<H3>pySerJTAG and Serial-JTAG adapter</H3><!-- ******************************* -->
+<A name="pyserjtag"></A><!-- ******************************* -->
+<H3>pySerJTAG and Serial-JTAG adapter</H3>
 <P>pySerJTAG is the PC side software for the Serial-JTAG adpater. The PC software is open and
 written in Python. It should run on the same platforms as pyBSL (Win32, Linux, BSD and more
 POSIX compatible systems). The command line options are compatible with pyBSL and pyJTAG.
 </P>
 
 <P>The hardware design is open. The schematics can be found in the CVS module
-"hardware/serialJTAG". A binary of the firmware for this design is here:
+"hardware/serialJTAG" (here's a <A href="jtagF14x.pdf">PDF</A> 62kB). A binary of the firmware for this design is here:
 <A href="serjtag.zip">serjtag.zip</A> (&lt;10k, beta).
 </P>
 The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
@@ -39,7 +41,8 @@ the user software on the PC can be open source.
 It will allow us to provide debug features in the near future.
 </P>
 
-<H3>pyJTAG</H3><!-- ******************************* -->
+<A name="pyjtag"></A><!-- ******************************* -->
+<H3>pyJTAG</H3>
 <P>Software for the parallel JTAG adapter. It works with Flash devices (MSP430F1xx and F4xx):
 erase and download new software or upload RAM or Flash data from the device back to the PC.
 It uses the parallel port hardware you get with the FET kits, schematics can be found on
@@ -50,9 +53,8 @@ TI's site.
         <LI>loads TI-Text and Intel-hex</LI>
         <LI>download to Flash and/or RAM, erase, verify</LI>
         <LI>reset and wait for keypress</LI>
-        <LI>load addres into R0/PC and run</LI>
         <LI>upload a memory block MSP->PC (output as binary data or hex dump)</LI>
-        <LI>download a program, execute it.</LI>
+        <LI>download a program, execute it. (limited/funclets)</LI>
         <LI>written in Python, runs on Win32</LI>
         <LI>use per command line, or in a Python script</LI>
 </UL>
@@ -62,29 +64,30 @@ For more a complete description, including installation notes and usage examples
 readme.txt</A>
 </P>
 
-<P><B>Attention!</B> The software needs an additional Python extension, which is only available as
-binary. Currently there is a <B>beta</B> version for Win32 and Linux.
+<P><B>Attention!</B> The software needs an additional Python extension.
+Currently there are binary builds for Win32 and Linux.
 </P>
-<P>You can download the needed files here: <A href="_parjtag.zip">_parjtag.zip</A>(20k)<BR>
-Caveats:<UL>
-    <LI>both versions are currently hardwired to LPT1
-    <LI>Win32 version only for Python 2.2
-    <LI>Linux version needs ppdev (/dev/parport0) and thus a 2.4 Kernel.
+<P>You can download the needed files here: <A href="_parjtag.zip">_parjtag.zip</A>(27k)<BR>
+Requirements:<UL>
+    <LI>Win32 version only for Python 2.2, driver for NT/2k/XP included.
+    <LI>Linux version needs ppdev (/dev/parport0 etc.) and thus a 2.4 Kernel.
 </UL>
 <BR>
 Unpack these files to the pyjtag directory.<BR>
-An other warning: The Flash timing cannot accuartely be generated in user mode programms and thus
-this library can generate wrong clocks, which yield to bad written Flash.
-Don't use this software in production!
 </P>
 
-<P>The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
+<P>The lastest pyjtag files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
 <code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
 <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co pyjtag</code><BR>
+
+<P>The lastest source for the extension can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co jtag</code><BR>
 </P>
 
 
-<H3>pyBSL</H3><!-- ******************************* -->
+<A name="pybsl"></A><!-- ******************************* -->
+<H3>pyBSL</H3>
 <P>Software for the bootstrap loader. Works with Flash devices (MSP430F1xx and F4xx): erase and
 download new software or upload RAM or Flash data from the device back to the PC.
 </P>
@@ -114,7 +117,8 @@ The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?gr
 <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co pybsl</code><BR>
 </P>
 
-<H3>msp430simu</H3><!-- ******************************* -->
+<A name="msp430simu"></A><!-- ******************************* -->
+<H3>msp430simu</H3>
 <P>The simulator is under development. Currently it allows single stepping through programms, but
 no active peripherals are yet supported (values can be written at any address, but reading has the
 same effect as reading from RAM).

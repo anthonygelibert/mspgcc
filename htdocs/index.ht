@@ -2,7 +2,8 @@ Title: mspgcc - GCC toolchain for MSP430
 css: styles.css
 
 <P><B>NEW</B><br>
-<LI>2002.09.06: Update of Serial-JTAG, now with sources for the firmware. You'll find more on the <A href="tools.html">tools</A> page.<BR>
+<LI>2002.09.24: New JTAG download library _including_ sources for Linux and Win32, pyjtag updated.
+    On the <A href="tools.html#pyjtag">tools</A> page are more infos.<BR>
 <BR>
 Older news are <A href="news.html">here</A>.
 </P>

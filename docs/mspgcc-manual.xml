@@ -2308,7 +2308,7 @@ obey the mspgcc ABI rules (when applicable - just help me to force this
 process :).</para>
 </sect1>
 
-<sect1 id="tips-andtricks">
+<sect1 id="tips-and-tricks">
 <title>Tips &amp; tricks</title>
 <orderedlist>
 <listitem><para>If you are sure your main routine will never exit, you can use the
@@ -2356,6 +2356,9 @@ k = *((int *)((char *a) + 3));
     constructs.</para></listitem>
 
 <listitem><para>Use logical "or" ('|') instead of '+' for bitmasks.</para></listitem>
+
+<listitem><para>When defining bit fields, try to use signed integers. This produces more compact code
+    that bit fields of unsigned integers.</para></listitem>
 
 <listitem><para>Use 'alloca' instead of 'malloc' for locals. In embedded applications
     trying to avoid any dynamic memory allocation is usually even better ;).

@@ -214,8 +214,49 @@ def disassemble(words):
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
-        insn, words, cycles = disassemble(map(myint, string.split(sys.argv[1])))
-        print "%s  (%d words %d cycles)" % (insn, words, cycles)
+        import struct
+        from optparse import OptionParser
+        #extend with new int converter
+        from copy import copy
+        from optparse import Option, OptionValueError
+        def check_intautobase(option, opt, value):
+            try:
+                return int(value, 0)
+            except ValueError:
+                raise OptionValueError(
+                    "option %s: invalid integer value: %r" % (opt, value))
+        class MyOption (Option):
+            TYPES = Option.TYPES + ("intautobase",)
+            TYPE_CHECKER = copy(Option.TYPE_CHECKER)
+            TYPE_CHECKER["intautobase"] = check_intautobase
+        
+        
+        parser = OptionParser(option_class=MyOption)
+        parser.add_option("-b", "--bin", dest="binary",
+                          help="read data from a binary file", metavar="FILE")
+        parser.add_option("-s", "--startadr", dest="startadr",
+                          help="startoffset for binary input", type="intautobase", default=0)
+        
+        (options, args) = parser.parse_args()
+        
+        if args:
+            insn, words, cycles = disassemble(map(myint, args))
+            print "Parameter disassemble: %s  (%d words %d cycles)" % (insn, words, cycles)
+            
+        if options.binary is not None:
+            print "---- file: %s ----" % options.binary
+            memory = file(options.binary, 'rb').read()
+            if len(memory) & 1: 
+                print "odd length!!, cutting off last byte"
+                memory = memory[:-1]
+            memwords = [struct.unpack("<H", memory[x:x+2])[0] for x in range(0, len(memory), 2) ]
+            #~ print len(words)
+            offset = 0
+            while offset < len(memwords):
+                insn, words, cycles = disassemble(memwords[offset:])
+                bytes = ' '.join(['%04x' % x for x in memwords[offset:offset+words]])
+                print "0x%04x:  %-16s   %-36s  (%d words %d cycles)" % (options.startadr+offset*2, bytes, insn, words, cycles)
+                offset += words
     else:
         import cgi, os
         #cgitb is not available in py 1.5.2

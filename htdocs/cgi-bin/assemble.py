@@ -110,7 +110,7 @@ defines = {
 def myint(s):
     try:
         if s[0:2] == '0x':
-            return int(s[2:],16)
+            return string.atoi(s[2:],16)
         else:
             return int(s)
     except:

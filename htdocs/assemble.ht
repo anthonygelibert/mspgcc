@@ -14,7 +14,7 @@ The resulting machine code along with data words is then printed.
 </form>
 
 <P>Description of output:<br>
-The first line is the assmber line that is realy interpreted. This
+The first line is the assmbler line that is realy interpreted. This
 can be different to the input for emulated instructions.
 <UL>
     <LI><code>OPC</code>: 16 bit word for the instruction opcode
@@ -35,6 +35,24 @@ instruction comes out, but no error is given!
 the result can differ from other assembers.
 </P>
 
+<H2>MSP430 Disassembler</H2>
+<P>Here you can disassemble a series of word values. It's the opposite of
+the operation above.
+</P>
+<P>Example: 0x4035 0x0007<BR>
+</P>
+
+<form action="/cgi-bin/disassemble.py" method="get">
+    Input values:<input type="text" name="values" value="">
+    <input type="submit" name="submit" value="disassemble">
+</form>
+
+<P>The input can be hex or dec. If not enough numbers are passed, the output
+can contain the string "UNKNOWN". This happens e.g. when an instruction requires
+an immediate value but only one value was given.
+</P>
+
+<H2>Disclaimer</H2>
 <P>And as usual - no warranties that the given information is correct.
 Use at your own risk.
 </P>

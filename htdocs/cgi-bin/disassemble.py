@@ -109,7 +109,7 @@ singleOperandInstructions = {
     0x03: ('sxt',  0),
     0x04: ('push', 2),    #write of stack -> 2
     0x05: ('call', 3),    #write of stack -> 2, modify PC -> 1
-    0x06: ('reti', 4),    #pop SR -> 1, pop PC -> 1, modify PC -> 1,  +1??
+    0x06: ('reti', 5),    #pop SR -> 1, pop PC -> 1, modify PC -> 1,  +2??
 }
 
 doubleOperandInstructions = {
@@ -155,6 +155,7 @@ def disassemble(words):
                 )
             name, addcyles = singleOperandInstructions[(opcode>>7) & 0x1f]
             cycles = cycles + c + addcyles #some functions have additional cycles (push etc)
+            if name=='call' and (opcode>>4) & 3==2: cycles = cycles - 1
             return "%s%s %s" % (name, (bytemode and '.b' or ''), x%{'x':words[0]}), cycles
 
         #double operand

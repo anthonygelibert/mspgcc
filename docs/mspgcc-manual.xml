@@ -372,12 +372,10 @@ Register indirect can obviously be faked up with a zero index.</para>
 
 <para>Operand addresses are computed in a simple, sequential way.  The
 C statement
-<programlisting role="C">
-*p++ *= 2;
+<programlisting role="C">*p++ *= 2;
 </programlisting>
 can be implemented as
-<programlisting role="asm">
-add @Rn+,-2(Rn)
+<programlisting role="asm">add @Rn+,-2(Rn)
 </programlisting>
 because the source operand is computed completely (including the
 register post-increment) before the destination is computed.</para>
@@ -433,8 +431,7 @@ behaviour, if you add nothing, it is generally omitted. A byte instruction
 with a register destination clears the high 8 bits of the register to 0. Thus,
 the following would clear the top byte of the register, leaving the lower
 byte unchanged:
-<programlisting role="asm">
-mov.b Rn,Rn
+<programlisting role="asm">mov.b Rn,Rn
 </programlisting>
 </para>
 
@@ -875,8 +872,7 @@ sense.  A byte write is zero-extended to 16 bits, which allows
 be written without changing it.  For example, when evaluating a polynomial
 by Horner's rule
 <blockquote>
-<literallayout>
-a + b*x + c*x^2 + d*x^3 = (((d * x + c) * x) + b) * x + a
+<literallayout>a + b*x + c*x^2 + d*x^3 = (((d * x + c) * x) + b) * x + a
 </literallayout>
 </blockquote>
 Then x can be written to the first operand register just once.</para>
@@ -1085,8 +1081,7 @@ devices with hardware multiplier.</entry></row>
 </informaltable>
 The current MCU names are currently recognised for the <quote>-mmcu</quote>
 parameter:
-<literallayout>
-msp1            any MCU w/o hardware multiplier
+<literallayout>msp1            any MCU w/o hardware multiplier
 msp2            any MCU with hardware multiplier
 msp430x110      msp430x112
 msp430x1101
@@ -1145,15 +1140,13 @@ code to rebuild it for a different chip.</para>
 <title>Writing interrupt service routines</title>
 <para>mspgcc allows interrupt service routines to be written efficiently in C.
 To access the interrupt features of mspgcc the header file
-<literallayout>
-#include &lt;signal.h&gt;
+<literallayout>#include &lt;signal.h&gt;
 </literallayout>
 should be included in any source files where interrupt service routines are
 defined.</para>
 
 <para>To make a routine an interrupt service routine, define it as follows:
-<programlisting role="C">
-interrupt (INTERRUPT_VECTOR) IntServiceRoutine(void)
+<programlisting role="C">interrupt (INTERRUPT_VECTOR) IntServiceRoutine(void)
 {
     /* Any normal C code */
 }
@@ -1164,8 +1157,7 @@ The generated code will save any registers used within the interrupt routine,
 and use the "RETI", rather than the usual "RET" instruction, to exit from
 the routine. The vector table will automatically point to the routine.
 Further interrupt related attributes are also recognised:
-<programlisting role="C">
-interrupt (INTERRUPT_VECTOR) [wakeup, enablenested] IntServiceRoutine(void)
+<programlisting role="C">interrupt (INTERRUPT_VECTOR) [wakeup, enablenested] IntServiceRoutine(void)
 {
     /* Any normal C code */
 }
@@ -1192,8 +1184,7 @@ of the <quote>inline</quote> type, which does not result in an actual function
 call instruction). Any call requires the compiler save register r12, r13, r14
 and r15 on the stack during the function call. For example, something as
 simple as:
-<programlisting role="C">
-uint32_t localtime;
+<programlisting role="C">uint32_t localtime;
 
 void incloctime()
 {
@@ -1214,8 +1205,7 @@ much more efficient.
 <para>For every device, the macros <quote>NOVECTOR</quote> and
 <quote>RESET_VECTOR</quote> are defined. If an interrupt service routine is
 declared as
-<programlisting role="C">
-interrupt (NOVECTOR) [wakeup, enablenested] IntServiceRoutine(void)
+<programlisting role="C">interrupt (NOVECTOR) [wakeup, enablenested] IntServiceRoutine(void)
 {
     /* Any normal C code */
 }
@@ -1238,8 +1228,7 @@ in each device. Undefined interrupts will result in a call to
 
 <para>If you wish, you can completely customise the interrupt vector table,
 by defining your own, like this:
-<programlisting role="C">
-/* Define interrupt vector table */
+<programlisting role="C">/* Define interrupt vector table */
 
 INTERRUPT_VECTORS =
 {
@@ -1348,8 +1337,7 @@ other type of variable. If the device uses flash memory and the flash memory
 is enabled for writing, you can write to the flash. You can place
 <quote>const</quote> variables to RAM, using the attribute
 <quote>section(".data"))</quote> as follows:
-<programlisting role="C">
-const char __attribute__ ((section(".data"))) foo = 1;
+<programlisting role="C">const char __attribute__ ((section(".data"))) foo = 1;
 </programlisting>
 Please note that if you declare variables r0 - r15, the assembler will
 prepend '_' in order to allow the assembler to distinguish them from
@@ -1371,12 +1359,10 @@ the specific memory location. You do not have to care about exactly which
 one.</para>
 
 <para>SFRs are read from and written to using normal C assignments, so:
-<programlisting role="C">
-SFR = value;
+<programlisting role="C">SFR = value;
 </programlisting>
 will write from to and SFR, and
-<programlisting role="C">
-variable = SFR;
+<programlisting role="C">variable = SFR;
 </programlisting>
 will read from one.</para>
 
@@ -1385,8 +1371,7 @@ architecture <emphasis>GCC</emphasis> behaviour for read-modify-write: mov SFR's
 register, modify the register, write back to the SFR. However, the GCC
 port for the MSP430 takes into account the possibility that this can often
 be reduced to something like:
-<programlisting role="asm">
-and.b	#1, &amp;0x0120 
+<programlisting role="asm">and.b	#1, &amp;0x0120 
 </programlisting>
 and the appropriate code is produced. This optimisation can be switched off
 with the <quote>-mno-volatile-workaround</quote> compiler flag.</para>
@@ -1395,8 +1380,7 @@ with the <quote>-mno-volatile-workaround</quote> compiler flag.</para>
 <sect1 id="reserving-space-above-the-stack">
 <title>Reserving space above the stack</title>
 <para>Declaring the <quote>main</quote> routine in the form
-<programlisting role="C">
-int RESERVE_RAM(10) main()
+<programlisting role="C">int RESERVE_RAM(10) main()
 {
     ...
 }
@@ -1455,12 +1439,10 @@ Clear bits in the status register (r2), using the <quote>bic</quote> instruction
 </funcsynopsis>
 Perform an operation on an SFR, which is neither optimized nor modified
 by the compiler. For example:
-<programlisting role="C">
-	SFR_CMD(bis.b, IE1,WDTIE); /* Enable the watchdog interrupt. */
+<programlisting role="C">SFR_CMD(bis.b, IE1,WDTIE); /* Enable the watchdog interrupt. */
 </programlisting>
 does the same thing as
-<programlisting role="C">
-	IE1 |= WDTIE;
+<programlisting role="C">IE1 |= WDTIE;
 </programlisting>
 The main reason for the user to directly access the status register in a C
 program is to switch between the MSP430's low power modes. Although
@@ -1518,8 +1500,7 @@ You can also use these names without the suffix <quote>_bits</quote>.
 <para>The MSP430 version of libc contains a subset of the standard C library
 functions. These are:
 <blockquote>
-<literallayout>
-abs()           bsearch()           exit()          malloc()
+<literallayout>abs()           bsearch()           exit()          malloc()
 rand()          strtoul()           abort()         atoi()
 labs()          setjmp()            abort()         atol()
 errno()         ldiv()              qsort()         strtol()
@@ -1547,8 +1528,7 @@ on line documentation for the GNU tools. They will not be detailed here.</para>
 <para>
 The function
 <blockquote>
-<literallayout>
-uprintf(void (*func)(char c), const char *fmt,...);
+<literallayout>uprintf(void (*func)(char c), const char *fmt,...);
 </literallayout>
 </blockquote>
 is similar to <quote>sprintf()</quote>, except that caller provides an output
@@ -1586,12 +1566,10 @@ the linker will use the version in the library (or module). However, a user
 defined version will take precedence.</para>
 
 <para>Look at the disassembled code produced by
-<screen>
-<prompt>$</prompt><userinput>msp430-objdump -DS a.out</userinput>
+<screen><prompt>$</prompt> <userinput>msp430-objdump -DS a.out</userinput>
 </screen>
 
-<literallayout>
-a.out:     file format elf32-msp430
+<literallayout>a.out:     file format elf32-msp430
 
 Disassembly of section .text:
 
@@ -1692,8 +1670,7 @@ For example, to set the initial stack point to0x280, use
 
 <para>In most cases it is not necessary to redefine these values. They can be
 obtained from the user application as follows
-<programlisting role="C">
-...
+<programlisting role="C">...
 extern int __stack;
 int m;
 
@@ -1714,8 +1691,7 @@ this approach, you can define your own startup code.</para>
 <title>Redefining the startup procedure</title>
 <para>By defining _reset_vector__ in the user application, the linker will not
 link standard startup code. For example:
-<programlisting role="C">
-#include &lt;io.h&gt;
+<programlisting role="C">#include &lt;io.h&gt;
 
 NAKED(_reset_vector__)
 {
@@ -1728,8 +1704,7 @@ NAKED(_reset_vector__)
 </programlisting>
 produces the following code
 <blockquote>
-<literallayout>
-a.out:     file format elf32-msp430
+<literallayout>a.out:     file format elf32-msp430
 
 Disassembly of section .text:
 
@@ -1758,8 +1733,7 @@ Please note that if you declare your own startup, you must take care about
 initialising the values of global variables.</para>
 
 <para>Another way to define the reset routine is to use the _RESET() macro:
-<programlisting role="C">
-_RESET()
+<programlisting role="C">_RESET()
 {
 	/* place your startup code here */
 	__asm__ __volatile__("br #main"::);
@@ -1775,14 +1749,12 @@ _RESET()
 the user code. However, it is possible to save some space, by specifying
 the return point as <quote>main()</quote>. If you compile with
 <blockquote>
-<screen>
-<prompt>$</prompt> <userinput>msp430-gcc -mendup-at=main ...</userinput>
+<screen><prompt>$</prompt> <userinput>msp430-gcc -mendup-at=main ...</userinput>
 </screen>
 </blockquote>
 you will get
 <blockquote>
-<literallayout>
-...
+<literallayout>...
 0000fc08 &lt;main&gt;:
     fc08:       31 40 80 02     mov     #640,   SP      ;  #0x0280
     fc0c:       30 40 10 fc     br      #0xfc08
@@ -1798,8 +1770,7 @@ and <quote>__stop_progExec__</quote> will not be linked.</para>
 <para>Stack initialization is performed in the prologue of <quote>main()</quote>. This
 suits most cases. However, you redefine startup, and needs some space allocated on
 the stack, the stack has to be explicitly initialized. For example:
-<programlisting role="C">
-#define STACKINITIALVALUE	0x0280
+<programlisting role="C">#define STACKINITIALVALUE	0x0280
 
 NAKED(_reset_vector__)
 {
@@ -1820,8 +1791,7 @@ r1 and r2.</para>
 stack pointer address is at top of RAM. If you want to reserve some RAM space,
 which is not accessible by the compiler, you may specify -mno-stack-init
 flag and then define startup as follows:
-<programlisting role="C">
-#define STACKINITIALVALUE	0x0280
+<programlisting role="C">#define STACKINITIALVALUE	0x0280
 
 NAKED(_reset_vector__)
 {
@@ -1840,8 +1810,7 @@ NAKED(_reset_vector__)
 If you do not make the function declaration NAKED, note that on function
 exit, the frame pointer value will be added to r1. Therefore, the stack
 initialisation should be as follows:
-<programlisting role="C">
-...
+<programlisting role="C">...
 __asm__ __volatile__("mov %0, r1" :: "i" (STACKINITIALVLUE) );
 __asm__ __volatile__("sub #.L__FrameSize__reset_vector__, r1"::);
 ...
@@ -1852,8 +1821,7 @@ values are compiled in a mysterious way. Use them with care.</para>
 <para>The variable <quote>.L__FrameSize_[function name]</quote> is defined by the
 compiler, and has a value of the stack space required by the function. For
 example:
-<programlisting role="C">
-#define STACKINITIALVALUE 0x280
+<programlisting role="C">#define STACKINITIALVALUE 0x280
 
 void set(char *a) {}	// dummy
 void reset(char *a) {}  // dummy
@@ -1877,13 +1845,11 @@ int main()
 }
 </programlisting>
 compiled with
-<screen>
-<prompt>$</prompt> <userinput>msp430-gcc -O m.c -mendup-at=main -mno-stack-init</userinput>
+<screen><prompt>$</prompt> <userinput>msp430-gcc -O m.c -mendup-at=main -mno-stack-init</userinput>
 </screen>
 will result in:
 <blockquote>
-<literallayout>
----
+<literallayout>---
 a.out:     file format elf32-msp430
 
 Disassembly of section .text:
@@ -2030,20 +1996,17 @@ all registers used within the function to be saved on the stack.</para>
 
 <para>In every function definition
 <blockquote>
-<literallayout>
-.L__FrameSize_[function name]=[frame size]
+<literallayout>.L__FrameSize_[function name]=[frame size]
 </literallayout>
 </blockquote>
 is defined. For example:
 <blockquote>
-<literallayout>
-main:
+<literallayout>main:
 .L__FrameSize_main=0x12
 </literallayout>
 </blockquote>
 It can be used as an immediate variable in in line assembly code. For example
-<programlisting role="C">
-__asm__ __volatile__("bic #0xf0, .L__FrameSize_main(r1)"::);
+<programlisting role="C">__asm__ __volatile__("bic #0xf0, .L__FrameSize_main(r1)"::);
 </programlisting>
 is similar to using the _BIC_SR_IRQ function.
 </para>
@@ -2053,8 +2016,7 @@ pointer is adjusted by adding the frame size to r1. The registers save
 registers are the popped from the stack. The function then returns. Normal
 functions just issue a "ret" instruction. Functions with the interrupt
 attribute issue a "reti" instruction. For wake-up interrupts the sequence:
-<programlisting role="asm">
-bic #0xf0,0(r1) 
+<programlisting role="asm">bic #0xf0,0(r1) 
 reti
 </programlisting>
 is used.</para>
@@ -2105,12 +2067,10 @@ registers or memory locations will contain the data you want to use.</para>
 <para>You must specify an assembler instruction template much like what appears
 in an assembler language, plus an operand constraint string for each
 operand. For example:
-<programlisting role="C">
-asm("mov %1, %0": "=r" (result): "m" (source));
+<programlisting role="C">asm("mov %1, %0": "=r" (result): "m" (source));
 </programlisting>
 This could also be written:
-<programlisting role="C">
-asm("mov %src,%res": [res] "=r" (result): [src] "m" (source));
+<programlisting role="C">asm("mov %src,%res": [res] "=r" (result): [src] "m" (source));
 </programlisting>
 which may be clearer. Here 'source' is the C expression for the input operand
 while 'result' is that of the output operand. '=' indicates, that the operand
@@ -2122,27 +2082,26 @@ in the GNU GCC documentation.</para>
 <orderedlist>
 <listitem><para>The assembler instructions, defined as a single string constant:
 <blockquote>
-    <literallayout>"mov %src, %res"</literallayout>
+<literallayout>"mov %src, %res"</literallayout>
 </blockquote>
 </para></listitem>
 <listitem><para>A list of output operands, separated by commas. Our example uses just one,
 and defines the identifier "res" for it:
 <blockquote>
-    <literallayout>[res] "=r" (result)</literallayout>
+<literallayout>[res] "=r" (result)</literallayout>
 </blockquote>
 </para></listitem>
 <listitem><para>A comma separated list of input operands. Again, our example uses just one
     operand, and defines the identifier "src" for it:
 <blockquote>
-    <literallayout>[src] "m" (source)</literallayout>
+<literallayout>[src] "m" (source)</literallayout>
 </blockquote>
 </para></listitem>
 <listitem><para>The clobbered registers. This is left empty in our example, as nothing
 is clobbered.</para></listitem>
 </orderedlist>
 So, the complete pattern is: 
-<programlisting role="C">
-asm((string asm statement) : [outputs]:[inputs]:[clobbers]);
+<programlisting role="C">asm((string asm statement) : [outputs]:[inputs]:[clobbers]);
 </programlisting>
 </para>
 
@@ -2161,19 +2120,16 @@ These constraints cause the compiler to automatically generate preamble and
 postamble code, allocate registers, and save and restore anything necessary to
 ensure the assembly language is efficiently and compatibly handled. For
 example
-<programlisting role="C">
-    asm("add %[bar],%[foo]"
+<programlisting role="C">    asm("add %[bar],%[foo]"
         : [foo] "=r" (foo)
         : [foo] "r" (foo), [bar] "m" (bar));
 </programlisting>
 is equivalent to
-<programlisting role="C">
-    foo += bar;
+<programlisting role="C">foo += bar;
 </programlisting>
 and will result in the following generated assembly language (assuming "foo"
 is a global variable)
-<programlisting role="asm">
-    mov &amp;foo, r12
+<programlisting role="asm">    mov &amp;foo, r12
 /* #APP */
     add &amp;bar, r12
 /* #NOAPP */
@@ -2190,8 +2146,7 @@ instead of 'volatile'.</para>
 substitute the relevant operand. For 4 and 8 byte operands use the
 A, B, C, and D modifiers to select the appropriate 16 bit chunk of the operand.
 For example:
-<programlisting role="C">
-#define LONGVAL 0x12345678l
+<programlisting role="C">#define LONGVAL 0x12345678l
 
 {
     long a,b;
@@ -2206,8 +2161,7 @@ For example:
 }
 </programlisting>
 or
-<programlisting role="C">
-#define LONGVAL 0x12345678l
+<programlisting role="C">#define LONGVAL 0x12345678l
 
 {
     long a,b;
@@ -2223,8 +2177,7 @@ or
 </programlisting>
 This will result in something like the following generated assembly language
 (assuming 'a' is declared within the block, and 'b' is declared globally):
-<programlisting role="asm">
-    ...
+<programlisting role="asm">    ...
 /* #APP */
     mov #llo(305419896), r12
     mov #lhi(305419896), r13
@@ -2294,8 +2247,7 @@ where the %= modifier stands for a unique number within the file.</para>
 
 <para>The following labels are defined for some expanded operands:
 <blockquote>
-<literallayout>
-.Lsren%=
+<literallayout>.Lsren%=
 .Lsrcl%=
 .Lsre%=
 .Lae%=
@@ -2323,8 +2275,7 @@ what is going on. Namely:</para>
 <para>
 <emphasis>Multiplication:</emphasis>
 <blockquote>
-<literallayout>
-__mul{qi,hi,si}3
+<literallayout>__mul{qi,hi,si}3
 __umul{qi,hi,si}3
 __umulsi3hw
 </literallayout>
@@ -2340,8 +2291,7 @@ clobbered after the function returns.</para>
 <para>
 <emphasis>Division:</emphasis>
 <blockquote>
-<literallayout>
-__divmod{qi,hi,si}4
+<literallayout>__divmod{qi,hi,si}4
 __udivmod{qi,hi,si}4
 </literallayout>
 </blockquote>
@@ -2363,26 +2313,23 @@ process :).</para>
 <title>Tips &amp; tricks</title>
 <orderedlist>
 <listitem><para>If you are sure your main routine will never exit, you can use the
-   <quote>-mendup-at=main</quote> flag when compiling. This
-   will save 6 bytes of ROM.</para></listitem>
+    <quote>-mendup-at=main</quote> flag when compiling. This
+    will save 6 bytes of ROM.</para></listitem>
 
 <listitem><para>Avoid passing long argument list to functions. Avoid returning
-   long values from functions. The best functions types to use are
-   void, int, or pointer. </para></listitem>
+    long values from functions. The best functions types to use are
+    void, int, or pointer. </para></listitem>
 
 <listitem><para>Avoid the initialization of global variables within a small function call.
-   Instead, assign a value during variable definition.</para></listitem>
+    Instead, assign a value during variable definition.</para></listitem>
 
 <listitem><para>Avoid converting chars to another type. char variables can be located
-   anywhere in RAM, while word variables can only be at even addresses.
-   Because of this, the following code:
-<blockquote>
-<literallayout>
-const char *a = "1234";
+    anywhere in RAM, while word variables can only be at even addresses.
+    Because of this, the following code:
+<programlisting role="C">const char *a = "1234";
 int k;
 k = *((int *)((char *a) + 3));
-</literallayout>
-</blockquote>
+</programlisting>
      will result in unpredictable CPU behaviour.</para></listitem>
  
 <listitem><para>Avoid using global variables of small size - it is a waste of RAM.</para></listitem>
@@ -2416,33 +2363,28 @@ k = *((int *)((char *a) + 3));
     </para></listitem>
 
 <listitem><para>Apart from C++ recomendations ;), it would be better to use:
-<programlisting role="C">
-    #define SMTS 1234567890l
+<programlisting role="C">#define SMTS 1234567890l
 </programlisting>
 instead of declaring
-<programlisting role="C">
-    const long smts = 1234567890l;
+<programlisting role="C">const long smts = 1234567890l;
 </programlisting>
 </para></listitem>
 
 <listitem><para>If you execute
-<programlisting role="C">
-while ((long) a &amp; 0x80000l);
+<programlisting role="C">while ((long) a &amp; 0x80000l);
 </programlisting>
 the program will hang, unless 'a' is declared volatile. So, do it!</para></listitem>
 
 <listitem><para>Delay loops are very sophisticated routines. Normally, users do
     something like:
-<programlisting role="C">
-    int i = 1234;
-    
-    while (i--);
+<programlisting role="C">int i = 1234;
+
+while (i--);
 </programlisting>
 or
-<programlisting role="C">
-    int i;
-    
-    for (i = 0;  i &lt; 1234;  i++);
+<programlisting role="C">int i;
+
+for (i = 0;  i &lt; 1234;  i++);
 </programlisting>
     NEITHER WILL NOT WORK AS YOU EXPECT when optimisation is switched on!!!
     The optimizer will detect dead code in both examples and will eliminate
@@ -2454,8 +2396,7 @@ or
     poor programming style - you have no idea how long or short a delay it
     might produce (although there is an obvious minimum bound!). It would
     be better, and more reliable to define something like:
-<programlisting role="C">
-static void __inline__ brief_pause(register unsigned int n)
+<programlisting role="C">static void __inline__ brief_pause(register unsigned int n)
 {
     __asm__ __volatile__ (
 		"1: \n"
@@ -2501,6 +2442,13 @@ so it can be used directly by the mspgcc software. The driver for this is
 called <emphasis>giveio</emphasis>, and is normally installed automatically by the Windows
 installer program. If you find you cannot access the parallel port with
 msp430-gdbproxy, check that <emphasis>giveio</emphasis> is installed and running.</para>
+<para>If all is well, you should be able to run <emphasis>msp430-gdbproxy</emphasis>.
+Whilst gaining confidence in the tools, it might be a good idea to run
+<emphasis>msp430-gdbproxy</emphasis> with debugging on in a window of its own,
+so it can be monitored for any signs of trouble. The following command
+<screen><prompt>$</prompt> <userinput>msp430-gdbproxy --debug msp430</userinput>
+</screen>
+should do this. The --help argument will make it list its options.</para>
 </sect1>
 
 <sect1 id="parallel-port-issues-with-linux">
@@ -2518,16 +2466,15 @@ use for mspgcc you will need to stop that printer daemon before
 <para>Check that your Linux kernel actually has raw parallel-port support. If
 you are running a vanilla Red Hat or Debian distribution, this should be
 the case already. Type
-<literallayout>
-<prompt>$</prompt> <userinput>cat /proc/devices</userinput>
-</literallayout>
-and look for an entry referring to "ppdev". If there isn't one you will need
-to recompile your kernel. This is only likely of you have a custom kernel.</para>
+<screen><prompt>$</prompt> <userinput>cat /proc/devices</userinput>
+</screen>
+and look for an entry referring to <quote>ppdev</quote>. If there isn't one
+you will need to recompile your kernel. This is only likely of you have a
+custom kernel.</para>
 
 <para>If a printer daemon is using the parallel port, stop it. A command like:
-<literallayout>
-<prompt>$</prompt> <userinput>/etc/rc.d/init.d/lpd stop</userinput>
-</literallayout>
+<screen><prompt>$</prompt> <userinput>/etc/rc.d/init.d/lpd stop</userinput>
+</screen>
 will do this on any Red Hat Linux machine, and many other distributions.</para>
 
 <para>Check that permissions of the raw parallel-port device(/dev/parport0). It
@@ -2547,12 +2494,12 @@ set its SGID bit.</para>
 
 <para>You should now be able to run <emphasis>msp430-gdbproxy</emphasis>. Whilst gaining
 confidence in the tools, it might be a good idea to run <emphasis>msp430-gdbproxy</emphasis>
-with debugging on in a window of its own so it can be monitored for any
-signs of trouble.
-<literallayout>
-<prompt>$</prompt> <userinput>/usr/local/sbin/msp430-gdbproxy --debug msp430</userinput>
-</literallayout>
-for instance. The --help argument will make it list its options.</para>
+with debugging on in a window of its own, so it can be monitored for any
+signs of trouble. The following command
+<screen>
+<prompt>$</prompt> <userinput>msp430-gdbproxy --debug msp430</userinput>
+</screen>
+should do this. The --help argument will make it list its options.</para>
 </sect1>
 
 <sect1 id="msp430-evaluation-and-prototyping-cards">
@@ -2582,21 +2529,18 @@ version differences between the prototyping cards.</para>
 <para>Remember to use msp430-gcc (or msp430-as) and msp430-ld when developing
 code. The easiest thing to do is to put lines saying:
 <blockquote>
-<literallayout>
-CC=msp430-gcc
+<literallayout>CC=msp430-gcc
 LD=msp430-ld
 </literallayout>
 </blockquote>
 at the top of your Makefiles. It is also a very good idea to specify
 <blockquote>
-<literallayout>
-CFLAGS=-O2
+<literallayout>CFLAGS=-O2
 </literallayout>
 </blockquote>
 or
 <blockquote>
-<literallayout>
-CFLAGS=-g -O2
+<literallayout>CFLAGS=-g -O2
 </literallayout>
 </blockquote>
 You will almost certainly want <quote>-O2</quote> for any real production code.
@@ -2612,16 +2556,21 @@ the actual downloaded code is not affected.</para>
 
 <chapter id="programming-and-debugging-msp430s">
 <title>Programming and debugging MSP430s</title>
-<sect1 id="using-the-jtag-fet-tool">
-<title>Using the JTAG FET tool</title>
-<para>Before trying to use <emphasis>msp430-gdb</emphasis>, make sure that <emphasis>msp430-gdbproxy</emphasis>
-is running on a suitable well-known port (it uses port 2000 by default).</para>
+<sect1 id="using-the-jtag-fet-tool-with-gdbproxy">
+<title>Using the JTAG FET tool with gdbproxy</title>
+<para>Before using <emphasis>msp430-gdb</emphasis>, make sure
+<emphasis>msp430-gdbproxy</emphasis> is running. By default it uses TCP port
+2000 to communicate with the debugger. You can explicitly set a port on the
+command line. The command
+<screen><prompt>$</prompt> <userinput>msp430-gdbproxy --port=2000 msp430</userinput>
+</screen>
+will start <quote>msp430-gdbproxy</quote>
+</para>
 <para>Put the following lines into your GDB startup file. For Unix and Linux
 this is the file <quote>.gdbinit</quote> in your home directory. For Windows users
 it is <quote>gdb.ini</quote>:
 <blockquote>
-<literallayout>
-set remoteaddresssize 64
+<literallayout>set remoteaddresssize 64
 set remotetimeout 999999
 target remote localhost:2000
 </literallayout>
@@ -2633,8 +2582,7 @@ or whatever well known port you have <emphasis>msp430-gdbproxy</emphasis> listen
 <title>Downloading code to a target processor</title>
 <para>Let's assume you have a fully-linked executable called 'foo'. Type:
 </para>
-<screen>
-<prompt>$</prompt> <userinput>msp430-gdb foo</userinput>
+<screen><prompt>$</prompt> <userinput>msp430-gdb foo</userinput>
 </screen>
 <para>Assuming that you set up your <quote>/.gdbinit</quote> file as suggested
 above, then nothing special has to be done. Otherwise type the three commands
@@ -2643,12 +2591,10 @@ listed above at the <emphasis>gdb</emphasis> command prompt. It you have
 should see evidence of it starting
 to work.</para>
 <para>Type:
-<screen>
-<prompt>$</prompt> <userinput>monitor erase all</userinput>
+<screen><prompt>$</prompt> <userinput>monitor erase all</userinput>
 </screen>
 and the JTAG interface will clear the flash memory of the MSP430. Type:
-<screen>
-<userinput>load foo</userinput>
+<screen><userinput>load foo</userinput>
 </screen>
 and after a few seconds you should get confirmation that the flash memory
 has been reprogrammed. You need to erase the flash before you can load new code
@@ -2670,12 +2616,128 @@ interrupted, and let you inspect the state of registers, memory, variables,
 and so on. In fact, all the normal things you would expect from any other
 implementation of GDB.</para>
 </sect1>
+
+<sect1 id="additional-tools">
+<title>Additional tools</title>
+<para>There are some additional tools available for mspgcc.
+</para>
+<sect2 id="pybsl">
+<title>pyBSL</title>
+<para>Software for the bootstrap loader. Works with Flash devices (MSP430F1xx
+and F4xx): erase and download new software or upload RAM or Flash data from
+the device back to the PC.
+</para>
+
+<para>Features:
+<itemizedlist>
+<listitem><para>Load TI-Text, Intel-hex and ELF files into a device.</para></listitem>
+<listitem><para>Download and verify to Flash and RAM.</para></listitem>
+<listitem><para>Erase Flash.</para></listitem>
+<listitem><para>Reset and wait for keypress (to run a device directly from the port power).</para></listitem>
+<listitem><para>Load an addres into R0/PC and run.</para></listitem>
+<listitem><para>Password file can be any datafile, e.g. the one used to program the device in an earlier session.</para></listitem>
+<listitem><para>Upload a memory block MSP->PC (output as binary data or hex dump).</para></listitem>
+<listitem><para>Download a program, execute it, resynchronize and uplaod results. (for testing and calibration).</para></listitem>
+<listitem><para>Written in Python, runs on Win32, BSD, Linux (and other POSIX compatible systems) (and Jython).</para></listitem>
+<listitem><para>Use per command line, or in a Python script.</para></listitem>
+<listitem><para>Downloadable replacement MSP430-BSLs, which also allows higher baudrates.</para></listitem>
+</itemizedlist>
+
+For more a complete description, including installation notes and usage examples, look at the
+<ulink url="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/pybsl/readme.txt?rev=HEAD&amp;content-type=text/plain">
+readme.txt</ulink>
+</para>
+</sect2>
+
+<sect2 id="msp430simu">
+<title>msp430simu</title>
+<para>An MSP430 simulator, written in Python is under development. Although
+a simulator is built into msp430-gdb, it fulfills a somewhat different
+requirement. The simulator is under development. Currently it allows single
+stepping through programs, butno active peripherals are yet supported (values
+can be written at any address, but reading has the same effect as reading from
+RAM).
+</para>
+<para>It has a simple GUI with memory and disassembler views, logging output,
+as well as a file open dialog to select intel hex files. Or it can be embedded
+in Python scripts e.g. for automatic testing, etc.
+</para>
+
+<para>Requirements:
+<itemizedlist>
+<listitem><para>Python 2.1 or newer.</para></listitem>
+<listitem><para>wxPython for the GUI only.</para></listitem>
+</itemizedlist>
+</para>
+</sect2>
+
+<sect2 ide="pyjtag">
+<title>pyJTAG</title>
+<para>pyjtag is a program to use the MSP430 parallel JTAG adapters as simple
+programming tools. Just like msp430-gdbproxy, it works with the devices from
+TI, Olimex, Softbaught, and others. It works with Flash devices (MSP430F1xx
+and F4xx), and can erase Flash and download or upload both RAM and Flash data
+in an attached device.
+</para>
+
+<para>Features:
+<itemizedlist>
+<listitem><para>loads TI-Text, Intel-hex and ELF files.</para></listitem>
+<listitem><para>download to Flash and/or RAM, erase, verify.</para></listitem>
+<listitem><para>reset and wait for keypress.</para></listitem>
+<listitem><para>upload a memory block MSP->PC (output as binary data or hex dump).</para></listitem>
+<listitem><para>download a program, execute it. (limited/funclets)</para></listitem>
+<listitem><para>written in Python, runs on Win32, Linux, BSD (other platforms possible if
+parallel port module is ported)</para></listitem>
+<listitem><para>use per command line, or in a Python script.</para></listitem>
+</itemizedlist>
+
+For more a complete description, including installation notes and usage examples, look at the
+<ulink url="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/pyjtag/readme.txt?rev=HEAD&amp;content-type=text/plain">
+readme.txt</ulink>
+</para>
+
+<para><emphasis>Attention!</emphasis> The software needs an additional Python
+extension. Currently there are binary builds for Win32 and Linux.
+</para>
+<para>You can download the needed files here: <ulink url="_parjtag.zip">_parjtag.zip</ulink>(27k).
+</para>
+<para>Requirements:
+<itemizedlist>
+<listitem><para>Win32 version only for Python 2.2, driver for NT/2k/XP included.</para></listitem>
+<listitem><para>Linux version needs ppdev (/dev/parport0 etc.) and thus a 2.4 Kernel.</para></listitem>
+</itemizedlist>
+Unpack these files to the pyjtag directory.
+</para>
+</sect2>
+
+<sect2 id="pyserjtag">
+<title>pySerJTAG and the serial-JTAG adapter</title>
+<para>pySerJTAG is the PC side software for the Serial-JTAG adapter. The PC
+software is open and written in Python. It should run on the same platforms
+as pyBSL (Win32, Linux, BSD and more POSIX compatible systems). The command
+line options are compatible with pyBSL and pyJTAG.
+</para>
+
+<para>The hardware design is open. The schematics can be found in the CVS
+module "hardware/serialJTAG" (here's a <ulink url="jtagF14x.pdf">PDF</ulink> 62kB).
+A binary of the firmware for this design is here <ulink url="serjtag.zip">serjtag.zip</ulink>
+(&lt;10k, beta).
+</para>
+
+<para>Why would you want this? The parallel port has some drawbacks such as
+missing OS support for bit banging. We cannot access every platform that
+mspgcc users use. Therefore it's impossible to distribute binaries for all.
+The Serial-JTAG adapter moves the proprietary code out to that box and the
+user software on the PC can be open source. It will allow us to provide
+debug features in the near future.
+</para>
+</sect2>
+</sect1>
 </chapter>
 
 <chapter id="building-mspgcc-from-source-code">
 <title>Building mspgcc from source code</title>
-<sect1 id="build-introduction">
-<title>Introduction</title>
 <para>Binary installers are provided at the mspgcc web-site for some platforms.
 For others you can build the tools yourself. The source code for everything
 except <emphasis>msp430-gdbproxy</emphasis> is available for download. Even the majority
@@ -2684,7 +2746,6 @@ where it may be of value to other projects. The only source code which is not
 available is the library which interfaces to the JTAG port of an MSP430, via
 the FET tool. This is TI's proprietary code. They have made it available for
 use in mspgcc, provided the source code is not released.</para>
-</sect1>
 
 <sect1 id="shopping-list">
 <title>Shopping list</title>
@@ -2723,14 +2784,12 @@ code for GDB 5.1.1 may be found at
 <para>At present, the best way to obtain the MSP430 specific source code is
 directly from the <ulink url="http://sourceforge.net/cvs/?group_id=42303">CVS
 repository at the mspgcc project web-site</ulink>, as follows:
-<screen>
-<userinput>export CVSROOT=:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc/</userinput>
+<screen><userinput>export CVSROOT=:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc/</userinput>
 <userinput>export CVS_RSH=ssh</userinput>
 <userinput>cvs login</userinput>
 </screen>
 Just press enter when prompted for the password. Then continue with:
-<screen>
-<userinput>cvs checkout gcc</userinput>
+<screen><userinput>cvs checkout gcc</userinput>
 <userinput>cvs checkout gdb</userinput>
 <userinput>cvs checkout msp430-libc</userinput>
 <userinput>cvs checkout jtag</userinput>
@@ -2776,8 +2835,7 @@ in the <quote>packaging</quote> directory at the mspgcc web-site.</para>
 <para>First configure, build and install <emphasis>binutils</emphasis>. The following commands
 will unpack the source code, configure binutils as a cross assembly package,
 build and install it:
-<screen>
-<prompt>$</prompt> <userinput>tar --bzip2 -xf binutils-030503.tar.bz2</userinput>
+<screen><prompt>$</prompt> <userinput>tar --bzip2 -xf binutils-030503.tar.bz2</userinput>
 <prompt>$</prompt> <userinput>cd binutils-030503</userinput>
 <prompt>$</prompt> <userinput>./configure --target=msp430 --prefix=/usr/local/msp430</userinput>
 <prompt>$</prompt> <userinput>make</userinput>
@@ -2797,8 +2855,7 @@ compiled.</para>
 same <quote>--prefix</quote> and <quote>--target</quote> that you specified for
 <emphasis>binutils</emphasis>. Unpack the source code, as follows:
 <blockquote>
-<literallayout>
-tar --bzip2 -xf gcc-core-3.2.3.tar.bz2
+<literallayout>tar --bzip2 -xf gcc-core-3.2.3.tar.bz2
 </literallayout>
 </blockquote>
 Copy the files from the <quote>gcc/gcc-3.3</quote> directory in the CVS repository
@@ -2806,8 +2863,7 @@ at the mspgcc web-site into the unpacked <emphasis>GCC</emphasis> source tree. T
 the numbering of <emphasis>GCC</emphasis> and this directory is an historical accident. You really
 do want the <quote>gcc/gcc-3.3</quote> to go with <emphasis>GCC</emphasis> version 3.2.3. Now
 build and install <emphasis>GCC</emphasis> with the following commands:
-<screen>
-<prompt>$</prompt> <userinput>cd gcc-3.2.3</userinput>
+<screen><prompt>$</prompt> <userinput>cd gcc-3.2.3</userinput>
 <prompt>$</prompt> <userinput>./configure --target=msp430 --prefix=/usr/local/msp430</userinput>
 <prompt>$</prompt> <userinput>make</userinput>
 <prompt>$</prompt> <userinput>su</userinput>
@@ -2817,16 +2873,14 @@ build and install <emphasis>GCC</emphasis> with the following commands:
 
 <para>Download <emphasis>msp430-libc</emphasis> as either a tarball or from the CVS repository
 at the mspgcc web-site.
-<screen>
-<prompt>$</prompt> <userinput>cd msp430-libc/src</userinput>
+<screen><prompt>$</prompt> <userinput>cd msp430-libc/src</userinput>
 </screen>
 If you specified something other than <quote>/usr/local/msp430</quote> as the
 prefix, when building <emphasis>binutils</emphasis> and <emphasis>GCC</emphasis>, you will need to edit
 the <emphasis>Makefile</emphasis>. Change <quote>/usr/local/msp430</quote> to the installation
 directory you are actually using. The use the following commands to build and
 install the library:
-<screen>
-<prompt>$</prompt> <userinput>make</userinput>
+<screen><prompt>$</prompt> <userinput>make</userinput>
 <prompt>$</prompt> <userinput>su</userinput>
 <prompt>$</prompt> <userinput>make install</userinput>
 </screen>
@@ -2836,14 +2890,12 @@ install the library:
 <emphasis>insight-5.1.1</emphasis>. Just replace "<emphasis>gdb</emphasis>" with "<emphasis>insight</emphasis>" in the
 following steps. Make sure that you specify the same <quote>--prefix</quote>
 and <quote>--target</quote> as for <emphasis>binutils</emphasis> and <emphasis>GCC</emphasis>:
-<screen>
-<prompt>$</prompt> <userinput>tar --bzip2 -xf gdb-5.1.1.tar.bz2</userinput>
+<screen><prompt>$</prompt> <userinput>tar --bzip2 -xf gdb-5.1.1.tar.bz2</userinput>
 </screen>
 Copy the <emphasis>GDB</emphasis> files from the CVS repository at the mspgcc web-site into
 the unpacked <emphasis>GDB</emphasis> source tree. Now build and install <emphasis>GDB</emphasis> with the
 following commands:
-<screen>
-<prompt>$</prompt> <userinput>cd gdb-5.1.1</userinput>
+<screen><prompt>$</prompt> <userinput>cd gdb-5.1.1</userinput>
 <prompt>$</prompt> <userinput>./configure --target=msp430 --prefix=/usr/local/msp430</userinput>
 <prompt>$</prompt> <userinput>make</userinput>
 <prompt>$</prompt> <userinput>su</userinput>
@@ -2863,8 +2915,7 @@ install <emphasis>libHIL.so</emphasis>.</para>
 <para>Copy the <emphasis>libHIL</emphasis> source code from the
 <quote>jtag/hardware_access/HILppdev</quote> directory in the CVS repository
 at the mspgcc web-site. Then, build and install it with the following commands:
-<screen>
-<prompt>$</prompt> <userinput>cd jtag/hardware_access/HILppdev</userinput>
+<screen><prompt>$</prompt> <userinput>cd jtag/hardware_access/HILppdev</userinput>
 <prompt>$</prompt> <userinput>make libHIL.so</userinput>
 <prompt>$</prompt> <userinput>su</userinput>
 <prompt>$</prompt> <userinput>mv libHIL.so /usr/local/lib</userinput>
@@ -2875,16 +2926,13 @@ is listed in your <quote>LD_LIBRARY_PATH</quote> environment variable.</para>
 
 <para>You can now test the installed tools. Try building an example program, as
 follows:
-<screen>
-<prompt>$</prompt> <userinput>msp430-gcc -mmcu=msp430x148 -o test -O test.c</userinput>
+<screen><prompt>$</prompt> <userinput>msp430-gcc -mmcu=msp430x148 -o test -O test.c</userinput>
 </screen>
 You could then try producing disassembled text, with
-<screen>
-<prompt>$</prompt> <userinput>msp430-objdump -DS test</userinput>
+<screen><prompt>$</prompt> <userinput>msp430-objdump -DS test</userinput>
 </screen>
 Or you could generate Intel format hex output (e.g. for a programmer) with:
-<screen>
-<prompt>$</prompt> <userinput>msp430-objcopy -O ihex test test.ihex</userinput>
+<screen><prompt>$</prompt> <userinput>msp430-objcopy -O ihex test test.ihex</userinput>
 </screen>
 </para>
 

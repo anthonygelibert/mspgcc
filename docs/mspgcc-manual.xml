@@ -1059,22 +1059,25 @@ parameters:
 <informaltable>
 <tgroup cols="2">
 <tbody>
-<row><entry>-mno-volatile-workaround</entry><entry>Do not perform volatile
-workaround for bitwise operations</entry></row>
-<row><entry>-mno-stack-init</entry><entry>No stack init in main()</entry></row>
-<row><entry>-mforce-hw-mul</entry><entry>Force hardware multiplier</entry></row>
-<row><entry>-mdisable-hwmul</entry><entry>Do not use hardware multiplier</entry></row>
-<row><entry>-mint8</entry><entry>Assume int to be 8 bit integer</entry></row>
-<row><entry>-mendup-at=</entry><entry>Jump to specified routine at the end of
-main()</entry></row>
+<row><entry>-mno-volatile-workaround</entry><entry>Do not perform a volatile
+workaround for bitwise operations.</entry></row>
+<row><entry>-mno-stack-init</entry><entry>Do not initialise the stack as <emphasis>main()</emphasis>
+starts.</entry></row>
+<row><entry>-minit-stack=</entry><entry>Specify the initial stack address.</entry></row>
+<row><entry>-mendup-at=</entry><entry>Jump to the specified routine at the end of
+<emphasis>main()</emphasis>.</entry></row>
+<row><entry>-mforce-hw-mul</entry><entry>Force use of a hardware multiplier.</entry></row>
+<row><entry>-mdisable-hwmul</entry><entry>Do not use the hardware multiplier.</entry></row>
+<row><entry>-minline-hwmul</entry><entry>Issue inline code for 32-bit integer operations
+for devices with a hardware multiplier.</entry></row>
+<row><entry>-mhwmul-no-int</entry><entry>Do not disable and enable interrupts around
+hardware multiplier operations. This makes multiplication faster when you are certain
+no hardware multiplier operations will occur at deeper interrupt levels.</entry></row>
+<row><entry>-mint8</entry><entry>Make <emphasis>int</emphasis> mean an 8 bit integer.</entry></row>
 <row><entry>-mmcu=</entry><entry> Specify the MCU name</entry></row>
-<row><entry>-minit-stack=</entry><entry>Specify the initial stack address</entry></row>
-<row><entry>-mreorder</entry><entry>Revert registers allocation order</entry></row>
-<row><entry>-minline-hwmul</entry><entry>Issue inline code for 32-bit integers for
-devices with hardware multiplier.</entry></row>
+<row><entry>-mreorder</entry><entry>Reverse the order in which registers are allocated.</entry></row>
 <row><entry>-mcall-shifts</entry><entry>Use subroutine calls for shift operations.
-                          This may save some space for shift intensive
-                          applications.</entry></row>
+This may save some space for shift intensive applications.</entry></row>
 </tbody>
 </tgroup>
 </informaltable>

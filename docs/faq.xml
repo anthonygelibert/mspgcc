@@ -99,9 +99,10 @@ For example:
 static __inline__ uint16_t bcd_add16(register uint16_t bcd_a, register uint16_t bcd_b)
 {
     __asm__(
+	" clrc \n"
         " dadd %[bcd_b],%[bcd_a] \n"
-        : [bcd_a] "+r"(bcd_a)
-        : [bcd_b] "r"(bcd_b));
+        : [bcd_a] "+ro" (bcd_a)
+        : [bcd_b] "g" (bcd_b));
     return bcd_a;
 }
 </programlisting>

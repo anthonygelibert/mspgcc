@@ -5,7 +5,7 @@
 <book>
 <article>
   <articleinfo>
-    <date>2003-08-14</date>
+    <date>2003-10-18</date>
     <title>mspgcc and C for the MSP430 FAQ</title>
     <subtitle>FAQ</subtitle>
     <releaseinfo>documentation in progress</releaseinfo>
@@ -352,6 +352,7 @@ void the_place_to_jump_to(void)
 </programlisting>
 </para>
 </sect1>
+
 <sect1 id="q14">
 <title>I keep loosing communication with the target processor, when using
 msp430-gdbproxy and a FET tool. Is mspgcc buggy?</title>
@@ -382,6 +383,7 @@ You may notice that none of these issues is specific to mspgcc. They tend to
 affect users of any of the MSP430 tools, under Windows, Linux or BSD.
 </para>
 </sect1>
+
 <sect1 id="q15">
 <title>Some assembly language instructions seems to keep changing. Whats up?</title>
 <para>Many instructions can be looked at in more that one way. "add x to x" is
@@ -403,6 +405,7 @@ behaviour.</para>
 <para>There is more information about these alternative names for the
 instuctions in the mspgcc manual.</para>
 </sect1>
+
 <sect1 id="q16">
 <title>I think I found a bug in mspgcc. What do I do?</title>
 <para>You are in the right place to get started. Look through this FAQ first,
@@ -452,5 +455,18 @@ command like
 </itemizedlist>
 </para>
 </sect1>
+
+<sect1 id="q17">
+<title>I am getting link errors about missing multiply routines. What is wrong?</title>
+<para>The usual cause for this problem is that you specified a different "-mmcu="
+option at the compile and link stages. Both the compiler and the linker need to
+know which device you are using. The compiler needs to know, so it can use hardware
+or software multiplies. The linker needs to know so it can choose the library for
+software multiplication or hardware multiplication, as appropriate. Unless you have
+explicitly defined the memory map, the linker also needs to know the target device, so
+it can choose the appropriate default memory definitions.
+</para>
+</sect1>
+
 </article>
 </book>

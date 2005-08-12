@@ -112,7 +112,7 @@ It will allow us to provide debug features in the near future.
 </P>
 
 <A name="pyjtag"></A><!-- ******************************* -->
-<H3>pyJTAG</H3>
+<H3>msp430-jtag</H3>
 <P>Software for the parallel JTAG adapter. It works with Flash devices (MSP430F1xx and F4xx):
 erase and download new software or upload RAM or Flash data from the device back to the PC.
 It uses the parallel port hardware you get with the FET kits, schematics can be found on
@@ -131,23 +131,22 @@ TI's site. It also works with the Olimex JTAG adapter.
 </UL>
 
 For more a complete description, including installation notes and usage examples, look at the
-<A href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/pyjtag/readme.txt?rev=HEAD&content-type=text/plain">
+<A href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/python/README-msp430-jtag.txt?rev=HEAD&content-type=text/plain">
 readme.txt</A>
 </P>
 
-<P><B>Attention!</B> The software needs an additional Python extension.
-Currently there are binary builds for Win32 and Linux.
+<P><B>Attention!</B> The software needs an additional Python extension. Either
+_parjtag (it's sources are in the CVS/jtag/python repository) or ctypes is required.
 </P>
-<P>You can download the needed files here: <A href="_parjtag.zip">_parjtag.zip</A>(27k)<BR>
+<P>
 Requirements:<UL>
-    <LI>Win32 version only for Python 2.2, driver for NT/2k/XP included.
-    <LI>Linux version needs ppdev (/dev/parport0 etc.) and thus a 2.4 Kernel.
+    <LI>Win32 user please use the mspgcc installer.
+    <LI>Linux version can use ppdev (/dev/parport0 etc.) and thus a 2.4 or newer Kernel.
+    <LI>or driver can be compiled with ioperm and direct parport hardware access.
 </UL>
-<BR>
-Unpack these files to the pyjtag directory.<BR>
 </P>
 
-<P>The latest pyjtag files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
+<P>The latest msp430-jtag files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
 <code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
 <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co pyjtag</code><BR>
 
@@ -158,7 +157,7 @@ Unpack these files to the pyjtag directory.<BR>
 
 
 <A name="pybsl"></A><!-- ******************************* -->
-<H3>pyBSL</H3>
+<H3>msp430-bsl</H3>
 <P>Software for the bootstrap loader. Works with Flash devices (MSP430F1xx and F4xx): erase and
 download new software or upload RAM or Flash data from the device back to the PC.
 </P>
@@ -177,7 +176,7 @@ download new software or upload RAM or Flash data from the device back to the PC
 </UL>
 
 For more a complete description, including installation notes and usage examples, look at the
-<A href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/pybsl/readme.txt?rev=HEAD&content-type=text/plain">
+<A href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/python/README-msp430-bsl.txt?rev=HEAD&content-type=text/plain">
 readme.txt</A>
 </P>
 

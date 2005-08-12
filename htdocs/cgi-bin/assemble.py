@@ -188,17 +188,14 @@ def _buildArg(insn, argstring, bytemode):
     return 1, 0, argstring, PCREL, 1, NORMAL   #symbolic mode
 
 #take a string(insn) and arguments (two of them) and return list, comment, cycles
-def assembleDoubleOperandInstruction(insn, *args):
+def assembleDoubleOperandInstruction(insn, arg1, arg2):
     insn, bytemode = _insnMode(insn)
 
     if insn not in _doubleopnames.keys():
         raise ValueError("not a valid double operand instruction")
 
-    if args[0] == None or args[1] == None:
-        raise ValueError('"%s" needs two arguments' % insn)
-
-    as, src, op1, rel1, c1, is_constreg1 = _buildArg(insn, args[0], bytemode)
-    ad, dst, op2, rel2, c2, is_constreg2 = _buildArg(insn, args[1], bytemode)
+    as, src, op1, rel1, c1, is_constreg1 = _buildArg(insn, arg1, bytemode)
+    ad, dst, op2, rel2, c2, is_constreg2 = _buildArg(insn, arg2, bytemode)
     if ad > 1: raise ValueError("argument not suitable as destination")
     cycles = 1 + c1 + c2*2
     if ((ad == 0 and dst == 0) and      #destination == PC
@@ -215,7 +212,7 @@ def assembleDoubleOperandInstruction(insn, *args):
                 as, src,
                 ad, dst),
         ]]
-    comment = '%s%s %s' % (insn, (bytemode and '.b' or ''), "%s, %s" % args)
+    comment = '%s%s %s' % (insn, (bytemode and '.b' or ''), "%s, %s" % (arg1, arg2))
     if op1:
         if rel1: out.append( ['PCREL', myint(op1)] )
         else:    out.append( ['DW', myint(op1)] )
@@ -227,13 +224,11 @@ def assembleDoubleOperandInstruction(insn, *args):
     return out, comment, cycles
 
 #take a string(insn) and arguments (one of them) and return list, comment, cycles
-def assembleSingleOperandInstruction(insn, *args):
+def assembleSingleOperandInstruction(insn, arg1, arg2=None):
     insn, bytemode = _insnMode(insn)
     if insn not in _singleopnames.keys():
         raise ValueError("not a valid single operand instruction")
-    if args[0] is None:
-        raise ValueError("need one argument")
-    ad, dst, op, rel, c, is_constreg = _buildArg(insn, args[0], bytemode)
+    ad, dst, op, rel, c, is_constreg = _buildArg(insn, arg1, bytemode)
     cycles = 1 + c*2
     #~ print "%r" % insn, ad
     if not is_constreg:
@@ -257,7 +252,7 @@ def assembleSingleOperandInstruction(insn, *args):
                 bytemode,
                 ad, dst),
         ]]
-    comment = '%s%s %s' % (insn, (bytemode and '.b' or ''),args[0])
+    comment = '%s%s %s' % (insn, (bytemode and '.b' or ''), arg1)
     if op:
         if rel:  out.append( ['PCREL', myint(op)] )
         else:    out.append( ['DW', myint(op)] )
@@ -265,14 +260,14 @@ def assembleSingleOperandInstruction(insn, *args):
     return out, comment, cycles
 
 #take a string(insn) and arguments (one of them) and return list, comment, cycles
-def assembleJumpInstruction(insn,*args):
+def assembleJumpInstruction(insn, arg1=None, arg2=None):
     if insn not in _jumpopnames.keys():
         raise ValueError("not a valid jump instruction")
     cycles = 2
-    if args[0] in (".", "$"):
+    if arg1 in (".", "$"):
         target = -2
     else:
-        target = myint(args[0])
+        target = myint(arg1)
         if type(target) != type(0):
             raise TypeError("offset must be a number")
         if target & 1:
@@ -281,20 +276,20 @@ def assembleJumpInstruction(insn,*args):
         target = (target/2 & 0x3ff)
     else:
         raise ValueError("jump target out of range")
-    comment = '%s %s' % (insn, args[0])
+    comment = '%s %s' % (insn, arg1)
     return [[
            'OPC',
             _buildJumpOperand(_jumpopnames[insn], target),
         ]], comment, cycles
 
-def assembleRETI(insn,*args):
+def assembleRETI(insn, arg1, arg2):
     comment = '%s' % (insn,)
     cycles = 5
     return [['OPC', 0x1300]], comment, cycles
 
 #these instructions are emulated by using one of the insn above
 #some of depend on the constant registers to be efficient
-def emulatedInstruction(insn,*args):
+def emulatedInstruction(insn, arg1, arg2):
     if insn[-2:] == '.b':
         insn = insn[:-2]
         mode = '.b'
@@ -303,27 +298,26 @@ def emulatedInstruction(insn,*args):
         mode = ''
     else:
         mode = ''
-    arg = args[0] #alias
-    if   insn == 'adc':     return assembleDoubleOperandInstruction('addc%s'%mode,'#0',arg)
-    elif insn == 'dadc':    return assembleDoubleOperandInstruction('dadd%s'%mode,'#0',arg)
-    elif insn == 'dec':     return assembleDoubleOperandInstruction('sub%s'%mode,'#1',arg)
-    elif insn == 'decd':    return assembleDoubleOperandInstruction('sub%s'%mode,'#2',arg)
-    elif insn == 'inc':     return assembleDoubleOperandInstruction('add%s'%mode,'#1',arg)
-    elif insn == 'incd':    return assembleDoubleOperandInstruction('add%s'%mode,'#2',arg)
-    elif insn == 'sbc':     return assembleDoubleOperandInstruction('subc%s'%mode,'#0',arg)
-    elif insn == 'inv':     return assembleDoubleOperandInstruction('xor%s'%mode,'#-1',arg)
-    elif insn == 'rla':     return assembleDoubleOperandInstruction('add%s'%mode,arg,arg)
-    elif insn == 'rlc':     return assembleDoubleOperandInstruction('addc%s'%mode,arg,arg)
-    elif insn == 'clr':     return assembleDoubleOperandInstruction('mov%s'%mode,'#0',arg)
+    if   insn == 'adc':     return assembleDoubleOperandInstruction('addc%s'%mode,'#0',arg1)
+    elif insn == 'dadc':    return assembleDoubleOperandInstruction('dadd%s'%mode,'#0',arg1)
+    elif insn == 'dec':     return assembleDoubleOperandInstruction('sub%s'%mode,'#1',arg1)
+    elif insn == 'decd':    return assembleDoubleOperandInstruction('sub%s'%mode,'#2',arg1)
+    elif insn == 'inc':     return assembleDoubleOperandInstruction('add%s'%mode,'#1',arg1)
+    elif insn == 'incd':    return assembleDoubleOperandInstruction('add%s'%mode,'#2',arg1)
+    elif insn == 'sbc':     return assembleDoubleOperandInstruction('subc%s'%mode,'#0',arg1)
+    elif insn == 'inv':     return assembleDoubleOperandInstruction('xor%s'%mode,'#-1',arg1)
+    elif insn == 'rla':     return assembleDoubleOperandInstruction('add%s'%mode,arg1,arg1)
+    elif insn == 'rlc':     return assembleDoubleOperandInstruction('addc%s'%mode,arg1,arg1)
+    elif insn == 'clr':     return assembleDoubleOperandInstruction('mov%s'%mode,'#0',arg1)
     elif insn == 'clrc':    return assembleDoubleOperandInstruction('bic','#1','SR')
     elif insn == 'clrn':    return assembleDoubleOperandInstruction('bic','#4','SR')
     elif insn == 'clrz':    return assembleDoubleOperandInstruction('bic','#2','SR')
-    elif insn == 'pop':     return assembleDoubleOperandInstruction('mov%s'%mode,'@SP+',arg)
+    elif insn == 'pop':     return assembleDoubleOperandInstruction('mov%s'%mode,'@SP+',arg1)
     elif insn == 'setc':    return assembleDoubleOperandInstruction('bis','#1','SR')
     elif insn == 'setn':    return assembleDoubleOperandInstruction('bis','#4','SR')
     elif insn == 'setz':    return assembleDoubleOperandInstruction('bis','#2','SR')
-    elif insn == 'tst':     return assembleDoubleOperandInstruction('cmp%s'%mode,'#0',arg)
-    elif insn == 'br':      return assembleDoubleOperandInstruction('mov',arg,'PC')
+    elif insn == 'tst':     return assembleDoubleOperandInstruction('cmp%s'%mode,'#0',arg1)
+    elif insn == 'br':      return assembleDoubleOperandInstruction('mov',arg1,'PC')
     elif insn == 'dint':    return assembleDoubleOperandInstruction('bic','#8','SR')
     elif insn == 'eint':    return assembleDoubleOperandInstruction('bis','#8','SR')
     elif insn == 'nop':     return assembleDoubleOperandInstruction('mov','R3','R3')

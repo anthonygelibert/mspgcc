@@ -2364,14 +2364,14 @@ process :).</para>
 issues specific to mspgcc which you should be aware of.</para>
 <orderedlist>
 <listitem><para>If you are sure your main routine will never exit, you can use the
-    <quote>-mendup-at=main</quote> flag when compiling. This
-    will save 6 bytes of ROM.</para></listitem>
+    <quote>-mendup-at=main</quote> flag when compiling. This will save 6 bytes of
+    ROM.</para></listitem>
 
-<listitem><para>Avoid passing long argument list to functions. Avoid returning
-    long values from functions. The best functions types to use are
-    void, int, or pointer. </para></listitem>
+<listitem><para>Avoid passing long argument lists to functions. Avoid returning
+    long values from functions. The most efficient function types to use are void,
+    int, or pointer.</para></listitem>
 
-<listitem><para>Avoid the initialization of global variables within a small function call.
+<listitem><para>Avoid initializing global variables within a small function.
     Instead, assign a value during variable definition.</para></listitem>
 
 <listitem><para>Avoid converting chars to another type. char variables can be located
@@ -2383,11 +2383,9 @@ k = *((int *)((char *a) + 3));
 </programlisting>
      will result in unpredictable CPU behaviour.</para></listitem>
  
-<listitem><para>Avoid using global variables of small size - it is a waste of RAM.</para></listitem>
-
-<listitem><para>Avoid using volatiles, unless they are really necessary.</para></listitem>
-
-<listitem><para>Use int instead of char or unsigned char if you want an 8 bit integer.</para></listitem>
+<listitem><para>Use int instead of char or unsigned char if you want a small integer within
+    a function. The code produced will be more efficient, and in most cases storage isn't
+    actually wasted.</para></listitem>
 
 <listitem><para>Inspect assembler code (-S compiler flag). The compiler cannot eliminate
     dead code in some cases. Do not write dead code :)</para></listitem>
@@ -2399,7 +2397,7 @@ k = *((int *)((char *a) + 3));
      numbers. These are slow operations.</para></listitem>
 
 <listitem><para>Use shift instead of multiplication by constants which are 2^N
-    (actually, the compiler may to do this for you when optimization
+    (actually, the compiler may do this for you when optimization
     is switched on).</para></listitem>
 
 <listitem><para>Use unsigned int for indices - the compiler will snip _lots_ of code.</para></listitem>
@@ -2407,7 +2405,7 @@ k = *((int *)((char *a) + 3));
 <listitem><para>Use 'switch/case' constructs rather than a chain of 'if/else'
     constructs.</para></listitem>
 
-<listitem><para>Use logical "or" ('|') instead of '+' for bitmasks.</para></listitem>
+<listitem><para>Use logical or ('|') rather than '+' for bitmasks.</para></listitem>
 
 <listitem><para>When defining bit fields, try to use signed integers. This produces more compact code
     that bit fields of unsigned integers.</para></listitem>
@@ -2416,20 +2414,15 @@ k = *((int *)((char *a) + 3));
     trying to avoid any dynamic memory allocation is usually even better ;).
     </para></listitem>
 
-<listitem><para>Apart from C++ recomendations ;), it would be better to use:
+<listitem><para>C++ recomendations aside :-), it can be more efficient to use:
 <programlisting role="C">#define SMTS 1234567890l
 </programlisting>
-instead of declaring
+rather than declaring
 <programlisting role="C">const long smts = 1234567890l;
 </programlisting>
 </para></listitem>
 
-<listitem><para>If you execute
-<programlisting role="C">while ((long) a &amp; 0x80000l);
-</programlisting>
-the program will hang, unless 'a' is declared volatile. So, do it!</para></listitem>
-
-<listitem><para>Delay loops are very sophisticated routines. Normally, users do
+<listitem><para>Delay loops are very sophisticated routines.:-) Developers often do
     something like:
 <programlisting role="C">int i = 1234;
 
@@ -2461,8 +2454,40 @@ for (i = 0;  i &lt; 1234;  i++);
 </programlisting>
     and call this routine where needed. This is simple, compact, and
     predictable.</para></listitem>
+
+<listitem><para>Use the volatile attribute for variables which may be changed or inspected by more
+    than one processing thread (e.g. the main code and an interrupt routine). If you are used to
+    less efficient compilers, you may be used to writing code like:
+<programlisting role="C">int i;
+
+interrupt (TIMERA0_VECTOR) irq_routine(void)
+{
+    i = 42;
+}
+
+void func(void)
+{
+
+    i = 0;
+    while (i == 0);
+}
+</programlisting>
+If we assume interrupts are working, and "func" is called, you might expect "func" to return after
+a timer A interrupt occurs. The optimiser will produce code that actually holds "i" in a register within
+"func", and the loop in "func" will never respond to the change to the memory location for "i", caused
+within the interrupt routine. The compiler may even eliminate the test of "i" completely, leaving a
+true infinite loop.</para>
+<para>To tell the compiler that it must look at the actual memory location of "i" each time it checks or
+manipulates "i", the "volatile" attribute should be added the definition of "i".</para></listitem>
+
+<listitem><para>Avoid using the "volatile" attribute, unless it is actually necessary. Because it forces the
+compiler to generate additional code to load, store and test a variable's memory location under all
+circumstances, it significantly reduces the effectiveness of the compiler's optimiser. The temptation to
+make lots of global definitions "volatile", just to err on the safe side, comes at a price.</para></listitem>
+
 </orderedlist>
-<para>Do not do anything unless you know what you're doing :)</para>
+<para>Try to avoid doing tricky things in your code, unless you are really confident you understand their
+consequences. :-)</para>
 </chapter>
 
 <chapter id="hardware-tools">

@@ -10,7 +10,7 @@ InlinePython.py, an extension by me.
 
 InlinePython supports two tags: £py-expr£ and <py>py-code</py>
 That code is executed at generation time and the result is substitued with
-the tags, the resulting pages are static, no server side scriting etc
+the tags, the resulting pages are static, no server side scripting etc.
 involved.
 
 Look at the Makefile to get an idea on how to call ht2html. The Makefile

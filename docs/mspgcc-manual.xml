@@ -4,7 +4,7 @@
 <!-- $Id$ -->
 <book>
   <bookinfo>
-    <date>2004-02-27</date>
+    <date>2005-12-30</date>
     <title>mspgcc</title>
     <subtitle>A port of the GNU tools to the Texas Instruments MSP430 microcontrollers</subtitle>
     <releaseinfo>documentation in progress</releaseinfo>
@@ -18,7 +18,7 @@
       <email>steveu@coppice.org</email>
     </address>
     <copyright>
-      <year>2003</year>
+      <year>2003-2005</year>
       <holder>Steve Underwood</holder>
     </copyright>
     <legalnotice>
@@ -169,7 +169,7 @@ standard serial port.</para>
 <para>On platforms without parallel port, it may be possible to use the serial
 bootstrap loader (BSL). One implementation of a downloader can be found on the
 <ulink url="http://mspgcc.sourceforge.net">mspgcc web-site</ulink> look for
-pyBSL.</para>
+msp430-bsl.</para>
 </sect1>
 </chapter>
 
@@ -2732,9 +2732,9 @@ implementation of GDB.</para>
 <para>There are some additional tools available for mspgcc.
 </para>
 <sect2 id="pybsl">
-<title>pyBSL</title>
-<para>Software for the bootstrap loader. Works with Flash devices (MSP430F1xx
-and F4xx): erase and download new software or upload RAM or Flash data from
+<title>msp430-bsl</title>
+<para>Software for the bootstrap loader. Works with Flash devices (MSP430F1xx,
+F2xx and F4xx): erase and download new software or upload RAM or Flash data from
 the device back to the PC.
 </para>
 
@@ -2782,24 +2782,24 @@ in Python scripts e.g. for automatic testing, etc.
 </sect2>
 
 <sect2 id="pyjtag">
-<title>pyJTAG</title>
-<para>pyjtag is a program to use the MSP430 parallel JTAG adapters as simple
+<title>msp430-jtag</title>
+<para>msp430-jtag is a program to use the MSP430 parallel JTAG adapters as simple
 programming tools. Just like msp430-gdbproxy, it works with the devices from
-TI, Olimex, Softbaugh, and others. It works with Flash devices (MSP430F1xx
-and F4xx), and can erase Flash and download or upload both RAM and Flash data
+TI, Olimex, Softbaugh, and others. It works with Flash devices (MSP430F1xx,
+F2xx and F4xx), and can erase Flash and download or upload both RAM and Flash data
 in an attached device.
 </para>
 
 <para>Features:
 <itemizedlist>
-<listitem><para>loads TI-Text, Intel-hex and ELF files.</para></listitem>
-<listitem><para>download to Flash and/or RAM, erase, verify.</para></listitem>
-<listitem><para>reset and wait for keypress.</para></listitem>
-<listitem><para>upload a memory block MSP->PC (output as binary data or hex dump).</para></listitem>
-<listitem><para>download a program, execute it. (limited/funclets)</para></listitem>
-<listitem><para>written in Python, runs on Win32, Linux, BSD (other platforms possible if
-parallel port module is ported)</para></listitem>
-<listitem><para>use per command line, or in a Python script.</para></listitem>
+<listitem><para>understands ELF, TI-Text and Intel-hex object files</para></listitem>
+<listitem><para>download to Flash and/or RAM, erase flash, verify</para></listitem>
+<listitem><para>reset device</para></listitem>
+<listitem><para>upload a memory block MSP->PC (output as binary data or hex dump, ihex)</para></listitem>
+<listitem><para>written in Python, runs on Win32, Linux, BSD, ...</para></listitem>
+<listitem><para>use on command line, or in a Python script</para></listitem>
+<listitem><para>reset and wait for keypress (to run a device directly from the port
+  power)</para></listitem>
 </itemizedlist>
 
 For more a complete description, including installation notes and usage examples, look at the
@@ -2814,7 +2814,6 @@ readme.txt</ulink>
 <listitem><para>Python extension. See "jtag/python" in the CVS.</para></listitem>
 <listitem><para>Python 2.2</para></listitem>
 </itemizedlist>
-Unpack these files to the pyjtag directory.
 </para>
 </sect2>
 
@@ -2822,8 +2821,8 @@ Unpack these files to the pyjtag directory.
 <title>pySerJTAG and the serial-JTAG adapter</title>
 <para>pySerJTAG is the PC side software for the Serial-JTAG adapter. The PC
 software is open and written in Python. It should run on the same platforms
-as pyBSL (Win32, Linux, BSD and more POSIX compatible systems). The command
-line options are compatible with pyBSL and pyJTAG.
+as msp430-bsl (Win32, Linux, BSD and more POSIX compatible systems). The command
+line options are compatible with msp430-bsl and msp430-jtag.
 </para>
 
 <para>The hardware design is open. The schematics can be found in the CVS

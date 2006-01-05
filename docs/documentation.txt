@@ -1,0 +1,67 @@
+mspgcc Documentation
+====================
+
+mspgcc Manual and FAQ in the PDF format
+---------------------------------------
+
+- mspgcc-manual_
+- mspgcc-faq_
+
+
+Official binutils and GCC manuals
+---------------------------------
+- GCC Manuals:
+
+ - for the C compiler: http://gcc.gnu.org/onlinedocs/gcc-3.2.3/gcc/
+ - for the preprocessor: http://gcc.gnu.org/onlinedocs/gcc-3.2.3/cpp/
+
+- Binutils manual: http://sourceware.org/binutils/docs-2.16/
+
+
+Examples
+--------
+mspgcc comes with a number of examples. Read more here_
+
+.. _here: ../examples/README.html
+
+
+Other documents
+---------------
+- The licence_ that was displayed by the installer.
+- README-msp430-binutils.txt_
+- README-msp430-bsl.txt_
+- README-msp430-gcc.txt_
+- README-msp430-gdb.txt_
+- README-msp430-gdbproxy.txt_
+- README-msp430-jtag.txt_
+- README-msp430-libc.txt_
+
+Version information: stamp.txt_
+
+
+Links
+-----
+- http://www.gnu.org
+- http://gcc.gnu.org
+- http://www.gnu.org/software/binutils/
+- http://mspgcc.sourceforge.net
+- http://mspgcc.sourceforge.net/baudrate.html
+- http://mspgcc.sourceforge.net/assemble.html
+- http://www.ti.com/msp430
+- http://www.python.org
+
+
+.. These links are only valid when the file has been installed to the docs
+.. directory
+
+.. _mspgcc-manual: mspgcc-manual.pdf
+.. _mspgcc-faq: mspgcc-faq.pdf
+.. _licence: licence.txt
+.. _README-msp430-binutils.txt: README-msp430-binutils.txt
+.. _README-msp430-bsl.txt: README-msp430-bsl.txt
+.. _README-msp430-gcc.txt: README-msp430-gcc.txt
+.. _README-msp430-gdb.txt: README-msp430-gdb.txt
+.. _README-msp430-gdbproxy.txt: README-msp430-gdbproxy.txt
+.. _README-msp430-jtag.txt: README-msp430-jtag.txt
+.. _README-msp430-libc.txt: README-msp430-libc.txt
+.. _stamp.txt: stamp.txt

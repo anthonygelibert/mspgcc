@@ -1,6 +1,16 @@
 .PHONY: all html pdf manual-html faq-html faq-pdf manual-pdf clean clean-workfiles FORCE
 
-all:  html pdf
+STYLESHEET := "$(shell cygpath -w `pwd`)/stylesheet.css"
+RST2HTML = python -c "from docutils.core import publish_cmdline; publish_cmdline(writer_name='html')"
+HTMLOPT  = --stylesheet=$(STYLESHEET)
+
+%.html: %.txt
+	$(RST2HTML) $(HTMLOPT) $< $@
+
+all: documentation.html
+#~ info.html tutorial.html
+
+dookbook-stuff: html pdf
 html: manual-html faq-html
 pdf:  manual-pdf faq-pdf
 

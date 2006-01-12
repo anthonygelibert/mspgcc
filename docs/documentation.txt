@@ -1,14 +1,14 @@
-mspgcc Documentation
+MSPGCC Documentation
 ====================
 
-mspgcc Manual and FAQ in the PDF format
----------------------------------------
+MSPGCC Manual and FAQ
+---------------------
 
-- mspgcc-manual_
-- mspgcc-faq_
+- mspgcc-manual_ (PDF)
+- mspgcc-faq_ (PDF)
 
 
-Official binutils and GCC manuals
+Official Binutils and GCC manuals
 ---------------------------------
 - GCC Manuals:
 
@@ -20,7 +20,7 @@ Official binutils and GCC manuals
 
 Examples
 --------
-mspgcc comes with a number of examples. Read more here_
+MSPGCC comes with a number of examples. Read more here_.
 
 .. _here: ../examples/README.html
 
@@ -41,13 +41,28 @@ Version information: stamp.txt_
 
 Links
 -----
+
+GNU, GCC and Binutils
+
 - http://www.gnu.org
 - http://gcc.gnu.org
 - http://www.gnu.org/software/binutils/
+
+MSPGCC
+
 - http://mspgcc.sourceforge.net
 - http://mspgcc.sourceforge.net/baudrate.html
 - http://mspgcc.sourceforge.net/assemble.html
+
+MSP430
+
 - http://www.ti.com/msp430
+- http://www.google.com/search?&q=msp430+mspgcc
+
+Others
+
+- http://www.freertos.org/portmspgcc.html
+- http://msp430.info/
 - http://www.python.org
 
 

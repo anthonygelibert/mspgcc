@@ -4,7 +4,7 @@ STYLESHEET := "$(shell cygpath -w `pwd`)/stylesheet.css"
 RST2HTML = python -c "from docutils.core import publish_cmdline; publish_cmdline(writer_name='html')"
 HTMLOPT  = --stylesheet=$(STYLESHEET)
 
-%.html: %.txt
+%.html: %.txt stylesheet.css
 	$(RST2HTML) $(HTMLOPT) $< $@
 
 all: documentation.html
@@ -51,6 +51,7 @@ manual-eclipse: FORCE htmldir
 	mv toc.xml toc-manual.xml
 
 clean: clean-workfiles
+	rm -f documentation.html
 	rm -f mspgcc-manual.pdf faq.pdf
 	rm -rf faq manual
 

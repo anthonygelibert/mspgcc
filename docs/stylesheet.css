@@ -1,43 +1,21 @@
 /*
-:Authors: Ian Bicking, Michael Foord
-:Contact: fuzzyman@voidspace.org.uk
-:Date: 2005/08/26 
-:Version: 0.1.0
-:Copyright: This stylesheet has been placed in the public domain.
-
-Stylesheet for Docutils.
-Based on ``blue_box.css`` by Ian Bicking
-and ``html4css1.css`` revision 1.46.
-*/
-
-/*******************************************************************/
-/*
-:Author: David Goodger
-:Contact: goodger@users.sourceforge.net
+:Author: Chris Liechti & David Goodger
 :Date: $Date$
-:Revision: $Revision$
 :Copyright: This stylesheet has been placed in the public domain.
 
 Default cascading style sheet for the HTML output of Docutils.
-
-See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
-customize this style sheet.
 */
 
-/* used to remove borders from tables and images */
-.borderless, table.borderless td, table.borderless th {
-  border: 0 }
-
-table.borderless td, table.borderless th {
-  /* Override padding for "table.docutils td" with "! important".
-     The right padding separates the table cells. */
-  padding: 0 0.5em 0 0 ! important }
-
+body {
+  font-family: sans-serif
+}
+/* "! important" is used here to override other ``margin-top`` and
+   ``margin-bottom`` styles that are later in the stylesheet or 
+   more specific.  See <http://www.w3.org/TR/CSS1#the-cascade>. */
 .first {
-  /* Override more specific margin styles with "! important". */
   margin-top: 0 ! important }
 
-.last, .with-subtitle {
+.last {
   margin-bottom: 0 ! important }
 
 .hidden {
@@ -103,11 +81,9 @@ div.dedication p.topic-title {
   font-style: normal }
 
 div.figure {
-  margin-left: 2em ;
-  margin-right: 2em }
+  margin-left: 2em }
 
 div.footer, div.header {
-  clear: both;
   font-size: smaller }
 
 div.line-block {
@@ -150,24 +126,18 @@ div.system-message p.system-message-title {
 div.topic {
   margin: 2em }
 
-h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
-h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
-  margin-top: 0.4em }
-
 h1.title {
-  text-align: center }
+  background-color: #55aaff;
+  color: white;
+  padding: 0.2em;
+  }
 
 h2.subtitle {
-  text-align: center }
+  }
 
 hr.docutils {
-  width: 75% }
-
-img.align-left {
-  clear: left }
-
-img.align-right {
-  clear: right }
+  width: 100%
+}
 
 ol.simple, ul.simple {
   margin-bottom: 1em }
@@ -225,6 +195,10 @@ pre.address {
   font-family: serif ;
   font-size: 100% }
 
+pre.line-block {
+  font-family: serif ;
+  font-size: 100% }
+
 pre.literal-block, pre.doctest-block {
   margin-left: 2em ;
   margin-right: 2em ;
@@ -250,13 +224,8 @@ span.pre {
 span.problematic {
   color: red }
 
-span.section-subtitle {
-  /* font-size relative to parent (h1..h6 element) */
-  font-size: 80% }
-
 table.citation {
-  border-left: solid 1px gray;
-  margin-left: 1px }
+  border-left: solid thin gray }
 
 table.docinfo {
   margin: 2em 4em }
@@ -266,8 +235,7 @@ table.docutils {
   margin-bottom: 0.5em }
 
 table.footnote {
-  border-left: solid 1px black;
-  margin-left: 1px }
+  border-left: solid thin black }
 
 table.docutils td, table.docutils th,
 table.docinfo td, table.docinfo th {
@@ -275,11 +243,10 @@ table.docinfo td, table.docinfo th {
   padding-right: 0.5em ;
   vertical-align: top }
 
-table.docutils th.field-name, table.docinfo th.docinfo-name {
+th.docinfo-name, th.field-name {
   font-weight: bold ;
   text-align: left ;
-  white-space: nowrap ;
-  padding-left: 0 }
+  white-space: nowrap }
 
 h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
 h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
@@ -290,128 +257,3 @@ tt.docutils {
 
 ul.auto-toc {
   list-style-type: none }
-/*******************************************************************/
-
-body {
-  font-family: Arial, sans-serif;
-}
-
-em, i {
-  /* Typically serif fonts have much nicer italics */
-  font-family: Times New Roman, Times, serif;
-}
-
-a.target {
-  color: blue;
-}
-
-a.target {
-  color: blue;
-}
-
-a.toc-backref {
-  text-decoration: none;
-  color: black;
-}
-
-a.toc-backref:hover {
-  background-color: inherit;
-}
-
-a:hover {
-  background-color: #cccccc;
-}
-
-div.attention, div.caution, div.danger, div.error, div.hint,
-div.important, div.note, div.tip, div.warning {
-  background-color: #cccccc;
-  padding: 3px;
-  width: 80%;
-}
-
-div.admonition p.admonition-title, div.hint p.admonition-title,
-div.important p.admonition-title, div.note p.admonition-title,
-div.tip p.admonition-title  {
-  text-align: center;
-  background-color: #999999;
-  display: block;
-  margin: 0;
-}
-
-div.attention p.admonition-title, div.caution p.admonition-title,
-div.danger p.admonition-title, div.error p.admonition-title,
-div.warning p.admonition-title {
-  color: #cc0000;
-  font-family: sans-serif;
-  text-align: center;
-  background-color: #999999;
-  display: block;
-  margin: 0;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: Helvetica, Arial, sans-serif;
-  border: thin solid black;
-  /* This makes the borders rounded on Mozilla, which pleases me */
-  -moz-border-radius: 8px;
-  padding: 4px;
-}
-
-h1 {
-  background-color: #444499;
-  color: #ffffff;
-  border: medium solid black;
-}
-
-h1 a.toc-backref, h2 a.toc-backref { 
-  color: #ffffff;
-}
-
-h2 {
-  background-color: #666666;
-  color: #ffffff;
-  border: medium solid black;
-}
-
-h3, h4, h5, h6 {
-  background-color: #cccccc;
-  color: #000000;
-}
-
-h3 a.toc-backref, h4 a.toc-backref, h5 a.toc-backref, 
-h6 a.toc-backref { 
-  color: #000000;
-}
-
-h1.title {
-  text-align: center;
-  background-color: #444499;
-  color: #eeeeee;
-  border: thick solid black;
-  -moz-border-radius: 20px;
-}
-
-table.footnote {
-  padding-left: 0.5ex;
-}
-
-table.citation {
-  padding-left: 0.5ex
-}
-
-pre.literal-block, pre.doctest-block {
-  border: thin black solid;
-  padding: 5px;
-}
-
-.image img { border-style : solid;
-            border-width : 2px;
-}
-
-h1 tt, h2 tt, h3 tt, h4 tt, h5 tt, h6 tt {
-  font-size: 100%;
-}
-
-code, tt {
-  color: #000066;
-}

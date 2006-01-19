@@ -1,15 +1,20 @@
-MSPGCC Documentation
-====================
+======================
+ MSPGCC Documentation
+======================
 
 MSPGCC Manual and FAQ
----------------------
+=====================
+MSP430 centric documentation of gcc and binutils.
 
 - mspgcc-manual_ (PDF)
 - mspgcc-faq_ (PDF)
 
 
 Official Binutils and GCC manuals
----------------------------------
+=================================
+Please refer to the official GCC and binutils manuals for more information
+about the compiler, assembler, linker and the other tools.
+
 - GCC Manuals:
 
  - for the C compiler: http://gcc.gnu.org/onlinedocs/gcc-3.2.3/gcc/
@@ -18,15 +23,15 @@ Official Binutils and GCC manuals
 - Binutils manual: http://sourceware.org/binutils/docs-2.16/
 
 
-Examples
---------
-MSPGCC comes with a number of examples. Read more here_.
+Code Examples
+=============
+MSPGCC includes a number of examples. Read more here_.
 
 .. _here: ../examples/README.html
 
 
 Other documents
----------------
+===============
 - The licence_ that was displayed by the installer.
 - README-msp430-binutils.txt_
 - README-msp430-bsl.txt_
@@ -40,7 +45,7 @@ Version information: stamp.txt_
 
 
 Links
------
+=====
 
 GNU, GCC and Binutils
 
@@ -58,11 +63,17 @@ MSP430
 
 - http://www.ti.com/msp430
 - http://www.google.com/search?&q=msp430+mspgcc
+- http://msp430.info/
+- http://tinymicros.com/embedded/MSP430/ Bugspray Database
+
+An incomplete list of free OS for the MSP430
+
+- http://www.sics.se/~adam/contiki/index.html
+- http://www.freertos.org/portmspgcc.html
+- http://www.tinyos.net/
 
 Others
 
-- http://www.freertos.org/portmspgcc.html
-- http://msp430.info/
 - http://www.python.org
 
 

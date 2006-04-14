@@ -1,6 +1,10 @@
 .PHONY: all html pdf manual-html faq-html faq-pdf manual-pdf clean clean-workfiles FORCE
 
+ifdef WINDIR
 STYLESHEET := "$(shell cygpath -w `pwd`)/stylesheet.css"
+else
+STYLESHEET := "$(shell pwd)/stylesheet.css"
+endif
 RST2HTML = python -c "from docutils.core import publish_cmdline; publish_cmdline(writer_name='html')"
 HTMLOPT  = --stylesheet=$(STYLESHEET)
 

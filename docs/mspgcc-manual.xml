@@ -560,7 +560,7 @@ value to PC. Note the immediate form is the most commonly used. There is no
 easy way to perform a PC-relative call; the PC-relative addressing mode
 fetches a word and uses it as an absolute address. This has no byte
 form.</entry></row>
-<row><entry>110</entry><entry>RETI</entry><entry>Pop SP, then pop PC.  Note that because
+<row><entry>110</entry><entry>RETI</entry><entry>Pop SR, then pop PC.  Note that because
 flags like CPUOFF are in the stored status register, the CPU will normally
 return to the low-power mode it was previously in. This can be changed by
 adjusting the SR value stored on the stack before invoking RETI (see below).
@@ -2898,7 +2898,7 @@ code for Insight 5.1.1 may be found at
 <para>At present, the best way to obtain the MSP430 specific source code is
 directly from the <ulink url="http://sourceforge.net/cvs/?group_id=42303">CVS
 repository at the mspgcc project web-site</ulink>, as follows:
-<screen><userinput>export CVSROOT=:pserver:anonymous@cvs.sourceforge.net:/cvsroot/mspgcc</userinput>
+<screen><userinput>export CVSROOT=:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc</userinput>
 <userinput>export CVS_RSH=ssh</userinput>
 <userinput>cvs login</userinput>
 </screen>

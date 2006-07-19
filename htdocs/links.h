@@ -14,7 +14,7 @@
 <LI><A href="assemble.html">Assembler</A>
 
 <h3>Exits</h3>
-<LI><A href="http://www.ti.com/sc/msp430">MSP430@ti.com</A>
+<LI><A href="http://www.ti.com/msp430">MSP430@ti.com</A>
 <LI><A href="http://gcc.gnu.org/">GCC&nbsp;home</A>
 <LI><A href="http://sources.redhat.com/binutils/">Binutils&nbsp;home</A>
 <LI><A href="http://python.org/">Python.org</A>

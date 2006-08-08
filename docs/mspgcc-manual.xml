@@ -2500,14 +2500,21 @@ holding the processor, and a JTAG-to-parallel-port adapter suitable
 for any standard PC type machine. Evaluation boards and TI compatible
 JTAG-to-parallel port tools are available from several suppliers,
 including Olimex, SoftBaugh and Lierda. Any of these tools may be used
-with the debug facilities which mspgcc provides.</para>
+with the debug facilities which mspgcc provides. USB FET tools are also
+available from a number of sources. Unfortunately not all of these will work
+with MSPGCC at this time. The TI supplied USB FET tools and the EZUSB will
+work with both Windows and Linux. Clones of the USB FET tool, such as the tools
+from Lierda, will also work. Some will work under Windows, using the FET tool
+vendor's DLL code. No guarantees are provided about how well anything but the
+official TI tools might work.</para>
 </sect1>
 
-<sect1 id="setting-up-the-jtag-interface">
-<title>Setting up the JTAG interface</title>
-<para>You might be able to just plug the 25-way D-type from the JTAG FET tool into
-the parallel port of your PC, and the 14-way IDC connector into the receptacle
-on the prototyping card and have no trouble. On the other hand.......read on!</para>
+<sect1 id="setting-up-the-parallel-port-jtag-interface">
+<title>Setting up the parallel port JTAG interface</title>
+<para>You might be able to just plug the 25-way D-type from the parallel port
+JTAG FET tool into the parallel port of your PC, and the 14-way IDC connector
+into the receptacle on the prototyping card and have no trouble. On the other
+hand.......read on!</para>
 </sect1>
 
 <sect1 id="parallel-port-issue-with-windows">
@@ -2580,6 +2587,11 @@ signs of trouble. The following command
 should do this. The --help argument will make it list its options.</para>
 </sect1>
 
+<sect1 id="setting-up-a-usb-jtag-interface">
+<title>Setting up a USB JTAG interface</title>
+<para>???.</para>
+</sect1>
+
 <sect1 id="msp430-evaluation-and-prototyping-cards">
 <title>MSP430 evaluation and prototyping cards</title>
 <para>If are using the evaluation kits from TI, there are a couple of points
@@ -2650,15 +2662,16 @@ assembl it:
 
 <chapter id="programming-and-debugging-msp430s">
 <title>Programming and debugging MSP430s</title>
-<sect1 id="using-the-jtag-fet-tool-with-gdbproxy">
-<title>Using the JTAG FET tool with gdbproxy</title>
+<sect1 id="using-a-jtag-fet-tool-with-msp430-gdbproxy">
+<title>Using a JTAG FET tool with msp430-gdbproxy</title>
 <para>Before using <emphasis>msp430-gdb</emphasis>, make sure
 <emphasis>msp430-gdbproxy</emphasis> is running. By default it uses TCP port
 2000 to communicate with the debugger. You can explicitly set a port on the
 command line. The command
 <screen><prompt>$</prompt> <userinput>msp430-gdbproxy --port=2000 msp430</userinput>
 </screen>
-will start <quote>msp430-gdbproxy</quote>
+will start <quote>msp430-gdbproxy</quote> so it will use a parallel port FET tool on
+the default parallel port.
 </para>
 <para>Put the following lines into your GDB startup file. For Unix and Linux
 this is the file <quote>.gdbinit</quote> in your home directory. For Windows users
@@ -2681,8 +2694,29 @@ commands, as well as the standard GDB ones.</para>
 <row><entry>reset</entry><entry></entry><entry>Reset target over JTAG, using hardware reset</entry></row>
 <row><entry>identify</entry><entry></entry><entry>Identify what target is connected to the JTAG port</entry></row>
 <row><entry>jtag</entry><entry>blank, 'release', or "hold'</entry><entry>Define/report how JTAG is to be handled when a program is running</entry></row>
-<row><entry>vcc</entry><entry>&lt;voltage&gt;</entry><entry>Define/report the VCC of the MSP430</entry></row>
+<row><entry>secure</entry><entry>'BLOWblowBLOW'</entry><entry>Blow the JTAG security fuse (USB FET tool only)</entry></row>
+<row><entry>vcc</entry><entry>'&lt;voltage&gt;', or 'check'</entry><entry>Define/report the VCC of the MSP430</entry></row>
 <row><entry>dump</entry><entry></entry><entry>[for debug] Read out target registers</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+
+<para>Several parameters may be used with the <emphasis>msp430-gdbproxy</emphasis> command, some before the 'msp430' and
+some after it. Valid parameters before the 'msp430' are shown in the following table.</para>
+<informaltable>
+<tgroup cols="3">
+<tbody>
+<row><entry>--help</entry><entry></entry><entry>Display help text.</entry></row>
+<row><entry>--port</entry><entry>&lt;port number&gt;</entry><entry>The TCP port number to listen on.</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+<para>Valid parameters before the 'msp430' are shown in the following table.</para>
+<informaltable>
+<tgroup cols="3">
+<tbody>
+<row><entry>--update-usb-fet</entry><entry></entry><entry>Update the firmware in a USB FET tool.</entry></row>
+<row><entry>--selftest-usb-fet</entry><entry></entry><entry>Run the self-test software in a USB FET, and report the result.</entry></row>
 </tbody>
 </tgroup>
 </informaltable>
@@ -2698,8 +2732,7 @@ commands, as well as the standard GDB ones.</para>
 above, then nothing special has to be done. Otherwise type the three commands
 listed above at the <emphasis>gdb</emphasis> command prompt. It you have
 <emphasis>msp430-gdbproxy</emphasis> running in the foreground in its own window you
-should see evidence of it starting
-to work.</para>
+should see evidence of it starting to work.</para>
 <para>Type:
 <screen><prompt>$</prompt> <userinput>monitor erase all</userinput>
 </screen>

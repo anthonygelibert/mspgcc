@@ -2787,7 +2787,7 @@ the device back to the PC.
 </itemizedlist>
 
 For more a complete description, including installation notes and usage examples, look at the
-<ulink url="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/pybsl/readme.txt?rev=HEAD&amp;content-type=text/plain">
+<ulink url="http://mspgcc.cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/pybsl/readme.txt?rev=HEAD&amp;content-type=text/plain">
 readme.txt</ulink>
 </para>
 </sect2>
@@ -2836,7 +2836,7 @@ in an attached device.
 </itemizedlist>
 
 For more a complete description, including installation notes and usage examples, look at the
-<ulink url="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/pyjtag/readme.txt?rev=HEAD&amp;content-type=text/plain">
+<ulink url="http://mspgcc.cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/pyjtag/readme.txt?rev=HEAD&amp;content-type=text/plain">
 readme.txt</ulink>
 </para>
 

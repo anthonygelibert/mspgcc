@@ -95,13 +95,13 @@ POSIX compatible systems). The command line options are compatible with pyBSL an
 </P>
 The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
 For the PC:<BR>
-<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co pyserjtag</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co pyserjtag</code><BR>
 For the adapter:<BR>
-<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co serJTAGfirmware</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co serJTAGfirmware</code><BR>
 For the hardware (<A href="http://www.cadsoft.de">Eagle schematics</A>):<BR>
-<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co hardware/serialJTAG</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co hardware/serialJTAG</code><BR>
 don't forget to login first if you want to get either of those above:<BR>
-<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
 </P>
 
 <P>Why? The parallel port has some drawbacks such as missing OS support for bit banging.
@@ -131,7 +131,7 @@ TI's site. It also works with the Olimex JTAG adapter.
 </UL>
 
 For more a complete description, including installation notes and usage examples, look at the
-<A href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/python/README-msp430-jtag.txt?rev=HEAD&content-type=text/plain">
+<A href="http://mspgcc.cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/python/README-msp430-jtag.txt?rev=HEAD&content-type=text/plain">
 readme.txt</A>
 </P>
 
@@ -147,12 +147,12 @@ Requirements:<UL>
 </P>
 
 <P>The latest msp430-jtag files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
-<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
-<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co pyjtag</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co pyjtag</code><BR>
 
 <P>The lastest source for the extension can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
-<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
-<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co jtag</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co jtag</code><BR>
 </P>
 
 
@@ -176,15 +176,15 @@ download new software or upload RAM or Flash data from the device back to the PC
 </UL>
 
 For more a complete description, including installation notes and usage examples, look at the
-<A href="http://cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/python/README-msp430-bsl.txt?rev=HEAD&content-type=text/plain">
+<A href="http://mspgcc.cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/python/README-msp430-bsl.txt?rev=HEAD&content-type=text/plain">
 readme.txt</A>
 </P>
 
 <P>On the <A href="http://sourceforge.net/projects/mspgcc/">project page</A> is a link to the download area where
 a tarball can be found.
 The latest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
-<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
-<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co pybsl</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co pybsl</code><BR>
 </P>
 
 <A name="msp430simu"></A><!-- ******************************* -->
@@ -206,8 +206,8 @@ scripts e.g. for automatic testing, etc.
 
 <P>
 The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
-<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc login</code><BR>
-<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@cvs.mspgcc.sourceforge.net:/cvsroot/mspgcc co msp430simu</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co msp430simu</code><BR>
 </P>
 
 <P>

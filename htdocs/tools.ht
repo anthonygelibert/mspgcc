@@ -93,7 +93,7 @@ POSIX compatible systems). The command line options are compatible with pyBSL an
 "hardware/serialJTAG" (here's a <A href="jtagF14x.pdf">PDF</A> 62kB). A binary of the firmware for this design is here:
 <A href="serjtag.zip">serjtag.zip</A> (&lt;10k, beta).
 </P>
-The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
+The lastest files can be checked out via <A href="http://mspgcc.cvs.sourceforge.net">Anonymous CVS</A>. (empty password)<BR>
 For the PC:<BR>
 <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co pyserjtag</code><BR>
 For the adapter:<BR>
@@ -146,11 +146,11 @@ Requirements:<UL>
 </UL>
 </P>
 
-<P>The latest msp430-jtag files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
+<P>The latest msp430-jtag files can be checked out via <A href="http://mspgcc.cvs.sourceforge.net">Anonymous CVS</A>. (empty password)<BR>
 <code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
 <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co pyjtag</code><BR>
 
-<P>The lastest source for the extension can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
+<P>The lastest source for the extension can be checked out via <A href="http://mspgcc.cvs.sourceforge.net">Anonymous CVS</A>. (empty password)<BR>
 <code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
 <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co jtag</code><BR>
 </P>
@@ -182,7 +182,7 @@ readme.txt</A>
 
 <P>On the <A href="http://sourceforge.net/projects/mspgcc/">project page</A> is a link to the download area where
 a tarball can be found.
-The latest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
+The latest files can be checked out via <A href="http://mspgcc.cvs.sourceforge.net">Anonymous CVS</A>. (empty password)<BR>
 <code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
 <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co pybsl</code><BR>
 </P>
@@ -205,7 +205,7 @@ scripts e.g. for automatic testing, etc.
 </P>
 
 <P>
-The lastest files can be checked out via <A href="http://sourceforge.net/cvs/?group_id=42303">Anonymous CVS</A>. (empty password)<BR>
+The lastest files can be checked out via <A href="http://mspgcc.cvs.sourceforge.net">Anonymous CVS</A>. (empty password)<BR>
 <code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
 <code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co msp430simu</code><BR>
 </P>

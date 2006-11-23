@@ -29,6 +29,7 @@ The <a href="http://mspgcc.sourceforge.net/faq/">FAQ</a> may be of interest too.
 </P>
 
 <H2>GCC & Binutils</H2>
+<B>NOTE: The current version of gcc to use is mspgcc-3.2.3</B>
 <H3>Overview</H3>
 <P>Binutils is a collection of command line tools to work with assembler and object files for the MSP430.
 They include the <B>msp430-as</B> assembler, the <B>msp430-ld</B> linker and <B>msp430-objcopy</B>, a format

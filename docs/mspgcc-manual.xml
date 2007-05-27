@@ -57,7 +57,7 @@ get help with any problems they may find using mspgcc.</para>
 <sect1 id="the-gnu-binutils">
 <title>The GNU Binutils</title>
 <para>The GNU assembler, linker and various support utilities are collectively
-known as 'binutils'. Beginning with version 2.14, the official releases of binutils
+known as 'binutils'. Beginning with version 2.17, the official releases of binutils
 contain support for the MSP430 processors.</para>
 </sect1>
 
@@ -2359,7 +2359,7 @@ process :).</para>
 </chapter>
 
 <chapter id="tips-and-tricks">
-<title>Tips and trick for efficient programming</title>
+<title>Tips and tricks for efficient programming</title>
 <para>As well as the usual things a good programmer will do, there are some
 issues specific to mspgcc which you should be aware of.</para>
 <orderedlist>
@@ -2898,10 +2898,10 @@ You will need the standard versions of the GNU tools packages, as follows:
 <itemizedlist>
 <listitem><para>The source code for binutils may be obtained from the
 <ulink url="http://sources.redhat.com/binutils/">official binutils web-site</ulink>.
-Versions of binutils beginning with 2.14 contain support for the MSP430. This can be
+Versions of binutils beginning with 2.17 contain support for the MSP430. This can be
 found at
-<ulink url="ftp://sources.redhat.com/pub/binutils/releases/binutils-2.14.tar.bz2">
-<quote>ftp://sources.redhat.com/pub/binutils/releases/binutils-2.14.tar.bz2</quote></ulink> (about
+<ulink url="ftp://sources.redhat.com/pub/binutils/releases/binutils-2.17.tar.bz2">
+<quote>ftp://sources.redhat.com/pub/binutils/releases/binutils-2.17.tar.bz2</quote></ulink> (about
 10.5MB).</para></listitem>
 
 <listitem><para>Only the core package for <emphasis>GCC</emphasis> is required to build the C
@@ -2982,8 +2982,8 @@ in the <quote>packaging</quote> directory at the mspgcc web-site.</para>
 <para>First configure, build and install <emphasis>binutils</emphasis>. The following commands
 will unpack the source code, configure binutils as a cross assembly package,
 build and install it:
-<screen><prompt>$</prompt> <userinput>tar --bzip2 -xf binutils-2.14.tar.bz2</userinput>
-<prompt>$</prompt> <userinput>cd binutils-2.14</userinput>
+<screen><prompt>$</prompt> <userinput>tar --bzip2 -xf binutils-2.17.tar.bz2</userinput>
+<prompt>$</prompt> <userinput>cd binutils-2.17</userinput>
 <prompt>$</prompt> <userinput>./configure --target=msp430 --prefix=/usr/local/msp430</userinput>
 <prompt>$</prompt> <userinput>make</userinput>
 <prompt>$</prompt> <userinput>su</userinput>

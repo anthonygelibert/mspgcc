@@ -12,7 +12,6 @@ It also a possibility to work in a team and train your skills.
     <LI>Help with floating point library
     <LI>Revamp documentation (extend, add tips and tutorials)
     <LI>Maintain example projects
-    <LI>Write GDB support (look into CVS)
     <LI>Get C++ working
     <LI>Extend the simulator
 </UL></P>
@@ -52,17 +51,6 @@ and hopefuly most will like it!</P>
 software module that could be useful for others? Why not making a
 library out of it and putting it in this project?
 </P>
-
-<h4>Write GDB support</h4>
-<P>The GNU DebuBuger is the sourcelevel developement tools that fits
-well with gcc and binutils. There are various frontends for it
-available which should be possible to use right away. Someone has
-just to write a backend for the MSP 430</P>
-
-<P>It should communicate through TCP/IP with a device driver. One driver
-can be the simulator, another the serial BSL, maybe the JTAG.
-That solution should be flexible and portable. It also enables
-us to use different tools/languages for the driver as C (for GDB).</P>
 
 <h4>Get C++ working</h4>
 <P>Basic support for C++ is already in, but to be able to use is a C++

@@ -464,12 +464,12 @@ if __name__ == '__main__':
                                 cname, cvalue = const.split('=')
                                 bits_speacial[name][int(cvalue, 0)] = cname
             sys.stderr.write("---- file: %s ----\n" % options.binary)
-            import msp430, msp430.memory, msp430.elf
-            data = msp430.memory.Memory()
+            import mspgcc, mspgcc.memory, mspgcc.elf
+            data = mspgcc.memory.Memory()
             try:
                 #try to load elf, IntelHex or TI-Text
                 data.loadFile(options.binary)
-            except msp430.elf.ELFException:
+            except mspgcc.elf.ELFException:
                 #failed, treat it as binary file
                 sys.stderr.write("Attention: parsing binary file\n")
                 memory = file(options.binary, 'rb').read()
@@ -477,7 +477,7 @@ if __name__ == '__main__':
                     sys.stderr.write("odd length!!, cutting off last byte\n")
                     memory = memory[:-1]
                 #can't know startaddress, use cmdline option
-                data.append(msp430.memory.Segment(options.startadr, memory))
+                data.append(mspgcc.memory.Segment(options.startadr, memory))
             #disassemble memory
             memwords = []
             labels = {}

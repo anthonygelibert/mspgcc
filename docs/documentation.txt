@@ -37,9 +37,11 @@ Other documents
 - README-msp430-bsl.txt_
 - README-msp430-gcc.txt_
 - README-msp430-gdb.txt_
+- README-msp430-insight.txt_
 - README-msp430-gdbproxy.txt_
 - README-msp430-jtag.txt_
 - README-msp430-libc.txt_
+- README-addons.txt_
 
 Version information: stamp.txt_
 
@@ -88,7 +90,9 @@ Others
 .. _README-msp430-bsl.txt: README-msp430-bsl.txt
 .. _README-msp430-gcc.txt: README-msp430-gcc.txt
 .. _README-msp430-gdb.txt: README-msp430-gdb.txt
+.. _README-msp430-insight.txt: README-msp430insight.txt
 .. _README-msp430-gdbproxy.txt: README-msp430-gdbproxy.txt
 .. _README-msp430-jtag.txt: README-msp430-jtag.txt
 .. _README-msp430-libc.txt: README-msp430-libc.txt
+.. _README-addons.txt: addons/README-addons.txt
 .. _stamp.txt: stamp.txt

@@ -20,8 +20,9 @@ about the compiler, assembler, linker and the other tools.
  - for the C compiler: http://gcc.gnu.org/onlinedocs/gcc-3.2.3/gcc/
  - for the preprocessor: http://gcc.gnu.org/onlinedocs/gcc-3.2.3/cpp/
 
-- Binutils manual: http://sourceware.org/binutils/docs-2.16/
+- Binutils manual: http://sourceware.org/binutils/docs-2.18/
 
+- GDB/Insight http://www.gnu.org/software/gdb/documentation/
 
 Code Examples
 =============
@@ -96,3 +97,4 @@ Others
 .. _README-msp430-libc.txt: README-msp430-libc.txt
 .. _README-addons.txt: addons/README-addons.txt
 .. _stamp.txt: stamp.txt
+

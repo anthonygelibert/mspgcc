@@ -2649,12 +2649,12 @@ You can use GCC to build assembly language programs, as well as C language ones.
 If the extension of your assembly language file is '.s', the following command
 will assemble it:
 <screen>
-<prompt>$</prompt> <userinput>msp430-gcc -D_GNU_ASSEMBLER_ -x assembler-with-cpp -c f.s -o f.o [options]</userinput>
+<prompt>$</prompt> <userinput>msp430-gcc -x assembler-with-cpp -c f.s -o f.o [options]</userinput>
 </screen>
 If the extension of your assembly language file is '.S', following command will
 assembl it:
 <screen>
-<prompt>$</prompt> <userinput>msp430-gcc -D_GNU_ASSEMBLER_ -c file.s -o file.o [options]</userinput>
+<prompt>$</prompt> <userinput>msp430-gcc -c file.s -o file.o [options]</userinput>
 </screen>
 </para>
 </sect1>

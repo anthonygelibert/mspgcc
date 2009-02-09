@@ -8,6 +8,7 @@
 <li><a href="contribute.html">Contribute</a>
 <li><a href="bugreports.html">Reporting bugs</a>
 <li><a href="ref.html">Links</a>
+<li><a href="http://apps.sourceforge.net/mediawiki/mspgcc/index.php?title=MSPGCC_Wiki">Wiki</a>
 
 <h3>Useful</h3>
 <LI><A href="baudrate.html">BaudrateCalc</A>

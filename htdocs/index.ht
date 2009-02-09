@@ -28,6 +28,8 @@ instructions for those who need to build the toolchain from source.
 The <a href="http://mspgcc.sourceforge.net/faq/">FAQ</a> may be of interest too.
 </P>
 
+<P>A <A href="http://apps.sourceforge.net/mediawiki/mspgcc/index.php?title=MSPGCC_Wiki">Wiki</A> is being maintained for mspgcc</P>
+
 <H2>GCC & Binutils</H2>
 <B>NOTE: The current version of gcc to use is mspgcc-3.2.3</B>
 <H3>Overview</H3>

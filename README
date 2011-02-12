@@ -1,0 +1,24 @@
+This directory contains files that add/enhance support for the Texas
+Instruments MSP430 family of microcontrollers in open-source toolchains.
+The material incorporated is maintained in a git repository hosted at:
+
+ git://mspgcc.git.sourceforge.net/mspgcc/mspgcc
+
+"legacy" refers to toolchain enhancements that hard-code the peripherals and
+addresses belonging to specific microcontrollers into the toolchain source.
+
+Build and install a complete toolchain by building each of the following
+tools in order:
+
+  binutils
+  gcc
+  gdb
+  msp430-libc
+
+The source for the first three is obtained by applying patches in this
+directory to the upstream distributions of the generic tools.  The patches
+include information on how to build the distribution.
+
+msp430-libc is a standalone library obtained separately at:
+
+  https://sourceforge.net/projects/mspgcc4/files/msp430-libc/

@@ -6,7 +6,7 @@ SOURCES =	$(shell echo *.ht)
 TARGETS =	$(filter-out *.html,$(SOURCES:%.ht=%.html)) $(EXTRA_TARGETS)
 GENERATED_HTML= $(SOURCES:.ht=.html)
 
-HTROOT = 	.
+HTROOT = 	html
 HT2HTML =	ht2html/ht2html.py
 HTSTYLE =	mspgccGenerator
 HTALLFLAGS =	-f -s $(HTSTYLE)
@@ -25,7 +25,10 @@ CGIRARGS = 	--rsh=ssh -v -r -l -t --update --delete $(CGIEXCLUDES)
 .ht.html:
 	$(HT2HTML) $(HTFLAGS) $<
 
-all: $(TARGETS)
+all: destdir $(TARGETS)
+
+destdir:
+	mkdir -p $(HTROOT)
 
 #dependencies for the ht files
 $(TARGETS): links.h

@@ -1,6 +1,8 @@
 .PHONY: all html pdf manual-html faq-html faq-pdf manual-pdf clean clean-workfiles FORCE
 
 
+HTMLDIR=../htdocs/html
+
 ifndef MSYSCON
 ifdef WINDIR
 STYLESHEET := "$(shell cygpath -w `pwd`)/stylesheet.css"
@@ -26,10 +28,12 @@ html: manual-html faq-html
 pdf:  manual-pdf faq-pdf
 
 manual-html:
-	docbook2html -o manual mspgcc-manual.xml
+	mkdir -p $(HTMLDIR)
+	docbook2html -o $(HTMLDIR)/manual mspgcc-manual.xml
 
 faq-html:
-	docbook2html -o faq faq.xml
+	mkdir -p $(HTMLDIR)
+	docbook2html -o $(HTMLDIR)/faq faq.xml
 
 
 faq-pdf:

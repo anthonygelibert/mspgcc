@@ -119,14 +119,15 @@ def main():
             quiet = 1
 
     # find current dir relative to rootdir
-    absroot = os.path.abspath(rootdir)
-    curdir = os.path.abspath('.')
-    prefix = os.path.commonprefix([absroot, curdir])
-    if prefix <> absroot:
-        usage(1, 'Root directory must be relative to current directory')
-    relthis = curdir[len(prefix)+1:]
-    if not relthis:
-        relthis = '.'
+    relthis = '.'
+    #absroot = os.path.abspath(rootdir)
+    #curdir = os.path.abspath('.')
+    #prefix = os.path.commonprefix([absroot, curdir])
+    #if prefix <> absroot:
+    #    usage(1, 'Root directory must be relative to current directory: %s %s' % (prefix, absroot))
+    #relthis = curdir[len(prefix)+1:]
+    #if not relthis:
+    #    relthis = '.'
 
     # get the generator class
     m = __import__(classmod)
@@ -138,7 +139,7 @@ def main():
             print 'Processing %s...' % file
         # get the target filename
         root, ext = os.path.splitext(file)
-        htmlfile = root + '.html'
+        htmlfile = os.path.join(rootdir, root + '.html')
         try:
             g = GenClass(file, rootdir, relthis)
         except IOError, msg:

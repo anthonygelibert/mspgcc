@@ -1101,7 +1101,10 @@ is required to translate -mmcu options into the appropriate -mcpu, -mmpy,
 and -mivcnt values.
 </para>
 <para>
-The following are recognized CPU architecture values:
+The following are recognized CPU architecture symbols and their meaning.
+(The value is used to identify the corresponding symbol in the
+__MSP430_CPU__ preprocessor symbol, and is not recognized when specifying
+the -mcpu option).
 <informaltable>
 <tgroup cols="3"><tbody>
 <row><entry>Symbol</entry><entry>Value</entry><entry>Description</entry></row>
@@ -1114,7 +1117,10 @@ The following are recognized CPU architecture values:
 </informaltable>
 </para>
 <para>
-The following are recognized hardware multiplier values:
+The following are recognized hardware multiplier symbols and their meaning.
+(The value is used to identify the corresponding symbol in the
+__MSP430_MPY__ preprocessor symbol, and is not recognized when specifying
+the -mmpy option).
 <informaltable>
 <tgroup cols="3"><tbody>
 <row><entry>Symbol</entry><entry>Value</entry><entry>Description</entry></row>
@@ -1146,10 +1152,12 @@ can easily behave in an MCU dependant manner. These are:
     indicating the hardware multiplier specified by the -mmpy option, except
     that if -mmpy=none was given the symbol is not defined at
     all.</entry></row>
-<row><entry>__MSP430_MPY16__</entry><entry>Defined only if -mmpy=16 or
-    -mmpy=16se was given.</entry></row>
-<row><entry>__MSP430_MPY32__</entry><entry>Defined only if -mmpy=32 or
-    -mmpy=32dw was given.</entry></row>
+<row><entry>__MSP430_MPY16__</entry><entry>Defined to the same value as
+    __MPU430_MPY__ if a 16-bit multiplier was specified.  Undefined
+    otherwise.</entry></row>
+<row><entry>__MSP430_MPY32__</entry><entry>Defined to the same value as
+    __MSP430_MPY__ if a 32-bit multiplier was specified.  Undefined
+    otherwise.</entry></row>
 <row><entry>__MSP430_IVCNT__</entry><entry>Defined to the value provided by
 -mivcnt.</entry></row>
 <row><entry>MSP430_HAS_HWMUL</entry><entry>Legacy preprocessor symbol

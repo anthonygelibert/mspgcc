@@ -1062,7 +1062,21 @@ parameters:
 <informaltable>
 <tgroup cols="2">
 <tbody>
-<row><entry>-mmcu=</entry><entry>Specify the MCU name</entry></row>
+<row><entry>-mmcu=</entry><entry>Specify the MCU name.  This is processed
+    by a specs file provided by the msp430mcu package to translate it into
+    MCU-specific -mcpu, -mmpy, and -mivcnt values which actually drive the
+    build process.</entry></row>
+<row><entry>-mcpu=</entry><entry>Specify the CPU
+    architecture for the chip.  See table below for recognized options.
+    The default value is 430.</entry></row>
+<row><entry>-mmpy=</entry><entry>Specify the type of
+    hardware multiplier available on the MCU.  This option allows the
+    compiler to generate inline code for integer multiplication/division.
+    See table below for recognized options.  The default value is none.</entry></row>
+<row><entry>-mivcnt=(16|32|64)</entry><entry>Specify the number of entries
+    in the MCU's interrupt vector table.  This affects validation of the
+    vector number used for function interrupt attributes, and the selection
+    of the vector table module at link time.  The default value is 16.</entry></row>
 <row><entry>-mno-volatile-workaround</entry><entry>Do not perform a volatile
 workaround for bitwise operations.</entry></row>
 <row><entry>-mno-stack-init</entry><entry>Do not initialise the stack as <emphasis>main()</emphasis>
@@ -1082,36 +1096,37 @@ This may save some space for shift intensive applications.</entry></row>
 </tbody>
 </tgroup>
 </informaltable>
-The following MCU names are currently recognised for the <quote>-mmcu</quote>
-parameter:
+The compiler no longer encodes MCU-specific data, so the msp430mcu package
+is required to translate -mmcu options into the appropriate -mcpu, -mmpy,
+and -mivcnt values.
+</para>
+<para>
+The following are recognized CPU architecture values:
 <informaltable>
-<tgroup cols="5">
-<tbody>
-<row><entry>msp1</entry><entry>msp2</entry></row>
-<row><entry>msp430x110</entry><entry>msp430x112</entry></row>
-<row><entry>msp430x1101</entry></row>
-<row><entry>msp430x1111</entry><entry>msp430x1121</entry></row>
-<row><entry>msp430x122</entry><entry>msp430x123</entry></row>
-<row><entry>msp430x1222</entry><entry>msp430x1232</entry></row>
-<row><entry>msp430x133</entry><entry>msp430x135</entry></row>
-<row><entry>msp430x1331</entry><entry>msp430x1351</entry></row>
-<row><entry>msp430x147</entry><entry>msp430x148</entry><entry>msp430x149</entry></row>
-<row><entry>msp430x1471</entry><entry>msp430x1481</entry><entry>msp430x1491</entry></row>
-<row><entry>msp430x155</entry><entry>msp430x156</entry><entry>msp430x157</entry></row>
-<row><entry>msp430x167</entry><entry>msp430x168</entry><entry>msp430x169</entry><entry>msp430x1610</entry><entry>msp430x1611</entry></row>
-<row><entry>msp430x311</entry><entry>msp430x312</entry><entry>msp430x313</entry><entry>msp430x314</entry><entry>msp430x315</entry></row>
-<row><entry>msp430x323</entry><entry>msp430x325</entry><entry>msp430x336</entry><entry>msp430x337</entry></row>
-<row><entry>msp430x412</entry><entry>msp430x413</entry></row>
-<row><entry>msp430xE423</entry><entry>msp430xE425</entry><entry>msp430xE427</entry></row>
-<row><entry>msp430xW423</entry><entry>msp430xW425</entry><entry>msp430xW427</entry></row>
-<row><entry>msp430x435</entry><entry>msp430x436</entry><entry>msp430x437</entry></row>
-<row><entry>msp430x447</entry><entry>msp430x448</entry><entry>msp430x449</entry></row>
-</tbody>
-</tgroup>
+<tgroup cols="3"><tbody>
+<row><entry>Symbol</entry><entry>Value</entry><entry>Description</entry></row>
+<row><entry>430</entry><entry>0x00</entry><entry>The original 16-bit MSP430 MCU</entry></row>
+<row><entry>430x</entry><entry>0x02</entry><entry>The CPUX extended
+    instruction set, and support for 20-bit pointers.</entry></row>
+<row><entry>430xv2</entry><entry>0x03</entry><entry>Same as 430x except for
+    instruction timings.</entry></row>
+</tbody></tgroup>
 </informaltable>
-<quote>msp1</quote> means an MCU without a hardware multiplier. <quote>msp2</quote> means an
-MCU with a hardware multiplier. These can be useful to make the compiler generate the
-correct code for a new device, before it is fully supported.
+</para>
+<para>
+The following are recognized hardware multiplier values:
+<informaltable>
+<tgroup cols="3"><tbody>
+<row><entry>Symbol</entry><entry>Value</entry><entry>Description</entry></row>
+<row><entry>none</entry><entry>0</entry><entry>No hardware multiplier present</entry></row>
+<row><entry>16</entry><entry>0x10</entry><entry>16-bit hardware multiplier</entry></row>
+<row><entry>16se</entry><entry>0x11</entry><entry>16-bit hardware
+    multiplier with automatic sign extension (2xx family)</entry></row>
+<row><entry>32</entry><entry>0x20</entry><entry>32-bit hardware multiplier</entry></row>
+<row><entry>32dw</entry><entry>0x21</entry><entry>32-bit hardware
+    multiplier with delayed write feature</entry></row>
+</tbody></tgroup>
+</informaltable>
 </para>
 </sect1>
 
@@ -1119,12 +1134,33 @@ correct code for a new device, before it is fully supported.
 <title>Compiler defined symbols</title>
 <para>The compiler defines some symbols, so the header files and source code
 can easily behave in an MCU dependant manner. These are:
-<itemizedlist>
-<listitem><para>MSP430</para></listitem>
-<listitem><para>__MSP430__</para></listitem>
-<listitem><para>__MSP430_xxx__, where xxx is replaced by the number of the MCU variant
-(e.g. __MSP430_149__ is defined for the msp430x149).</para></listitem>
-</itemizedlist>
+<informaltable>
+<tgroup cols="2"><tbody>
+<row><entry>MSP430, __MSP430__</entry><entry>Legacy preprocessor symbol
+    aways defined to indicate the target of the compiler.  The version
+    without underscores may not be defined if it would intrude on the user's
+    namespace in the target language.</entry></row>
+<row><entry>__MSP430_CPU__</entry><entry>Defined to a constant value
+    indicating the CPU architecture specified by the -mcpu option.</entry></row>
+<row><entry>__MSP430_MPY__</entry><entry>Defined to a constant value
+    indicating the hardware multiplier specified by the -mmpy option, except
+    that if -mmpy=none was given the symbol is not defined at
+    all.</entry></row>
+<row><entry>__MSP430_MPY16__</entry><entry>Defined only if -mmpy=16 or
+    -mmpy=16se was given.</entry></row>
+<row><entry>__MSP430_MPY32__</entry><entry>Defined only if -mmpy=32 or
+    -mmpy=32dw was given.</entry></row>
+<row><entry>__MSP430_IVCNT__</entry><entry>Defined to the value provided by
+-mivcnt.</entry></row>
+<row><entry>MSP430_HAS_HWMUL</entry><entry>Legacy preprocessor symbol
+    defined if a hardware multiplier is present and was enabled for inline
+    multiplier code.</entry></row>
+<row><entry>MSP430_NO_HWMUL</entry><entry>Legacy preprocessor symbol defined
+    if no hardware multiplier is present or was disabled for inline
+    multiplier code.</entry></row>
+</tbody></tgroup>
+</informaltable>
+Exactly one of MSP430_HAS_HWMUL and MSP430_NO_HWMUL will be defined.
 </para>
 </sect1>
 

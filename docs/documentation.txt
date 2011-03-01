@@ -1,0 +1,100 @@
+======================
+ MSPGCC Documentation
+======================
+
+MSPGCC Manual and FAQ
+=====================
+MSP430 centric documentation of gcc and binutils.
+
+- mspgcc-manual_ (PDF)
+- mspgcc-faq_ (PDF)
+
+
+Official Binutils and GCC manuals
+=================================
+Please refer to the official GCC and binutils manuals for more information
+about the compiler, assembler, linker and the other tools.
+
+- GCC Manuals:
+
+ - for the C compiler: http://gcc.gnu.org/onlinedocs/gcc-3.2.3/gcc/
+ - for the preprocessor: http://gcc.gnu.org/onlinedocs/gcc-3.2.3/cpp/
+
+- Binutils manual: http://sourceware.org/binutils/docs-2.18/
+
+- GDB/Insight http://www.gnu.org/software/gdb/documentation/
+
+Code Examples
+=============
+MSPGCC includes a number of examples. Read more here_.
+
+.. _here: ../examples/README.html
+
+
+Other documents
+===============
+- The licence_ that was displayed by the installer.
+- README-msp430-binutils.txt_
+- README-msp430-bsl.txt_
+- README-msp430-gcc.txt_
+- README-msp430-gdb.txt_
+- README-msp430-insight.txt_
+- README-msp430-gdbproxy.txt_
+- README-msp430-jtag.txt_
+- README-msp430-libc.txt_
+- README-addons.txt_
+
+Version information: stamp.txt_
+
+
+Links
+=====
+
+GNU, GCC and Binutils
+
+- http://www.gnu.org
+- http://gcc.gnu.org
+- http://www.gnu.org/software/binutils/
+- http://www.gnu.org/software/make/
+
+MSPGCC
+
+- http://mspgcc.sourceforge.net
+- http://mspgcc.sourceforge.net/baudrate.html
+- http://mspgcc.sourceforge.net/assemble.html
+
+MSP430
+
+- http://www.ti.com/msp430
+- http://www.google.com/search?&q=msp430+mspgcc
+- http://msp430.info/
+- http://tinymicros.com/embedded/MSP430/ Bugspray Database
+
+An incomplete list of free OS for the MSP430
+
+- http://www.sics.se/~adam/contiki/index.html
+- http://www.freertos.org/portmspgcc.html
+- http://www.tinyos.net/
+
+Others
+
+- http://www.python.org
+
+
+.. These links are only valid when the file has been installed to the docs
+.. directory
+
+.. _mspgcc-manual: mspgcc-manual.pdf
+.. _mspgcc-faq: mspgcc-faq.pdf
+.. _licence: licence.txt
+.. _README-msp430-binutils.txt: README-msp430-binutils.txt
+.. _README-msp430-bsl.txt: README-msp430-bsl.txt
+.. _README-msp430-gcc.txt: README-msp430-gcc.txt
+.. _README-msp430-gdb.txt: README-msp430-gdb.txt
+.. _README-msp430-insight.txt: README-msp430insight.txt
+.. _README-msp430-gdbproxy.txt: README-msp430-gdbproxy.txt
+.. _README-msp430-jtag.txt: README-msp430-jtag.txt
+.. _README-msp430-libc.txt: README-msp430-libc.txt
+.. _README-addons.txt: addons/README-addons.txt
+.. _stamp.txt: stamp.txt
+

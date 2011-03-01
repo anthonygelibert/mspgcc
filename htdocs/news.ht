@@ -1,0 +1,52 @@
+Title: mspgcc - News
+css: styles.css
+
+<H2>News</H2>
+<P>2006.02.02: gcc status update<BR>
+  <LI>gcc-3.2.3  (mspgcc/gcc/gcc-3.3)<UL>
+        <LI>Fixed calls to pointers where pointer is in R1
+        <LI>Added file include/obstack.h so gcc-3.2.3 compiles with gcc-4.0</UL>
+  <LI>gcc-3.3.6 (msp-gcc/gcc/gcc-3.4)<UL>
+	<LI>Added newer devices with patch from KIMURA Shigenobu</UL>
+  <LI>gcc-4.0.2<UL>
+        <LI>files and patch added to CVS for gcc-4.0.2 and binutils
+        <LI>This is still work in progress.</UL><BR>
+</P>
+<P>2006.01.28: gcc status<BR>
+  <LI>gcc-3.2.3  (mspgcc/gcc/gcc-3.3)<UL>
+	<LI>works,
+	<LI>there is some fault with calls to pointers in R1
+	<LI>Maybe some very subtle fault with pointers to structures selecting the correct offset.</UL>
+  <LI>gcc-3.3.6 (msp-gcc/gcc/gcc-3.4)<UL>
+	<LI>compiles ok,
+	<LI>makes bigger code, does not seem to use bit instruction for 'and #',
+	<LI>includes mods for C++ (could be back ported to gcc-3.2.3 quite easily)
+	<LI>there is some fault with calls to pointers in R1.
+	<LI>Maybe some very subtle fault with pointers to structures selecting the correct offset.
+	<LI>Does not have newer devices (1471,....)</UL>
+  <LI>gcc-3.4.4 (msp-gcc/gcc/gcc-current)<UL>
+	<LI>compiles with some modifications,
+	<LI>fail with internal compiler error: in subreg_highpart_offset, at emit-rtl.c:1328
+	<LI>Does have C++ mods
+	<LI>Does have newer devices (1471,....)</UL>
+  <LI>gcc-4.0.2<UL>
+	<LI>can be made to compile with major modifications,
+	<LI>wont compile with -O2 needs modifications to msp430.md also has same fault as gcc-3.4.4 in emit-rtl.c</UL>
+</P>
+<P>2003.06.10: A new mspgcc manual and FAQ are now available on line.</P>
+<P>2003.03.03: The MSP430 port of binutils has now been merged into the official <A href="http://sources.redhat.com/binutils">binutils</A>
+    source tree. All future releases (and current snapshots> of binutils will contain MSP430 support.</P>
+<P>2002.10.30: New JTAG debug proxy for Linux and Win32.
+    See the <A href="tools.html#gdbproxy">tools</A> page for more info.</P>
+
+<P>2002.09.24: New JTAG download library _including_ sources for Linux and Win32, pyjtag updated.
+    On the <A href="tools.html#pyjtag">tools</A> page are more infos.</P>
+
+<P>2002.09.06: Update of Serial-JTAG, now with sources for the firmware. You'll find more on the <A href="tools.html">tools</A> page.</P>
+
+<P>2002.08.01: Parallelport JTAG Beta for Win32. You'll find more on the <A href="tools.html">tools</A> page.</P>
+
+<P>Binary build for Win32 available. You can get it here: 
+<a href="http://www.mikrocontroller.net/msp430.en.htm">http://www.mikrocontroller.net/msp430.en.htm</a><br>
+ - thanks to Andreas Schwarz
+</P>

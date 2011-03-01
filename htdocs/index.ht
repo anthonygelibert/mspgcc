@@ -1,0 +1,79 @@
+Title: mspgcc - GCC toolchain for MSP430
+css: styles.css
+
+<!-- <P><B>NEW</B><br>
+<LI>2002.10.30: ...<BR>
+<BR>
+Older news are <A href="news.html">here</A>.
+</P>
+ -->
+<H1>The GCC toolchain for the Texas Instruments MSP430 MCUs</H1>
+<P>Here you will find a port of the GCC toolchain for the Texas Instruments
+MSP430 family of ultra low power MCUs, This includes the GNU C compiler (GCC),
+the assembler and linker (binutils), the debugger (GDB), and some other tools
+needed to make a complete development environment for the MSP430. These tools
+can be used on Windows, Linux, BSD and most other flavours of Unix. However, the
+full debug environment is currently limited to Windows, Linux and BSD.
+MSP430 development is no longer limited to Windows!
+</P>
+
+<P>Here is the <A href="http://sourceforge.net/projects/mspgcc/">project page on SourceForge</A>,
+the <A href="http://sourceforge.net/project/showfiles.php?group_id=42303">download area</a>
+and the <A href="http://sourceforge.net/cvs/?group_id=42303">CVS repository</A>.
+The <A href="http://sourceforge.net/mail/?group_id=42303">mailing lists</A>, especially the
+mspgcc-users list is a good place for discussions about mspgcc, suggestions, bug reports, ...
+The <a href="http://mspgcc.sourceforge.net/manual/">online manual</a> covers the MSP430
+as processor, the gcc extensions of this port and finally build
+instructions for those who need to build the toolchain from source.
+The <a href="http://mspgcc.sourceforge.net/faq/">FAQ</a> may be of interest too.
+</P>
+
+<P>A <A href="http://apps.sourceforge.net/mediawiki/mspgcc/index.php?title=MSPGCC_Wiki">Wiki</A> is being maintained for mspgcc</P>
+
+<H2>GCC & Binutils</H2>
+<B>NOTE: The current version of gcc to use is mspgcc-3.2.3</B>
+<H3>Overview</H3>
+<P>Binutils is a collection of command line tools to work with assembler and object files for the MSP430.
+They include the <B>msp430-as</B> assembler, the <B>msp430-ld</B> linker and <B>msp430-objcopy</B>, a format
+converter (e.g. to create intel-hex files). The assembler mnemonics are compatible with the TI syntax. The
+control commands and segment names are in the GNU style. The standard binutils package,
+available at <A href="http://sources.redhat.com/binutils">http://sources.redhat.com/binutils</a>,
+now contains this MSP430 support.
+</P>
+
+<P>From the GNU Compiler Collection (gcc) we have ported the <B>C compiler</B> (C++ without libstdc++).
+</P><P>GNU C is a full featured compiler:
+ANSI C89 compatible, different levels of optimization, inline assembly, interrupt handlers
+(incl. "wakeup"), floating point etc.
+</P>
+
+<P>A C compiler isn't complete without its library. We provide a basic libc, as well as libgcc and crts. These
+libraries contain math, string and other functions along with startup and initialization code. libgcc is
+included in the gcc sources. libc and the crt files are a separate package, <B>msp430-libc</b>.</P>
+
+<P>You can download the latest sources from CVS. The procedure is explained
+<a href="http://sourceforge.net/cvs/?group_id=42303">here</a>. Also, you can
+look in the <A href="http://sourceforge.net/project/showfiles.php?group_id=42303">
+download area</a> for ready made packages.
+</P>
+
+<P><A href="contribute.html">Contributions</A>, comments and bug reports are
+very welcome. If you can test the tools, let us know of success or failure
+(bugs). When you want to extend the libraries or add new features, let us
+know. This is an open source project, where everyone can help make the product
+better.
+</P>
+
+
+<P><B>Mailing list</B><br>
+We have a mailing list for discussions about the MSP430 and GCC. You can subscribe to
+the <B>mspgcc-users</B. list <A href="http://sourceforge.net/mail/?group_id=42303">here</A>.
+
+<P><B>Help Wanted</B><br>
+Interested in participating in an open source project? We have some interesting stuff to work on.
+Look <A href="contribute.html">here</A> for more info.</P>
+
+<BR>
+This project is hosted on SourceForge.net, THE place for open source:<BR>
+<A href="http://sourceforge.net"><IMG src="http://sourceforge.net/sflogo.php?group_id=42303" width="88" height="31" border="0" alt="SourceForge Logo"></A><BR>
+This page is located at <A href="http://mspgcc.sourceforge.net">http://mspgcc.sourceforge.net</A>

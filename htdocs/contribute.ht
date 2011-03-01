@@ -1,0 +1,63 @@
+Title: mspgcc - contribute
+css: styles.css
+
+<H2>Help Wanted</H2>
+<P>Interested in participating in a open source project? Well you won't make any money out of
+it, but a lot of people will appreciate your work while they are using open source products.
+And why not giving something back by improving something you like?
+It also a possibility to work in a team and train your skills.
+</P>
+
+<P>We have some interseting stuff to work on:<UL>
+    <LI>Help with floating point library
+    <LI>Revamp documentation (extend, add tips and tutorials)
+    <LI>Maintain example projects
+    <LI>Get C++ working
+    <LI>Extend the simulator
+</UL></P>
+
+<P>If you're interested in an other area that is not on this list,
+just drop a line and we'll see what's possible.</P>
+
+<H2>Details</H2>
+
+<h4>Help with floating point library</h4>
+<P>Basic support is in, but there should be a library for the rest!</P>
+
+<h4>Revamp documentation</h4>
+<P>As you can see there is some quite useful documentation around.
+But a documentation is never finished... you could extend it with
+new chapters like "Tips & Tricks" and "Tutorials" or polish up the
+existing docs.</P>
+
+<P>It would also be nice to have the docs in diffrent formats like
+<LI>ASCII (hey, were programmers, we like it simple but portable :-)
+<LI>PDF (reading on paper is more convenient and some clean layout
+is a pleasant to see after seeing some webpages...)
+<LI>HTML (access with the most used tool we have today: the browser)
+</P>
+
+<P>The root doc should be in a format that's easy to maintain and
+easy to convert in other formats. Sugestion: LaTeX (you don't need to
+know it just to contribute docs).</P>
+
+
+<h4>Maintain exmaple projects</h4>
+<P>Some simple examples should be there for beginners. Not all know the
+GNU way with make and console tools. Some examples will get them started
+and hopefuly most will like it!</P>
+
+<P>Some supporting user libraries would also be useful. Do you have some
+software module that could be useful for others? Why not making a
+library out of it and putting it in this project?
+</P>
+
+<h4>Get C++ working</h4>
+<P>Basic support for C++ is already in, but to be able to use is a C++
+library is needed.</P>
+
+<h4>Extend the simulator</h4>
+<P>Add more peripherals with all their registers and configurations.
+Some Testing should be
+done with new modules and with the multiplier as well as with the
+core (it seems stable right now... but you never know)</P>

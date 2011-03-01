@@ -1,0 +1,59 @@
+Title: mspgcc - Single Line MSP430 Assembler
+css: styles.css
+
+<H2>Single Line MSP430 Assembler</H2>
+<P>You can enter a line of assembler code in the text field below.
+The resulting machine code along with data words and the cycle count
+is printed.
+</P>
+<P>Example: "mov #7, R6"
+</P>
+
+<form action="/cgi-bin/assemble.py" method="get">
+    Input line:<input type="text" name="line" value="">
+    <input type="submit" name="submit" value="assemble">
+</form>
+
+<P>Description of output:<br>
+The first line is the assembler line that is realy interpreted. This
+can be different to the input for emulated instructions.
+<UL>
+    <LI><code>OPC</code>: 16 bit word for the instruction opcode
+    <LI><code>DW</code>: 16 bit data word
+    <LI><code>PCREL</code>: 16 bit relative address to the current pos.
+                The linker would have to calculate the real address here.
+</UL>
+When you use labels instead of nummeric values, those show up again in the
+output.
+</P>
+
+<P>The jump instructions (jxx, e.g. jmp) expect a byte offset, relative
+to the current position. Only nummeric offsets are allowed. The linker would
+need to calculate the offset when using labels.
+</P>
+
+<P>This software uses the constant registers of the MSP. However
+the result can differ from other assembers.
+</P>
+
+<H2>MSP430 Disassembler</H2>
+<P>Here you can disassemble a series of word values. It's the opposite of
+the operation above.
+</P>
+<P>Example: 0x4035 0x0007<BR>
+</P>
+
+<form action="/cgi-bin/disassemble.py" method="get">
+    Input values:<input type="text" name="values" value="">
+    <input type="submit" name="submit" value="disassemble">
+</form>
+
+<P>The input can be hex or dec. If not enough numbers are passed, the output
+can contain the string "UNKNOWN". This happens e.g. when an instruction requires
+an immediate value but only one value was given.
+</P>
+
+<H2>Disclaimer</H2>
+<P>And as usual - no warranties that the given information is correct.
+Use at your own risk.
+</P>

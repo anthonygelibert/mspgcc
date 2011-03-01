@@ -1,0 +1,215 @@
+Title: mspgcc - Tools
+css: styles.css
+
+<H2>Tools</H2>
+<A name="overview"><H3>Overview</H3></A><!-- ******************************* -->
+<P>You've got a compiler, but what now? Here you can find some tools that make
+the environment more complete. You can find pyBSL which can communicate with
+the MSP430 BootStrapLoader (ROM) in Flash devices.
+</P>
+<P>JTAG download has finally arrived and is currently beta software!
+</P>
+<P>A simulator is under development. You can step through your programs before
+downloading to a real device.
+</P>
+
+<A name="gdbproxy"><H3>The gdbproxy Flash Emulation Tool (FET) interface for msp430-gdb</H3></A><!-- ******************************* -->
+<P>gdbproxy is a proxy program which sits between msp430-gdb and the TI Flash
+Emulation Tool (FET). The TI FET tool is their JTAG interface, for debugging
+the flash based versions of the MSP430. gdbproxy understands the gdb remote
+protocol over TCP/IP connections, and it understands how to control an MSP430
+via. a FET (and all the other JTAG adapters that are based on the same schematic).
+</P>
+
+<P>gdbproxy is based on the gdbproxy 0.7 program which can be found
+<A href="http://world.std.com/~qqi/labslave/rproxy.html">here</A>. It was
+intended that the MSP430 code just be added to the existing gdbproxy code.
+However, the gdbproxy code has now been so heavily modified it looks like
+it has forked and thus was given the new name "gdbproxy". Sorry. Forking is
+bad.
+</P>
+
+<P>Because gdbproxy relies on proprietary code from TI the full source code
+cannot be opened at this time. The generic code (i.e. the modified gdbproxy
+code, less the MSP430 specific parts) is available from our CVS repository.
+You cannot build an MSP430 debugger with that, but we hope it may be useful
+to people trying to build similar tools for other processors.
+</P>
+
+<P>What we have to offer right now is binary test versions of gdbproxy for
+Linux on i386 and Windows. They are being used, perhaps even as you read this,
+to debug real MSP430 programs. They support most of the gdb remote protocol.
+</P>
+
+<P>For the Linux inclined we offer
+<A href="http://prdownloads.sourceforge.net/mspgcc/msp430-gdbproxy?download">this binary</A>.
+"libhil.so" is needed and available from our CVS repository.
+Windows users should use the installer from our 
+<A href="http://sourceforge.net/project/showfiles.php?group_id=42303">downloads section</A>.
+Don't forget to install GIVEIO if you're using Windows NT/2k/XP (Don't use on Win95/98/ME):
+Remember these are works in progress, but they are doing useful work for us.
+The source for HIL.dll can be found in CVS (this part is open source already).
+Both parts are also in the installer.
+</P>
+
+<P>The following limitations should be noted:
+
+<UL>
+<LI>The IAR and Quadravox tools both loose control of the MSP430 at times. 
+gdbproxy does too, but it has the benefit that it doesn't seem to dump
+core with the same regularity. It should be very hard to loose
+control of the target device - only issues related to certain power saving
+modes are supposed to do it. This will be investigated, as it is a pain.</LI>
+
+<LI>gdb is a general purpose tool. We need to live with what is does. One odd
+thing it does is choose some strange block sizes in which to download code
+to the target device. When it uses large blocks, writing to flash is
+reasonably fast. When it sends tiny blocks, writing to flash gets slowwww......
+Some caching is currently being done, but improvements are needed.</LI>
+
+<LI>It is advisable to put the following in your .gdbinit file:
+<CODE><BR><BR>
+set remoteaddresssize 64<BR>
+set remotetimeout 999999<BR>
+</CODE><BR>
+to make gdbproxy behave nicely.</LI>
+</UL>
+</P>
+
+<P>The linux version requires access to /dev/parport0. The default 
+permissions on many Linux distributions only allow root to do this. Change the
+permissions, and all should be well. The Linux binary was build on a RedHat 7.2
+machine. The Win32 build was built with mingw32.
+</P>
+
+<A name="pyserjtag"></A><!-- ******************************* -->
+<H3>pySerJTAG and Serial-JTAG adapter</H3>
+<P>pySerJTAG is the PC side software for the Serial-JTAG adapter. The PC software is open and
+written in Python. It should run on the same platforms as pyBSL (Win32, Linux, BSD and more
+POSIX compatible systems). The command line options are compatible with pyBSL and pyJTAG.
+</P>
+
+<P>The hardware design is open. The schematics can be found in the CVS module
+"hardware/serialJTAG" (here's a <A href="jtagF14x.pdf">PDF</A> 62kB). A binary of the firmware for this design is here:
+<A href="serjtag.zip">serjtag.zip</A> (&lt;10k, beta).
+</P>
+The lastest files can be checked out via <A href="http://mspgcc.cvs.sourceforge.net">Anonymous CVS</A>. (empty password)<BR>
+For the PC:<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co pyserjtag</code><BR>
+For the adapter:<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co serJTAGfirmware</code><BR>
+For the hardware (<A href="http://www.cadsoft.de">Eagle schematics</A>):<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co hardware/serialJTAG</code><BR>
+don't forget to login first if you want to get either of those above:<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+</P>
+
+<P>Why? The parallel port has some drawbacks such as missing OS support for bit banging.
+We cannot access every platform that mspgcc users use. Therefore it's impossible to distribute
+binaries for all. The Serial-JTAG adapter moves the proprietary code out to that box and
+the user software on the PC can be open source.
+It will allow us to provide debug features in the near future.
+</P>
+
+<A name="pyjtag"></A><!-- ******************************* -->
+<H3>msp430-jtag</H3>
+<P>Software for the parallel JTAG adapter. It works with Flash devices (MSP430F1xx and F4xx):
+erase and download new software or upload RAM or Flash data from the device back to the PC.
+It uses the parallel port hardware you get with the FET kits, schematics can be found on
+TI's site. It also works with the Olimex JTAG adapter.
+</P>
+
+<P>Features:<UL>
+        <LI>loads TI-Text, Intel-hex and ELF files</LI>
+        <LI>download to Flash and/or RAM, erase, verify</LI>
+        <LI>reset and wait for keypress</LI>
+        <LI>upload a memory block MSP->PC (output as binary data or hex dump)</LI>
+        <LI>download a program, execute it. (limited/funclets)</LI>
+        <LI>written in Python, runs on Win32, Linux, BSD (other platforms possible if
+        parallelport module is ported)</LI>
+        <LI>use per command line, or in a Python script</LI>
+</UL>
+
+For more a complete description, including installation notes and usage examples, look at the
+<A href="http://mspgcc.cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/python/README-msp430-jtag.txt?rev=HEAD&content-type=text/plain">
+readme.txt</A>
+</P>
+
+<P><B>Attention!</B> The software needs an additional Python extension. Either
+_parjtag (it's sources are in the CVS/jtag/python repository) or ctypes is required.
+</P>
+<P>
+Requirements:<UL>
+    <LI>Win32 user please use the mspgcc installer.
+    <LI>Linux version can use ppdev (/dev/parport0 etc.) and thus a 2.4 or newer Kernel.
+    <LI>or driver can be compiled with ioperm and direct parport hardware access.
+</UL>
+</P>
+
+<P>The latest msp430-jtag files can be checked out via <A href="http://mspgcc.cvs.sourceforge.net">Anonymous CVS</A>. (empty password)<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co pyjtag</code><BR>
+
+<P>The lastest source for the extension can be checked out via <A href="http://mspgcc.cvs.sourceforge.net">Anonymous CVS</A>. (empty password)<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co jtag</code><BR>
+</P>
+
+
+<A name="pybsl"></A><!-- ******************************* -->
+<H3>msp430-bsl</H3>
+<P>Software for the bootstrap loader. Works with Flash devices (MSP430F1xx and F4xx): erase and
+download new software or upload RAM or Flash data from the device back to the PC.
+</P>
+
+<P>Features:<UL>
+        <LI>loads TI-Text, Intel-hex and ELF files</LI>
+        <LI>download to Flash and/or RAM, erase, verify</LI>
+        <LI>reset and wait for keypress (to run a device directly from the port power)</LI>
+        <LI>load addres into R0/PC and run</LI>
+        <LI>password file can be any datafile, e.g. the one used to program the device in an earlier session</LI>
+        <LI>upload a memory block MSP->PC (output as binary data or hex dump)</LI>
+        <LI>download a program, execute it, resynchronize and uplaod results. (for testing and calibration)</LI>
+        <LI>written in Python, runs on Win32, BSD, Linux (and other POSIX compatible systems) (and Jython)</LI>
+        <LI>use per command line, or in a Python script</LI>
+        <LI>downloadable replacement MSP430-BSLs, which also allows higher baudrates.</LI>
+</UL>
+
+For more a complete description, including installation notes and usage examples, look at the
+<A href="http://mspgcc.cvs.sourceforge.net/cgi-bin/viewcvs.cgi/*checkout*/mspgcc/python/README-msp430-bsl.txt?rev=HEAD&content-type=text/plain">
+readme.txt</A>
+</P>
+
+<P>On the <A href="http://sourceforge.net/projects/mspgcc/">project page</A> is a link to the download area where
+a tarball can be found.
+The latest files can be checked out via <A href="http://mspgcc.cvs.sourceforge.net">Anonymous CVS</A>. (empty password)<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co pybsl</code><BR>
+</P>
+
+<A name="msp430simu"></A><!-- ******************************* -->
+<H3>msp430simu</H3>
+<P>The simulator is under development. Currently it allows single stepping through programms, but
+no active peripherals are yet supported (values can be written at any address, but reading has the
+same effect as reading from RAM).
+</P>
+<P>It has a simple GUI with memory and disassembler views, logging
+output, as well as a file open dialog to select intel hex files. Or it can be embedded in Python
+scripts e.g. for automatic testing, etc.
+</P>
+
+<P>Requirements:<UL>
+<LI>Python 2.1 or newer</LI>
+<LI>wxPython for the GUI only</LI>
+</UL>
+</P>
+
+<P>
+The lastest files can be checked out via <A href="http://mspgcc.cvs.sourceforge.net">Anonymous CVS</A>. (empty password)<BR>
+<code style="background:lightgrey;font-size:10pt">cvs -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc login</code><BR>
+<code style="background:lightgrey;font-size:10pt">cvs -z3 -d:pserver:anonymous@mspgcc.cvs.sourceforge.net:/cvsroot/mspgcc co msp430simu</code><BR>
+</P>
+
+<P>
+Note that GDB has a simulation part too, though the simulators don't solve the same problems.
+</P>

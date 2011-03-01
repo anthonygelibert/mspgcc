@@ -1,0 +1,12 @@
+this is a local copy of:
+
+ht2html.py  --  The www.python.org Web site generator
+
+it is used to generate the mspgcc homepage.
+
+More information:
+Documentation:  http://barry.wooz.org/software/ht2html
+Contact:        Barry Warsaw
+Email:          barry@python.org
+Download:       http://barry.wooz.org/software/ht2html
+Version:        1.1

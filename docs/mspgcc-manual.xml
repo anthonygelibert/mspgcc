@@ -1079,9 +1079,6 @@ parameters:
     of the vector table module at link time.  The default value is 16.</entry></row>
 <row><entry>-mno-volatile-workaround</entry><entry>Do not perform a volatile
 workaround for bitwise operations.</entry></row>
-<row><entry>-mno-stack-init</entry><entry>Do not initialise the stack as <emphasis>main()</emphasis>
-starts.</entry></row>
-<row><entry>-minit-stack=</entry><entry>Specify the initial stack address.</entry></row>
 <row><entry>-mendup-at=</entry><entry>Jump to the specified routine at the end of
 <emphasis>main()</emphasis>.</entry></row>
 <row><entry>-mforce-hwmul</entry><entry>Force use of a hardware multiplier.</entry></row>
@@ -1860,126 +1857,27 @@ and <quote>__stop_progExec__</quote> will not be linked.</para>
 <sect1 id="initializing-the-stack">
 <title>Initializing the stack</title>
 
-<para>Stack initialization is performed in the prologue of <quote>main()</quote>. This
-suits most cases. However, you redefine startup, and needs some space allocated on
-the stack, the stack has to be explicitly initialized. For example:
-<programlisting role="C">#define STACKINITIALVALUE	0x0280
-
-NAKED(_reset_vector__)
+<para>Stack initialization is performed in C runtime system through
+  the <quote>__init_stack</quote> routine, using the <quote>__stack</quote>
+  symbol defined at link time.  By default the stack begins at the top of
+  the RAM region.  If you need to override this, you can replace the
+  default implementation with custom code:
+<programlisting role="C">
+__attribute__ ((naked,section(".init2")))
+void __init_stack ()
 {
-    /* Initialise the stack */
-    __asm__ __volatile__("mov %0, r1"::"i" (STACKINITIALVALUE));
-
-    /* Your startup code goes here */
-
-    __asm__ __volatile__("br #main"::);
+  __write_stack_pointer(0x100);
 }
 </programlisting>
-*** NOTE *** DO NOT USE the register definitions PC, SP and SR, which some
-other MSP430 tools (e.g. IAR) recognise. The <emphasis>as</emphasis> assembler in
-<emphasis>binutils</emphasis> does not recognise these names. Instead use r0,
-r1 and r2.</para>
-
-<para>The stack finally will be initialized in main(). Normally, the initial 
-stack pointer address is at top of RAM. If you want to reserve some RAM space,
-which is not accessible by the compiler, you may specify -mno-stack-init
-flag and then define startup as follows:
-<programlisting role="C">#define STACKINITIALVALUE	0x0280
-
-NAKED(_reset_vector__)
-{
-    char a[100];	/* Will be allocated on the stack */
-
-    __asm__ __volatile__("mov       #__data_start ,r1"::);
-
-    /* Your startup code goes here */
-
-    /* Initialise the stack */
-    __asm__ __volatile__("mov %0, r1"::"i" (STACKINITIALVALUE));
-    /* Jump to main */
-    __asm__ __volatile__("br #main"::);
-}
-</programlisting>
-If you do not make the function declaration NAKED, note that on function
-exit, the frame pointer value will be added to r1. Therefore, the stack
-initialisation should be as follows:
-<programlisting role="C">...
-__asm__ __volatile__("mov %0, r1" :: "i" (STACKINITIALVLUE) );
-__asm__ __volatile__("sub #.L__FrameSize__reset_vector__, r1"::);
-...
-</programlisting>
-*** NOTE *** The frame pointer register (r4) and arguments pointer register (r5)
-values are compiled in a mysterious way. Use them with care.</para>
-
-<para>The variable <quote>.L__FrameSize_[function name]</quote> is defined by the
-compiler, and has a value of the stack space required by the function. For
-example:
-<programlisting role="C">#define STACKINITIALVALUE 0x280
-
-void set(char *a) {}	// dummy
-void reset(char *a) {}  // dummy
-
-void _reset_vector__()
-{
-    __asm__ __volatile__("mov       #__data_start ,r1"::);
-    {
-        char a[100];
-        set(a);
-        reset(a);
-    }
-    __asm__ __volatile__("mov %0, r1"::"i" (STACKINITIALVALUE));
-    __asm__ __volatile__("sub #.L__FrameSize__reset_vector__, r1"::);
-    __asm__ __volatile__("br #main"::);
-}
-
-int main()
-{
-    ...
-}
-</programlisting>
-compiled with
-<screen><prompt>$</prompt> <userinput>msp430-gcc -O m.c -mendup-at=main -mno-stack-init</userinput>
-</screen>
-will result in:
-<blockquote>
-<literallayout>---
-a.out:     file format elf32-msp430
-
-Disassembly of section .text:
-
-0000fc00 &lt;__zero_vector&gt;:
-    fc00:       30 40 04 fc     br      #0xfc04
-
-0000fc04 &lt;_unexpected_&gt;:
-    fc04:       00 13           reti
-
-0000fc06 &lt;set&gt;:
-    fc06:       30 41           ret
-
-0000fc08 &lt;reset&gt;:
-    fc08:       30 41           ret
-
-0000fc0a &lt;_reset_vector__&gt;:
-    fc0a:       31 80 64 00     sub     #100,   SP      ;  #0x0064
-    fc0e:       31 40 00 02     mov     #512,   SP      ;  #0x0200
-    fc12:       0f 41           mov     r1,     r15
-    fc14:       b0 12 06 fc     call    #-1018          ;  #0xfc06
-    fc18:       0f 41           mov     r1,     r15
-    fc1a:       b0 12 08 fc     call    #-1016          ;  #0xfc08
-    fc1e:       31 40 80 02     mov     #640,   SP      ;  #0x0280
-    fc22:       30 40 30 fc     br      #0xfc30
-    fc26:       31 80 64 00     sub     #100,   SP      ;  #0x0064
-    fc2a:       31 50 64 00     add     #100,   SP      ;  #0x0064
-    fc2e:       30 41           ret
-
-0000fc30 &lt;main&gt;:
-    fc30:       30 40 30 fc     br      #0xfc30
-....
----
-</literallayout>
-</blockquote>
-In this case, the <quote>RESERVE_RAM</quote> attribute to the <quote>main()</quote>
-function would be a simpler way to achieve the same effect.</para>
+Note that you must add the <quote>naked</quote> attribute so that function
+prologue and epilogue code that might manipulate the stack pointer are
+eliminated.  You must also add the <quote>section(".init2")</quote>
+attribute so the code is linked into the correct place in the final program.
+</para>
+<para>Previous versions of mspgcc would set the stack pointer at the top
+  of <quote>main</quote>, which confuses the modern DWARF2 support in gcc.
+  The -mno-stack-init option which inhibited this behavior has been removed
+  from mspgcc.</para>
 </sect1>
 </chapter>
 

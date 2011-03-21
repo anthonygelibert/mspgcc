@@ -1197,8 +1197,6 @@ the MSP430, and the special needs of embedded programming.
 <informaltable>
 <tgroup cols="2">
 <tbody>
-<row><entry>reserve(x)</entry><entry>When applied to main(), this reserves <quote>x</quote> bytes of
-RAM above the stack. This cannot be used with C++ (if C++ is supported later on).</entry></row>
 <row><entry>interrupt(x)</entry><entry>Make the function an interrupt service routine for interrupt
 <quote>x</quote>.</entry></row>
 <row><entry>signal</entry><entry>Make an interrupt service routine allow further nested interrupts.</entry></row>
@@ -1224,6 +1222,18 @@ The header file <quote>signal.h</quote> defines a number of alternative names
 for some of these attributes. In the sections below, some of these alternative names are used in
 more detailed discussions of the use of these attributes.
 </para>
+
+<para>
+The following function attributes are no longer supported in mspgcc:
+<informaltable>
+<tgroup cols="2">
+<tbody>
+<row><entry>reserve(x)</entry><entry>Formerly used to reserve RAM above the stack.</entry></row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+
 </sect1>
 
 <sect1 id="writing-interrupt-service-routines">
@@ -1470,11 +1480,6 @@ with the <quote>-mno-volatile-workaround</quote> compiler flag.</para>
 <sect1 id="reserving-space-above-the-stack">
 <title>Reserving space above the stack</title>
 <para>Declaring the <quote>main</quote> routine in the form
-<programlisting role="C">int RESERVE_RAM(10) main()
-{
-    ...
-}
-</programlisting>
 will reserve 10 bytes of memory, which resides at the top of RAM and will not
 be used by your C code. This is useful for things like PUC restarts, or data
 which should persist across resets.
@@ -1862,8 +1867,7 @@ and <quote>__stop_progExec__</quote> will not be linked.</para>
   symbol defined at link time.  By default the stack begins at the top of
   the RAM region.  If you need to override this, you can replace the
   default implementation with custom code:
-<programlisting role="C">
-__attribute__ ((naked,section(".init2")))
+<programlisting role="C">__attribute__ ((naked,section(".init2")))
 void __init_stack ()
 {
   __write_stack_pointer(0x100);
@@ -1874,10 +1878,32 @@ prologue and epilogue code that might manipulate the stack pointer are
 eliminated.  You must also add the <quote>section(".init2")</quote>
 attribute so the code is linked into the correct place in the final program.
 </para>
-<para>Previous versions of mspgcc would set the stack pointer at the top
+<para>
+  Previous versions of mspgcc would set the stack pointer at the top
   of <quote>main</quote>, which confuses the modern DWARF2 support in gcc.
   The -mno-stack-init option which inhibited this behavior has been removed
-  from mspgcc.</para>
+  from mspgcc.
+</para>
+<para>
+  This technique can also be used to replace the <quote>reserve</quote>
+  attribute formerly supported by mspgcc, using an initialization routine
+  such as:
+<programlisting role="C">extern void * __stack;
+
+typedef struct powerup_t {
+  unsigned int resetCount;
+} powerup_t;
+powerup_t* _powerupData;
+
+__attribute__ ((naked,section(".init2")))
+void __init_stack ()
+{
+  _powerupData = ((powerup_t*)__stack) - 1;
+  _powerupData->resetCount += 1;
+  __write_stack_pointer(_powerupData);
+}
+</programlisting>
+</para>
 </sect1>
 </chapter>
 

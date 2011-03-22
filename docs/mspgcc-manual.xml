@@ -1197,19 +1197,32 @@ the MSP430, and the special needs of embedded programming.
 <informaltable>
 <tgroup cols="2">
 <tbody>
-<row><entry>interrupt(x)</entry><entry>Make the function an interrupt service routine for interrupt
-<quote>x</quote>.</entry></row>
-<row><entry>signal</entry><entry>Make an interrupt service routine allow further nested interrupts.</entry></row>
-<row><entry>wakeup</entry><entry>When applied to an interrupt service routine, wake the processor from
-any low power state as the routine exits. When applied to other routines, this attribute is
-silently ignored.</entry></row>
-<row><entry>naked</entry><entry>Do not generate a prologue or epilogue for the function.</entry></row>
-<row><entry>critical</entry><entry>Disable interrupts on entry, and restore the previous interrupt
-state on exit.</entry></row>
-<row><entry>reentrant</entry><entry>Disable interrupts on entry, and always enable them on exit.</entry></row>
-<row><entry>saveprologue</entry><entry>Use a subroutine for the function prologue, to save memory.</entry></row>
-<row><entry>noint_hwmul</entry><entry>Supress the generation of disable and enable interrupt
-instructions around hardware multiplier code.</entry></row>
+<row><entry>interrupt(x)</entry><entry>Make the function an interrupt
+    service routine for interrupt <quote>x</quote>.  With no argument, the
+    function is made an interrupt but not assigned a vector.</entry></row>
+<row><entry>signal</entry><entry>Make an interrupt service routine allow
+    further nested interrupts.  May only be applied to interrupt
+    routines.</entry></row>
+<row><entry>wakeup</entry><entry>Wake the processor from any low power state
+    as the routine exits.  May only be applied to interrupt
+    routines.</entry></row>
+<row><entry>critical</entry><entry>Disable interrupts on entry, and restore
+    the previous interrupt state on exit.</entry></row>
+<row><entry>reentrant</entry><entry>Disable interrupts on entry, and enable
+    them on exit.</entry></row>
+<row><entry>naked</entry><entry>Do not save registers on entry, do not
+    allocate stack frame, do not emit return.  Does accept critical and
+    reentrant, and saves the frame pointer if necessary.  Error if the
+    function requires stack space for local variables.  Use this to create a
+    function that is entered and exited without call/branch
+    operations.</entry></row>
+<row><entry>task</entry><entry>Like naked, but also allocates (and free)
+    stack space required for local variables.</entry></row>
+<row><entry>saveprologue</entry><entry>Use a subroutine for the function
+    prologue, to save memory.  Incompatible with naked and task.</entry></row>
+<row><entry>noint_hwmul</entry><entry>Suppress the generation of disable and
+    enable interrupt instructions around hardware multiplier
+    code.</entry></row>
 </tbody>
 </tgroup>
 </informaltable>
@@ -1217,11 +1230,6 @@ The syntax for using these attributes is <quote>__attribute__((attribute_name(x)
 <quote>attribute_name</quote> is replaced by the required attribute name, and <quote>x</quote> is
 replaced by a parameter to that attribute. For attributes which do not accept parameters,
 <quote>(x)</quote> should be omitted.</para>
-<para>
-The header file <quote>signal.h</quote> defines a number of alternative names
-for some of these attributes. In the sections below, some of these alternative names are used in
-more detailed discussions of the use of these attributes.
-</para>
 
 <para>
 The following function attributes are no longer supported in mspgcc:
@@ -1238,26 +1246,29 @@ The following function attributes are no longer supported in mspgcc:
 
 <sect1 id="writing-interrupt-service-routines">
 <title>Writing interrupt service routines</title>
-<para>mspgcc allows interrupt service routines to be written efficiently in C.
-To access the interrupt features of mspgcc the header file
-<literallayout>#include &lt;signal.h&gt;
-</literallayout>
-should be included in any source files where interrupt service routines are
-defined.</para>
+<para>mspgcc allows interrupt service routines to be written efficiently in
+  C.  When declaring interrupts, you should include the mcu-specific header
+  file so that the interrupt vector offsets are defined.  These are
+  preprocessor symbols named MODULE_VECTOR, where MODULE identifies an
+  MSP430 peripheral that supports interrupts (e.g., WDT_VECTOR or
+  PORT1_VECTOR).
+</para>
 
 <para>To make a routine an interrupt service routine, define it as follows:
-<programlisting role="C">interrupt (INTERRUPT_VECTOR) IntServiceRoutine(void)
+<programlisting role="C">__attribute__((interrupt(MODULE_VECTOR))
+void IntServiceRoutine (void)
 {
     /* Any normal C code */
 }
 </programlisting>
-where <quote>INTERRUPT_VECTOR</quote> is replaced with the name of the actual
+where <quote>MODULE_VECTOR</quote> is replaced with the name of the actual
 vector to be serviced. Definitions for these may be found in the header files.
 The generated code will save any registers used within the interrupt routine,
 and use the "RETI", rather than the usual "RET" instruction, to exit from
 the routine. The vector table will automatically point to the routine.
 Further interrupt related attributes are also recognised:
-<programlisting role="C">interrupt (INTERRUPT_VECTOR) [wakeup, enablenested] IntServiceRoutine(void)
+<programlisting role="C">__attribute__((interrupt(MODULE_VECTOR),wakeup,signal)
+void IntServiceRoutine (void)
 {
     /* Any normal C code */
 }
@@ -1265,7 +1276,7 @@ Further interrupt related attributes are also recognised:
 The <quote>wakeup</quote> attribute makes the compiler alway force exit from
 any low power modes that may be in force at exit from the routine. See later
 for ways to gain greater control of the lower power modes.
-<quote>enablenested</quote> causes an interrupt enable instruction to be inserted
+<quote>signal</quote> causes an interrupt enable instruction to be inserted
 before the function prologue. This allows other higher priority
 interrupts to be serviced while handling the current one. Use this feature
 with care if you use it in conjunction with <quote>wakeup</quote>!</para>
@@ -1291,7 +1302,7 @@ void incloctime()
     localtime++;
 }
 
-interrupt(BASICTIMER_VECTOR) isr()
+__attribute__(interrupt(BASICTIMER_VECTOR)) void isr()
 {
     incloctime();
 }
@@ -1305,21 +1316,24 @@ much more efficient.
 <para>For every device, the macros <quote>NOVECTOR</quote> and
 <quote>RESET_VECTOR</quote> are defined. If an interrupt service routine is
 declared as
-<programlisting role="C">interrupt (NOVECTOR) [wakeup, enablenested] IntServiceRoutine(void)
+<programlisting role="C">__attribute__((interrupt[,wakeup][,signal]))
+void IntServiceRoutine (void)
 {
     /* Any normal C code */
 }
 </programlisting>
 GCC will not assign an interrupt vector for this routine. The code generated
-for the routine itself will be just the same as for any real interrupt vector.
-Similarly the macro <quote>RESET_VECTOR()</quote> can be used as the vector name
-when the standard reset start-up routine needs to be replaced with a
-customised one.</para>
+for the routine itself will be just the same as for any real interrupt
+vector.  You are responsible for figuring out how to get the address of the
+routine into the interrupt vector table.
+</para>
 </sect1>
 
 <sect1 id="customising-the-interrupt-vector-table">
 <title>Customising the interrupt vector table</title>
-<para>The interrupt vectors table is defined in the startup file for each device -
+<para>Update this for uniarch.</para>
+<!--
+The interrupt vectors table is defined in the startup file for each device -
 <quote>crtXXX</quote>. These files are automatically linked when a project is
 built. The tables are customised for the specific interrupt vectors present
 in each device. Undefined interrupts will result in a call to
@@ -1352,10 +1366,13 @@ INTERRUPT_VECTORS =
 </programlisting>
 For this to work you must give the coomand line argument
 <quote>'-nostartfiles'</quote> to the gcc.</para>
+-->
 </sect1>
 
 <sect1 id="controlling-interrupt-processing">
 <title>Controlling interrupt processing</title>
+<para>Update this for uniarch.</para>
+<!--
 <para>There are some function definitions in <quote>signal.h</quote> to make
 interrupt control easier.</para>
 
@@ -1407,6 +1424,7 @@ override the default reset vector handler.</para>
 You may declare your own version of the <quote>UNEXPECTED()</quote> function to
 override the default handling of unexpected interrupts (i.e. ones for which
 no specific interrupt service routine has been defined).</para>
+-->
 </sect1>
 
 <sect1 id="data-types-and-memory-handling">
@@ -1479,10 +1497,7 @@ with the <quote>-mno-volatile-workaround</quote> compiler flag.</para>
 
 <sect1 id="reserving-space-above-the-stack">
 <title>Reserving space above the stack</title>
-<para>Declaring the <quote>main</quote> routine in the form
-will reserve 10 bytes of memory, which resides at the top of RAM and will not
-be used by your C code. This is useful for things like PUC restarts, or data
-which should persist across resets.
+<para>See initializing-the-stack (however one does links in docbook)
 </para>
 </sect1>
 

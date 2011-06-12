@@ -37,7 +37,7 @@ you can post by email to mspgcc-users@lists.sourceforge.net.  To report
 bugs, please file a tracker ticket on SourceForge at
 https://sourceforge.net/tracker/?group_id=42303&atid=432701
 
-Patch file generated: 2011-02-12T17:53:07-06:00
+Patch file generated: 2011-06-12T12:26:45-05:00
 
 Log of relevant changes:
 85b5527 [2011-01-03 15:51:28 -0600] Convert sim/msp430 to autoconf.ac and regenerate
@@ -51,10 +51,10 @@ c7026b3 [2010-12-13 11:06:53 -0600] patch from Luca Bruno
 032bcf9 [2009-10-25 10:25:58 +0000] git-svn-id: http://mspgcc4.svn.sourceforge.net/svnroot/mspgcc4@17 9c79f009-54bf-40f1-a1dd-edde5f34ab85
 a254b44 [2009-10-24 19:14:13 +0000] Added full support for GDB 6.8 and 7.0 Added support for GCC 4.4.2
 
-diff --git a/bfd/archures.c b/bfd/archures.c
+diff --git gdb-7.2.orig/bfd/archures.c gdb-7.2/bfd/archures.c
 index 0e08571..fa47f55 100644
---- a/bfd/archures.c
-+++ b/bfd/archures.c
+--- gdb-7.2.orig/bfd/archures.c
++++ gdb-7.2/bfd/archures.c
 @@ -403,7 +403,13 @@ DESCRIPTION
  .#define bfd_mach_msp14          14
  .#define bfd_mach_msp15          15
@@ -79,10 +79,10 @@ index 0e08571..fa47f55 100644
  .  bfd_arch_xc16x,     {* Infineon's XC16X Series.               *}
  .#define bfd_mach_xc16x         1
  .#define bfd_mach_xc16xl        2
-diff --git a/bfd/bfd-in2.h b/bfd/bfd-in2.h
+diff --git gdb-7.2.orig/bfd/bfd-in2.h gdb-7.2/bfd/bfd-in2.h
 index f97c67f..21f282a 100644
---- a/bfd/bfd-in2.h
-+++ b/bfd/bfd-in2.h
+--- gdb-7.2.orig/bfd/bfd-in2.h
++++ gdb-7.2/bfd/bfd-in2.h
 @@ -2069,7 +2069,13 @@ enum bfd_architecture
  #define bfd_mach_msp14          14
  #define bfd_mach_msp15          15
@@ -133,10 +133,10 @@ index f97c67f..21f282a 100644
  
  /* IQ2000 Relocations.  */
    BFD_RELOC_IQ2000_OFFSET_16,
-diff --git a/bfd/cpu-msp430.c b/bfd/cpu-msp430.c
+diff --git gdb-7.2.orig/bfd/cpu-msp430.c gdb-7.2/bfd/cpu-msp430.c
 index 63c301a..88ed2ae 100644
---- a/bfd/cpu-msp430.c
-+++ b/bfd/cpu-msp430.c
+--- gdb-7.2.orig/bfd/cpu-msp430.c
++++ gdb-7.2/bfd/cpu-msp430.c
 @@ -65,29 +65,56 @@ static const bfd_arch_info_type arch_info_struct[] =
    /* msp430x16x.  */
    N (16, bfd_mach_msp16, "msp:16", FALSE, & arch_info_struct[7]),
@@ -202,10 +202,10 @@ index 63c301a..88ed2ae 100644
  };
  
  const bfd_arch_info_type bfd_msp430_arch =
-diff --git a/bfd/elf32-msp430.c b/bfd/elf32-msp430.c
+diff --git gdb-7.2.orig/bfd/elf32-msp430.c gdb-7.2/bfd/elf32-msp430.c
 index 285475c..837344e 100644
---- a/bfd/elf32-msp430.c
-+++ b/bfd/elf32-msp430.c
+--- gdb-7.2.orig/bfd/elf32-msp430.c
++++ gdb-7.2/bfd/elf32-msp430.c
 @@ -90,7 +90,7 @@ static reloc_howto_type elf_msp430_howto_table[] =
  	 0xffff,		/* dst_mask */
  	 FALSE),		/* pcrel_offset */
@@ -895,10 +895,10 @@ index 285475c..837344e 100644
  	}
      }
  
-diff --git a/bfd/libbfd.h b/bfd/libbfd.h
+diff --git gdb-7.2.orig/bfd/libbfd.h gdb-7.2/bfd/libbfd.h
 index 3da79d9..4ca4f00 100644
---- a/bfd/libbfd.h
-+++ b/bfd/libbfd.h
+--- gdb-7.2.orig/bfd/libbfd.h
++++ gdb-7.2/bfd/libbfd.h
 @@ -2134,6 +2134,25 @@ static const char *const bfd_reloc_code_real_names[] = { "@@uninitialized@@",
    "BFD_RELOC_MSP430_16_BYTE",
    "BFD_RELOC_MSP430_2X_PCREL",
@@ -925,10 +925,10 @@ index 3da79d9..4ca4f00 100644
    "BFD_RELOC_IQ2000_OFFSET_16",
    "BFD_RELOC_IQ2000_OFFSET_21",
    "BFD_RELOC_IQ2000_UHI16",
-diff --git a/bfd/reloc.c b/bfd/reloc.c
+diff --git gdb-7.2.orig/bfd/reloc.c gdb-7.2/bfd/reloc.c
 index 7d16869..d083467 100644
---- a/bfd/reloc.c
-+++ b/bfd/reloc.c
+--- gdb-7.2.orig/bfd/reloc.c
++++ gdb-7.2/bfd/reloc.c
 @@ -5118,6 +5118,44 @@ ENUMX
    BFD_RELOC_MSP430_2X_PCREL
  ENUMX
@@ -974,10 +974,10 @@ index 7d16869..d083467 100644
  ENUMDOC
    msp430 specific relocation codes
  
-diff --git a/gdb/Makefile.in b/gdb/Makefile.in
+diff --git gdb-7.2.orig/gdb/Makefile.in gdb-7.2/gdb/Makefile.in
 index f07bc8b..dd9aba8 100644
---- a/gdb/Makefile.in
-+++ b/gdb/Makefile.in
+--- gdb-7.2.orig/gdb/Makefile.in
++++ gdb-7.2/gdb/Makefile.in
 @@ -1187,6 +1187,11 @@ libgdb.a: $(LIBGDB_OBS)
  	$(AR) q libgdb.a $(LIBGDB_OBS)
  	$(RANLIB) libgdb.a
@@ -990,10 +990,10 @@ index f07bc8b..dd9aba8 100644
  # This is useful when debugging GDB, because some Unix's don't let you run GDB
  # on itself without copying the executable.  So "make gdb1" will make
  # gdb and put a copy in gdb1, and you can run it with "gdb gdb1".
-diff --git a/gdb/configure.tgt b/gdb/configure.tgt
+diff --git gdb-7.2.orig/gdb/configure.tgt gdb-7.2/gdb/configure.tgt
 index 97a532f..4cb2ebd 100644
---- a/gdb/configure.tgt
-+++ b/gdb/configure.tgt
+--- gdb-7.2.orig/gdb/configure.tgt
++++ gdb-7.2/gdb/configure.tgt
 @@ -367,6 +367,17 @@ mn10300-*-*)
  	gdb_sim=../sim/mn10300/libsim.a
  	;;
@@ -1012,11 +1012,11 @@ index 97a532f..4cb2ebd 100644
  mt-*-*)
  	# Target: Morpho Technologies ms1 processor
  	gdb_target_obs="mt-tdep.o"
-diff --git a/gdb/msp430-tdep.c b/gdb/msp430-tdep.c
+diff --git gdb-7.2.orig/gdb/msp430-tdep.c gdb-7.2/gdb/msp430-tdep.c
 new file mode 100644
 index 0000000..f1c23f7
 --- /dev/null
-+++ b/gdb/msp430-tdep.c
++++ gdb-7.2/gdb/msp430-tdep.c
 @@ -0,0 +1,1689 @@
 +/* This work is partially financed by the European Commission under the
 +* Framework 6 Information Society Technologies Project
@@ -2707,10 +2707,10 @@ index 0000000..f1c23f7
 +    return false;
 +  return (ptr >= pCache->min_data_ptr) && (ptr <= pCache->max_data_ptr);
 +}
-diff --git a/include/elf/msp430.h b/include/elf/msp430.h
+diff --git gdb-7.2.orig/include/elf/msp430.h gdb-7.2/include/elf/msp430.h
 index 44f5c51..31372c7 100644
---- a/include/elf/msp430.h
-+++ b/include/elf/msp430.h
+--- gdb-7.2.orig/include/elf/msp430.h
++++ gdb-7.2/include/elf/msp430.h
 @@ -33,6 +33,13 @@
  #define E_MSP430_MACH_MSP430x14  14
  #define E_MSP430_MACH_MSP430x15  15
@@ -2761,10 +2761,10 @@ index 44f5c51..31372c7 100644
  
  END_RELOC_NUMBERS (R_MSP430_max)
  
-diff --git a/include/opcode/msp430.h b/include/opcode/msp430.h
+diff --git gdb-7.2.orig/include/opcode/msp430.h gdb-7.2/include/opcode/msp430.h
 index d3bf130..60ec9d6 100644
---- a/include/opcode/msp430.h
-+++ b/include/opcode/msp430.h
+--- gdb-7.2.orig/include/opcode/msp430.h
++++ gdb-7.2/include/opcode/msp430.h
 @@ -26,7 +26,7 @@ struct msp430_operand_s
    int ol;	/* Operand length words.  */
    int am;	/* Addr mode.  */
@@ -3090,10 +3090,10 @@ index d3bf130..60ec9d6 100644
    /* End of instruction set.  */
    { NULL, 0, 0, 0, 0 }
  };
-diff --git a/opcodes/msp430-dis.c b/opcodes/msp430-dis.c
+diff --git gdb-7.2.orig/opcodes/msp430-dis.c gdb-7.2/opcodes/msp430-dis.c
 index 9d7edbe..22a6ebd 100644
---- a/opcodes/msp430-dis.c
-+++ b/opcodes/msp430-dis.c
+--- gdb-7.2.orig/opcodes/msp430-dis.c
++++ gdb-7.2/opcodes/msp430-dis.c
 @@ -1,6 +1,5 @@
  /* Disassemble MSP430 instructions.
 -   Copyright (C) 2002, 2004, 2005, 2007, 2009, 2010
@@ -4387,10 +4387,10 @@ index 9d7edbe..22a6ebd 100644
 +    (*prin) (stream, "%s", comm2);
    return cmd_len;
  }
-diff --git a/sim/configure b/sim/configure
+diff --git gdb-7.2.orig/sim/configure gdb-7.2/sim/configure
 index b6488e2..9404d6b 100755
---- a/sim/configure
-+++ b/sim/configure
+--- gdb-7.2.orig/sim/configure
++++ gdb-7.2/sim/configure
 @@ -651,6 +651,7 @@ microblaze
  mips
  mn10300
@@ -4415,10 +4415,10 @@ index b6488e2..9404d6b 100755
     rx-*-*)
  
    sim_arch=rx
-diff --git a/sim/configure.tgt b/sim/configure.tgt
+diff --git gdb-7.2.orig/sim/configure.tgt gdb-7.2/sim/configure.tgt
 index 592bc3c..0bb6b53 100644
---- a/sim/configure.tgt
-+++ b/sim/configure.tgt
+--- gdb-7.2.orig/sim/configure.tgt
++++ gdb-7.2/sim/configure.tgt
 @@ -82,6 +82,11 @@ case "${target}" in
         SIM_ARCH(moxie)
         sim_testsuite=yes
@@ -4431,11 +4431,11 @@ index 592bc3c..0bb6b53 100644
     rx-*-*)
         SIM_ARCH(rx)
         ;;
-diff --git a/sim/msp430/Makefile.in b/sim/msp430/Makefile.in
+diff --git gdb-7.2.orig/sim/msp430/Makefile.in gdb-7.2/sim/msp430/Makefile.in
 new file mode 100644
 index 0000000..c8c95d8
 --- /dev/null
-+++ b/sim/msp430/Makefile.in
++++ gdb-7.2/sim/msp430/Makefile.in
 @@ -0,0 +1,29 @@
 +#    Makefile template for Configure for the MCore sim library.
 +#    Copyright (C) 1990, 91, 92, 95, 96, 19, 1999 Free Software Foundation, Inc.
@@ -4466,11 +4466,11 @@ index 0000000..c8c95d8
 +interp.o: interp.c
 +
 +msp430-clean:
-diff --git a/sim/msp430/config.in b/sim/msp430/config.in
+diff --git gdb-7.2.orig/sim/msp430/config.in gdb-7.2/sim/msp430/config.in
 new file mode 100644
 index 0000000..21724bc
 --- /dev/null
-+++ b/sim/msp430/config.in
++++ gdb-7.2/sim/msp430/config.in
 @@ -0,0 +1,34 @@
 +/* config.in.  Generated automatically from configure.in by autoheader.  */
 +
@@ -4506,11 +4506,11 @@ index 0000000..21724bc
 +
 +/* Define if you have the <unistd.h> header file.  */
 +#undef HAVE_UNISTD_H
-diff --git a/sim/msp430/configure b/sim/msp430/configure
+diff --git gdb-7.2.orig/sim/msp430/configure gdb-7.2/sim/msp430/configure
 new file mode 100755
 index 0000000..13e5e55
 --- /dev/null
-+++ b/sim/msp430/configure
++++ gdb-7.2/sim/msp430/configure
 @@ -0,0 +1,5867 @@
 +#! /bin/sh
 +# Guess values for system-dependent variables and create Makefiles.
@@ -10379,11 +10379,11 @@ index 0000000..13e5e55
 +fi
 +
 +
-diff --git a/sim/msp430/configure.ac b/sim/msp430/configure.ac
+diff --git gdb-7.2.orig/sim/msp430/configure.ac gdb-7.2/sim/msp430/configure.ac
 new file mode 100644
 index 0000000..59ce35c
 --- /dev/null
-+++ b/sim/msp430/configure.ac
++++ gdb-7.2/sim/msp430/configure.ac
 @@ -0,0 +1,12 @@
 +dnl Process this file with autoconf to produce a configure script.
 +AC_PREREQ(2.59)dnl
@@ -10397,11 +10397,11 @@ index 0000000..59ce35c
 +sinclude(../common/common.m4)
 +
 +SIM_AC_OUTPUT
-diff --git a/sim/msp430/interp.c b/sim/msp430/interp.c
+diff --git gdb-7.2.orig/sim/msp430/interp.c gdb-7.2/sim/msp430/interp.c
 new file mode 100644
 index 0000000..5778c89
 --- /dev/null
-+++ b/sim/msp430/interp.c
++++ gdb-7.2/sim/msp430/interp.c
 @@ -0,0 +1,1904 @@
 +/* Simulator for msp430 TI MCU
 +   Copyright (C) 2002 Free Software Foundation, Inc.
@@ -12307,11 +12307,11 @@ index 0000000..5778c89
 +
 +  return 0;
 +}
-diff --git a/sim/msp430/msp430-alu.c b/sim/msp430/msp430-alu.c
+diff --git gdb-7.2.orig/sim/msp430/msp430-alu.c gdb-7.2/sim/msp430/msp430-alu.c
 new file mode 100644
 index 0000000..e013def
 --- /dev/null
-+++ b/sim/msp430/msp430-alu.c
++++ gdb-7.2/sim/msp430/msp430-alu.c
 @@ -0,0 +1,766 @@
 +
 +#include <stdio.h>
@@ -13079,18 +13079,18 @@ index 0000000..e013def
 +
 +    }				/* while */
 +}
-diff --git a/sim/msp430/stamp-h b/sim/msp430/stamp-h
+diff --git gdb-7.2.orig/sim/msp430/stamp-h gdb-7.2/sim/msp430/stamp-h
 new file mode 100644
 index 0000000..8b13789
 --- /dev/null
-+++ b/sim/msp430/stamp-h
++++ gdb-7.2/sim/msp430/stamp-h
 @@ -0,0 +1 @@
 +
-diff --git a/sim/msp430/sysdep.h b/sim/msp430/sysdep.h
+diff --git gdb-7.2.orig/sim/msp430/sysdep.h gdb-7.2/sim/msp430/sysdep.h
 new file mode 100644
 index 0000000..4035572
 --- /dev/null
-+++ b/sim/msp430/sysdep.h
++++ gdb-7.2/sim/msp430/sysdep.h
 @@ -0,0 +1,95 @@
 +/* System includes and definitions used by the Motorola MCore simulator.
 +   Copyright (C) 1999 Free Software Foundation, Inc.
@@ -13187,11 +13187,11 @@ index 0000000..4035572
 +#endif /* STDC_HEADERS */
 +
 +#endif /* __SYSDEP_H */
-diff --git a/sim/msp430/targ-map.c b/sim/msp430/targ-map.c
+diff --git gdb-7.2.orig/sim/msp430/targ-map.c gdb-7.2/sim/msp430/targ-map.c
 new file mode 100644
 index 0000000..b494ca9
 --- /dev/null
-+++ b/sim/msp430/targ-map.c
++++ gdb-7.2/sim/msp430/targ-map.c
 @@ -0,0 +1,407 @@
 +/* Target value mapping utilities needed by the simulator and gdb.  */
 +/* This file is machine generated by gentmap.c.  */
@@ -13600,11 +13600,11 @@ index 0000000..b494ca9
 +#endif
 +  {-1, -1}
 +};
-diff --git a/sim/msp430/targ-vals.h b/sim/msp430/targ-vals.h
+diff --git gdb-7.2.orig/sim/msp430/targ-vals.h gdb-7.2/sim/msp430/targ-vals.h
 new file mode 100644
 index 0000000..9032f82
 --- /dev/null
-+++ b/sim/msp430/targ-vals.h
++++ gdb-7.2/sim/msp430/targ-vals.h
 @@ -0,0 +1,141 @@
 +/* Target header values needed by the simulator and gdb.  */
 +/* This file is machine generated by gentmap.c.  */

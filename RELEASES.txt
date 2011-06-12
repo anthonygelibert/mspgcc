@@ -1,0 +1,13 @@
+20110612:
+ - fa15a9f [2011-03-22 16:53:35 -0500] Update attribute descriptions, remove some outdated documentation
+ - 7fed2e1 [2011-03-21 10:27:26 -0500] Remove reserve attribute
+ - d2f6187 [2011-03-12 14:54:57 -0600] Correct description of overriding stack initialization
+ - 6280a56 [2011-03-01 10:51:26 -0600] Clarify use of values in cpu and mpu selectors
+ - e23dbff [2011-03-01 10:32:23 -0600] Document new flags and preprocessor symbols
+ - c2880ec [2011-03-01 09:36:10 -0600] Move legacy patches into a subdirectory
+ - 6b55a4b [2011-03-01 09:34:31 -0600] Put all generated HTML files in htdocs/html
+ - fd8a6db [2011-03-01 09:18:55 -0600] Rename to standard capitalization
+ - 973921a [2011-03-01 09:18:16 -0600] Make executable as assumed by Makefile
+ - 5a462bc [2011-03-01 09:18:03 -0600] Accommodate non-ASCII character in source
+ - 492ce6b [2011-02-12 17:53:36 -0600] Update legacy patches
+ - 28aec4b [2011-02-12 17:22:03 -0600] Describe contents of repository

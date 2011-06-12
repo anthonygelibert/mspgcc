@@ -1,0 +1,43 @@
+This directory contains files that add/enhance support for the Texas
+Instruments MSP430 family of microcontrollers in open-source toolchains.
+The material incorporated is maintained in a git repository hosted at:
+
+ git://mspgcc.git.sourceforge.net/mspgcc/mspgcc
+
+Build and install a complete toolchain by building each of the following
+tools in order:
+
+  binutils
+  gcc
+  gdb
+  msp430mcu
+  msp430-libc
+
+The source for the first three is obtained by applying patches in this
+directory to the upstream distributions of the generic tools.  The patches
+include information on how to build the distribution.
+
+msp430mcu provides C headers and binutils linker scripts for each of the
+over 300 microcontrollers in the MSP430 family.  It is released as an
+independent package and can be obtained at:
+
+  http://sourceforge.net/projects/mspgcc/files/msp430mcu/msp430mcu-YYYYMMDD.tar.bz2
+
+where YYYYMMDD is provided in the file msp430mcu.version in this release.  A
+.zip file is available as well.
+
+msp430-libc provides C library routines.  It is released as an independent
+package and can be obtained at:
+
+  https://sourceforge.net/projects/mspgcc/files/msp430-libc/msp430-libc-YYYYMMDD.tar.bz2
+
+where YYYYMMDD is provided in the file msp430-libc.version in this release.  A
+.zip file is available as well.
+
+** Please report all problems with this toolchain on the mspgcc bug tracker
+   at:
+
+  http://sourceforge.net/tracker/?group_id=42303&atid=432701
+
+**WARNING** The documentation portions of this package are in progress, and
+  may be out of date in significant ways.  

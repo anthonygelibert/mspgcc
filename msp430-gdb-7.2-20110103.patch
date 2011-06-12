@@ -21,7 +21,7 @@ Unpack the distribution, apply the patch, and build.  (Note: The example
 commands are in Bourne-shell syntax.)
 
   tar xzf gdb-7.2.tar.gz
-  ( cd gdb-7.2 ; patch -p1 < ../msp430-gdb-7.2-20110612.patch )
+  ( cd gdb-7.2 ; patch -p1 < ../msp430-gdb-7.2-20110103.patch )
   mkdir -p BUILD/gdb
   cd BUILD/gdb
   ../../gdb-7.2/configure \
@@ -37,7 +37,7 @@ you can post by email to mspgcc-users@lists.sourceforge.net.  To report
 bugs, please file a tracker ticket on SourceForge at
 https://sourceforge.net/tracker/?group_id=42303&atid=432701
 
-Patch file generated: 2011-06-12T12:26:45-05:00
+Patch file generated: 2011-06-12T14:13:27-05:00
 
 Log of relevant changes:
 85b5527 [2011-01-03 15:51:28 -0600] Convert sim/msp430 to autoconf.ac and regenerate

@@ -37,7 +37,7 @@ you can post by email to mspgcc-users@lists.sourceforge.net.  To report
 bugs, please file a tracker ticket on SourceForge at
 https://sourceforge.net/tracker/?group_id=42303&atid=432701
 
-Patch file generated: 2011-06-12T12:22:54-05:00
+Patch file generated: 2011-06-12T14:14:28-05:00
 
 Log of relevant changes:
 b97d496 [2011-06-12 11:09:24 -0500] SF 3315471 remove _init_section__ function

@@ -15,7 +15,7 @@ and
   uniarch/release/gcc-4.5.2 (facb6aa56de5ee686197493bbe29b2a2bd600bf9)
 
 To build, obtain the upstream release distribution from:
-  ftp://ftp.gnu.org/pub/gnu/gcc/gcc-4.5.2.tar.gz
+  ftp://ftp.gnu.org/pub/gnu/gcc/gcc-4.5.2/gcc-4.5.2.tar.gz
 
 Unpack the distribution, apply the patch, and build.  (Note: The example
 commands are in Bourne-shell syntax.)
@@ -26,6 +26,7 @@ commands are in Bourne-shell syntax.)
   cd BUILD/gcc
   ../../gcc-4.5.2/configure \
     --target=msp430 \
+    --enable-languages=c,c++ \
     --prefix=/usr/local/msp430 \
   2>&1 | tee co
   make 2>&1 | tee mo
@@ -37,7 +38,7 @@ you can post by email to mspgcc-users@lists.sourceforge.net.  To report
 bugs, please file a tracker ticket on SourceForge at
 https://sourceforge.net/tracker/?group_id=42303&atid=432701
 
-Patch file generated: 2011-06-12T12:25:51-05:00
+Patch file generated: 2011-06-12T14:12:07-05:00
 
 Log of relevant changes:
 9f6f736 [2011-06-12 08:35:07 -0500] Update for release

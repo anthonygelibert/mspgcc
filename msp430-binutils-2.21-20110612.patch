@@ -21,7 +21,7 @@ Unpack the distribution, apply the patch, and build.  (Note: The example
 commands are in Bourne-shell syntax.)
 
   tar xzf binutils-2.21.tar.gz
-  ( cd binutils-2.21 ; patch -p1 < ../msp430-uniarch-binutils-2.21.patch )
+  ( cd binutils-2.21 ; patch -p1 < ../msp430-binutils-2.21-20110612.patch )
   mkdir -p BUILD/binutils
   cd BUILD/binutils
   ../../binutils-2.21/configure \

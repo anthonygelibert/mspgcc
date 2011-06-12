@@ -21,7 +21,7 @@ Unpack the distribution, apply the patch, and build.  (Note: The example
 commands are in Bourne-shell syntax.)
 
   tar xzf gcc-4.5.2.tar.gz
-  ( cd gcc-4.5.2 ; patch -p1 < ../msp430-uniarch-gcc-4.5.2.patch )
+  ( cd gcc-4.5.2 ; patch -p1 < ../msp430-gcc-4.5.2-20110612.patch )
   mkdir -p BUILD/gcc
   cd BUILD/gcc
   ../../gcc-4.5.2/configure \

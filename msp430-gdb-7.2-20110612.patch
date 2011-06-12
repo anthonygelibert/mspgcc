@@ -21,7 +21,7 @@ Unpack the distribution, apply the patch, and build.  (Note: The example
 commands are in Bourne-shell syntax.)
 
   tar xzf gdb-7.2.tar.gz
-  ( cd gdb-7.2 ; patch -p1 < ../msp430-legacy-gdb-7.2.patch )
+  ( cd gdb-7.2 ; patch -p1 < ../msp430-gdb-7.2-20110612.patch )
   mkdir -p BUILD/gdb
   cd BUILD/gdb
   ../../gdb-7.2/configure \

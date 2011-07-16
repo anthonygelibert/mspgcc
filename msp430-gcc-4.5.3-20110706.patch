@@ -10,21 +10,21 @@ in a git repository hosted at:
   git://mspgcc.git.sourceforge.net/gitroot/mspgcc/gcc
 
 This patch incorporates changes between:
-  upstream/release/gcc-4.5.2 (c2a4f906b21e2121e92025e576f8b1c6105a2a53)
+  upstream/release/gcc-4.5.3 (ccf18e39f4a81bd4067286b52bbec3f8efe5deac)
 and
-  uniarch/release/gcc-4.5.2 (facb6aa56de5ee686197493bbe29b2a2bd600bf9)
+  uniarch/release/gcc-4.5.3 (aca99892c6171b944200295f9788e27fb979ab35)
 
 To build, obtain the upstream release distribution from:
-  ftp://ftp.gnu.org/pub/gnu/gcc/gcc-4.5.2/gcc-4.5.2.tar.gz
+  ftp://ftp.gnu.org/pub/gnu/gcc/gcc-4.5.3/gcc-4.5.3.tar.bz2
 
 Unpack the distribution, apply the patch, and build.  (Note: The example
 commands are in Bourne-shell syntax.)
 
-  tar xzf gcc-4.5.2.tar.gz
-  ( cd gcc-4.5.2 ; patch -p1 < ../msp430-gcc-4.5.2-20110612.patch )
+  tar xjf gcc-4.5.3.tar.bz2
+  ( cd gcc-4.5.3 ; patch -p1 < ../msp430-gcc-4.5.3-20110716.patch )
   mkdir -p BUILD/gcc
   cd BUILD/gcc
-  ../../gcc-4.5.2/configure \
+  ../../gcc-4.5.3/configure \
     --target=msp430 \
     --enable-languages=c,c++ \
     --prefix=/usr/local/msp430 \
@@ -38,15 +38,53 @@ you can post by email to mspgcc-users@lists.sourceforge.net.  To report
 bugs, please file a tracker ticket on SourceForge at
 https://sourceforge.net/tracker/?group_id=42303&atid=432701
 
-Patch file generated: 2011-06-12T14:12:07-05:00
+Patch file generated: 2011-07-16T13:25:07-05:00
 
 Log of relevant changes:
+aca9989 [2011-03-22 16:06:23 -0500] Anticipatory patch for PR lto/45638
+3deb7b2 [2011-01-18 13:13:21 -0600] Add %:include_noerr as spec function.
+143cbed [2011-02-21 03:47:03 -0600] Anticipatory patch for PR middle-end/42722 (SF 3148801)
+a9de61a [2011-01-09 17:13:53 -0600] Anticipatory patch for PR tree-optimization/45144 (SF 3152588)
+781bd9e [2010-12-31 17:57:15 -0600] Anticipate PR rtl-optimization/47138 back-port r158175
+2d754e3 [2010-12-31 12:00:02 -0600] Anticipate PR rtl-optimization/45235
+ed0814c [2011-07-16 12:46:38 -0500] Regenerate
+7b5d834 [2011-07-16 12:21:25 -0500] Add msp430 target support to GCC
+b3bc594 [2011-07-05 17:09:07 -0500] Update for release
+203cd7e [2011-07-05 17:03:47 -0500] SF 3354800 put back -mdisable-hwmul
+5a9eec4 [2011-07-05 16:42:49 -0500] SF 3354807 ICE with -mmpy=16 on 32-bit constant multiplies
+c17a05a [2011-07-05 16:08:47 -0500] Update for release
+356dce9 [2011-07-05 15:56:40 -0500] Fix illegal extraction of low part of constant multiplication operand
+29af6de [2011-07-05 15:19:06 -0500] Complete support for MPY32
+339ecc8 [2011-07-05 15:06:47 -0500] Tested hardware multiply for non-MPY32 support
+e018493 [2011-07-05 15:01:28 -0500] Tiny optimization in mulsidi3
+0808b4d [2011-07-05 14:59:27 -0500] Add library functions for widen-to-64 multiply
+a74eec7 [2011-07-05 14:33:06 -0500] Validate muldi3
+391b168 [2011-07-05 10:39:24 -0500] Use mode iterators for multiplication insns
+3fd730b [2011-07-05 10:03:32 -0500] Clean up multiplication
+f6048bb [2011-07-05 09:03:08 -0500] Use correct "can't happen" function
+5ceb03b [2011-07-05 07:21:04 -0500] Remove patterns from non-expanded RTL templates
+c8d5bff [2011-07-04 21:29:21 -0500] Avoid unnecessary sign extension on mulqihi operations
+c692ec0 [2011-07-04 21:24:19 -0500] Refine multiplier peripheral indicator values
+c979dee [2011-07-04 21:16:18 -0500] SF 3354053 remove -mforce-hwmul, -mdisable-hwmul
+c4cc7fd [2011-07-04 20:13:07 -0500] Fix indentation
+defe95e [2011-07-04 15:43:25 -0500] More syntax cleanup
+7ae064f [2011-07-04 15:38:45 -0500] Syntax cleanup
+c6f5686 [2011-07-04 14:57:11 -0500] SF 3317421 -Os generates unrecognized insn for multiply-by-constant
+e534b53 [2011-07-04 14:08:58 -0500] Run things through GNU indent again
+c6b9d85 [2011-07-04 13:44:11 -0500] Eliminate special insns for MPY peripheral access
+7301357 [2011-07-04 12:56:41 -0500] Rework multiply interrupt protection insns
+81c5841 [2011-07-04 07:30:03 -0500] pophi sr clobbers condition codes
+596fe75 [2011-07-04 08:02:06 -0500] Clean up msp430_init_once
+4f1b02a [2011-06-25 15:15:52 -0500] Remove distracting disabled code
+2b1e36a [2011-06-25 15:01:31 -0500] Reformat macros so they are readable
+0aa02ac [2011-06-25 15:00:52 -0500] Remove unreferenced multiply-related registers
+0b0cd25 [2011-06-25 13:43:53 -0500] Remove outdated push helper functions
+b680b48 [2011-06-25 13:20:43 -0500] SF 3317711 path to ldscripts broken if installation moved
+73007d8 [2011-06-25 11:07:53 -0500] Patch provided by submitter
 9f6f736 [2011-06-12 08:35:07 -0500] Update for release
 e0d67b8 [2011-06-12 08:33:32 -0500] SF 3313978 ICE (unrecognizable insn) related to rotate
 c67eb41 [2011-05-30 11:39:49 -0500] Update for release
 c5b4fc7 [2011-05-30 10:23:18 -0500] SF 3302511: ICE building newlib 1.19.0
-0efe20e [2011-05-15 15:45:11 -0500] Add msp430 target support to GCC
-7f4527c [2011-05-15 15:48:12 -0500] Revert "Add msp430 target support to GCC"
 eb98053 [2011-05-15 15:36:20 -0500] Update for release
 a6911fa [2011-05-10 20:02:57 -0500] SF 300205 regression: sizeof(short) != 2
 7949660 [2011-05-03 06:15:17 -0500] SF 3296698: unoptimized code for bit field/union
@@ -198,19 +236,12 @@ a059b93 [2011-03-25 11:50:34 -0500] Eliminate build warnings from use of HOST_WI
 a454332 [2011-03-25 00:36:23 -0500] SF 3237005: add __delay_cycles intrinsic
 660b860 [2011-03-24 13:25:27 -0500] Fix varargs problem on 64-bit hosts.
 c3279c7 [2011-03-22 17:44:06 -0500] Update version for next release
-1167873 [2011-03-22 16:06:23 -0500] Anticipatory patch for PR lto/45638
 0820353 [2011-03-22 15:25:24 -0500] Remove problematic and unuseful example
 fd873cf [2011-03-22 10:34:07 -0500] Rename builtin for consistency
 eea6dd2 [2011-03-21 12:18:51 -0500] Clean up interrupt attribute parameter processing
 a0beb09 [2011-03-21 11:34:46 -0500] Clean up prototypes/public functions
 0875583 [2011-03-21 11:12:57 -0500] Improve validation of naked/task attributes.
 1e086ab [2011-03-21 10:19:17 -0500] Check for incompatibility among attribute declarations
-1f55bfd [2011-01-18 13:13:21 -0600] Add %:include_noerr as spec function.
-fcadb50 [2011-02-21 03:47:03 -0600] Anticipatory patch for PR middle-end/42722 (SF 3148801)
-7364a3d [2011-01-09 17:13:53 -0600] Anticipatory patch for PR tree-optimization/45144 (SF 3152588)
-f15c636 [2010-12-31 17:57:15 -0600] Anticipate PR rtl-optimization/47138 back-port r158175
-be2fef8 [2010-12-31 12:00:02 -0600] Anticipate PR rtl-optimization/45235
-3ecf134 [2011-03-13 15:16:43 -0500] Add msp430 target support to GCC
 240b794 [2011-03-20 15:30:08 -0500] Replace code that detected empty epilogue
 6fe5e6c [2011-03-20 14:20:59 -0500] Use flags to specify frame prologue/epilogue actions
 3e9047c [2011-03-20 13:05:45 -0500] Disable saveprologue
@@ -373,38 +404,38 @@ f948168 [2009-10-24 19:14:13 +0000] Added full support for GDB 6.8 and 7.0 Added
 e72d34a [2009-10-01 10:49:22 +0000] Updated copyright notes
 d730759 [2009-09-08 14:21:29 +0000] Initial version
 
-diff --git gcc-4.5.2.orig/configure gcc-4.5.2/configure
-index 95b5856..f042ecd 100755
---- gcc-4.5.2.orig/configure
-+++ gcc-4.5.2/configure
-@@ -3384,6 +3384,9 @@ case "${target}" in
-   avr-*-*)
-     noconfigdirs="$noconfigdirs target-libiberty target-libstdc++-v3 ${libgcj} target-libssp"
+diff --git gcc-4.5.3.orig/configure gcc-4.5.3/configure
+index c60f1b3..6f5c066 100755
+--- gcc-4.5.3.orig/configure
++++ gcc-4.5.3/configure
+@@ -3588,6 +3588,9 @@ case "${target}" in
+   mn10300-*-*)
+     noconfigdirs="$noconfigdirs ${libgcj}"
      ;;
 +  msp430-*-*)
 +    noconfigdirs="$noconfigdirs target-libiberty target-libstdc++-v3 ${libgcj} target-libssp"
 +    ;;
-   bfin-*-*)
-     unsupported_languages="$unsupported_languages java"
-     noconfigdirs="$noconfigdirs target-boehm-gc gdb"
-diff --git gcc-4.5.2.orig/configure.ac gcc-4.5.2/configure.ac
-index 81b5a72..aa30746 100644
---- gcc-4.5.2.orig/configure.ac
-+++ gcc-4.5.2/configure.ac
-@@ -621,6 +621,9 @@ case "${target}" in
-   avr-*-*)
-     noconfigdirs="$noconfigdirs target-libiberty target-libstdc++-v3 ${libgcj} target-libssp"
+   mt-*-*)
+     noconfigdirs="$noconfigdirs sim"
+     ;;
+diff --git gcc-4.5.3.orig/configure.ac gcc-4.5.3/configure.ac
+index 35812aa..8acb7c8 100644
+--- gcc-4.5.3.orig/configure.ac
++++ gcc-4.5.3/configure.ac
+@@ -825,6 +825,9 @@ case "${target}" in
+   mn10300-*-*)
+     noconfigdirs="$noconfigdirs ${libgcj}"
      ;;
 +  msp430-*-*)
 +    noconfigdirs="$noconfigdirs target-libiberty target-libstdc++-v3 ${libgcj} target-libssp"
 +    ;;
-   bfin-*-*)
-     unsupported_languages="$unsupported_languages java"
-     noconfigdirs="$noconfigdirs target-boehm-gc gdb"
-diff --git gcc-4.5.2.orig/gcc/config.gcc gcc-4.5.2/gcc/config.gcc
-index 6db775e..3ce164b 100644
---- gcc-4.5.2.orig/gcc/config.gcc
-+++ gcc-4.5.2/gcc/config.gcc
+   mt-*-*)
+     noconfigdirs="$noconfigdirs sim"
+     ;;
+diff --git gcc-4.5.3.orig/gcc/config.gcc gcc-4.5.3/gcc/config.gcc
+index 0ff189c..9cee8b2 100644
+--- gcc-4.5.3.orig/gcc/config.gcc
++++ gcc-4.5.3/gcc/config.gcc
 @@ -835,6 +835,10 @@ avr-*-*)
  	extra_gcc_objs="driver-avr.o avr-devices.o"
  	extra_objs="avr-devices.o"
@@ -416,11 +447,11 @@ index 6db775e..3ce164b 100644
  bfin*-elf*)
  	tm_file="${tm_file} dbxelf.h elfos.h newlib-stdint.h bfin/elf.h"
  	tmake_file=bfin/t-bfin-elf
-diff --git gcc-4.5.2.orig/gcc/config/msp430/constraints.md gcc-4.5.2/gcc/config/msp430/constraints.md
+diff --git gcc-4.5.3.orig/gcc/config/msp430/constraints.md gcc-4.5.3/gcc/config/msp430/constraints.md
 new file mode 100644
-index 0000000..f734718
+index 0000000..5c2a5de
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/constraints.md
++++ gcc-4.5.3/gcc/config/msp430/constraints.md
 @@ -0,0 +1,104 @@
 +;; -*- Mode: Scheme -*-
 +;; Constraint definitions for Texas Instruments MSP430.
@@ -443,7 +474,7 @@ index 0000000..f734718
 +;; <http://www.gnu.org/licenses/>.
 +
 +;;; Available letters:
-+;;;    ABCD  GHIJKLMNO Q     W  Z
++;;;    ABCD  GHIJKLMNO Q        Z
 +;;;    abcdef h jkl    q  t v x  
 +;;; (nb: generic used are EFVXgimnoprs)
 +
@@ -526,11 +557,11 @@ index 0000000..f734718
 +  (and (match_code "const_int")
 +       (match_test "(ival == -1 || ival == 0 || ival == 1 || ival == 2 || ival == 4 || ival == 8)")))
 +
-diff --git gcc-4.5.2.orig/gcc/config/msp430/crt0.S gcc-4.5.2/gcc/config/msp430/crt0.S
+diff --git gcc-4.5.3.orig/gcc/config/msp430/crt0.S gcc-4.5.3/gcc/config/msp430/crt0.S
 new file mode 100644
 index 0000000..e469295
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/crt0.S
++++ gcc-4.5.3/gcc/config/msp430/crt0.S
 @@ -0,0 +1,307 @@
 +/*  -*- Mode: Asm -*-  */
 +#if WITH_DISABLE_WDT
@@ -839,11 +870,11 @@ index 0000000..e469295
 +        reti
 +	
 +#endif
-diff --git gcc-4.5.2.orig/gcc/config/msp430/crt0ivtbl.S gcc-4.5.2/gcc/config/msp430/crt0ivtbl.S
+diff --git gcc-4.5.3.orig/gcc/config/msp430/crt0ivtbl.S gcc-4.5.3/gcc/config/msp430/crt0ivtbl.S
 new file mode 100644
 index 0000000..696f6aa
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/crt0ivtbl.S
++++ gcc-4.5.3/gcc/config/msp430/crt0ivtbl.S
 @@ -0,0 +1,102 @@
 +/*  -*- Mode: Asm -*-  */
 +
@@ -947,12 +978,12 @@ index 0000000..696f6aa
 +	INITIALIZE_ISR_SLOT 62
 +#endif /* 32 < INTERRUPT_VECTOR_COUNT */
 +        .word _reset_vector__
-diff --git gcc-4.5.2.orig/gcc/config/msp430/libgcc.S gcc-4.5.2/gcc/config/msp430/libgcc.S
+diff --git gcc-4.5.3.orig/gcc/config/msp430/libgcc.S gcc-4.5.3/gcc/config/msp430/libgcc.S
 new file mode 100644
-index 0000000..6add697
+index 0000000..ef234d4
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/libgcc.S
-@@ -0,0 +1,1170 @@
++++ gcc-4.5.3/gcc/config/msp430/libgcc.S
+@@ -0,0 +1,1135 @@
 +/*  -*- Mode: Asm -*-  */
 +
 +/* Offset from r1 to first word of stack-pushed arguments. */
@@ -1184,7 +1215,15 @@ index 0000000..6add697
 +	.global	__mulhisi3
 +	.func	__mulhisi3
 +__mulhisi3:
-+	br	#__mulsi3
++	clr	r11
++	tst	r10
++	jge	1f
++	mov	#-1, r11
++1:	clr	r13
++	tst	r12
++	jge	2f
++	mov	#-1, r13
++2:	br	#__mulsi3
 +	.endfunc
 +#endif /* defined (L_mulhisi3) */
 +
@@ -1192,6 +1231,8 @@ index 0000000..6add697
 +	.global	__umulhisi3
 +	.func	__umulhisi3
 +__umulhisi3:
++	clr	r11
++	clr	r13
 +	br	#__mulsi3
 +	.endfunc
 +#endif /* defined (L_umulhisi3) */
@@ -1952,17 +1993,17 @@ index 0000000..6add697
 +/**************************************************************
 + * Multiplication 64 = 64 x 64
 + **************************************************************/
-+#if defined(L_muldi3) && !defined(MSP430_HAS_HWMUL)
++#if defined(L_muldi3)
 +
-+#define r_reshh  r11  	/* res = arg1 * arg2 */
-+#define r_reshl  r10
-+#define r_reslh	 r9
-+#define r_resll	 r8
++#define r_reshh  r15  	/* res = arg1 * arg2 */
++#define r_reshl  r14
++#define r_reslh	 r13
++#define r_resll	 r12
 +
-+#define r_arg1hh r15	/* arg1 */
-+#define r_arg1hl r14
-+#define r_arg1lh r13
-+#define r_arg1ll r12
++#define r_arg1hh r11	/* arg1 */
++#define r_arg1hl r10
++#define r_arg1lh r9
++#define r_arg1ll r8
 +
 +#define r_arg2hh r7	/* arg2 */
 +#define r_arg2hl r6
@@ -1972,25 +2013,12 @@ index 0000000..6add697
 +	.global	__muldi3
 +	.func	__muldi3
 +__muldi3:
-+	push	r4
-+	push	r5
-+	push	r6
-+	push	r7
-+	push	r8
-+	push	r9
-+	push	r10
-+	push	r11
-+	
-+	mov	18+0(r1), r_arg2ll	; 18 is a stack offset
-+	mov	18+2(r1), r_arg2lh	; so move arg 2 in.
-+	mov	18+4(r1), r_arg2hl
-+	mov	18+6(r1), r_arg2hh
-+
 +	clr	r_reshh
 +	clr	r_reshl
 +	clr	r_reslh
 +	clr	r_resll
 +	
++#if !defined(MSP430_HAS_HWMUL)
 +.L_muldi3_loop:
 +	clrc
 +	rrc	r_arg2hh		; arg2 >>= 1 (shift LSB into carry)
@@ -1998,14 +2026,14 @@ index 0000000..6add697
 +	rrc	r_arg2lh
 +	rrc	r_arg2ll
 +	
-+	jnc	+8			; check if bit is set
++	jnc	1f			; check if bit is set
 +					; yes, it is.
 +	add	r_arg1ll, r_resll	; res += arg1
 +	addc	r_arg1lh, r_reslh
 +	addc	r_arg1hl, r_reshl
 +	addc	r_arg1hh, r_reshh
 +	
-+	rla	r_arg1ll		; arg1 <<= 1
++1:	rla	r_arg1ll		; arg1 <<= 1
 +	rlc	r_arg1lh
 +	rlc	r_arg1hl
 +	rlc	r_arg1hh
@@ -2018,63 +2046,7 @@ index 0000000..6add697
 +	jne	.L_muldi3_loop
 +	tst	r_arg2hh
 +	jne	.L_muldi3_loop
-+
-+	; move result to proper location
-+	mov	r_resll, r12
-+	mov	r_reslh, r13
-+	mov	r_reshl, r14
-+	mov	r_reshh, r15
-+
-+	pop	r11
-+	pop	r10
-+	pop	r9
-+	pop	r8
-+	pop	r7
-+	pop	r6
-+	pop	r5
-+	pop	r4
-+	ret
-+	.endfunc
-+#endif
-+
-+#if defined(L_muldi3) && defined(MSP430_HAS_HWMUL)
-+
-+#define r_reshh  r11    /* res = arg1 * arg2 */
-+#define r_reshl  r10
-+#define r_reslh  r9
-+#define r_resll  r8
-+
-+#define r_arg1hh r15    /* arg1 */
-+#define r_arg1hl r14
-+#define r_arg1lh r13
-+#define r_arg1ll r12
-+
-+#define r_arg2hh r7     /* arg2 */
-+#define r_arg2hl r6
-+#define r_arg2lh r5
-+#define r_arg2ll r4
-+
-+          .global __muldi3
-+          .func   __muldi3
-+__muldi3:
-+
-+        push    r4
-+        push    r5
-+        push    r6
-+        push    r7
-+        push    r8
-+        push    r9
-+        push    r10
-+        push    r11
-+
-+        mov     18+0(r1), r_arg2ll      ; 18 is a stack offset
-+        mov     18+2(r1), r_arg2lh      ; so move arg 2 in.
-+        mov     18+4(r1), r_arg2hl
-+        mov     18+6(r1), r_arg2hh
-+
-+;;      r15:r14:r13:r12 * r7:r6:r5:r4 -> r11:r10:r9:r8
-+;; actual code follows....
-+
++#else
 +        mov     r_arg1ll,&__MPY
 +        mov     r_arg2ll,&__OP2           ;;                      LL1xLL2
 +        mov     &__RESLO,r_resll
@@ -2105,30 +2077,54 @@ index 0000000..6add697
 +        mov     r_arg1hh,&__MAC
 +        mov     r_arg2ll,&__OP2           ;;          HH1xLL2
 +        mov     &__RESLO,r_reshh
++	
++#endif
++	; move result to proper location
++	mov	r_resll, r12
++	mov	r_reslh, r13
++	mov	r_reshl, r14
++	mov	r_reshh, r15
 +
-+;; reload result
-+        mov     r_resll, r12
-+        mov     r_reslh, r13
-+        mov     r_reshl, r14
-+        mov     r_reshh, r15
-+
-+        pop     r11
-+        pop     r10
-+        pop     r9
-+        pop     r8
-+        pop     r7
-+        pop     r6
-+        pop     r5
-+        pop     r4
-+        ret
++	ret
 +.endfunc
 +#endif
-diff --git gcc-4.5.2.orig/gcc/config/msp430/msp430-builtins.c gcc-4.5.2/gcc/config/msp430/msp430-builtins.c
++
++#if defined (L_mulsidi3)
++	.global	__mulsidi3
++	.func	__mulsidi3
++__mulsidi3:
++	clr	r6
++	tst	r5
++	jge	1f
++	mov	#-1, r6
++1:	mov	r6, r7
++	clr	r10
++	tst	r9
++	jge	2f
++	mov	#-1, r10
++2:	mov	r10, r11
++	br	#__muldi3
++	.endfunc
++#endif /* defined (L_mulhisi3) */
++
++#if defined(L_umulsidi3)
++	.global	__umulsidi3
++	.func	__umulsidi3
++__umulsidi3:
++	clr	r6
++	clr	r7
++	clr	r10
++	clr	r11
++	br	#__muldi3
++	.endfunc
++#endif /* defined (L_umulsidi3) */
++	
+diff --git gcc-4.5.3.orig/gcc/config/msp430/msp430-builtins.c gcc-4.5.3/gcc/config/msp430/msp430-builtins.c
 new file mode 100644
-index 0000000..0c97360
+index 0000000..e26afc4
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/msp430-builtins.c
-@@ -0,0 +1,259 @@
++++ gcc-4.5.3/gcc/config/msp430/msp430-builtins.c
+@@ -0,0 +1,261 @@
 +/* This work is partially financed by the European Commission under the
 +* Framework 6 Information Society Technologies Project
 +* "Wirelessly Accessible Sensor Populations (WASP)".
@@ -2276,10 +2272,12 @@ index 0000000..0c97360
 +	  ("__bi%c_status_register_on_exit invalid outside of function with interrupt attribute",
 +	   (builtin_code == MSP430_BUILTIN_BIC_SR_IRQ) ? 'c' : 's');
 +      /* If we used hard_frame_pointer_rtx here, which would be right,
-+	 we'd end up setting frame_pointer_required even if it isn't.
-+	 So use arg_pointer_rtx offset by the two words pushed by the
-+	 interrupt. */
-+      deref_stack_sr = gen_rtx_MEM (Pmode, plus_constant (arg_pointer_rtx, -2 * UNITS_PER_WORD));
++         we'd end up setting frame_pointer_required even if it isn't.
++         So use arg_pointer_rtx offset by the two words pushed by the
++         interrupt. */
++      deref_stack_sr =
++	gen_rtx_MEM (Pmode,
++		     plus_constant (arg_pointer_rtx, -2 * UNITS_PER_WORD));
 +    }
 +
 +  switch (builtin_code)
@@ -2388,11 +2386,11 @@ index 0000000..0c97360
 +
 +  return retval;
 +}
-diff --git gcc-4.5.2.orig/gcc/config/msp430/msp430-cbranch.c gcc-4.5.2/gcc/config/msp430/msp430-cbranch.c
+diff --git gcc-4.5.3.orig/gcc/config/msp430/msp430-cbranch.c gcc-4.5.3/gcc/config/msp430/msp430-cbranch.c
 new file mode 100644
-index 0000000..83c075e
+index 0000000..f2bcbb8
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/msp430-cbranch.c
++++ gcc-4.5.3/gcc/config/msp430/msp430-cbranch.c
 @@ -0,0 +1,723 @@
 +/* This work is partially financed by the European Commission under the
 +* Framework 6 Information Society Technologies Project
@@ -2443,9 +2441,7 @@ index 0000000..83c075e
 +static const char *msp430_emit_bleu (rtx operands[], int len);
 +
 +static void
-+emit_himode_cbranch (enum rtx_code code,
-+		     rtx op0, rtx op1,
-+		     rtx loc)
++emit_himode_cbranch (enum rtx_code code, rtx op0, rtx op1, rtx loc)
 +{
 +  rtx operands[4];
 +
@@ -2476,7 +2472,8 @@ index 0000000..83c075e
 +      op1 = tmp;
 +      code = swap_condition (code);
 +    }
-+  if (!CONSTANT_P (op1) && (GT == code || GTU == code || LE == code || LEU == code))
++  if (!CONSTANT_P (op1)
++      && (GT == code || GTU == code || LE == code || LEU == code))
 +    {
 +      rtx tmp = op0;
 +      op0 = op1;
@@ -2521,7 +2518,7 @@ index 0000000..83c075e
 +      switch (code)
 +	{
 +	case EQ:
-+	  for (w = 0; w < words-1; ++w)
++	  for (w = 0; w < words - 1; ++w)
 +	    emit_himode_cbranch (rcode, parts0[w], parts1[w], fail);
 +	  emit_himode_cbranch (code, parts0[w], parts1[w], loc);
 +	  emit_label (fail);
@@ -2534,7 +2531,7 @@ index 0000000..83c075e
 +	case LTU:
 +	case GT:
 +	case GTU:
-+	  for (w = words-1; w > 0; --w)
++	  for (w = words - 1; w > 0; --w)
 +	    {
 +	      emit_himode_cbranch (code, parts0[w], parts1[w], loc);
 +	      emit_himode_cbranch (NE, parts0[w], parts1[w], fail);
@@ -2547,13 +2544,14 @@ index 0000000..83c075e
 +	case LEU:
 +	case GE:
 +	case GEU:
-+	  for (w = words-1; w > 0; --w)
++	  for (w = words - 1; w > 0; --w)
 +	    {
 +	      emit_himode_cbranch (rcode, parts0[w], parts1[w], fail);
 +	      emit_himode_cbranch (rcode, parts1[w], parts0[w], loc);
 +	      rcode = unsigned_condition (rcode);
 +	    }
-+	  emit_himode_cbranch (unsigned_condition (code), parts0[0], parts1[0], loc);
++	  emit_himode_cbranch (unsigned_condition (code), parts0[0],
++			       parts1[0], loc);
 +	  emit_label (fail);
 +	  break;
 +
@@ -2775,7 +2773,8 @@ index 0000000..83c075e
 +      if (code == NE || code == EQ)
 +	{
 +	  /* check if op0 is zero shited - win 1 byte */
-+	  if (msp430_indirect_register_operand (ops[0]) && !CONSTANT_P (ops[1]))
++	  if (msp430_indirect_register_operand (ops[0])
++	      && !CONSTANT_P (ops[1]))
 +	    {
 +	      rtx x = ops[0];
 +	      ops[0] = ops[1];
@@ -2831,16 +2830,16 @@ index 0000000..83c075e
 +  switch (code)
 +    {
 +    case EQ:
-+      msp430_emit_beq (locs, predist +  0);
++      msp430_emit_beq (locs, predist + 0);
 +      break;
 +    case NE:
-+      msp430_emit_bne (locs, predist +  0);
++      msp430_emit_bne (locs, predist + 0);
 +      break;
 +    case LT:
 +      if (nooverflow)
-+	msp430_emit_bltnoovfl (locs, predist +  0);
++	msp430_emit_bltnoovfl (locs, predist + 0);
 +      else
-+	msp430_emit_blt (locs, predist +  0);
++	msp430_emit_blt (locs, predist + 0);
 +      break;
 +    case GE:
 +      if (nooverflow)
@@ -2850,26 +2849,26 @@ index 0000000..83c075e
 +	  else
 +	    output_asm_insn ("bit\t#0x8000, %0", ops);
 +	}
-+      msp430_emit_bge (locs, predist +  0);
++      msp430_emit_bge (locs, predist + 0);
 +      break;
 +    case LTU:
-+      msp430_emit_bltu (locs, predist +  0);
++      msp430_emit_bltu (locs, predist + 0);
 +      break;
 +    case GEU:
-+      msp430_emit_bgeu (locs, predist +  0);
++      msp430_emit_bgeu (locs, predist + 0);
 +      break;
 +      /* hopfully the following will not occure */
 +    case LEU:
-+      msp430_emit_bleu (locs, predist +  1);
++      msp430_emit_bleu (locs, predist + 1);
 +      break;
 +    case GT:
-+      msp430_emit_bgt (locs, predist +  1);
++      msp430_emit_bgt (locs, predist + 1);
 +      break;
 +    case GTU:
-+      msp430_emit_bgtu (locs, predist +  1);
++      msp430_emit_bgtu (locs, predist + 1);
 +      break;
 +    case LE:
-+      msp430_emit_ble (locs, predist +  1);
++      msp430_emit_ble (locs, predist + 1);
 +      break;
 +
 +    default:
@@ -3116,13 +3115,12 @@ index 0000000..83c075e
 +
 +  return "";
 +}
-+
-diff --git gcc-4.5.2.orig/gcc/config/msp430/msp430-function.c gcc-4.5.2/gcc/config/msp430/msp430-function.c
+diff --git gcc-4.5.3.orig/gcc/config/msp430/msp430-function.c gcc-4.5.3/gcc/config/msp430/msp430-function.c
 new file mode 100644
-index 0000000..68bf232
+index 0000000..00d9a6d
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/msp430-function.c
-@@ -0,0 +1,632 @@
++++ gcc-4.5.3/gcc/config/msp430/msp430-function.c
+@@ -0,0 +1,643 @@
 +/* This work is partially financed by the European Commission under the
 +* Framework 6 Information Society Technologies Project
 +* "Wirelessly Accessible Sensor Populations (WASP)".
@@ -3324,7 +3322,8 @@ index 0000000..68bf232
 +   * prologue if the frame size is zero. */
 +  mfp->frame_flags |= MSP430_FF_preserve_registers | MSP430_FF_allocate_frame;
 +  if (critical)
-+    mfp->frame_flags |= MSP430_FF_prologue_push_sr | MSP430_FF_epilogue_pop_sr;
++    mfp->frame_flags |=
++      MSP430_FF_prologue_push_sr | MSP430_FF_epilogue_pop_sr;
 +  if (interrupt)
 +    mfp->frame_flags |= MSP430_FF_use_reti;
 +  if (signal)
@@ -3337,13 +3336,14 @@ index 0000000..68bf232
 +    mfp->frame_flags |= MSP430_FF_epilogue_exit_lpm;
 +  if (TREE_THIS_VOLATILE (decl))
 +    mfp->frame_flags |= MSP430_FF_inhibit_return;
-+  if (MAIN_NAME_P (DECL_NAME (decl)) && !hosted) {
-+    static const char S_init9[] = ".init9";
-+    
-+    mfp->frame_flags |= MSP430_FF_treat_as_main;
-+    if (DECL_SECTION_NAME (decl) == NULL_TREE)
-+      DECL_SECTION_NAME (decl) = build_string (sizeof (S_init9), S_init9);
-+  }
++  if (MAIN_NAME_P (DECL_NAME (decl)) && !hosted)
++    {
++      static const char S_init9[] = ".init9";
++
++      mfp->frame_flags |= MSP430_FF_treat_as_main;
++      if (DECL_SECTION_NAME (decl) == NULL_TREE)
++	DECL_SECTION_NAME (decl) = build_string (sizeof (S_init9), S_init9);
++    }
 +  if (naked || task || (MSP430_FF_treat_as_main & mfp->frame_flags))
 +    {
 +      mfp->frame_flags &= ~MSP430_FF_preserve_registers;
@@ -3432,8 +3432,7 @@ index 0000000..68bf232
 +/* Generate and return an instruction that adjusts the register by a
 + * constant value. */
 +static rtx
-+gen_adjust_register (rtx reg_rtx,
-+		     int offset)
++gen_adjust_register (rtx reg_rtx, int offset)
 +{
 +  gcc_assert (0 != offset);
 +  if (MSP430_CG_INT_P (-offset) && !MSP430_CG_INT_P (offset))
@@ -3458,7 +3457,8 @@ index 0000000..68bf232
 +  if ((0 < mfp->frame_size) && !(mfp->frame_flags & MSP430_FF_allocate_frame))
 +    {
 +      warning_at (DECL_SOURCE_LOCATION (cfun->decl), OPT_Wattributes,
-+		  _("function requires %u bytes for stack storage but frame allocation inhibited by %qs"),
++		  _
++		  ("function requires %u bytes for stack storage but frame allocation inhibited by %qs"),
 +		  mfp->frame_size, S_naked);
 +      mfp->frame_size = 0;
 +    }
@@ -3467,7 +3467,9 @@ index 0000000..68bf232
 +
 +  if (MSP430_FF_prologue_push_sr & mfp->frame_flags)
 +    {
-+      insn = emit_insn (gen_pushhi1 (gen_rtx_REG (HImode, STATUS_REGISTER_REGNUM)));
++      insn =
++	emit_insn (gen_pushhi1
++		   (gen_rtx_REG (HImode, STATUS_REGISTER_REGNUM)));
 +      RTX_FRAME_RELATED_P (insn) = 1;
 +    }
 +
@@ -3490,21 +3492,26 @@ index 0000000..68bf232
 +    {
 +      int fp_hfp_offset;
 +
-+      fp_hfp_offset = msp430_initial_elimination_offset (FRAME_POINTER_REGNUM, HARD_FRAME_POINTER_REGNUM);
++      fp_hfp_offset =
++	msp430_initial_elimination_offset (FRAME_POINTER_REGNUM,
++					   HARD_FRAME_POINTER_REGNUM);
 +      fp_hfp_offset += mfp->frame_size;
-+      
++
 +      insn = emit_move_insn (hard_frame_pointer_rtx, stack_pointer_rtx);
 +      RTX_FRAME_RELATED_P (insn) = 1;
 +      if (0 != fp_hfp_offset)
 +	{
-+	  insn = emit_insn (gen_adjust_register (hard_frame_pointer_rtx, -fp_hfp_offset));
++	  insn =
++	    emit_insn (gen_adjust_register
++		       (hard_frame_pointer_rtx, -fp_hfp_offset));
 +	  RTX_FRAME_RELATED_P (insn) = 1;
 +	}
 +    }
 +
 +  if (MSP430_FF_allocate_frame & mfp->frame_flags)
 +    {
-+      insn = emit_insn (gen_adjust_register (stack_pointer_rtx, -mfp->frame_size));
++      insn =
++	emit_insn (gen_adjust_register (stack_pointer_rtx, -mfp->frame_size));
 +      RTX_FRAME_RELATED_P (insn) = 1;
 +    }
 +
@@ -3552,7 +3559,8 @@ index 0000000..68bf232
 +    need_nop_insn = insn = emit_insn (gen_dint ());
 +
 +  if (MSP430_FF_allocate_frame & mfp->frame_flags)
-+    insn = emit_insn (gen_adjust_register (stack_pointer_rtx, mfp->frame_size));
++    insn =
++      emit_insn (gen_adjust_register (stack_pointer_rtx, mfp->frame_size));
 +
 +  if (MSP430_FF_preserve_registers & mfp->frame_flags)
 +    {
@@ -3562,7 +3570,8 @@ index 0000000..68bf232
 +    }
 +
 +  if (MSP430_FF_epilogue_pop_sr & mfp->frame_flags)
-+    insn = emit_insn (gen_pophi1 (gen_rtx_REG (HImode, STATUS_REGISTER_REGNUM)));
++    insn =
++      emit_insn (gen_pophi1 (gen_rtx_REG (HImode, STATUS_REGISTER_REGNUM)));
 +
 +  if (MSP430_FF_epilogue_exit_lpm & mfp->frame_flags)
 +    insn =
@@ -3573,7 +3582,7 @@ index 0000000..68bf232
 +  if (MSP430_FF_epilogue_eint & mfp->frame_flags)
 +    insn = emit_insn (gen_eint ());
 +
-+ epilogue_done:
++epilogue_done:
 +
 +  /* NB: if naked, this does not emit any code, but we have to invoke
 +   * gen_return() at least once or sanity checks in the shared code
@@ -3710,7 +3719,7 @@ index 0000000..68bf232
 +  const struct machine_function *mfp = cfun->machine;
 +  int offset_words = 0;
 +  int offset_bytes = 0;
-+ 
++
 +  switch (from)
 +    {
 +    case ARG_POINTER_REGNUM:
@@ -3742,8 +3751,8 @@ index 0000000..68bf232
 +	    ++offset_words;
 +	  offset_words += compute_savable_registers (0);
 +	  offset_bytes += get_frame_size ();
-+	  offset_words = - offset_words;
-+	  offset_bytes = - offset_bytes;
++	  offset_words = -offset_words;
++	  offset_bytes = -offset_bytes;
 +	  break;
 +	default:
 +	  gcc_unreachable ();
@@ -3755,14 +3764,16 @@ index 0000000..68bf232
 +  offset_bytes += UNITS_PER_WORD * offset_words;
 +  return STACK_ALIGN_SIZE (offset_bytes);
 +}
-diff --git gcc-4.5.2.orig/gcc/config/msp430/msp430-gcc.c gcc-4.5.2/gcc/config/msp430/msp430-gcc.c
+diff --git gcc-4.5.3.orig/gcc/config/msp430/msp430-gcc.c gcc-4.5.3/gcc/config/msp430/msp430-gcc.c
 new file mode 100644
-index 0000000..d9b3431
+index 0000000..ffcec89
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/msp430-gcc.c
-@@ -0,0 +1,55 @@
++++ gcc-4.5.3/gcc/config/msp430/msp430-gcc.c
+@@ -0,0 +1,71 @@
 +#include "config.h"
 +#include "system.h"
++#include "prefix.h"
++#include "defaults.h"
 +
 +extern const char *msp430_mcucpp (int argc, const char **argv);
 +
@@ -3806,22 +3817,36 @@ index 0000000..d9b3431
 +  return result;
 +}
 +
++#ifndef DIR_UP
++#define DIR_UP ".."
++#endif /* DIR_UP */
++
 +const char *
 +msp430_mculdscriptpath (int argc, const char **argv)
 +{
 +  static const char dir_sep[] = { DIR_SEPARATOR, 0 };
++  const char *gcc_exec_prefix;
 +
 +  if (0 == argc)
 +    return 0;
-+  return concat (PREFIX, dir_sep, DEFAULT_TARGET_MACHINE, dir_sep, "lib",
-+		 dir_sep, "ldscripts", dir_sep, argv[argc - 1], NULL);
++
++  GET_ENVIRONMENT (gcc_exec_prefix, "GCC_EXEC_PREFIX");
++  if (!gcc_exec_prefix)
++    gcc_exec_prefix = STANDARD_EXEC_PREFIX;
++
++  return
++    update_path (concat
++		 (gcc_exec_prefix, DIR_UP, dir_sep, DIR_UP, dir_sep,
++		  DEFAULT_TARGET_MACHINE, dir_sep, "lib", dir_sep,
++		  "ldscripts", dir_sep, argv[argc - 1], dir_sep, NULL),
++		 "BINUTILS");
 +}
-diff --git gcc-4.5.2.orig/gcc/config/msp430/msp430-protos.h gcc-4.5.2/gcc/config/msp430/msp430-protos.h
+diff --git gcc-4.5.3.orig/gcc/config/msp430/msp430-protos.h gcc-4.5.3/gcc/config/msp430/msp430-protos.h
 new file mode 100644
-index 0000000..e66e0ea
+index 0000000..856da5f
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/msp430-protos.h
-@@ -0,0 +1,186 @@
++++ gcc-4.5.3/gcc/config/msp430/msp430-protos.h
+@@ -0,0 +1,180 @@
 +/* Prototypes for exported functions defined in msp430.c
 +   
 +   Copyright (C) 2000, 2001 Free Software Foundation, Inc.
@@ -3850,7 +3875,6 @@ index 0000000..e66e0ea
 +
 +extern void asm_file_start (FILE * file);
 +extern void asm_file_end (FILE * file);
-+extern void msp430_init_once (void);
 +extern void msp430_override_options (void);
 +/*extern void   function_prologue         (FILE *file, int size);
 +extern void   function_epilogue         (FILE *file, int size);*/
@@ -3898,16 +3922,16 @@ index 0000000..e66e0ea
 +
 +#ifdef RTX_CODE
 +
-+int msp430_extract_multiword_operand (enum machine_mode innermode, rtx op, rtx *parts);
++int msp430_extract_multiword_operand (enum machine_mode innermode, rtx op,
++				      rtx * parts);
 +
 +extern void msp430_emit_cbranch (rtx operands[]);
 +
 +extern int dead_or_set_in_peep (int, rtx, rtx);
 +
-+const char * msp430_output_template (enum machine_mode mode,
-+				     int src_operand,
-+				     const char *init_op,
-+				     const char *next_op);
++const char *msp430_output_template (enum machine_mode mode,
++				    int src_operand,
++				    const char *init_op, const char *next_op);
 +const char *msp430_mov_noclobber (rtx operands[]);
 +
 +enum reg_class msp430_regno_reg_class (int);
@@ -3961,7 +3985,6 @@ index 0000000..e66e0ea
 +void msp430_expand_signextend (rtx operands[]);
 +void msp430_expand_zeroextend (rtx operands[]);
 +
-+extern const char *msp430_pushhi (rtx insn, rtx operands[]);
 +extern const char *msp430_emit_call (rtx operands[]);
 +
 +const char *msp430_cbranch (rtx insn, rtx operands[]);
@@ -3984,11 +4007,7 @@ index 0000000..e66e0ea
 +extern int call_insn_operand (rtx op, enum machine_mode mode);
 +extern int msp430_branch_mode (rtx x, rtx insn);
 +
-+extern int msp430_easy_mul (rtx[], int);
-+extern int msp430_mul3_guard (rtx[], int);
-+extern int msp430_umul3_guard (rtx[], int);
-+extern int msp430_mulhisi_guard (rtx[]);
-+extern int msp430_umulhisi_guard (rtx[]);
++extern int msp430_expand_mul (rtx[], int);
 +extern int msp430_ashlhi3 (rtx[]);
 +extern int msp430_ashlsi3 (rtx[]);
 +extern int msp430_ashrhi3 (rtx[]);
@@ -4008,12 +4027,12 @@ index 0000000..e66e0ea
 +#endif /* HAVE_MACHINE_MODES */
 +
 +extern rtx msp430_return_addr_rtx (int, rtx);
-diff --git gcc-4.5.2.orig/gcc/config/msp430/msp430.c gcc-4.5.2/gcc/config/msp430/msp430.c
+diff --git gcc-4.5.3.orig/gcc/config/msp430/msp430.c gcc-4.5.3/gcc/config/msp430/msp430.c
 new file mode 100644
-index 0000000..9f4efaa
+index 0000000..5f696d6
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/msp430.c
-@@ -0,0 +1,4803 @@
++++ gcc-4.5.3/gcc/config/msp430/msp430.c
+@@ -0,0 +1,4670 @@
 +/* TODO
 + * cost speed attribute
 + */
@@ -4083,9 +4102,6 @@ index 0000000..9f4efaa
 + * "down". */
 +#define RETURN_REGISTERS_AVAILABLE 4
 +
-+/* push helper */
-+int self_push (rtx);
-+
 +msp430_cpu_e msp430_cpu = MSP430_CPU_MSP430;
 +msp430_mpy_e msp430_mpy = MSP430_MPY_NONE;
 +int msp430_ivcnt = 16;
@@ -4104,6 +4120,67 @@ index 0000000..9f4efaa
 +	  ggc_alloc_cleared (sizeof (struct machine_function)));
 +}
 +
++static rtx mpy_b_rtx;
++static rtx mpys_b_rtx;
++static rtx op2_b_rtx;
++static rtx reslo_b_rtx;
++static rtx mpy_rtx;
++static rtx mpys_rtx;
++static rtx op2_rtx;
++static rtx reslo_rtx;
++static rtx reshi_rtx;
++static rtx mpy32l_rtx;
++static rtx mpy32h_rtx;
++static rtx mpys32l_rtx;
++static rtx mpys32h_rtx;
++static rtx op2l_rtx;
++static rtx op2h_rtx;
++static rtx res0_rtx;
++static rtx res1_rtx;
++static rtx res2_rtx;
++static rtx res3_rtx;
++
++static rtx
++gen_rtx_HWREG (enum machine_mode mode, const char *name)
++{
++  rtx ret = gen_rtx_MEM (mode, gen_rtx_SYMBOL_REF (mode, name));
++  MEM_VOLATILE_P (ret) = 1;
++  return ret;
++}
++
++static void
++msp430_init_once (void)
++{
++  init_machine_status = msp430_init_machine_status;
++
++  if (msp430_mpy & MSP430_MPY_TYPE_16)
++    {
++      mpy_b_rtx = gen_rtx_HWREG (QImode, "__MPY");
++      mpys_b_rtx = gen_rtx_HWREG (QImode, "__MPYS");
++      op2_b_rtx = gen_rtx_HWREG (QImode, "__OP2");
++      reslo_b_rtx = gen_rtx_HWREG (QImode, "__RESLO");
++      mpy_rtx = gen_rtx_HWREG (HImode, "__MPY");
++      mpys_rtx = gen_rtx_HWREG (HImode, "__MPYS");
++      op2_rtx = gen_rtx_HWREG (HImode, "__OP2");
++      reslo_rtx = gen_rtx_HWREG (HImode, "__RESLO");
++      reshi_rtx = gen_rtx_HWREG (HImode, "__RESHI");
++    }
++  if (msp430_mpy & MSP430_MPY_TYPE_32)
++    {
++      mpy32l_rtx = gen_rtx_HWREG (HImode, "__MPY32L");
++      mpy32h_rtx = gen_rtx_HWREG (HImode, "__MPY32H");
++      mpys32l_rtx = gen_rtx_HWREG (HImode, "__MPYS32L");
++      mpys32h_rtx = gen_rtx_HWREG (HImode, "__MPYS32H");
++      op2l_rtx = gen_rtx_HWREG (HImode, "__OP2L");
++      op2h_rtx = gen_rtx_HWREG (HImode, "__OP2H");
++      res0_rtx = gen_rtx_HWREG (HImode, "__RES0");
++      res1_rtx = gen_rtx_HWREG (HImode, "__RES1");
++      res2_rtx = gen_rtx_HWREG (HImode, "__RES2");
++      res3_rtx = gen_rtx_HWREG (HImode, "__RES3");
++    }
++  
++  return;
++}
 +
 +/****** ATTRIBUTES *************************************/
 +
@@ -4241,26 +4318,30 @@ index 0000000..9f4efaa
 +      if (*msp430_opt_ivcnt && *ep)
 +	{
 +	  error (_("ivcnt %s must be integer"), msp430_opt_ivcnt);
-+	  abort ();
++	  gcc_unreachable ();
 +	  return;
 +	}
 +      if ((16 != msp430_ivcnt) && (32 != msp430_ivcnt)
 +	  && (64 != msp430_ivcnt))
 +	{
 +	  error (_("ivcnt %s must be 16, 32, or 64"), msp430_opt_ivcnt);
-+	  abort ();
++	  gcc_unreachable ();
 +	  return;
 +	}
 +    }
 +
-+  msp430_has_hwmul = (msp430_mpy & MSP430_MPY) || TARGET_FORCE_HWMUL;
-+
 +  if (TARGET_NO_HWMUL)
-+    msp430_has_hwmul = 0;
++    {
++      warning (OPT_Wdeprecated, "-mdisable-hwmul deprecated, use -mmpy=none");
++      msp430_mpy = MSP430_MPY_NONE;
++    }
++  msp430_has_hwmul = !!(msp430_mpy & MSP430_MPY_TYPE_ANY);
++
 +  msp430_case_values_threshold = 8;	/* ? or there is a better value ? */
-+  init_machine_status = msp430_init_machine_status;
 +
 +  flag_defer_pop = 0;
++
++  msp430_init_once ();
 +}
 +
 +/* Return in memory unless size is determined to be no greater than
@@ -4277,61 +4358,13 @@ index 0000000..9f4efaa
 +  return false;
 +}
 +
-+
-+rtx mpy_rtx, mpys_rtx, mac_rtx, macs_rtx, op2_rtx, reslo_rtx, reshi_rtx,
-+  sumext_rtx, ressi_rtx;
-+
-+
-+static char __dummy[1024];
-+
-+static rtx
-+sym_ref (enum machine_mode mode, const char *arg)
-+{
-+  rtx rt;
-+  static int i = 0;
-+  rt = (rtx) & __dummy[i];
-+  i += sizeof (*rt);
-+  memset (rt, 0, 4);
-+  PUT_CODE (rt, SYMBOL_REF);
-+  PUT_MODE (rt, mode);
-+  XSTR (rt, 0) = arg;
-+
-+  return rt;
-+}
-+
-+static rtx
-+gen_rtx_HWREG (const char *name)
-+{
-+  rtx ret = gen_rtx_MEM (HImode, sym_ref (HImode, name));
-+#if 0				/* CPPC */
-+  MEM_VOLATILE_P (ret) = 1;
-+#endif
-+  return ret;
-+}
-+
-+void
-+msp430_init_once (void)
-+{
-+  /* Module register addresses chip-specific, added by msp430_file_start */
-+  mpy_rtx = gen_rtx_HWREG ("__MPY");
-+  mpys_rtx = gen_rtx_HWREG ("__MPYS");
-+  mac_rtx = gen_rtx_HWREG ("__MAC");
-+  macs_rtx = gen_rtx_HWREG ("__MACS");
-+  op2_rtx = gen_rtx_HWREG ("__OP2");
-+  reslo_rtx = gen_rtx_HWREG ("__RESLO");
-+  reshi_rtx = gen_rtx_HWREG ("__RESHI");
-+  sumext_rtx = gen_rtx_HWREG ("__SUMEXT");
-+  ressi_rtx = gen_rtx_HWREG ("__RESLO");
-+  return;
-+}
-+
 +static int reg_class_tab[FIRST_VIRTUAL_REGISTER] = {
-+  PC_REG, SP_REG, SR_REG, CG2_REG, /* fixed registers */
-+  FP_REG,			   /* maybe fixed reg */
-+  GENERAL_REGS, GENERAL_REGS, GENERAL_REGS, /* unassigned registers r5 - r15 */
++  PC_REG, SP_REG, SR_REG, CG2_REG,	/* fixed registers */
++  FP_REG,			/* maybe fixed reg */
++  GENERAL_REGS, GENERAL_REGS, GENERAL_REGS,	/* unassigned registers r5 - r15 */
 +  GENERAL_REGS, GENERAL_REGS, GENERAL_REGS, GENERAL_REGS,
 +  GENERAL_REGS, GENERAL_REGS, GENERAL_REGS, GENERAL_REGS,
-+  SOFT_ARGP_REG, SOFT_FP_REG,		/* fixed pseudo registers */
++  SOFT_ARGP_REG, SOFT_FP_REG,	/* fixed pseudo registers */
 +};
 +
 +int
@@ -4413,13 +4446,13 @@ index 0000000..9f4efaa
 +    case REG:
 +      return msp430_regno_ok_for_base_p (REGNO (x), strict);
 +    case PLUS:
-+      return REG_P (XEXP (x, 0))				     \
-+	&& msp430_legitimate_address_p (mode, XEXP (x, 0), strict)   \
++      return REG_P (XEXP (x, 0))
++	&& msp430_legitimate_address_p (mode, XEXP (x, 0), strict)
 +	&& CONSTANT_P (XEXP (x, 1));
 +    default:
 +      return CONSTANT_P (x);
 +    }
-+  gcc_unreachable();
++  gcc_unreachable ();
 +}
 +
 +void
@@ -4442,7 +4475,7 @@ index 0000000..9f4efaa
 +    case CODE_LABEL:
 +      break;
 +    default:
-+      abort ();
++      gcc_unreachable ();
 +      fprintf (file, "&");
 +    }
 +  output_addr_const (file, addr);
@@ -4477,7 +4510,7 @@ index 0000000..9f4efaa
 +      return;
 +    }
 +  else
-+    abort ();
++    gcc_unreachable ();
 +}
 +
 +void
@@ -4597,7 +4630,8 @@ index 0000000..9f4efaa
 +
 +	  print_sub_operand (file, offset, code);
 +	  if (code == 'S' && regno == STACK_POINTER_REGNUM)
-+	    fprintf (file, "+%d(%s)", UNITS_PER_WORD, reg_names[STACK_POINTER_REGNUM]);
++	    fprintf (file, "+%d(%s)", UNITS_PER_WORD,
++		     reg_names[STACK_POINTER_REGNUM]);
 +	  else
 +	    {
 +	      if (shift)
@@ -4656,11 +4690,12 @@ index 0000000..9f4efaa
 +   to most significant.  Returns the number of word elements
 +   extracted. */
 +int
-+msp430_extract_multiword_operand (enum machine_mode innermode, rtx op, rtx *parts)
++msp430_extract_multiword_operand (enum machine_mode innermode, rtx op,
++				  rtx * parts)
 +{
 +#if 0
 +  result = simplify_gen_subreg (mode, x, GET_MODE (x),
-+                                subreg_highpart_offset (mode, GET_MODE (x)));
++				subreg_highpart_offset (mode, GET_MODE (x)));
 +  gcc_assert (result);
 +
 +  if (MEM_P (result))
@@ -4674,14 +4709,17 @@ index 0000000..9f4efaa
 +  rtx insn;
 +  int i;
 +
-+  for (i = 0; i < words; ++i) {
-+    parts[i] = simplify_gen_subreg (HImode, op, innermode, i * UNITS_PER_WORD);
-+    gcc_assert (parts[i]);
-+    if (MEM_P (parts[i])) {
-+      parts[i] = validize_mem (parts[i]);
++  for (i = 0; i < words; ++i)
++    {
++      parts[i] =
++	simplify_gen_subreg (HImode, op, innermode, i * UNITS_PER_WORD);
 +      gcc_assert (parts[i]);
++      if (MEM_P (parts[i]))
++	{
++	  parts[i] = validize_mem (parts[i]);
++	  gcc_assert (parts[i]);
++	}
 +    }
-+  }
 +  gcc_assert (last_insn == get_last_insn ());
 +  return words;
 +}
@@ -4695,12 +4733,11 @@ index 0000000..9f4efaa
 +const char *
 +msp430_output_template (enum machine_mode mode,
 +			int src_operand,
-+			const char *init_op,
-+			const char *next_op)
++			const char *init_op, const char *next_op)
 +{
 +  char buffer[1024];
 +  int offset = 0;
-+  
++
 +  if (!next_op)
 +    next_op = init_op;
 +  buffer[offset] = 0;
@@ -4708,52 +4745,47 @@ index 0000000..9f4efaa
 +    {
 +    case QImode:
 +      if (0 < src_operand)
-+	offset += snprintf(buffer, sizeof(buffer) - offset,
-+			   "%s.b\t%%%d, %%0", init_op, src_operand);
++	offset += snprintf (buffer, sizeof (buffer) - offset,
++			    "%s.b\t%%%d, %%0", init_op, src_operand);
 +      else
-+	offset += snprintf(buffer, sizeof(buffer) - offset,
-+			   "%s.b\t%%0", init_op);
++	offset += snprintf (buffer, sizeof (buffer) - offset,
++			    "%s.b\t%%0", init_op);
 +      break;
 +    case HImode:
 +      if (0 < src_operand)
-+	offset += snprintf(buffer, sizeof(buffer) - offset,
-+			   "%s\t%%%d, %%0", init_op, src_operand);
++	offset += snprintf (buffer, sizeof (buffer) - offset,
++			    "%s\t%%%d, %%0", init_op, src_operand);
 +      else
-+	offset += snprintf(buffer, sizeof(buffer) - offset,
-+			   "%s\t%%0", init_op);
++	offset += snprintf (buffer, sizeof (buffer) - offset,
++			    "%s\t%%0", init_op);
 +      break;
 +    case SImode:
 +    case SFmode:
 +      if (0 < src_operand)
-+	offset += snprintf(buffer, sizeof(buffer) - offset,
-+			   "%s\t%%A%d, %%A0\n\t"
-+			   "%s\t%%B%d, %%B0",
-+			   init_op, src_operand,
-+			   next_op, src_operand);
++	offset += snprintf (buffer, sizeof (buffer) - offset,
++			    "%s\t%%A%d, %%A0\n\t"
++			    "%s\t%%B%d, %%B0",
++			    init_op, src_operand, next_op, src_operand);
 +      else
-+	offset += snprintf(buffer, sizeof(buffer) - offset,
-+			   "%s\t%%A0\n\t"
-+			   "%s\t%%B0",
-+			   init_op, next_op);
++	offset += snprintf (buffer, sizeof (buffer) - offset,
++			    "%s\t%%A0\n\t" "%s\t%%B0", init_op, next_op);
 +      break;
 +    case DImode:
 +      if (0 < src_operand)
-+	offset += snprintf(buffer, sizeof(buffer) - offset,
-+			   "%s\t%%A%d, %%A0\n\t"
-+			   "%s\t%%B%d, %%B0\n\t"
-+			   "%s\t%%C%d, %%C0\n\t"
-+			   "%s\t%%D%d, %%D0",
-+			   init_op, src_operand,
-+			   next_op, src_operand,
-+			   next_op, src_operand,
-+			   next_op, src_operand);
++	offset += snprintf (buffer, sizeof (buffer) - offset,
++			    "%s\t%%A%d, %%A0\n\t"
++			    "%s\t%%B%d, %%B0\n\t"
++			    "%s\t%%C%d, %%C0\n\t"
++			    "%s\t%%D%d, %%D0",
++			    init_op, src_operand,
++			    next_op, src_operand,
++			    next_op, src_operand, next_op, src_operand);
 +      else
-+	offset += snprintf(buffer, sizeof(buffer) - offset,
-+			   "%s\t%%A0\n\t"
-+			   "%s\t%%B0\n\t"
-+			   "%s\t%%C0\n\t"
-+			   "%s\t%%D0",
-+			   init_op, next_op, next_op, next_op);
++	offset += snprintf (buffer, sizeof (buffer) - offset,
++			    "%s\t%%A0\n\t"
++			    "%s\t%%B0\n\t"
++			    "%s\t%%C0\n\t"
++			    "%s\t%%D0", init_op, next_op, next_op, next_op);
 +      break;
 +    default:
 +      gcc_unreachable ();
@@ -4768,13 +4800,17 @@ index 0000000..9f4efaa
 +{
 +  static const char si_fwdtempl[] = "mov\t%A1, %A0\n\tmov\t%B1, %B0";
 +  static const char si_revtempl[] = "mov\t%B1, %B0\n\tmov\t%A1, %A0";
-+  static const char di_fwdtempl[] = "mov\t%A1, %A0\n\tmov\t%B1, %B0\n\tmov\t%C1, %C0\n\tmov\t%D1, %D0";
-+  static const char di_revtempl[] = "mov\t%D1, %D0\n\tmov\t%C1, %C0\n\tmov\t%B1, %B0\n\tmov\t%A1, %A0";
-+  static const char di_xBtempl[] = "mov\t%A1, %A0\n\tmov\t%C1, %C0\n\tmov\t%D1, %D0\n\tmov\t%B1, %B0";
-+  static const char di_xCtempl[] = "mov\t%A1, %A0\n\tmov\t%B1, %B0\n\tmov\t%D1, %D0\n\tmov\t%C1, %C0";
++  static const char di_fwdtempl[] =
++    "mov\t%A1, %A0\n\tmov\t%B1, %B0\n\tmov\t%C1, %C0\n\tmov\t%D1, %D0";
++  static const char di_revtempl[] =
++    "mov\t%D1, %D0\n\tmov\t%C1, %C0\n\tmov\t%B1, %B0\n\tmov\t%A1, %A0";
++  static const char di_xBtempl[] =
++    "mov\t%A1, %A0\n\tmov\t%C1, %C0\n\tmov\t%D1, %D0\n\tmov\t%B1, %B0";
++  static const char di_xCtempl[] =
++    "mov\t%A1, %A0\n\tmov\t%B1, %B0\n\tmov\t%D1, %D0\n\tmov\t%C1, %C0";
 +
-+  const char * fwdtempl;
-+  const char * revtempl;
++  const char *fwdtempl;
++  const char *revtempl;
 +  int dst_regno;
 +  int dst_end_regno;
 +  int index_reg;
@@ -4810,11 +4846,11 @@ index 0000000..9f4efaa
 +      break;
 +  if (index_reg == dst_regno)
 +    return revtempl;
-+  if (index_reg+1 == dst_end_regno)
++  if (index_reg + 1 == dst_end_regno)
 +    return fwdtempl;
-+  if (index_reg == dst_regno+1)
++  if (index_reg == dst_regno + 1)
 +    return di_xBtempl;
-+  if (index_reg == dst_regno+2)
++  if (index_reg == dst_regno + 2)
 +    return di_xCtempl;
 +
 +  gcc_unreachable ();
@@ -5179,8 +5215,7 @@ index 0000000..9f4efaa
 +}
 +
 +static bool
-+msp430_can_eliminate (const int from_reg ATTRIBUTE_UNUSED,
-+		      const int to_reg)
++msp430_can_eliminate (const int from_reg ATTRIBUTE_UNUSED, const int to_reg)
 +{
 +  if (frame_pointer_needed)
 +    return to_reg == HARD_FRAME_POINTER_REGNUM;
@@ -5277,8 +5312,7 @@ index 0000000..9f4efaa
 +   operation consists of a single MSP430 instruction repeated once for
 +   each word in mode. */
 +static int
-+length_adjustment_for_int (HOST_WIDE_INT ival,
-+			   enum machine_mode mode)
++length_adjustment_for_int (HOST_WIDE_INT ival, enum machine_mode mode)
 +{
 +  HOST_WIDE_INT i;
 +  int adjustment = 0;
@@ -5320,7 +5354,7 @@ index 0000000..9f4efaa
 +{
 +  int adjustment = 0;
 +  HOST_WIDE_INT ival;
-+  
++
 +  switch (GET_CODE (op))
 +    {
 +    case CONST_INT:
@@ -5333,7 +5367,8 @@ index 0000000..9f4efaa
 +    case CONST_DOUBLE:
 +#if HOST_BITS_PER_WIDE_INT <= 32
 +      if (4 < GET_MODE_SIZE (mode))
-+	adjustment += length_adjustment_for_int (CONST_DOUBLE_HIGH (op), mode);
++	adjustment +=
++	  length_adjustment_for_int (CONST_DOUBLE_HIGH (op), mode);
 +#endif /* HOST_BITS_PER_WIDE_INT */
 +      ival = CONST_DOUBLE_LOW (op);
 +      break;
@@ -5347,7 +5382,8 @@ index 0000000..9f4efaa
 +    case LABEL_REF:
 +    default:
 +#if 0
-+      fprintf (stderr, "Unhandled immediate code %s\n", rtx_name[GET_CODE (op)]);
++      fprintf (stderr, "Unhandled immediate code %s\n",
++	       rtx_name[GET_CODE (op)]);
 +#endif
 +      return 0;
 +    }
@@ -5376,7 +5412,7 @@ index 0000000..9f4efaa
 +	rtx src = SET_SRC (pattern);
 +	rtx dst = SET_DEST (pattern);
 +	enum machine_mode mode = GET_MODE (dst);
-+	
++
 +	format = get_attr_instr_format (insn);
 +	if (INSTR_FORMAT_UNDEF == format)
 +	  break;
@@ -5394,7 +5430,7 @@ index 0000000..9f4efaa
 +	  case BSWAP:
 +	    src = XEXP (src, 0);
 +	    break;
-+	  case AND: /* includes NAND */
++	  case AND:		/* includes NAND */
 +	  case IOR:
 +	  case XOR:
 +	  case PLUS:
@@ -5411,7 +5447,8 @@ index 0000000..9f4efaa
 +	    break;
 +	  default:
 +#if CHECK_INSN_LENGTH
-+	    fprintf (stderr, "Unrecognized source code %d (%s) in pattern ", src_code, rtx_name[src_code]);
++	    fprintf (stderr, "Unrecognized source code %d (%s) in pattern ",
++		     src_code, rtx_name[src_code]);
 +	    debug_rtx (pattern);
 +#endif /* CHECK_INSN_LENGTH */
 +	    break;
@@ -5423,7 +5460,7 @@ index 0000000..9f4efaa
 +	  len -= UNITS_PER_WORD * get_attr_instr_mult (insn);
 +	else if (format == INSTR_FORMAT_FMT1 || format == INSTR_FORMAT_FMT2S)
 +	  {
-+	    if (pop_operand (src, VOIDmode)) /* or other auto-increment indirect */
++	    if (pop_operand (src, VOIDmode))	/* or other auto-increment indirect */
 +	      len -= UNITS_PER_WORD * get_attr_instr_mult (insn);
 +	    else if (msp430_indirect_register_operand (src))
 +	      {
@@ -5470,7 +5507,8 @@ index 0000000..9f4efaa
 +    case ADDR_VEC:
 +    default:
 +#if CHECK_INSN_LENGTH
-+      fprintf (stderr, "Unhandled insn code %d %s\n", GET_CODE (pattern), rtx_name[GET_CODE (pattern)]);
++      fprintf (stderr, "Unhandled insn code %d %s\n", GET_CODE (pattern),
++	       rtx_name[GET_CODE (pattern)]);
 +#endif /* CHECK_INSN_LENGTH */
 +      break;
 +    }
@@ -5800,7 +5838,9 @@ index 0000000..9f4efaa
 +  if (GET_CODE (x) == REG)
 +    return REGNO (x) == REGNO (y);
 +  if (GET_CODE (x) == MEM)
-+    return rtx_equal_p (XEXP (x, 0), XEXP (y, 0));
++    return (mpys_rtx == x && mpys_b_rtx == y)
++      || (op2_rtx == x && op2_b_rtx == y)
++      || rtx_equal_p (XEXP (x, 0), XEXP (y, 0));
 +  if (GET_CODE (x) == SUBREG)
 +    return SUBREG_BYTE (x) == SUBREG_BYTE (y)
 +      && rtx_equal_p (SUBREG_REG (x), SUBREG_REG (y));
@@ -5868,21 +5908,22 @@ index 0000000..9f4efaa
 +      else
 +	{
 +	  debug_rtx (operands[0]);
-+	  gcc_unreachable();
++	  gcc_unreachable ();
 +	}
 +      dst_lo = dst_llo;
 +      dst_hi = dst_lhi;
 +      break;
 +    default:
-+      gcc_unreachable();
++      gcc_unreachable ();
 +    }
 +  extended_value = signed_p ? NULL_RTX : GEN_INT (0);
 +  need_copy = !msp430_extend_matches (operands[0], operands[1]);
-+  if (QImode == GET_MODE (operands [1]))
++  if (QImode == GET_MODE (operands[1]))
 +    {
 +      rtx dst_qi = msp430_extend_force_to_mode (dst_lo, QImode);
 +
-+      if (!signed_p && GET_MODE (operands[0]) == HImode && operands[0] == op2_rtx)
++      if (!signed_p && GET_MODE (operands[0]) == HImode
++	  && operands[0] == op2_rtx)
 +	{
 +	  emit_insn (gen_andhi3 (dst_lo, dst_lo, GEN_INT (0xff00)));
 +	  return;
@@ -5920,7 +5961,9 @@ index 0000000..9f4efaa
 +	{
 +	  extended_value = gen_reg_rtx (HImode);
 +	  emit_move_insn (extended_value,
-+			  gen_rtx_ASHIFTRT (HImode, dst_lo, GEN_INT (GET_MODE_BITSIZE (HImode) - 1)));
++			  gen_rtx_ASHIFTRT (HImode, dst_lo,
++					    GEN_INT (GET_MODE_BITSIZE (HImode)
++						     - 1)));
 +	}
 +    }
 +  else if (SImode == GET_MODE (operands[1]))
@@ -5931,12 +5974,14 @@ index 0000000..9f4efaa
 +	{
 +	  extended_value = gen_reg_rtx (HImode);
 +	  emit_move_insn (extended_value,
-+			  gen_rtx_ASHIFTRT (HImode, dst_hi, GEN_INT (GET_MODE_BITSIZE (HImode) - 1)));
++			  gen_rtx_ASHIFTRT (HImode, dst_hi,
++					    GEN_INT (GET_MODE_BITSIZE (HImode)
++						     - 1)));
 +	}
 +      dst_hi = NULL_RTX;
 +    }
 +  else
-+    gcc_unreachable();
++    gcc_unreachable ();
 +  if (dst_hi)
 +    emit_move_insn (dst_hi, extended_value);
 +  if (dst_hlo)
@@ -6485,7 +6530,8 @@ index 0000000..9f4efaa
 +    {
 +      rtx dlo = gen_lowpart (HImode, operands[0]);
 +
-+      emit_insn (gen_zero_extendhisi2 (operands[0], gen_highpart (HImode, dst)));
++      emit_insn (gen_zero_extendhisi2
++		 (operands[0], gen_highpart (HImode, dst)));
 +      x -= 16;
 +      if (x)
 +	{
@@ -6589,7 +6635,8 @@ index 0000000..9f4efaa
 +const char *
 +msp430_emit_ashlqi3 (rtx insn, rtx operands[])
 +{
-+  int zs = zero_shifted (operands[0]) || msp430_indirect_register_operand (operands[0]);
++  int zs = zero_shifted (operands[0])
++    || msp430_indirect_register_operand (operands[0]);
 +  const char *pattern;
 +  int shiftpos;
 +
@@ -6644,7 +6691,8 @@ index 0000000..9f4efaa
 +  const char *pattern;
 +  int shiftpos;
 +
-+  zs = zero_shifted (operands[0]) || msp430_indirect_register_operand (operands[0]);
++  zs = zero_shifted (operands[0])
++    || msp430_indirect_register_operand (operands[0]);
 +
 +  if (zs)
 +    pattern = "rla\t@%E0";
@@ -7053,7 +7101,8 @@ index 0000000..9f4efaa
 +const char *
 +msp430_emit_ashrqi3 (rtx insn, rtx operands[])
 +{
-+  int zs = zero_shifted (operands[0]) || msp430_indirect_register_operand (operands[0]);
++  int zs = zero_shifted (operands[0])
++    || msp430_indirect_register_operand (operands[0]);
 +  const char *pattern;
 +  int shiftpos;
 +
@@ -7109,7 +7158,8 @@ index 0000000..9f4efaa
 +const char *
 +msp430_emit_ashrhi3 (rtx insn, rtx operands[])
 +{
-+  int zs = zero_shifted (operands[0]) || msp430_indirect_register_operand (operands[0]);
++  int zs = zero_shifted (operands[0])
++    || msp430_indirect_register_operand (operands[0]);
 +  const char *pattern;
 +  int shiftpos;
 +
@@ -7435,7 +7485,8 @@ index 0000000..9f4efaa
 +const char *
 +msp430_emit_lshrqi3 (rtx insn, rtx operands[])
 +{
-+  int zs = zero_shifted (operands[0]) || msp430_indirect_register_operand (operands[0]);
++  int zs = zero_shifted (operands[0])
++    || msp430_indirect_register_operand (operands[0]);
 +  const char *pattern;
 +  const char *second_pat;
 +  int shiftpos;
@@ -7504,7 +7555,8 @@ index 0000000..9f4efaa
 +const char *
 +msp430_emit_lshrhi3 (rtx insn, rtx operands[])
 +{
-+  int zs = zero_shifted (operands[0]) || msp430_indirect_register_operand (operands[0]);
++  int zs = zero_shifted (operands[0])
++    || msp430_indirect_register_operand (operands[0]);
 +  const char *pattern;
 +  const char *second_pat;
 +  int shiftpos;
@@ -7870,7 +7922,7 @@ index 0000000..9f4efaa
 +
 +#define SOME_SHIFT_THRESHOLD_VAL 	10
 +
-+int
++static int
 +msp430_easy_mul (rtx operands[], int sext)
 +{
 +  enum machine_mode op0mode = GET_MODE (operands[0]);
@@ -7945,27 +7997,22 @@ index 0000000..9f4efaa
 +  ops = shift0 * (op0mode == SImode ? 2 : 1);
 +  ops += shift1 + add1 + sub1;
 +  if (op0mode != op1mode)
-+    {
-+      ops += (op0mode == SImode ? 2 : 1) * ((add1 || sub1) ? 2 : 1);
-+    }
++    ops += (op0mode == SImode ? 2 : 1) * ((add1 || sub1) ? 2 : 1);
 +
 +  if (ops > SOME_SHIFT_THRESHOLD_VAL)
 +    return 0;
 +
 +  if (op0mode != op1mode)
 +    {
-+      rtx extend;
-+      if (sext)
-+	extend = gen_rtx_SIGN_EXTEND (op0mode, op1);
-+      else
-+	extend = gen_rtx_ZERO_EXTEND (op0mode, op1);
-+      insn = gen_rtx_SET (VOIDmode, op0, extend);
-+      emit_insn (insn);
++      rtx extend_ops[2];
++      rtx op1x = gen_reg_rtx (op0mode);
++      extend_ops[0] = op1x;
++      extend_ops[1] = op1;
++      msp430_expand_extend (extend_ops, sext);
++      op1 = op1x;
++      op1mode = GET_MODE (op1);
 +    }
-+  else
-+    {
-+      emit_move_insn (op0, op1);
-+    }
++  emit_move_insn (op0, op1);
 +
 +  /* shift0 */
 +  switch (op0mode)
@@ -7983,25 +8030,10 @@ index 0000000..9f4efaa
 +      emit_insn (gen_ashldi3 (op0, op0, GEN_INT (shift0)));
 +      break;
 +    default:
-+      abort ();
++      gcc_unreachable ();
 +    }
 +
-+  if (op0mode != op1mode && (add1 || sub1 || shift1))
-+    {
-+      /* equalize operands modes */
-+      rtx extend;
-+      rtx treg = gen_reg_rtx (op0mode);
-+
-+      if (sext)
-+	extend = gen_rtx_SIGN_EXTEND (op0mode, op1);
-+      else
-+	extend = gen_rtx_ZERO_EXTEND (op0mode, op1);
-+      insn = gen_rtx_SET (VOIDmode, treg, extend);
-+      emit_insn (insn);
-+      op1 = treg;
-+      op1mode = GET_MODE (treg);
-+    }
-+  else if (add1 || sub1 || shift1)
++  if (add1 || sub1 || shift1)
 +    {
 +      rtx treg = gen_reg_rtx (op0mode);
 +      emit_move_insn (treg, op1);
@@ -8025,11 +8057,11 @@ index 0000000..9f4efaa
 +	  emit_insn (gen_ashldi3 (op1, op1, GEN_INT (shift1)));
 +	  break;
 +	default:
-+	  abort ();
++	  gcc_unreachable ();
 +	}
 +    }
 +  else if (shift1)
-+    abort ();			/* paranoia */
++    gcc_unreachable ();			/* paranoia */
 +
 +  while (add1--)
 +    {
@@ -8062,329 +8094,206 @@ index 0000000..9f4efaa
 +	  emit_insn (gen_negdi2 (op0, op0));
 +	  break;
 +	default:
-+	  abort ();
++	  gcc_unreachable ();
 +	}
 +    }
 +
 +  return 1;
 +}
 +
-+/* multiplication guards */
-+#define LOAD_MPY(x)	\
-+	do{ \
-+	if(GET_MODE(x) == QImode)		\
-+	emit_insn(gen_load_mpyq(x));	\
-+  else					\
-+  emit_insn(gen_load_mpy(x));	\
-+	}while(0)
-+
-+#define LOAD_MPYS(x)	\
-+	do{ \
-+	if(GET_MODE(x) == QImode)		\
-+	emit_insn(gen_load_mpysq(x));	\
-+  else					\
-+  emit_insn(gen_load_mpys(x));	\
-+	}while(0)
-+
-+#define LOAD_OP2(x)	\
-+	do{ \
-+	if(GET_MODE(x) == QImode)		\
-+	emit_insn(gen_load_op2q(x));	\
-+  else					\
-+  emit_insn(gen_load_op2(x));	\
-+	}while(0)
-+
 +int
-+msp430_mul3_guard (rtx operands[], int sext)
++msp430_expand_mul (rtx operands[], int signed_mul)
 +{
-+  rtx m_mpys = mpys_rtx;
-+  rtx m_op2 = op2_rtx;
-+  rtx m_reslo = reslo_rtx;
++  rtx m_mpy;
++  rtx m_op2;
++  rtx m_reslo;
++  int required_mpy;
++  bool widen;
 +  enum machine_mode op0mode = GET_MODE (operands[0]);
 +  enum machine_mode op1mode = GET_MODE (operands[1]);
-+  rtx r12 = gen_rtx_REG (op1mode, 12);
-+  rtx r10 = gen_rtx_REG (op1mode, 10);
-+  rtx r14 = gen_rtx_REG (op0mode, 14);
++  enum machine_mode op2mode = GET_MODE (operands[2]);
 +
-+  if (const_int_operand (operands[2], VOIDmode) &&
-+      msp430_easy_mul (operands, sext))
++  gcc_assert ((op1mode == op2mode) || CONST_INT_P (operands[2]));
++  op2mode = op1mode;
++  widen = (op0mode == GET_MODE_WIDER_MODE (op1mode));
++  gcc_assert (widen || op0mode == op1mode);
++
++  if (CONST_INT_P (operands[2]) && msp430_easy_mul (operands, signed_mul))
 +    return 1;
 +
-+  if (!msp430_has_hwmul)
++  required_mpy = 0;
++  switch (op0mode)
 +    {
-+      rtx clob1 = gen_rtx_CLOBBER (VOIDmode, r10);
-+      rtx clob2 = gen_rtx_CLOBBER (VOIDmode, r12);
-+      rtx set;
-+      rtx mult, op1, op2;
-+      rtvec vec;
-+      /* prepare 'call' pattern */
-+      if (sext == 1)
++    case QImode:
++      required_mpy = MSP430_MPY_TYPE_16;
++      break;
++    case HImode:
++      required_mpy = MSP430_MPY_TYPE_16;
++      break;
++    case SImode:
++      required_mpy = widen ? MSP430_MPY_TYPE_16 : MSP430_MPY_TYPE_32;
++      break;
++    case DImode:
++      required_mpy = widen ? MSP430_MPY_TYPE_32 : MSP430_MPY_NONE;
++      break;
++    default:
++      required_mpy = MSP430_MPY_NONE;
++      break;
++    }
++  
++  if (!(msp430_mpy & required_mpy))
++    {
++      const char* libfn;
++      rtx r_op1 = gen_rtx_REG (op1mode, 10);
++      rtx r_op2 = gen_rtx_REG (op2mode, 12);
++      rtx r_res = gen_rtx_REG (op0mode, 14);
++
++      switch (op0mode)
 +	{
-+	  op1 = gen_rtx_SIGN_EXTEND (op0mode, r10);
-+	  op2 = gen_rtx_SIGN_EXTEND (op0mode, r12);
++	case QImode:
++	  libfn = "__mulqi3";
++	  break;
++	case HImode:
++	  libfn = widen ? (signed_mul ? "__mulqihi3" : "__umulqihi3") : "__mulhi3";
++	  break;
++	case SImode:
++	  libfn = widen ? (signed_mul ? "__mulhisi3" : "__umulhisi3") : "__mulsi3";
++	  break;
++	case DImode:
++	  libfn = widen ? (signed_mul ? "__mulsidi3" : "__umulsidi3") : "__muldi3";
++	  r_op1 = gen_rtx_REG (op1mode, 8);
++	  r_op2 = gen_rtx_REG (op2mode, 4);
++	  r_res = gen_rtx_REG (op0mode, 12);
++	  break;
++	default:
++	  gcc_unreachable();
++	}
++
++      /* Widening operations are done in the library routine prologues */
++      emit_move_insn (r_op1, operands[1]);
++      emit_move_insn (r_op2, operands[2]);
++
++      emit_use (r_op1);
++      emit_use (r_op2);
++      emit_call_insn (gen_call (gen_rtx_MEM (Pmode, gen_rtx_SYMBOL_REF (Pmode, libfn)), const0_rtx));
++
++      if (DImode == GET_MODE (operands[0]))
++	{
++	  int rn;
++	  for (rn = 4; rn < 12; ++rn)
++	    emit_clobber (gen_rtx_REG (HImode, rn));
 +	}
 +      else
 +	{
-+	  op1 = r10;
-+	  op2 = r12;
++	  /* r12-r15 are call clobbered, but need to note that r10
++	   * (and r11 if r10 was widened) are also clobbered. */
++	  emit_clobber (r_op1);
++	  if (widen && QImode != op1mode)
++	    emit_clobber (gen_rtx_REG (op1mode, 1 + REGNO (r_op1)));
 +	}
-+      mult = gen_rtx_MULT (op0mode, op1, op2);
-+      set = gen_rtx_SET (op0mode, r14, mult);
-+      vec = gen_rtvec (3, set, clob1, clob2);
-+
-+      emit_move_insn (r10, operands[1]);
-+      emit_move_insn (r12, operands[2]);
-+      emit (gen_rtx_PARALLEL (VOIDmode, vec));
-+      emit_move_insn (operands[0], r14);
++      
++      emit_move_insn (operands[0], r_res);
 +      return 1;
 +    }
-+  if (op1mode == QImode)
-+    {
-+      m_mpys = gen_lowpart (QImode, mpys_rtx);
-+      m_op2 = gen_lowpart (QImode, op2_rtx);
-+    }
-+
-+  if (op0mode == QImode)
-+    m_reslo = gen_lowpart (QImode, reslo_rtx);
 +
 +  if (!MSP430_NOINT_HWMUL)
-+    emit_insn (gen_reent_in ());
++    emit_insn (gen_mpy_inhibit_intr ());
 +
-+  LOAD_MPYS (operands[1]);
-+  if (sext)
-+    emit_insn (gen_extendqihi2 (mpys_rtx, m_mpys));
-+  LOAD_OP2 (operands[2]);
-+  if (sext)
-+    emit_insn (gen_extendqihi2 (op2_rtx, m_op2));
-+
-+  if (MSP430_NOINT_HWMUL)
++  if (MSP430_MPY_TYPE_16 == required_mpy)
 +    {
-+      if (op0mode == HImode)
-+	emit_insn (gen_fetch_result_hi_nint (operands[0]));
++      m_mpy = signed_mul ? mpys_rtx : mpy_rtx;
++      m_op2 = op2_rtx;
++      m_reslo = reslo_rtx;
++      if (op0mode == QImode)
++	m_reslo = reslo_b_rtx;
++      if (op1mode == QImode)
++	m_mpy = signed_mul ? mpys_b_rtx : mpy_b_rtx;
++      if (op2mode == QImode)
++	m_op2 = op2_b_rtx;
++
++      emit_move_insn (m_mpy, operands[1]);
++      if (op1mode == QImode && signed_mul && !(msp430_mpy & MSP430_MPY_HAS_SE))
++	emit_insn (gen_extendqihi2 (signed_mul ? mpys_rtx : mpy_rtx, m_mpy));
++      emit_move_insn (m_op2, operands[2]);
++      if (op2mode == QImode && signed_mul && !(msp430_mpy & MSP430_MPY_HAS_SE))
++	emit_insn (gen_extendqihi2 (op2_rtx, m_op2));
++
++      switch (op0mode)
++	{
++	case QImode:
++	case HImode:
++	  emit_move_insn (operands[0], m_reslo);
++	  break;
++	case SImode:
++	  emit_move_insn (gen_lowpart (HImode, operands[0]), reslo_rtx);
++	  emit_move_insn (gen_highpart (HImode, operands[0]), reshi_rtx);
++	  break;
++	default:
++	  gcc_unreachable();
++	}
++    }
++  else
++    {
++      gcc_assert (SImode == op1mode);
++      emit_move_insn (signed_mul ? mpys32l_rtx : mpy32l_rtx, gen_lowpart (HImode, operands[1]));
++      emit_move_insn (signed_mul ? mpys32h_rtx : mpy32h_rtx, gen_highpart (HImode, operands[1]));
++      if (CONST_INT_P (operands[2]))
++	{
++	  HOST_WIDE_INT iv = INTVAL (operands[2]);
++	  emit_move_insn (op2l_rtx, GEN_INT (trunc_int_for_mode (iv & ((1 << BITS_PER_WORD) - 1), HImode)));
++	  emit_move_insn (op2h_rtx, GEN_INT (trunc_int_for_mode (iv >> BITS_PER_WORD, HImode)));
++	}
 +      else
-+	emit_insn (gen_fetch_result_qi_nint (operands[0]));
-+    }
-+  else
-+    {
-+      if (op0mode == HImode)
-+	emit_insn (gen_fetch_result_hi (operands[0]));
-+      else
-+	emit_insn (gen_fetch_result_qi (operands[0]));
-+    }
++	{
++	  gcc_assert (SImode == op2mode);
++	  emit_move_insn (op2l_rtx, gen_lowpart (HImode, operands[2]));
++	  emit_move_insn (op2h_rtx, gen_highpart (HImode, operands[2]));
++	}
++      switch (op0mode)
++	{
++	case SImode:
++	  emit_move_insn (gen_lowpart (HImode, operands[0]), reslo_rtx);
++	  emit_move_insn (gen_highpart (HImode, operands[0]), reshi_rtx);
++	  break;
++	case DImode:
++	  {
++	    rtx dst_llo = NULL_RTX;	/* lowpart (hi, lowpart (si, di)) */
++	    rtx dst_lhi = NULL_RTX;	/* highpart (hi, lowpart (si, di)) */
++	    rtx dst_hlo = NULL_RTX;	/* lowpart (hi, highpart (si, di)) */
++	    rtx dst_hhi = NULL_RTX;	/* highpart (hi, highpart (si, di)) */
 +
-+  return 1;
-+}
++	    if (REG_P (operands[0]))
++	      {
++		dst_llo = gen_rtx_SUBREG (HImode, operands[0], 0);
++		dst_lhi = gen_rtx_SUBREG (HImode, operands[0], UNITS_PER_WORD);
++		dst_hlo = gen_rtx_SUBREG (HImode, operands[0], 2 * UNITS_PER_WORD);
++		dst_hhi = gen_rtx_SUBREG (HImode, operands[0], 3 * UNITS_PER_WORD);
++	      }
++	    else if (MEM_P (operands[0]))
++	      {
++		dst_llo = adjust_address (operands[0], HImode, 0);
++		dst_lhi = adjust_address (dst_llo, HImode, UNITS_PER_WORD);
++		dst_hlo = adjust_address (dst_lhi, HImode, UNITS_PER_WORD);
++		dst_hhi = adjust_address (dst_hlo, HImode, UNITS_PER_WORD);
++	      }
++	    else
++	      gcc_unreachable ();
 +
-+
-+int
-+msp430_umul3_guard (rtx operands[], int sext ATTRIBUTE_UNUSED)
-+{
-+  rtx m_mpy = mpy_rtx;
-+  rtx m_op2 = op2_rtx;
-+  enum machine_mode op0mode = GET_MODE (operands[0]);
-+  enum machine_mode op1mode = GET_MODE (operands[1]);
-+  rtx r12 = gen_rtx_REG (op1mode, 12);
-+  rtx r10 = gen_rtx_REG (op1mode, 10);
-+  rtx r14 = gen_rtx_REG (op0mode, 14);
-+
-+  if (const_int_operand (operands[2], VOIDmode) &&
-+      msp430_easy_mul (operands, 0))
-+    return 1;
-+
-+  if (!msp430_has_hwmul)
-+    {
-+      rtx clob1 = gen_rtx_CLOBBER (VOIDmode, r10);
-+      rtx clob2 = gen_rtx_CLOBBER (VOIDmode, gen_rtx_REG (op1mode, 12));
-+      rtx set;
-+      rtx mult, op1, op2;
-+      rtvec vec;
-+      /* prepare 'call' pattern */
-+      op1 = gen_rtx_ZERO_EXTEND (op0mode, r10);
-+      op2 = gen_rtx_ZERO_EXTEND (op0mode, r12);
-+
-+      mult = gen_rtx_MULT (op0mode, op1, op2);
-+      set = gen_rtx_SET (op0mode, r14, mult);
-+      vec = gen_rtvec (3, set, clob1, clob2);
-+
-+      emit_move_insn (r10, operands[1]);
-+      emit_move_insn (r12, operands[2]);
-+      emit (gen_rtx_PARALLEL (VOIDmode, vec));
-+      emit_move_insn (operands[0], r14);
-+      return 1;
-+    }
-+
-+  m_mpy = gen_lowpart (QImode, mpy_rtx);
-+  m_op2 = gen_lowpart (QImode, op2_rtx);
-+
-+  if (!MSP430_NOINT_HWMUL)
-+    emit_insn (gen_reent_in ());
-+
-+#if 0				/* COMMENTED OUT */
-+  LOAD_MPY (gen_lowpart (QImode, operands[1]));
-+#if 0				/* CPPC */
-+  emit_insn (gen_zero_extendqihi2 (mpy_rtx, m_mpy));
-+  LOAD_OP2 (gen_lowpart (QImode, operands[2]));
-+  emit_insn (gen_zero_extendqihi2 (op2_rtx, m_op2));
-+#endif /* CPPC */
-+  emit_move_insn (m_op2, gen_lowpart (QImode, operands[2]));
-+#endif
-+
-+  /* The code above does not work on GCC v4, as the optimizer removes the move INSN */
-+  LOAD_MPY (operands[1]);
-+#if 0				/* CPPC */
-+  emit_insn (gen_zero_extendqihi2 (mpy_rtx, m_mpy));
-+#endif /* CPPC */
-+  /* No need for extension, as the HWMUL recognizes the operand width */
-+  LOAD_OP2 (operands[2]);
-+#if 0				/* CPPC */
-+  emit_insn (gen_zero_extendqihi2 (op2_rtx, m_op2));
-+#endif /* CPPC */
-+
-+
-+  if (MSP430_NOINT_HWMUL)
-+    emit_insn (gen_fetch_result_hi_nint (operands[0]));
-+  else
-+    emit_insn (gen_fetch_result_hi (operands[0]));
-+
-+  return 1;
-+}
-+
-+
-+int
-+msp430_mulhisi_guard (rtx operands[])
-+{
-+  enum machine_mode op0mode = GET_MODE (operands[0]);
-+  enum machine_mode op1mode = GET_MODE (operands[1]);
-+  rtx r12 = gen_rtx_REG (op1mode, 12);
-+  rtx r10 = gen_rtx_REG (op1mode, 10);
-+  rtx r14 = gen_rtx_REG (op0mode, 14);
-+  rtx r11 = gen_rtx_REG (op1mode, 11);
-+  rtx r13 = gen_rtx_REG (op1mode, 13);
-+
-+  if (const_int_operand (operands[2], VOIDmode) &&
-+      msp430_easy_mul (operands, 1))
-+    return 1;
-+
-+  if (!msp430_has_hwmul)
-+    {
-+      rtx clob1 = gen_rtx_CLOBBER (VOIDmode, r10);
-+      rtx clob2 = gen_rtx_CLOBBER (VOIDmode, r11);
-+      rtx clob3 = gen_rtx_CLOBBER (VOIDmode, r12);
-+      rtx clob4 = gen_rtx_CLOBBER (VOIDmode, r13);
-+
-+      rtx set;
-+      rtx mult, op1, op2;
-+      rtvec vec;
-+      /* prepare 'call' pattern */
-+      op1 = gen_rtx_SIGN_EXTEND (op0mode, r10);
-+      op2 = gen_rtx_SIGN_EXTEND (op0mode, r12);
-+
-+      mult = gen_rtx_MULT (op0mode, op1, op2);
-+      set = gen_rtx_SET (op0mode, r14, mult);
-+      vec = gen_rtvec (5, set, clob1, clob2, clob3, clob4);
-+
-+      emit_move_insn (r10, operands[1]);
-+      emit_move_insn (r12, operands[2]);
-+      emit (gen_rtx_PARALLEL (VOIDmode, vec));
-+      emit_move_insn (operands[0], r14);
-+      return 1;
-+    }
-+  if (!MSP430_NOINT_HWMUL)
-+    emit_insn (gen_reent_in ());
-+
-+  LOAD_MPYS (operands[1]);
-+  LOAD_OP2 (operands[2]);
-+
-+  if (MSP430_NOINT_HWMUL)
-+    {
-+      emit_insn (gen_fetch_result_si_nint (operands[0]));
-+    }
-+  else
-+    emit_insn (gen_fetch_result_si (operands[0]));
-+
-+  return 1;
-+}
-+
-+
-+int
-+msp430_umulhisi_guard (rtx operands[])
-+{
-+  enum machine_mode op0mode = GET_MODE (operands[0]);
-+  enum machine_mode op1mode = GET_MODE (operands[1]);
-+  rtx r12 = gen_rtx_REG (op1mode, 12);
-+  rtx r10 = gen_rtx_REG (op1mode, 10);
-+  rtx r14 = gen_rtx_REG (op0mode, 14);
-+  rtx r11 = gen_rtx_REG (op1mode, 11);
-+  rtx r13 = gen_rtx_REG (op1mode, 13);
-+
-+  if (const_int_operand (operands[2], VOIDmode) &&
-+      msp430_easy_mul (operands, 0))
-+    return 1;
-+
-+  if (!msp430_has_hwmul)
-+    {
-+      rtx clob1 = gen_rtx_CLOBBER (VOIDmode, r10);
-+      rtx clob2 = gen_rtx_CLOBBER (VOIDmode, r11);
-+      rtx clob3 = gen_rtx_CLOBBER (VOIDmode, r12);
-+      rtx clob4 = gen_rtx_CLOBBER (VOIDmode, r13);
-+
-+      rtx set;
-+      rtx mult, op1, op2;
-+      rtvec vec;
-+      /* prepare 'call' pattern */
-+      op1 = gen_rtx_ZERO_EXTEND (op0mode, r10);
-+      op2 = gen_rtx_ZERO_EXTEND (op0mode, r12);
-+
-+      mult = gen_rtx_MULT (op0mode, op1, op2);
-+      set = gen_rtx_SET (op0mode, r14, mult);
-+      vec = gen_rtvec (5, set, clob1, clob2, clob3, clob4);
-+
-+      emit_move_insn (r10, operands[1]);
-+      emit_move_insn (r12, operands[2]);
-+      emit (gen_rtx_PARALLEL (VOIDmode, vec));
-+      emit_move_insn (operands[0], r14);
-+      return 1;
++	  emit_move_insn (dst_llo, res0_rtx);
++	  emit_move_insn (dst_lhi, res1_rtx);
++	  emit_move_insn (dst_hlo, res2_rtx);
++	  emit_move_insn (dst_hhi, res3_rtx);
++	  break;
++	  }
++	default:
++	  gcc_unreachable();
++	}
 +    }
 +
 +  if (!MSP430_NOINT_HWMUL)
-+    emit_insn (gen_reent_in ());
-+
-+  LOAD_MPY (operands[1]);
-+  LOAD_OP2 (operands[2]);
-+
-+  if (MSP430_NOINT_HWMUL)
-+    {
-+      emit_insn (gen_fetch_result_si_nint (operands[0]));
-+    }
-+  else
-+    emit_insn (gen_fetch_result_si (operands[0]));
++    emit_insn (gen_mpy_restore_intr ());
 +
 +  return 1;
-+}
-+
-+
-+/* something like 'push x(r1)' or 'push @r1' */
-+int
-+self_push (rtx x)
-+{
-+  rtx c;
-+  rtx r;
-+
-+  if (GET_CODE (x) != MEM)
-+    return 0;
-+
-+  c = XEXP (x, 0);
-+
-+  if (REG_P (c) && REGNO (c) == 1)
-+    return 1;
-+
-+  if (GET_CODE (c) == PLUS)
-+    {
-+      r = XEXP (c, 0);
-+      if (REG_P (r) && REGNO (r) == 1)
-+	return 1;
-+    }
-+  return 0;
 +}
 +
 +const char *
@@ -8416,27 +8325,6 @@ index 0000000..9f4efaa
 +    }
 +
 +  output_asm_insn ("call\t%0", operands);
-+  return "";
-+}
-+
-+const char *
-+msp430_pushhi (rtx insn ATTRIBUTE_UNUSED, rtx operands[])
-+{
-+  int sp = self_push (operands[0]);
-+
-+  if (sp)
-+    {
-+      rtx c;
-+      c = XEXP (operands[0], 0);
-+      if (REG_P (c))
-+	output_asm_insn ("push\t2(%E0)", operands);
-+      else
-+	output_asm_insn ("push\t2+%A0", operands);
-+    }
-+  else
-+    {
-+      output_asm_insn ("push\t%A0", operands);
-+    }
 +  return "";
 +}
 +
@@ -8539,7 +8427,8 @@ index 0000000..9f4efaa
 +
 +	***/
 +  cst = COSTS_N_INSNS (5);
-+  mode_size_words = (GET_MODE_SIZE (GET_MODE (x)) + UNITS_PER_WORD - 1) / UNITS_PER_WORD;
++  mode_size_words =
++    (GET_MODE_SIZE (GET_MODE (x)) + UNITS_PER_WORD - 1) / UNITS_PER_WORD;
 +  if (outer_code == SET)
 +    {
 +      op0 = XEXP (x, 0);
@@ -8756,9 +8645,6 @@ index 0000000..9f4efaa
 +#define TARGET_TRAMPOLINE_INIT msp430_trampoline_init
 +
 +/* [4.5.2] 17.13 Library Calls */
-+/* TODO: This is probably a mis-use of this hook */
-+#undef TARGET_INIT_LIBFUNCS
-+#define TARGET_INIT_LIBFUNCS msp430_init_once
 +
 +/* [4.5.2] 17.14 Addressing Modes */
 +#undef TARGET_LEGITIMATE_ADDRESS_P
@@ -8817,12 +8703,12 @@ index 0000000..9f4efaa
 +
 +/* [4.5.2] 17.1 Target Structure */
 +struct gcc_target targetm = TARGET_INITIALIZER;
-diff --git gcc-4.5.2.orig/gcc/config/msp430/msp430.h gcc-4.5.2/gcc/config/msp430/msp430.h
+diff --git gcc-4.5.3.orig/gcc/config/msp430/msp430.h gcc-4.5.3/gcc/config/msp430/msp430.h
 new file mode 100644
-index 0000000..4a07359
+index 0000000..d4073b8
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/msp430.h
-@@ -0,0 +1,807 @@
++++ gcc-4.5.3/gcc/config/msp430/msp430.h
+@@ -0,0 +1,811 @@
 +/* This work is partially financed by the European Commission under the
 + * Framework 6 Information Society Technologies Project
 + * "Wirelessly Accessible Sensor Populations (WASP)".
@@ -8900,7 +8786,7 @@ index 0000000..4a07359
 + */
 +
 +/** Update this on each release */
-+#define MSP430_MSPGCC_VERSION 20110612
++#define MSP430_MSPGCC_VERSION 20110706
 +
 +/** Bit-markers for type of CPU present. */
 +typedef enum msp430_cpu_e
@@ -8915,11 +8801,15 @@ index 0000000..4a07359
 +typedef enum msp430_mpy_e
 +{
 +  MSP430_MPY_NONE = 0x0000,
-+  MSP430_MPY_16 = 0x0010,
-+  MSP430_MPY_16SE = 0x0011,
-+  MSP430_MPY_32 = 0x0020,
-+  MSP430_MPY_32DW = 0x0022,
-+  MSP430_MPY = 0x0030
++  MSP430_MPY_TYPE_16 = 0x0010,
++  MSP430_MPY_TYPE_32 = 0x0020,
++  MSP430_MPY_TYPE_ANY = 0x0030,
++  MSP430_MPY_HAS_SE = 0x0001,
++  MSP430_MPY_HAS_DW = 0x0002,
++  MSP430_MPY_16 = MSP430_MPY_TYPE_16,
++  MSP430_MPY_16SE = MSP430_MPY_16 | MSP430_MPY_HAS_SE,
++  MSP430_MPY_32 = MSP430_MPY_TYPE_16 | MSP430_MPY_TYPE_32 | MSP430_MPY_HAS_SE,
++  MSP430_MPY_32DW = MSP430_MPY_32 | MSP430_MPY_HAS_DW
 +} msp430_mpy_e;
 +
 +extern msp430_cpu_e msp430_cpu;
@@ -9034,12 +8924,12 @@ index 0000000..4a07359
 +      {									\
 +	snprintf (defstr, sizeof (defstr), "__MSP430_MPY__=%d", msp430_mpy); \
 +	builtin_define (defstr);					\
-+	if (msp430_mpy & MSP430_MPY_16)					\
++	if (msp430_mpy & MSP430_MPY_TYPE_16)				\
 +	  {								\
 +	    snprintf (defstr, sizeof (defstr), "__MSP430_MPY16__=%d", msp430_mpy); \
 +	    builtin_define (defstr);					\
 +	  }								\
-+	else if (msp430_mpy & MSP430_MPY_32)				\
++	if (msp430_mpy & MSP430_MPY_TYPE_32)				\
 +	  {								\
 +	    snprintf (defstr, sizeof (defstr), "__MSP430_MPY32__=%d", msp430_mpy); \
 +	    builtin_define (defstr);					\
@@ -9630,12 +9520,12 @@ index 0000000..4a07359
 +extern int default_rtx_costs (rtx X ATTRIBUTE_UNUSED, enum rtx_code code,
 +			      enum rtx_code outer_code ATTRIBUTE_UNUSED);
 +#endif
-diff --git gcc-4.5.2.orig/gcc/config/msp430/msp430.md gcc-4.5.2/gcc/config/msp430/msp430.md
+diff --git gcc-4.5.3.orig/gcc/config/msp430/msp430.md gcc-4.5.3/gcc/config/msp430/msp430.md
 new file mode 100644
-index 0000000..5b27b17
+index 0000000..a64cacb
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/msp430.md
-@@ -0,0 +1,2491 @@
++++ gcc-4.5.3/gcc/config/msp430/msp430.md
+@@ -0,0 +1,2187 @@
 +;; -*- Mode: Scheme -*-
 +;;   Machine description for GNU compiler,
 +;;   for Texas Instruments msp430 MCUs
@@ -9702,26 +9592,15 @@ index 0000000..5b27b17
 +
 +(define_constants
 +  [(UNSPECV_UNDEFINED		0)
-+   (UNSPECV_PROLOGUE_PUSH 	106)
-+   (UNSPECV_PUSH_SREG		103)
-+   (UNSPECV_POP_R2		107)
-+   (UNSPECV_SAVE_PC_TO_REG	104)
 +   (UNSPECV_REENT_IN		10)
-+   (UNSPECV_FETCH_RESULT	11)
-+   (UNSPECV_FETCH_RESULT_QI	12)
-+   (UNSPECV_FETCH_RESULT_HI	13)
-+   (UNSPECV_FETCH_RESULT_SI	14)
 +   (UNSPECV_ADDC_ZERO		15)
-+   (UNSPECV_LOAD_MPY		17)
-+   (UNSPECV_LOAD_MPYS		18)
-+   (UNSPECV_LOAD_OP2		19)
-+   (UNSPECV_LOAD_MPYQ		20)
-+   (UNSPECV_LOAD_MPYSQ		21)
-+   (UNSPECV_LOAD_OP2Q		22)
-+   (UNSPECV_FETCH_RESULT_QI_NINT	121)
-+   (UNSPECV_FETCH_RESULT_HI_NINT	131)
-+   (UNSPECV_FETCH_RESULT_SI_NINT	141)
 +   (UNSPECV_BIT_CLEAR		40)
++   (UNSPECV_MPY_INHIBIT_INTR		100)
++   (UNSPECV_MPY_RESTORE_INTR		101)
++   (UNSPECV_PUSH_SREG			103)
++   (UNSPECV_SAVE_PC_TO_REG		104)
++   (UNSPECV_PROLOGUE_PUSH 		106)
++   (UNSPECV_POP_R2			107)
 +   (UNSPECV_NOP				200)
 +   (UNSPECV_DINT			201)
 +   (UNSPECV_EINT			202)
@@ -9804,6 +9683,9 @@ index 0000000..5b27b17
 +;; Modes to which HI can extend
 +(define_mode_iterator HIEXT [DI SI])
 +
++;; Integer modes that can be widened
++(define_mode_iterator WidenableINTModes [SI HI QI])
++
 +;; Integer modes
 +(define_mode_iterator INTModes [DI SI HI QI])
 +
@@ -9851,6 +9733,18 @@ index 0000000..5b27b17
 +   (HI "set_czn")
 +   (SI "further")
 +   (DI "further")])
++
++; Next wider mode, in lower case
++(define_mode_attr wider_mode
++  [(QI "hi")
++   (HI "si")
++   (SI "di")])
++
++; Next wider mode, in upper case
++(define_mode_attr WIDER_MODE
++  [(QI "HI")
++   (HI "SI")
++   (SI "DI")])
 +
 +;; ==================
 +;; Built-in functions
@@ -10071,11 +9965,11 @@ index 0000000..5b27b17
 +   (set_attr "instr_format" "fmt2s")])
 +
 +(define_insn "pophi1"
-+  [(set (match_operand:HI 0 "msp430_vwa_nonimmediate_operand" "=W")
++  [(set (match_operand:HI 0 "msp430_vwa_nonimmediate_operand" "=r,w")
 +	(mem:HI (post_inc:HI (reg:HI REG_SP))))]
 +  ""
 +  "pop\t%0"
-+  [(set_attr "cc" "none")
++  [(set_attr "cc" "none,clobber")
 +   (set_attr "instr_format" "fmt1")])
 +
 +(define_insn "*movhi2"
@@ -10357,10 +10251,10 @@ index 0000000..5b27b17
 +		     (match_operand:QI 3 "general_operand" "rmi")])
 +      (label_ref (match_operand 0 "" ""))
 +      (pc)))]
-+""
-+"* return msp430_cbranch(insn, operands);"
-+ [(set_attr "length" "9") 
-+ (set_attr "cc" "cbranch")])
++  ""
++  { return msp430_cbranch(insn, operands); }
++  [(set_attr "length" "9") 
++   (set_attr "cc" "cbranch")])
 +
 +(define_insn "*cbranchhi"
 +  [(set (pc)
@@ -10369,11 +10263,10 @@ index 0000000..5b27b17
 +		     (match_operand:HI 3 "general_operand" "rmi")])
 +      (label_ref (match_operand 0 "" ""))
 +      (pc)))]
-+""
-+"* return msp430_cbranch(insn, operands);"
-+ [(set_attr "length" "9")
-+ (set_attr "cc" "cbranch")])
-+
++  ""
++  { return msp430_cbranch(insn, operands); }
++  [(set_attr "length" "9")
++   (set_attr "cc" "cbranch")])
 +
 +(define_insn "*cbranch_uncoded"
 +  [(set (pc)
@@ -10382,16 +10275,16 @@ index 0000000..5b27b17
 +		     (const_int 0)])
 +      (label_ref (match_operand 0 "" ""))
 +      (pc)))]
-+""
-+{
-+   rtx op[4];
-+   op[0] = operands[0];
-+   op[1] = operands[1];
-+   op[2] = op[3] = NULL;
-+   return msp430_cbranch(insn, op);
-+}
-+[(set_attr "length" "9")
-+(set_attr "cc" "cbranch")])
++  ""
++  {
++    rtx op[4];
++    op[0] = operands[0];
++    op[1] = operands[1];
++    op[2] = op[3] = NULL;
++    return msp430_cbranch(insn, op);
++  }
++  [(set_attr "length" "9")
++   (set_attr "cc" "cbranch")])
 +
 +
 +;;========================================================================
@@ -10411,11 +10304,10 @@ index 0000000..5b27b17
 +(define_insn "*call_insn"
 +  [(call (mem:HI (match_operand:HI 0 "general_operand" "r,P,mi"))
 +         (match_operand:HI 1 "general_operand" "X,X,X"))]
-+""
-+"* return msp430_emit_call(operands);"
-+[ (set_attr "length" "1,1,2")
++  ""
++  { return msp430_emit_call(operands); }
++  [(set_attr "length" "1,1,2")
 +   (set_attr "cc" "clobber")])
-+
 +
 +(define_expand "call_value"
 +  [(set (match_operand 0 "register_operand" "")
@@ -10425,96 +10317,32 @@ index 0000000..5b27b17
 +  "")
 +
 +(define_insn "*call_value_insn"
-+  [( set (match_operand 0 "register_operand" "=r,r,r")
-+   (call (mem:HI (match_operand:HI 1 "general_operand" "r,P,mi"))
-+	 (match_operand:HI 2 "general_operand" "X,X,X")))]
-+""
-+ "call\\t%S1"
-+[ (set_attr "length" "1,1,2")
++  [(set (match_operand 0 "register_operand" "=r,r,r")
++	(call (mem:HI (match_operand:HI 1 "general_operand" "r,P,mi"))
++	      (match_operand:HI 2 "general_operand" "X,X,X")))]
++  ""
++  "call\t%S1"
++  [(set_attr "length" "1,1,2")
 +   (set_attr "cc" "clobber")])
-+
-+
-+
-+
 +
 +;;========================================================================
 +;;========================================================================
 +;; mult helpers
 +
-+(define_insn "reent_in"
-+  [(set (mem:HI (post_dec (reg:HI 1))) 
-+        (unspec_volatile:HI [(const_int 99999999)] UNSPECV_REENT_IN))]
++(define_insn "mpy_inhibit_intr"
++  [(set (mem:HI (pre_dec:HI (reg:HI REG_SP)))
++	(unspec_volatile:HI [(const_int 0)] UNSPECV_MPY_INHIBIT_INTR))]
 +  ""
-+  "push\\tr2
-+\\tdint
-+\\tnop"
-+  [(set_attr "length" "4")
++  "push\tr2\;dint\;nop"
++  [(set_attr "length" "6")])
++
++(define_insn "mpy_restore_intr"
++  [(set (mem:HI (post_inc:HI (reg:HI REG_SP)))
++	(unspec_volatile:HI [(const_int 0)] UNSPECV_MPY_RESTORE_INTR))]
++  ""
++  "pop\tr2"
++  [(set_attr "length" "2")
 +   (set_attr "cc" "clobber")])
-+
-+;;
-+;; Next three help to make sure, that
-+;; all instructions are 'in order'
-+
-+(define_insn "fetch_result_qi"
-+ [(set (match_operand:QI 0 "msp430_vwa_nonimmediate_operand" "=r,m") 
-+       (unspec_volatile:QI [(const_int 0)] UNSPECV_FETCH_RESULT_QI))
-+  (set (mem:HI (post_inc (reg:HI 1)))
-+       (unspec_volatile:HI [(const_int 99999999)] UNSPECV_FETCH_RESULT))]
-+ ""
-+ "mov.b\\t&__RESLO, %0
-+\\tpop\\tr2"
-+ [(set_attr "length" "3,4")
-+  (set_attr "cc" "none")])
-+ 
-+(define_insn "fetch_result_hi"
-+ [(set (match_operand:HI 0 "msp430_vwa_nonimmediate_operand" "=r,m") 
-+       (unspec_volatile:HI [(const_int 0)] UNSPECV_FETCH_RESULT_HI))
-+  (set (mem:HI (post_inc (reg:HI 1)))
-+       (unspec_volatile:HI [(const_int 99999999)] UNSPECV_FETCH_RESULT))]
-+ ""
-+ "mov\\t&__RESLO, %0
-+\\tpop\\tr2"
-+ [(set_attr "length" "3,4")
-+  (set_attr "cc" "none")])
-+
-+(define_insn "fetch_result_si"
-+ [(set (match_operand:SI 0 "msp430_vwa_nonimmediate_operand" "=r,m") 
-+       (unspec_volatile:SI [(const_int 0)] UNSPECV_FETCH_RESULT_SI))
-+  (set (mem:HI (post_inc (reg:HI 1)))
-+       (unspec_volatile:HI [(const_int 99999999)] UNSPECV_FETCH_RESULT))]
-+ ""
-+ "mov\\t&__RESLO, %A0
-+\\tmov\\t&__RESHI, %B0
-+\\tpop\\tr2"
-+ [(set_attr "length" "5,7")
-+  (set_attr "cc" "none")])
-+
-+;; ===the same with no int
-+
-+(define_insn "fetch_result_qi_nint"
-+ [(set (match_operand:QI 0 "msp430_vwa_nonimmediate_operand" "=r,m") 
-+       (unspec_volatile:QI [(const_int 0)] UNSPECV_FETCH_RESULT_QI_NINT))]
-+ ""
-+ "mov.b\\t&__RESLO, %0"
-+ [(set_attr "length" "2,3")
-+  (set_attr "cc" "none")])
-+ 
-+(define_insn "fetch_result_hi_nint"
-+ [(set (match_operand:HI 0 "msp430_vwa_nonimmediate_operand" "=r,m") 
-+       (unspec_volatile:HI [(const_int 0)] UNSPECV_FETCH_RESULT_HI_NINT))]
-+ ""
-+ "mov\\t&__RESLO, %0"
-+ [(set_attr "length" "2,3")
-+  (set_attr "cc" "none")])
-+
-+(define_insn "fetch_result_si_nint"
-+ [(set (match_operand:SI 0 "msp430_vwa_nonimmediate_operand" "=r,m") 
-+       (unspec_volatile:SI [(const_int 0)] UNSPECV_FETCH_RESULT_SI_NINT))]
-+ ""
-+ "mov\\t&__RESLO, %A0
-+\\tmov\\t&__RESHI, %B0"
-+ [(set_attr "length" "4,6")
-+  (set_attr "cc" "none")])
 +
 +(define_insn "addc_zero"
 + [(set (match_operand:HI 0 "msp430_vwa_nonimmediate_operand" "=r,m")
@@ -10532,61 +10360,6 @@ index 0000000..5b27b17
 +[(set_attr "length" "1,2")
 + (set_attr "cc" "none")])
 +
-+(define_insn "load_mpy"
-+ [(unspec_volatile:HI [(const_int 0)] UNSPECV_LOAD_MPY)
-+  (use (match_operand:HI 0 "msp430_vwa_general_operand" "rRP,mi"))]
-+""
-+"mov\\t%0, &__MPY"
-+[(set_attr "length" "2,3")
-+ (set_attr "cc" "none")])
-+
-+
-+(define_insn "load_mpys"
-+  [(unspec_volatile:HI [(const_int 0)] UNSPECV_LOAD_MPYS)
-+   (use (match_operand:HI 0 "msp430_vwa_general_operand" "rRP,mi"))]
-+""
-+"mov\\t%0, &__MPYS"
-+[(set_attr "length" "2,3")
-+ (set_attr "cc" "none")])
-+ 
-+ 
-+(define_insn "load_op2"
-+  [(unspec_volatile:HI [(const_int 0)] UNSPECV_LOAD_OP2)
-+   (use (match_operand:HI 0 "msp430_vwa_general_operand" "rRP,mi"))]
-+""
-+"mov\\t%0, &__OP2"
-+[(set_attr "length" "2,3")
-+ (set_attr "cc" "none")])
-+ 
-+
-+(define_insn "load_mpyq"
-+  [(unspec_volatile:QI [(const_int 0 )] UNSPECV_LOAD_MPYQ)
-+   (use (match_operand:QI 0 "msp430_vwa_general_operand" "rRP,mi"))]
-+""
-+"mov.b\\t%0, &__MPY"
-+[(set_attr "length" "2,3")
-+ (set_attr "cc" "none")])
-+
-+
-+(define_insn "load_mpysq"
-+  [(unspec_volatile:QI [(const_int 0 )] UNSPECV_LOAD_MPYSQ)
-+   (use (match_operand:QI 0 "msp430_vwa_general_operand" "rRP,mi"))]
-+""
-+"mov.b\\t%0, &__MPYS"
-+[(set_attr "length" "2,3")
-+ (set_attr "cc" "none")])
-+ 
-+(define_insn "load_op2q"
-+  [(unspec_volatile:QI [(const_int 0 )] UNSPECV_LOAD_OP2Q)
-+  (use (match_operand:QI 0 "msp430_vwa_general_operand" "rRP,mi"))]
-+""
-+"mov.b\\t%0, &__OP2"
-+[(set_attr "length" "2,3")
-+ (set_attr "cc" "none")])
-+
-+
-+
-+
 + 
 +
 +;;========================================================================
@@ -10595,219 +10368,35 @@ index 0000000..5b27b17
 +;;
 +;;  Multiplication 
 +
-+;;========================================================================
-+;; 8 = 8x8 and 16 = 8x8
-+
-+(define_expand "mulqi3"
-+  [(set (match_operand:QI 0 "msp430_vwa_nonimmediate_operand" "")
-+        (mult:QI (match_operand:QI 1 "msp430_vwa_nonimmediate_operand" "")
-+                 (match_operand:QI 2 "msp430_vwa_general_operand" "")))]  
++(define_expand "mul<mode>3"
++  [(match_operand:INTModes 0 "msp430_vwa_nonimmediate_operand" "")
++   (match_operand:<MODE> 1 "msp430_vwa_nonimmediate_operand" "")
++   (match_operand:<MODE> 2 "msp430_vwa_general_operand" "")]  
 +  ""             
-+"{ msp430_mul3_guard(operands,0); DONE; }")
++  {
++    msp430_expand_mul (operands, 1);
++    DONE;
++  })
 +
-+(define_insn "*mulqi3_call"
-+  [(set (reg:QI 14) (mult:QI (reg:QI 10) (reg:QI 12)))
-+	(clobber (reg:QI 10))
-+	(clobber (reg:QI 12))]
-+  "!MSP430_HAS_HWMUL_INTERNAL"
-+  "call	#__mulqi3"
-+  [(set_attr "length" "2")
-+   (set_attr "cc" "clobber")])
-+
-+;; ============= qi -> hi =======================================================
-+(define_expand "mulqihi3"
-+  [(set (match_operand:HI 0 "msp430_vwa_nonimmediate_operand" "")
-+        (mult:HI (sign_extend:HI (match_operand:QI 1 "msp430_vwa_nonimmediate_operand" ""))
-+                 (sign_extend:HI (match_operand:QI 2 "msp430_vwa_general_operand" ""))))]
-+""
-+"{ msp430_mul3_guard(operands,1); DONE; }")
-+
-+(define_insn "*mulqihi3_call"
-+  [(set (reg:HI 14) (mult:HI (sign_extend:HI (reg:QI 10))
-+			     (sign_extend:HI (reg:QI 12))))
-+        (clobber (reg:QI 10))
-+        (clobber (reg:QI 12))]
-+  "!MSP430_HAS_HWMUL_INTERNAL"
-+  "call	#__mulqihi3"   
-+  [(set_attr "length" "2")
-+   (set_attr "cc" "clobber")])
-+
-+;; ============ unsigned ones ===================================================
-+(define_expand "umulqihi3"
-+  [(set (match_operand:HI 0 "msp430_vwa_nonimmediate_operand" "")
-+        (mult:HI (zero_extend:HI (match_operand:QI 1 "msp430_vwa_nonimmediate_operand" ""))
-+                 (zero_extend:HI (match_operand:QI 2 "msp430_vwa_general_operand" ""))))]
++(define_expand "mul<mode><wider_mode>3"
++  [(match_operand:<WIDER_MODE> 0 "msp430_vwa_nonimmediate_operand" "")
++   (match_operand:WidenableINTModes 1 "msp430_vwa_nonimmediate_operand" "")
++   (match_operand:<MODE> 2 "msp430_vwa_general_operand" "")]
 +  ""
-+  "{ msp430_umul3_guard(operands,0); DONE; }")  
++  {
++    msp430_expand_mul (operands, 1);
++    DONE;
++  })
 +
-+(define_insn "*umulqihi3_call"
-+  [(set (reg:HI 14) (mult:HI (zero_extend:HI (reg:QI 10))
-+                	     (zero_extend:HI (reg:QI 12))))
-+        (clobber (reg:QI 10))
-+        (clobber (reg:QI 12))]
-+  "!MSP430_HAS_HWMUL_INTERNAL"
-+  "call	#__umulqihi3" 
-+  [(set_attr "length" "2")
-+   (set_attr "cc" "clobber")])
-+
-+;;========================================================================
-+;; 16 = 16x16 and 32 = 16x16
-+
-+(define_expand "mulhi3"
-+  [(set (match_operand:HI 0 "msp430_vwa_nonimmediate_operand" "")
-+        (mult:HI (match_operand:HI 1 "msp430_vwa_nonimmediate_operand" "")
-+                 (match_operand:HI 2 "msp430_vwa_general_operand" "")))]  
++(define_expand "umul<mode><wider_mode>3"
++  [(match_operand:<WIDER_MODE> 0 "msp430_vwa_nonimmediate_operand" "")
++   (match_operand:WidenableINTModes 1 "msp430_vwa_nonimmediate_operand" "")
++   (match_operand:<MODE> 2 "msp430_vwa_general_operand" "")]
 +  ""
-+"{msp430_mul3_guard(operands,0); DONE; } ")
-+
-+(define_insn "*mulhi3_call"
-+  [(set (reg:HI 14) (mult:HI (reg:HI 10) (reg:HI 12)))
-+	(clobber (reg:HI 10))
-+	(clobber (reg:HI 12))]
-+  "!MSP430_HAS_HWMUL_INTERNAL"
-+  "call	#__mulhi3"
-+  [(set_attr "length" "2")
-+   (set_attr "cc" "clobber")])
-+
-+;; ========================== hi -> si =============================
-+(define_expand "mulhisi3"
-+  [(set (match_operand:SI 0 "msp430_vwa_nonimmediate_operand" "")
-+        (mult:SI (sign_extend:SI (match_operand:HI 1 "msp430_vwa_nonimmediate_operand" ""))
-+                 (sign_extend:SI (match_operand:HI 2 "msp430_vwa_general_operand" ""))))]
-+""
-+  "{msp430_mulhisi_guard(operands); DONE;}"
-+)
-+
-+(define_insn "*mulhisi3_call"
-+  [(set (reg:SI 14) (mult:SI (sign_extend:SI (reg:HI 10))
-+			     (sign_extend:SI (reg:HI 12))))
-+        (clobber (reg:HI 10))
-+        (clobber (reg:HI 11))
-+	(clobber (reg:HI 12))  
-+	(clobber (reg:HI 13))]
-+  "!MSP430_HAS_HWMUL_INTERNAL"
-+  "mov	#0, r11
-+	tst	r10
-+	jge	+2
-+	mov	#-1, r11
-+	mov	#0, r13
-+	tst	r12
-+	jge	+2
-+	mov	#-1, r13
-+	call	#__mulhisi3"
-+  [(set_attr "length" "10")
-+   (set_attr "cc" "clobber")])
-+
-+;; ================== unsigned  hi -> si =============================
-+(define_expand "umulhisi3"
-+  [(set (match_operand:SI 0 "msp430_vwa_nonimmediate_operand" "")
-+        (mult:SI (zero_extend:SI (match_operand:HI 1 "msp430_vwa_nonimmediate_operand" ""))
-+                 (zero_extend:SI (match_operand:HI 2 "msp430_vwa_general_operand" ""))))]
-+  ""
-+  "{msp430_umulhisi_guard(operands); DONE;}")
-+
-+(define_insn "*umulhisi3_call"
-+  [(set (reg:SI 14) (mult:SI (zero_extend:SI (reg:HI 10))
-+                	     (zero_extend:SI (reg:HI 12))))
-+        (clobber (reg:HI 10))
-+        (clobber (reg:HI 11))
-+	(clobber (reg:HI 12))  
-+	(clobber (reg:HI 13))]
-+  "!MSP430_HAS_HWMUL_INTERNAL"
-+  "clr	r11
-+	clr	r13
-+	call	#__umulhisi3" 
-+  [(set_attr "length" "2")
-+   (set_attr "cc" "clobber")])
-+
-+
-+;;========================================================================
-+;; 32 = 32x32.      64 = 32x32 <- via library calls only
-+
-+(define_expand "mulsi3"
-+  [(set (reg:SI 10) (match_operand:SI 1 "msp430_vwa_nonimmediate_operand" ""))
-+   (set (reg:SI 12) (match_operand:SI 2 "msp430_vwa_general_operand" ""))
-+   (set (reg:SI 14) (mult:SI (reg:SI 10) (reg:SI 12)))
-+   (set (match_operand:SI 0 "msp430_vwa_nonimmediate_operand" "") (reg:SI 14))]
-+""
-+"{
-+  if (!MSP430_HAS_HWMUL_INTERNAL)
-+    {
-+      emit_insn (gen_mulsi3_call (operands[0], operands[1], operands[2]));
-+      DONE;
-+    }
-+}")
-+
-+(define_insn "*mulsi3hw_call_ni"
-+  [(set (reg:SI 14) (mult:SI (reg:SI 10) (reg:SI 12)))]
-+  "(!TARGET_INLINESIHWMUL) && MSP430_NOINT_HWMUL"
-+  "call	#__umulsi3hw"
-+[(set_attr "length" "2")
-+   (set_attr "cc" "clobber")])
-+
-+(define_insn "*mulsi3hw_call_ie"
-+  [(set (reg:SI 14) (mult:SI (reg:SI 10) (reg:SI 12)))]
-+  "(!TARGET_INLINESIHWMUL) && !MSP430_NOINT_HWMUL"
-+  "push	r2
-+	dint
-+	call	#__umulsi3hw
-+	pop	r2"
-+[(set_attr "length" "5")
-+   (set_attr "cc" "clobber")])
-+
-+(define_insn "*mulsi3hw_inline_ni"
-+  [(set (reg:SI 14) (mult:SI (reg:SI 10) (reg:SI 12)))]
-+  "TARGET_INLINESIHWMUL && MSP430_HAS_HWMUL_INTERNAL && MSP430_NOINT_HWMUL"
-+  "mov	r12, &__MPY
-+	mov	r10, &__OP2
-+	mov	r12, &__MAC
-+	mov	&__RESLO, r14
-+	mov	&__RESHI, &__RESLO
-+	mov	r11, &__OP2
-+	mov	r13, &__MAC
-+	mov	r10, &__OP2
-+	mov	&__RESLO, r15"
-+[(set_attr "length" "19")  
-+   (set_attr "cc" "none")])
-+
-+(define_insn "*mulsi3hw_inline_ie"
-+  [(set (reg:SI 14) (mult:SI (reg:SI 10) (reg:SI 12)))]
-+  "TARGET_INLINESIHWMUL && MSP430_HAS_HWMUL_INTERNAL && !MSP430_NOINT_HWMUL"
-+  "push	r2
-+	dint
-+	nop
-+	mov	r12, &__MPY
-+	mov	r10, &__OP2
-+	mov	r12, &__MAC
-+	mov	&__RESLO, r14
-+	mov	&__RESHI, &__RESLO
-+	mov	r11, &__OP2
-+	mov	r13, &__MAC
-+	mov	r10, &__OP2
-+	mov	&__RESLO, r15
-+	pop	r2"
-+[(set_attr "length" "23")  
-+   (set_attr "cc" "none")])
-+
-+(define_expand "mulsi3_call"
-+  [(set (reg:SI 10) (match_operand:SI 1 "register_operand" ""))
-+   (set (reg:SI 12) (match_operand:SI 2 "register_operand" "")) 
-+   (parallel [(set (reg:SI 14) (mult:SI (reg:SI 10) (reg:SI 12)))
-+        (clobber (reg:SI 10))
-+        (clobber (reg:SI 12))])
-+   (set (match_operand:SI 0 "register_operand" "") (reg:SI 14))]
-+"!MSP430_HAS_HWMUL_INTERNAL"
-+"")
-+
-+(define_insn "*mulsi3_call"
-+  [(set (reg:SI 14) (mult:SI (reg:SI 10) (reg:SI 12)))
-+	(clobber (reg:SI 10))
-+	(clobber (reg:SI 12))]
-+  "!MSP430_HAS_HWMUL_INTERNAL"
-+  "call	#__mulsi3"
-+  [(set_attr "length" "2")
-+   (set_attr "cc" "clobber")])
-+
++  {
++    msp430_expand_mul (operands, 0);
++    DONE;
++  })
 +
 +;; / % / % / % / % / % / % / % / % / % / % / % / % / % / % / % / % / % / % /
 +;; / % / % / % / % / % / % / % / % / % / % / % / % / % / % / % / % / % / % /
@@ -10980,65 +10569,63 @@ index 0000000..5b27b17
 +              (clobber (match_dup 5))
 +              (clobber (match_dup 6))])]
 +  ""
-+  " 
-+{   
-+  rtx addr0, addr1;
-+  rtx a0, a1;
-+  
-+  if (GET_CODE (operands[2]) != CONST_INT) FAIL;
-+
-+  addr0 = copy_to_mode_reg (Pmode, XEXP (operands[0], 0));
-+  addr1 = copy_to_mode_reg (Pmode, XEXP (operands[1], 0));
-+  
-+  a0 = operands[0];
-+  a1 = operands[1];
-+  
-+  operands[5] = addr0;
-+  operands[6] = addr1;
-+
-+  operands[0] = gen_rtx_MEM (BLKmode, addr0);
-+  operands[1] = gen_rtx_MEM (BLKmode, addr1);
-+
-+  if(INTVAL (operands[2]) <= 10 && !(INTVAL(operands[3])&1))
-+  {
-+    int x = INTVAL (operands[2]);
-+    int y = (x&~1) >> 1;
-+    int i = 0;
-+     
-+    while(y--)
-+    {
-+      rtx dest = gen_rtx_MEM (HImode, gen_rtx_PLUS(HImode, addr0,GEN_INT(i)));
-+      emit_insn(gen_movstrhi5(dest,addr1));
-+      i+= 2;
-+    }
-+
-+    if(x & 1)
-+    {
-+      rtx real_dst = gen_rtx_MEM (HImode, gen_rtx_PLUS(HImode, addr0,GEN_INT(x-1)));
-+      emit_insn(gen_movstrqi5(real_dst,addr1));
-+    }
-+    DONE;
-+  }
-+  else if(INTVAL (operands[2]) <= 6 && (INTVAL(operands[3])&1))
-+  {
-+    int x = INTVAL (operands[2]);
-+    int i = 0;
++  {   
++    rtx addr0, addr1;
++    rtx a0, a1;
 +    
-+    while(x--)
++    if (GET_CODE (operands[2]) != CONST_INT) FAIL;
++  
++    addr0 = copy_to_mode_reg (Pmode, XEXP (operands[0], 0));
++    addr1 = copy_to_mode_reg (Pmode, XEXP (operands[1], 0));
++    
++    a0 = operands[0];
++    a1 = operands[1];
++    
++    operands[5] = addr0;
++    operands[6] = addr1;
++  
++    operands[0] = gen_rtx_MEM (BLKmode, addr0);
++    operands[1] = gen_rtx_MEM (BLKmode, addr1);
++  
++    if(INTVAL (operands[2]) <= 10 && !(INTVAL(operands[3])&1))
 +    {
-+      rtx dst = gen_rtx_MEM (HImode, gen_rtx_PLUS(HImode, addr0,GEN_INT(i)));
-+      emit_insn(gen_movstrqi5(dst,addr1));
-+      i++;
++      int x = INTVAL (operands[2]);
++      int y = (x&~1) >> 1;
++      int i = 0;
++       
++      while(y--)
++      {
++        rtx dest = gen_rtx_MEM (HImode, gen_rtx_PLUS(HImode, addr0,GEN_INT(i)));
++        emit_insn(gen_movstrhi5(dest,addr1));
++        i+= 2;
++      }
++  
++      if(x & 1)
++      {
++        rtx real_dst = gen_rtx_MEM (HImode, gen_rtx_PLUS(HImode, addr0,GEN_INT(x-1)));
++        emit_insn(gen_movstrqi5(real_dst,addr1));
++      }
++      DONE;
 +    }
-+    DONE;
-+  }
-+  else
-+  {
-+  	operands[2] = copy_to_mode_reg (HImode, operands[2]);
-+  	operands[4] = operands[2];
-+  }
-+}
-+")
++    else if(INTVAL (operands[2]) <= 6 && (INTVAL(operands[3])&1))
++    {
++      int x = INTVAL (operands[2]);
++      int i = 0;
++      
++      while(x--)
++      {
++        rtx dst = gen_rtx_MEM (HImode, gen_rtx_PLUS(HImode, addr0,GEN_INT(i)));
++        emit_insn(gen_movstrqi5(dst,addr1));
++        i++;
++      }
++      DONE;
++    }
++    else
++    {
++    	operands[2] = copy_to_mode_reg (HImode, operands[2]);
++    	operands[4] = operands[2];
++    }
++  })
 +
 +(define_insn "movstrqi5"
 +  [(set (match_operand:HI 0 "msp430_vwa_nonimmediate_operand" "=m")
@@ -11098,18 +10685,17 @@ index 0000000..5b27b17
 +              (clobber (match_dup 3))
 +              (clobber (match_dup 4))])]
 +  ""
-+  " 
-+{
-+  rtx addr0;
-+
-+  if (GET_CODE (operands[1]) != CONST_INT) FAIL;
-+  operands[1] = copy_to_mode_reg (HImode, operands[1]);
-+  operands[3] = operands[1];
-+  addr0 = copy_to_mode_reg (Pmode, XEXP (operands[0], 0));
-+  operands[4] = addr0;
-+  operands[0] = gen_rtx_MEM (BLKmode, addr0);
-+}")
-+
++  {
++    rtx addr0;
++  
++    if (GET_CODE (operands[1]) != CONST_INT) FAIL;
++    operands[1] = copy_to_mode_reg (HImode, operands[1]);
++    operands[3] = operands[1];
++    addr0 = copy_to_mode_reg (Pmode, XEXP (operands[0], 0));
++    operands[4] = addr0;
++    operands[0] = gen_rtx_MEM (BLKmode, addr0);
++  })
++  
 +
 +(define_insn "*clrstrhi_insn"
 +  [(set (mem:BLK (match_operand:HI 0 "register_operand" "r"))
@@ -11228,28 +10814,28 @@ index 0000000..5b27b17
 +  [(set (match_operand:QI 0 "nonimmediate_operand"       "")
 +        (ashift:QI (match_operand:QI 1 "nonimmediate_operand" "")
 +                   (match_operand:QI 2 "general_operand"  "")))]
-+""
-+"{
-+   if(!const_int_operand(operands[2],VOIDmode))
-+   {
-+     rtx op0,op1;
++  ""
++  {
++    if(!const_int_operand(operands[2],VOIDmode))
++      {
++        rtx op0,op1;
 +     
-+     op0 = force_reg(QImode,operands[0]);
-+     op1 = force_reg(QImode,operands[1]);
-+     operands[2] = copy_to_mode_reg(QImode,operands[2]);
-+     emit_insn(gen_ashlqi3_cnt (op0, op1, operands[2]));
-+     emit_move_insn(operands[0],op0);
-+     /*emit_move_insn(operands[1],op1);*/ 
-+     DONE;
-+   }
-+   else if(!register_operand(operands[1], QImode) 
-+		&& is_shift_better_in_reg(operands))
-+   {
-+      operands[1] = copy_to_mode_reg(QImode,operands[1]);
-+      emit_insn (gen_ashlqi3fnl(operands[0], operands[1], operands[2]));
-+      DONE;
-+   }
-+}")
++	op0 = force_reg(QImode,operands[0]);
++	op1 = force_reg(QImode,operands[1]);
++	operands[2] = copy_to_mode_reg(QImode,operands[2]);
++	emit_insn(gen_ashlqi3_cnt (op0, op1, operands[2]));
++	emit_move_insn(operands[0],op0);
++	/*emit_move_insn(operands[1],op1);*/ 
++	DONE;
++      }
++    else if(!register_operand(operands[1], QImode) 
++	    && is_shift_better_in_reg(operands))
++      {
++        operands[1] = copy_to_mode_reg(QImode,operands[1]);
++	emit_insn (gen_ashlqi3fnl(operands[0], operands[1], operands[2]));
++	DONE;
++      }
++  })
 +
 +(define_insn "ashlqi3_cnt"
 +  [(parallel [(set (match_operand:QI 0 "register_operand"       "=r")
@@ -12127,12 +11713,12 @@ index 0000000..5b27b17
 +  }")
 +
 +(include "peephole.md")
-diff --git gcc-4.5.2.orig/gcc/config/msp430/msp430.opt gcc-4.5.2/gcc/config/msp430/msp430.opt
+diff --git gcc-4.5.3.orig/gcc/config/msp430/msp430.opt gcc-4.5.3/gcc/config/msp430/msp430.opt
 new file mode 100644
-index 0000000..f8211cb
+index 0000000..ae3aed7
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/msp430.opt
-@@ -0,0 +1,57 @@
++++ gcc-4.5.3/gcc/config/msp430/msp430.opt
+@@ -0,0 +1,53 @@
 +; Options for the MSP430 port of the compiler.
 +; Converted from msp430.c (gcc 3.2.3 port)
 +
@@ -12145,13 +11731,9 @@ index 0000000..f8211cb
 +;; Framework 6 Information Society Technologies Project
 +;; "Wirelessly Accessible Sensor Populations (WASP)".
 +
-+mforce-hwmul
-+Target Report Mask(FORCE_HWMUL)
-+Force hardware multiplier
-+
 +mdisable-hwmul
 +Target Report Mask(NO_HWMUL)
-+Disable hardware multiplier
++Disable hardware multiplier (DEPRECATED; use -mmpy=none)
 +
 +minline-hwmul
 +Target Report Mask(INLINESIHWMUL)
@@ -12190,11 +11772,11 @@ index 0000000..f8211cb
 +mivcnt=
 +Target RejectNegative Joined Var(msp430_opt_ivcnt)
 +-mivcnt=IVCNT	Specify number of interrupt vectors on chip: 16, 32, 64
-diff --git gcc-4.5.2.orig/gcc/config/msp430/peephole.md gcc-4.5.2/gcc/config/msp430/peephole.md
+diff --git gcc-4.5.3.orig/gcc/config/msp430/peephole.md gcc-4.5.3/gcc/config/msp430/peephole.md
 new file mode 100644
 index 0000000..0841eee
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/peephole.md
++++ gcc-4.5.3/gcc/config/msp430/peephole.md
 @@ -0,0 +1,767 @@
 +;; -*- Mode: Scheme -*-
 +;;   Machine description for GNU compiler,
@@ -12963,11 +12545,11 @@ index 0000000..0841eee
 +[(set (match_dup 1) (ior:DI (match_dup 1) (match_dup 0)))]
 +"")
 +
-diff --git gcc-4.5.2.orig/gcc/config/msp430/predicates.md gcc-4.5.2/gcc/config/msp430/predicates.md
+diff --git gcc-4.5.3.orig/gcc/config/msp430/predicates.md gcc-4.5.3/gcc/config/msp430/predicates.md
 new file mode 100644
 index 0000000..2147e3b
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/predicates.md
++++ gcc-4.5.3/gcc/config/msp430/predicates.md
 @@ -0,0 +1,163 @@
 +;; -*- Mode: Scheme -*-
 +;; Predicate definitions for MSP430
@@ -13132,12 +12714,12 @@ index 0000000..2147e3b
 +  (if_then_else (match_code "reg,subreg")
 +    (match_operand 0 "register_no_elim_operand")
 +    (match_operand 0 "general_operand")))
-diff --git gcc-4.5.2.orig/gcc/config/msp430/t-msp430 gcc-4.5.2/gcc/config/msp430/t-msp430
+diff --git gcc-4.5.3.orig/gcc/config/msp430/t-msp430 gcc-4.5.3/gcc/config/msp430/t-msp430
 new file mode 100644
-index 0000000..fee2648
+index 0000000..a212504
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/t-msp430
-@@ -0,0 +1,154 @@
++++ gcc-4.5.3/gcc/config/msp430/t-msp430
+@@ -0,0 +1,156 @@
 +# Specific names for MSP430 tools
 +AR_FOR_TARGET = msp430-ar
 +RANLIB_FOR_TARGET = msp430-ranlib
@@ -13154,11 +12736,14 @@ index 0000000..fee2648
 +	_mulqi3 \
 +	_mulhi3 \
 +	_mulsi3 \
++	_muldi3 \
 +	_mulsi3hw \
 +	_umulqihi3 \
 +	_umulhisi3 \
++	_umulsidi3 \
 +	_mulqihi3 \
 +	_mulhisi3 \
++	_mulsidi3 \
 +	_udivmodqi4 \
 +	_divmodqi4 \
 +	_udivmodhi4 \
@@ -13172,8 +12757,7 @@ index 0000000..fee2648
 +	_udivdi3 \
 +	_umoddi3 \
 +	_divdi3 \
-+	_moddi3 \
-+	_muldi3
++	_moddi3
 +	
 +# libgcc...
 +LIBGCC1_TEST =
@@ -13292,41 +12876,29 @@ index 0000000..fee2648
 +  $(DRIVER_DEFINES) \
 +  -DPREFIX=\"$(prefix)\" \
 +  $(srcdir)/config/msp430/msp430-gcc.c
-diff --git gcc-4.5.2.orig/gcc/config/msp430/xm-msp430.h gcc-4.5.2/gcc/config/msp430/xm-msp430.h
+diff --git gcc-4.5.3.orig/gcc/config/msp430/xm-msp430.h gcc-4.5.3/gcc/config/msp430/xm-msp430.h
 new file mode 100644
 index 0000000..af51cd3
 --- /dev/null
-+++ gcc-4.5.2/gcc/config/msp430/xm-msp430.h
++++ gcc-4.5.3/gcc/config/msp430/xm-msp430.h
 @@ -0,0 +1 @@
 +#include "tm.h"
-diff --git gcc-4.5.2.orig/gcc/configure gcc-4.5.2/gcc/configure
-index 9799bab..9d6cbc1 100755
---- gcc-4.5.2.orig/gcc/configure
-+++ gcc-4.5.2/gcc/configure
-@@ -24299,6 +24299,7 @@ esac
- case "$target" in
+diff --git gcc-4.5.3.orig/gcc/configure.ac gcc-4.5.3/gcc/configure.ac
+index 45d2959..ecbc78e 100644
+--- gcc-4.5.3.orig/gcc/configure.ac
++++ gcc-4.5.3/gcc/configure.ac
+@@ -3689,6 +3689,7 @@ case "$target" in
    i?86*-*-* | mips*-*-* | alpha*-*-* | powerpc*-*-* | sparc*-*-* | m68*-*-* \
    | x86_64*-*-* | hppa*-*-* | arm*-*-* \
-+  | msp430-*-* \
    | xstormy16*-*-* | cris-*-* | crisv32-*-* | xtensa*-*-* | bfin-*-* | score*-*-* \
++  | msp430-*-* \
    | spu-*-* | fido*-*-* | m32c-*-*)
      insn="nop"
-diff --git gcc-4.5.2.orig/gcc/configure.ac gcc-4.5.2/gcc/configure.ac
-index 45d2959..9438708 100644
---- gcc-4.5.2.orig/gcc/configure.ac
-+++ gcc-4.5.2/gcc/configure.ac
-@@ -3688,6 +3688,7 @@ esac
- case "$target" in
-   i?86*-*-* | mips*-*-* | alpha*-*-* | powerpc*-*-* | sparc*-*-* | m68*-*-* \
-   | x86_64*-*-* | hppa*-*-* | arm*-*-* \
-+  | msp430-*-* \
-   | xstormy16*-*-* | cris-*-* | crisv32-*-* | xtensa*-*-* | bfin-*-* | score*-*-* \
-   | spu-*-* | fido*-*-* | m32c-*-*)
-     insn="nop"
-diff --git gcc-4.5.2.orig/gcc/emit-rtl.c gcc-4.5.2/gcc/emit-rtl.c
+     ;;
+diff --git gcc-4.5.3.orig/gcc/emit-rtl.c gcc-4.5.3/gcc/emit-rtl.c
 index ad21efd..859e2c5 100644
---- gcc-4.5.2.orig/gcc/emit-rtl.c
-+++ gcc-4.5.2/gcc/emit-rtl.c
+--- gcc-4.5.3.orig/gcc/emit-rtl.c
++++ gcc-4.5.3/gcc/emit-rtl.c
 @@ -1640,7 +1640,8 @@ set_mem_attributes_minus_bitpos (rtx ref, tree t, int objectp,
        base = get_base_address (base);
        if (base && DECL_P (base)
@@ -13337,10 +12909,10 @@ index ad21efd..859e2c5 100644
  	{
  	  tree base_type = TREE_TYPE (base);
  	  gcc_assert (!(base_type && TYPE_NEEDS_CONSTRUCTING (base_type))
-diff --git gcc-4.5.2.orig/gcc/expr.c gcc-4.5.2/gcc/expr.c
-index db179bb..978f2ba 100644
---- gcc-4.5.2.orig/gcc/expr.c
-+++ gcc-4.5.2/gcc/expr.c
+diff --git gcc-4.5.3.orig/gcc/expr.c gcc-4.5.3/gcc/expr.c
+index 59b8690..4c29557 100644
+--- gcc-4.5.3.orig/gcc/expr.c
++++ gcc-4.5.3/gcc/expr.c
 @@ -942,7 +942,7 @@ move_by_pieces (rtx to, rtx from, unsigned HOST_WIDE_INT len,
  	  data.autinc_from = 1;
  	  data.explicit_inc_from = -1;
@@ -13350,10 +12922,10 @@ index db179bb..978f2ba 100644
  	{
  	  data.from_addr = copy_to_mode_reg (from_addr_mode, from_addr);
  	  data.autinc_from = 1;
-diff --git gcc-4.5.2.orig/gcc/gcc.c gcc-4.5.2/gcc/gcc.c
+diff --git gcc-4.5.3.orig/gcc/gcc.c gcc-4.5.3/gcc/gcc.c
 index e7ee382..e38d8d7 100644
---- gcc-4.5.2.orig/gcc/gcc.c
-+++ gcc-4.5.2/gcc/gcc.c
+--- gcc-4.5.3.orig/gcc/gcc.c
++++ gcc-4.5.3/gcc/gcc.c
 @@ -403,6 +403,7 @@ static const char *if_exists_else_spec_function (int, const char **);
  static const char *replace_outfile_spec_function (int, const char **);
  static const char *version_compare_spec_function (int, const char **);
@@ -13400,10 +12972,10 @@ index e7ee382..e38d8d7 100644
  /* %:print-asm-header spec function.  Print a banner to say that the
     following output is from the assembler.  */
  
-diff --git gcc-4.5.2.orig/gcc/loop-invariant.c gcc-4.5.2/gcc/loop-invariant.c
+diff --git gcc-4.5.3.orig/gcc/loop-invariant.c gcc-4.5.3/gcc/loop-invariant.c
 index e6c429e..f3f989f 100644
---- gcc-4.5.2.orig/gcc/loop-invariant.c
-+++ gcc-4.5.2/gcc/loop-invariant.c
+--- gcc-4.5.3.orig/gcc/loop-invariant.c
++++ gcc-4.5.3/gcc/loop-invariant.c
 @@ -1367,6 +1367,32 @@ find_invariants_to_move (bool speed)
      }
  }
@@ -13500,10 +13072,10 @@ index e6c429e..f3f989f 100644
    return true;
  
  fail:
-diff --git gcc-4.5.2.orig/gcc/lto/Make-lang.in gcc-4.5.2/gcc/lto/Make-lang.in
+diff --git gcc-4.5.3.orig/gcc/lto/Make-lang.in gcc-4.5.3/gcc/lto/Make-lang.in
 index ccdf2e3..05143b0 100644
---- gcc-4.5.2.orig/gcc/lto/Make-lang.in
-+++ gcc-4.5.2/gcc/lto/Make-lang.in
+--- gcc-4.5.3.orig/gcc/lto/Make-lang.in
++++ gcc-4.5.3/gcc/lto/Make-lang.in
 @@ -94,3 +94,6 @@ lto/lto-coff.o: lto/lto-coff.c $(CONFIG_H) coretypes.h $(SYSTEM_H) \
  lto/lto-macho.o: lto/lto-macho.c $(CONFIG_H) coretypes.h $(SYSTEM_H) \
  	toplev.h $(LTO_H) $(TM_H) $(LIBIBERTY_H) $(GGC_H) $(LTO_STREAMER_H) \
@@ -13511,11 +13083,11 @@ index ccdf2e3..05143b0 100644
 +
 +# LTO testing is done as part of C/C++/Fortran etc. testing.
 +check-lto:
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/bic_sr_irq.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/bic_sr_irq.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/bic_sr_irq.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/bic_sr_irq.c
 new file mode 100644
 index 0000000..282fe08
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/bic_sr_irq.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/bic_sr_irq.c
 @@ -0,0 +1,48 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -13565,11 +13137,11 @@ index 0000000..282fe08
 +  /* { dg-final { scan-assembler "bic\[ \t\]#2, @r4" } } */
 +  __bic_status_register_on_exit(2);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/bis_sr_irq.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/bis_sr_irq.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/bis_sr_irq.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/bis_sr_irq.c
 new file mode 100644
 index 0000000..56f9444
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/bis_sr_irq.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/bis_sr_irq.c
 @@ -0,0 +1,46 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -13617,11 +13189,11 @@ index 0000000..56f9444
 +  /* { dg-final { scan-assembler "bis\[ \t\]#2, @r4" } } */
 +  __bis_status_register_on_exit(2);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/bswap.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/bswap.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/bswap.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/bswap.c
 new file mode 100644
 index 0000000..0db1432
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/bswap.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/bswap.c
 @@ -0,0 +1,9 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -13632,11 +13204,11 @@ index 0000000..0db1432
 +  /* { dg-final { scan-assembler "\n\tmov.b\tr15, r15\n\tswpb\tr15\n\tret\n" } } */
 +  return v << 8;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/builtin_address.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/builtin_address.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/builtin_address.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/builtin_address.c
 new file mode 100644
 index 0000000..9f92c77
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/builtin_address.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/builtin_address.c
 @@ -0,0 +1,82 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -13720,11 +13292,11 @@ index 0000000..9f92c77
 +  /* { dg-final { scan-assembler "mov\tr4, &fa_fnma *\n" } } */
 +  fa_isr = __builtin_frame_address(0);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/builtins_1.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/builtins_1.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/builtins_1.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/builtins_1.c
 new file mode 100644
 index 0000000..757bdbf
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/builtins_1.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/builtins_1.c
 @@ -0,0 +1,10 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -13736,11 +13308,11 @@ index 0000000..757bdbf
 +  __eint();
 +  __nop();
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/builtins_bic_sr.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/builtins_bic_sr.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/builtins_bic_sr.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/builtins_bic_sr.c
 new file mode 100644
 index 0000000..ee1e6ab
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/builtins_bic_sr.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/builtins_bic_sr.c
 @@ -0,0 +1,23 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -13765,11 +13337,11 @@ index 0000000..ee1e6ab
 +  /* { dg-final { scan-assembler "bic\t@r15, r2\n" } } */
 +  __bic_status_register(*sr_ptr);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/builtins_bis_sr.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/builtins_bis_sr.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/builtins_bis_sr.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/builtins_bis_sr.c
 new file mode 100644
 index 0000000..2f8d023
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/builtins_bis_sr.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/builtins_bis_sr.c
 @@ -0,0 +1,23 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -13794,11 +13366,11 @@ index 0000000..2f8d023
 +  /* { dg-final { scan-assembler "bis\t@r15, r2\n" } } */
 +  __bis_status_register(*sr_ptr);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/builtins_read_sr.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/builtins_read_sr.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/builtins_read_sr.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/builtins_read_sr.c
 new file mode 100644
 index 0000000..6420567
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/builtins_read_sr.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/builtins_read_sr.c
 @@ -0,0 +1,18 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -13818,11 +13390,11 @@ index 0000000..6420567
 +  /* { dg-final { scan-assembler "mov\tr2, @r15\n" } } */
 +  *sr_ptr = __read_status_register();
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/builtins_sp.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/builtins_sp.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/builtins_sp.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/builtins_sp.c
 new file mode 100644
 index 0000000..b0a1cd8
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/builtins_sp.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/builtins_sp.c
 @@ -0,0 +1,29 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -13853,11 +13425,11 @@ index 0000000..b0a1cd8
 +  /* { dg-final { scan-assembler "mov\t@r15, r1\n" } } */
 +  __write_stack_pointer(*sp_ptr);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/builtins_write_sr.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/builtins_write_sr.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/builtins_write_sr.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/builtins_write_sr.c
 new file mode 100644
 index 0000000..c891527
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/builtins_write_sr.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/builtins_write_sr.c
 @@ -0,0 +1,23 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -13882,11 +13454,11 @@ index 0000000..c891527
 +  /* { dg-final { scan-assembler "mov\t@r15, r2\n" } } */
 +  __write_status_register(*sr_ptr);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/critical_attribute.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/critical_attribute.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/critical_attribute.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/critical_attribute.c
 new file mode 100644
 index 0000000..b60ea3b
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/critical_attribute.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/critical_attribute.c
 @@ -0,0 +1,10 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -13898,11 +13470,11 @@ index 0000000..b60ea3b
 +  /* { dg-final { scan-assembler "critical:\n\tpush\tr2\n\tdint\n\tnop\n\tadd\t#1, r15\n\tpop\tr2\n\tret\n" } } */
 +  return a+1;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/elimination.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/elimination.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/elimination.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/elimination.c
 new file mode 100644
 index 0000000..22b4334
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/elimination.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/elimination.c
 @@ -0,0 +1,18 @@
 +/* { dg-do compile } */
 +/* { dg-options "" } */
@@ -13922,11 +13494,11 @@ index 0000000..22b4334
 +
 +  return c;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/framesaver_1.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/framesaver_1.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/framesaver_1.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/framesaver_1.c
 new file mode 100644
 index 0000000..c1a29ad
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/framesaver_1.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/framesaver_1.c
 @@ -0,0 +1,18 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -13946,11 +13518,11 @@ index 0000000..c1a29ad
 +  doit();
 +  return a+b+c+l1+l2+l3;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/framesaver_2.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/framesaver_2.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/framesaver_2.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/framesaver_2.c
 new file mode 100644
 index 0000000..73978ef
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/framesaver_2.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/framesaver_2.c
 @@ -0,0 +1,19 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -13971,11 +13543,11 @@ index 0000000..73978ef
 +  doit(data);
 +  return a+b+c+l1+l2+l3;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/gen_return_1.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/gen_return_1.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/gen_return_1.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/gen_return_1.c
 new file mode 100644
 index 0000000..8dac65e
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/gen_return_1.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/gen_return_1.c
 @@ -0,0 +1,14 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -13991,11 +13563,11 @@ index 0000000..8dac65e
 +  /* { dg-final { scan-assembler "mov\t#1, r15\n\tret\n" } } */
 +  return 1;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/gen_return_2.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/gen_return_2.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/gen_return_2.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/gen_return_2.c
 new file mode 100644
 index 0000000..12d81a8
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/gen_return_2.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/gen_return_2.c
 @@ -0,0 +1,14 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14011,11 +13583,11 @@ index 0000000..12d81a8
 +  doit();
 +  return 1;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/msp430.exp gcc-4.5.2/gcc/testsuite/gcc.target/msp430/msp430.exp
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/msp430.exp gcc-4.5.3/gcc/testsuite/gcc.target/msp430/msp430.exp
 new file mode 100644
 index 0000000..735bb9b
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/msp430.exp
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/msp430.exp
 @@ -0,0 +1,41 @@
 +# Copyright (C) 2011 Free Software Foundation, Inc.
 +
@@ -14058,11 +13630,11 @@ index 0000000..735bb9b
 +
 +# All done.
 +dg-finish
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/section_attribute.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/section_attribute.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/section_attribute.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/section_attribute.c
 new file mode 100644
 index 0000000..1ff5391
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/section_attribute.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/section_attribute.c
 @@ -0,0 +1,10 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14074,11 +13646,11 @@ index 0000000..1ff5391
 +  /* { dg-final { scan-assembler "mov\t#256, r1\n" } } */
 +  __write_stack_pointer((void*)0x100);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3104943_1.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3104943_1.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3104943_1.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3104943_1.c
 new file mode 100644
 index 0000000..e4079da
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3104943_1.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3104943_1.c
 @@ -0,0 +1,24 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14104,11 +13676,11 @@ index 0000000..e4079da
 +  /* { dg-final { scan-assembler "add\t#1, r15\n" } } */
 +  return 1 + rv.data[0];
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3104943_2.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3104943_2.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3104943_2.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3104943_2.c
 new file mode 100644
 index 0000000..26401d9
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3104943_2.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3104943_2.c
 @@ -0,0 +1,25 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14135,11 +13707,11 @@ index 0000000..26401d9
 +  /* { dg-final { scan-assembler "mov\tr14, r15" } } */
 +  return 1 + rv.data[0];
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3104943_3.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3104943_3.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3104943_3.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3104943_3.c
 new file mode 100644
 index 0000000..931c4ab
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3104943_3.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3104943_3.c
 @@ -0,0 +1,30 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14171,11 +13743,11 @@ index 0000000..931c4ab
 +  /* { dg-final { scan-assembler "mov\tr12, r15" } } */
 +  return 1 + rv.data[0];
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3104943_4.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3104943_4.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3104943_4.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3104943_4.c
 new file mode 100644
 index 0000000..a809957
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3104943_4.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3104943_4.c
 @@ -0,0 +1,27 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14204,11 +13776,11 @@ index 0000000..a809957
 +  /* { dg-final { scan-assembler "mov\tr12, r15" } } */
 +  return 1 + rv.data[0];
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3104943_5.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3104943_5.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3104943_5.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3104943_5.c
 new file mode 100644
 index 0000000..69085b2
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3104943_5.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3104943_5.c
 @@ -0,0 +1,28 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14238,11 +13810,11 @@ index 0000000..69085b2
 +  /* { dg-final { scan-assembler "mov\t@r1, r15" } } */
 +  return 1 + rv.data[0];
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3112089.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3112089.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3112089.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3112089.c
 new file mode 100644
 index 0000000..ed177ba
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3112089.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3112089.c
 @@ -0,0 +1,67 @@
 +/* https://sourceforge.net/tracker/?func=detail&aid=3112089&group_id=277223&atid=1177287 */
 +
@@ -14311,11 +13883,11 @@ index 0000000..ed177ba
 +  }
 +  return sts;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3148801.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3148801.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3148801.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3148801.c
 new file mode 100644
 index 0000000..d10da65
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3148801.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3148801.c
 @@ -0,0 +1,20 @@
 +/* https://sourceforge.net/tracker/?func=detail&aid=3148801&group_id=42303&atid=432701 */
 +
@@ -14337,11 +13909,11 @@ index 0000000..d10da65
 +  tmp = copy5(local);
 +  return tmp.data[0];
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3177314_base.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3177314_base.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3177314_base.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3177314_base.c
 new file mode 100644
 index 0000000..24a3cf2
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3177314_base.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3177314_base.c
 @@ -0,0 +1,8 @@
 +/* { dg-do compile } */
 +/* { dg-additional-files "sf3177314_ext.c" } */
@@ -14351,19 +13923,19 @@ index 0000000..24a3cf2
 +int main (int argc, char* argi[]) {
 +  return 0 == longname_l10iiiviiii20iiiviiii30iiiviiii40iiiviiii50iiiviiii60iiiviiii70iiiviiii80iiiviiii90iiiviiii100iiviiii110iiviiii120iiviiii130iiviiii140iiviiii150iiviiii160iiviiii170iiviiii180iiviiii190iiviiii200iiviiii210iiviiii220iiviiii230iiviiii240iiviiii250iiviiii260iiviiii270iiviiii280iiviiii290iiviiii;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3177314_ext.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3177314_ext.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3177314_ext.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3177314_ext.c
 new file mode 100644
 index 0000000..061519d
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3177314_ext.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3177314_ext.c
 @@ -0,0 +1,2 @@
 +/* secondary test file referenced via sf3177314_base.c */
 +int longname_l10iiiviiii20iiiviiii30iiiviiii40iiiviiii50iiiviiii60iiiviiii70iiiviiii80iiiviiii90iiiviiii100iiviiii110iiviiii120iiviiii130iiviiii140iiviiii150iiviiii160iiviiii170iiviiii180iiviiii190iiviiii200iiviiii210iiviiii220iiviiii230iiviiii240iiviiii250iiviiii260iiviiii270iiviiii280iiviiii290iiviiii;
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3188386.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3188386.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3188386.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3188386.c
 new file mode 100644
 index 0000000..877edb2
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3188386.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3188386.c
 @@ -0,0 +1,20 @@
 +/* https://sourceforge.net/tracker/?func=detail&aid=3188386&group_id=42303&atid=432701 */
 +
@@ -14385,11 +13957,11 @@ index 0000000..877edb2
 +  
 +  return rv;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3188386_2.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3188386_2.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3188386_2.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3188386_2.c
 new file mode 100644
 index 0000000..e18575c
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3188386_2.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3188386_2.c
 @@ -0,0 +1,17 @@
 +/* https://sourceforge.net/tracker/?func=detail&aid=3188386&group_id=42303&atid=432701 */
 +
@@ -14408,11 +13980,11 @@ index 0000000..e18575c
 +  /* { dg-final { scan-assembler "mov\t#513, r12\n\tmov\t#1027, r13\n\tmov\t#5, r14\n\tmov\t#0, r15" } } */
 +  return rv;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3200763_1.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_1.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3200763_1.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_1.c
 new file mode 100644
 index 0000000..6a755dc
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_1.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_1.c
 @@ -0,0 +1,12 @@
 +/* { dg-do compile } */
 +int naked __attribute__((naked)); /* { dg-warning "'naked' attribute ignored" } */
@@ -14426,11 +13998,11 @@ index 0000000..6a755dc
 +int noint_hwmul __attribute__((noint_hwmul)); /* { dg-warning "'noint_hwmul' attribute ignored" } */
 +
 +
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3200763_2.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_2.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3200763_2.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_2.c
 new file mode 100644
 index 0000000..2014aae
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_2.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_2.c
 @@ -0,0 +1,22 @@
 +/* { dg-do compile } */
 +
@@ -14454,11 +14026,11 @@ index 0000000..2014aae
 +__attribute__((naked,task))
 +void no_naked_task () { } /* { dg-warning "'naked' attribute ignored \\(incompatible with 'task'\\)" } */
 +
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3200763_3.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_3.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3200763_3.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_3.c
 new file mode 100644
 index 0000000..b9055d4
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_3.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_3.c
 @@ -0,0 +1,24 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14484,11 +14056,11 @@ index 0000000..b9055d4
 +  ref(&v);
 +  return v;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3200763_4.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_4.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3200763_4.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_4.c
 new file mode 100644
 index 0000000..f9c54e8
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_4.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_4.c
 @@ -0,0 +1,10 @@
 +/* { dg-do compile } */
 +
@@ -14500,11 +14072,11 @@ index 0000000..f9c54e8
 +__attribute__ ((interrupt(1)))
 +void odd_isr () { } /* { dg-error "interrupt vector offset 1 must be even and non-negative" } */
 +
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3200763_5.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_5.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3200763_5.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_5.c
 new file mode 100644
 index 0000000..9fdafd5
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_5.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_5.c
 @@ -0,0 +1,15 @@
 +/* { dg-do compile } */
 +
@@ -14521,11 +14093,11 @@ index 0000000..9fdafd5
 +__attribute__ ((interrupt))
 +void unvectored_isr () { }
 +
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3200763_6.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_6.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3200763_6.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_6.c
 new file mode 100644
 index 0000000..92c9937
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_6.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_6.c
 @@ -0,0 +1,7 @@
 +/* { dg-do compile } */
 +/* { dg-options "-mivcnt=16" } */
@@ -14534,11 +14106,11 @@ index 0000000..92c9937
 +__attribute__ ((interrupt(16*2)))
 +void overflowed_vector () { } /* { dg-error "interrupt vector 16 is beyond end of MCU vector table" } */
 +
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3200763_7.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_7.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3200763_7.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_7.c
 new file mode 100644
 index 0000000..b291112
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_7.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_7.c
 @@ -0,0 +1,35 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14575,11 +14147,11 @@ index 0000000..b291112
 +  /* { dg-final { scan-assembler "\tmov\t#35, &v\n" } } */
 +}
 +
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3200763_8.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_8.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3200763_8.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_8.c
 new file mode 100644
 index 0000000..4c2fd4c
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3200763_8.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3200763_8.c
 @@ -0,0 +1,34 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14615,11 +14187,11 @@ index 0000000..4c2fd4c
 +  v = 35;
 +  /* { dg-final { scan-assembler "\tmov\t#35, &v\n\treti\n" } } */
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3201686.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3201686.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3201686.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3201686.c
 new file mode 100644
 index 0000000..a81bd7a
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3201686.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3201686.c
 @@ -0,0 +1,15 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14636,11 +14208,11 @@ index 0000000..a81bd7a
 +{
 +  v = 'p';
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3207853.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3207853.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3207853.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3207853.c
 new file mode 100644
 index 0000000..ba9072e
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3207853.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3207853.c
 @@ -0,0 +1,16 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14658,11 +14230,11 @@ index 0000000..ba9072e
 +  /* { dg-final { scan-assembler "mov\t#(lhi\\(305419896\\)|hhi\\(1311768467463790320\\)), r15" } } */
 +  doit(value);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3237005_1.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_1.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3237005_1.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_1.c
 new file mode 100644
 index 0000000..6733638
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_1.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_1.c
 @@ -0,0 +1,7 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14671,11 +14243,11 @@ index 0000000..6733638
 +  /* { dg-final { scan-assembler "foo:\n\tnop\n\tret" } } */
 +  __delay_cycles (1);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3237005_11.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_11.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3237005_11.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_11.c
 new file mode 100644
 index 0000000..fecda99
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_11.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_11.c
 @@ -0,0 +1,7 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14684,11 +14256,11 @@ index 0000000..fecda99
 +  /* { dg-final { scan-assembler "foo:\n\tmov\t#3, r15\n.L__delay__5:\n\tdec\tr15\n\tjnz\t.L__delay__5\n\tret" } } */
 +  __delay_cycles (11);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3237005_2.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_2.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3237005_2.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_2.c
 new file mode 100644
 index 0000000..e0bd991
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_2.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_2.c
 @@ -0,0 +1,7 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14697,11 +14269,11 @@ index 0000000..e0bd991
 +  /* { dg-final { scan-assembler "foo:\n\tnop\n\tnop\n\tret" } } */
 +  __delay_cycles (2);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3237005_3.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_3.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3237005_3.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_3.c
 new file mode 100644
 index 0000000..2d51a60
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_3.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_3.c
 @@ -0,0 +1,7 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14710,11 +14282,11 @@ index 0000000..2d51a60
 +  /* { dg-final { scan-assembler "foo:\n\tnop\n\tnop\n\tnop\n\tret" } } */
 +  __delay_cycles (3);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3237005_4.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_4.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3237005_4.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_4.c
 new file mode 100644
 index 0000000..b97a0c1
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_4.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_4.c
 @@ -0,0 +1,7 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14723,11 +14295,11 @@ index 0000000..b97a0c1
 +  /* { dg-final { scan-assembler "foo:\n\tmov\t#1, r15\n.L__delay__5:\n\tdec\tr15\n\tjnz\t.L__delay__5\n\tret" } } */
 +  __delay_cycles (4);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3237005_5.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_5.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3237005_5.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_5.c
 new file mode 100644
 index 0000000..c654c70
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_5.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_5.c
 @@ -0,0 +1,7 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14736,11 +14308,11 @@ index 0000000..c654c70
 +  /* { dg-final { scan-assembler "foo:\n\tnop\n\tmov\t#1, r15\n.L__delay__6:\n\tdec\tr15\n\tjnz\t.L__delay__6\n\tret" } } */
 +  __delay_cycles (5);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3237005_6.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_6.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3237005_6.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_6.c
 new file mode 100644
 index 0000000..d3ad235
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_6.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_6.c
 @@ -0,0 +1,7 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14749,11 +14321,11 @@ index 0000000..d3ad235
 +  /* { dg-final { scan-assembler "foo:\n\tnop\n\tnop\n\tmov\t#1, r15\n.L__delay__7:\n\tdec\tr15\n\tjnz\t.L__delay__7\n\tret" } } */
 +  __delay_cycles (6);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3237005_7.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_7.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3237005_7.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_7.c
 new file mode 100644
 index 0000000..87b2454
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_7.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_7.c
 @@ -0,0 +1,7 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14762,11 +14334,11 @@ index 0000000..87b2454
 +  /* { dg-final { scan-assembler "foo:\n\tmov\t#2, r15\n.L__delay__5:\n\tdec\tr15\n\tjnz\t.L__delay__5\n\tret" } } */
 +  __delay_cycles (7);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3237005_check.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_check.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3237005_check.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_check.c
 new file mode 100644
 index 0000000..a6e8567
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3237005_check.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3237005_check.c
 @@ -0,0 +1,11 @@
 +/* { dg-do compile } */
 +int foo (int n)
@@ -14779,11 +14351,11 @@ index 0000000..a6e8567
 +  __delay_cycles(3 + 3 * 65536UL); /* { dg-error "__delay_cycles argument too large" } */
 +  return 0;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3257192_1.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3257192_1.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3257192_1.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3257192_1.c
 new file mode 100644
 index 0000000..034144b
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3257192_1.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3257192_1.c
 @@ -0,0 +1,15 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14800,11 +14372,11 @@ index 0000000..034144b
 +  __dint();
 +  __bis_status_register (0xF0);
 +} /* { dg-warning "'noreturn' function does return" } */
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3261372.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3261372.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3261372.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3261372.c
 new file mode 100644
 index 0000000..f6ab6a3
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3261372.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3261372.c
 @@ -0,0 +1,9 @@
 +/* { dg-do compile } */
 +/* { dg-options "-g" } */
@@ -14815,11 +14387,11 @@ index 0000000..f6ab6a3
 +{
 +  return a+1;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3290923.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3290923.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3290923.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3290923.c
 new file mode 100644
 index 0000000..2dbbb1b
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3290923.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3290923.c
 @@ -0,0 +1,15 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14836,11 +14408,11 @@ index 0000000..2dbbb1b
 +  rv += longcall (0ULL, 2, 2);
 +  return rv;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3296698.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3296698.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3296698.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3296698.c
 new file mode 100644
 index 0000000..8bf7ca6
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3296698.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3296698.c
 @@ -0,0 +1,24 @@
 +/* { dg-do compile } */
 +/* { dg-options "-Os" } */
@@ -14866,11 +14438,11 @@ index 0000000..8bf7ca6
 +  if (getX().bit)
 +    subr();
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/sf3300205.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3300205.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/sf3300205.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3300205.c
 new file mode 100644
 index 0000000..745a80f
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/sf3300205.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/sf3300205.c
 @@ -0,0 +1,28 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14900,11 +14472,11 @@ index 0000000..745a80f
 +  /* { dg-final { scan-assembler "\tmov.b\t#4, \&s_double\n" } } */
 +  s_double = sizeof(double);
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/vararg-1.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/vararg-1.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/vararg-1.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/vararg-1.c
 new file mode 100644
 index 0000000..531fd0c
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/vararg-1.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/vararg-1.c
 @@ -0,0 +1,25 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14931,11 +14503,11 @@ index 0000000..531fd0c
 +  return etest (1, 2);
 +}
 +  
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/vwa1.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/vwa1.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/vwa1.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/vwa1.c
 new file mode 100644
 index 0000000..85e8139
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/vwa1.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/vwa1.c
 @@ -0,0 +1,10 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O" } */
@@ -14947,11 +14519,11 @@ index 0000000..85e8139
 +  /* { dg-final { scan-assembler "\n\tand\tr15, \&periph\n" } } */
 +  periph &= v;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/vwa2.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/vwa2.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/vwa2.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/vwa2.c
 new file mode 100644
 index 0000000..5ab3974
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/vwa2.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/vwa2.c
 @@ -0,0 +1,10 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O -mno-volatile-workaround" } */
@@ -14963,11 +14535,11 @@ index 0000000..5ab3974
 +  /* { dg-final { scan-assembler "\n\tmov\t\&periph, r14\n\tand\tr14, r15\n\tmov\tr15, \&periph\n" } } */
 +  periph &= v;
 +}
-diff --git gcc-4.5.2.orig/gcc/testsuite/gcc.target/msp430/vwa3.c gcc-4.5.2/gcc/testsuite/gcc.target/msp430/vwa3.c
+diff --git gcc-4.5.3.orig/gcc/testsuite/gcc.target/msp430/vwa3.c gcc-4.5.3/gcc/testsuite/gcc.target/msp430/vwa3.c
 new file mode 100644
 index 0000000..70af5af
 --- /dev/null
-+++ gcc-4.5.2/gcc/testsuite/gcc.target/msp430/vwa3.c
++++ gcc-4.5.3/gcc/testsuite/gcc.target/msp430/vwa3.c
 @@ -0,0 +1,16 @@
 +/* { dg-do compile } */
 +/* { dg-options "-O -mno-volatile-workaround" } */
@@ -14985,10 +14557,10 @@ index 0000000..70af5af
 +  /* { dg-final { scan-assembler "\n\tmov.b\t\&periph8, r14\n\tmov\t\&periph16, r15\n\tpush.b\tr14\n\tpush\tr15\n" } } */
 +  use (0ULL, periph16, periph8);
 +}
-diff --git gcc-4.5.2.orig/gcc/tree-sra.c gcc-4.5.2/gcc/tree-sra.c
-index 05ca33c..517b951 100644
---- gcc-4.5.2.orig/gcc/tree-sra.c
-+++ gcc-4.5.2/gcc/tree-sra.c
+diff --git gcc-4.5.3.orig/gcc/tree-sra.c gcc-4.5.3/gcc/tree-sra.c
+index 06d2cdf..c43ad25 100644
+--- gcc-4.5.3.orig/gcc/tree-sra.c
++++ gcc-4.5.3/gcc/tree-sra.c
 @@ -809,7 +809,7 @@ create_access (tree expr, gimple stmt, bool write)
  /* Return true iff TYPE is a RECORD_TYPE with fields that are either of gimple
     register types or (recursively) records with only these two kinds of fields.
@@ -15008,10 +14580,10 @@ index 05ca33c..517b951 100644
  	if (!is_gimple_reg_type (ft)
  	    && !type_consists_of_records_p (ft))
  	  return false;
-diff --git gcc-4.5.2.orig/libgcc/config.host gcc-4.5.2/libgcc/config.host
-index b84940c..3b8758a 100644
---- gcc-4.5.2.orig/libgcc/config.host
-+++ gcc-4.5.2/libgcc/config.host
+diff --git gcc-4.5.3.orig/libgcc/config.host gcc-4.5.3/libgcc/config.host
+index c5f3d6e..685c177 100644
+--- gcc-4.5.3.orig/libgcc/config.host
++++ gcc-4.5.3/libgcc/config.host
 @@ -229,6 +229,8 @@ avr-*-*)
      # Make HImode functions for AVR
      tmake_file=${cpu_type}/t-avr

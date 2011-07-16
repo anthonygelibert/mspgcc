@@ -10,21 +10,21 @@ in a git repository hosted at:
   git://mspgcc.git.sourceforge.net/gitroot/mspgcc/binutils
 
 This patch incorporates changes between:
-  upstream/release/binutils-2.21 (42d590bfd48c996fc14b938e9afe916cd0415c0b)
+  upstream/release/binutils-2.21.1 (e632af4ce2bbd0b7192febdf8140c89a356b16ac)
 and
-  uniarch/release/binutils-2.21 (b97d496b1a33e3ebf940c43c4197f62929535cc5)
+  uniarch/release/binutils-2.21.1 (8b3b41a69905eeab5e723129f5fd7e5761f28309)
 
 To build, obtain the upstream release distribution from:
-  ftp://ftp.gnu.org/pub/gnu/binutils/binutils-2.21.tar.gz
+  ftp://ftp.gnu.org/pub/gnu/binutils/binutils-2.21.1.tar.bz2
 
 Unpack the distribution, apply the patch, and build.  (Note: The example
 commands are in Bourne-shell syntax.)
 
-  tar xzf binutils-2.21.tar.gz
-  ( cd binutils-2.21 ; patch -p1 < ../msp430-binutils-2.21-20110612.patch )
+  tar xjf binutils-2.21.1.tar.bz2
+  ( cd binutils-2.21.1 ; patch -p1 < ../msp430-binutils-2.21.1-20110716.patch )
   mkdir -p BUILD/binutils
   cd BUILD/binutils
-  ../../binutils-2.21/configure \
+  ../../binutils-2.21.1/configure \
     --target=msp430 \
     --prefix=/usr/local/msp430 \
   2>&1 | tee co
@@ -37,33 +37,37 @@ you can post by email to mspgcc-users@lists.sourceforge.net.  To report
 bugs, please file a tracker ticket on SourceForge at
 https://sourceforge.net/tracker/?group_id=42303&atid=432701
 
-Patch file generated: 2011-06-12T14:14:28-05:00
+Patch file generated: 2011-07-16T13:17:17-05:00
 
 Log of relevant changes:
-b97d496 [2011-06-12 11:09:24 -0500] SF 3315471 remove _init_section__ function
-4d38f88 [2011-05-07 11:43:29 -0500] SF 3293911 gas 2.21 segfault when building gcc 4.4.5
-9ed38ec [2011-04-21 10:02:40 -0500] Avoid complaints in relocatable links
-1447a98 [2011-04-18 16:42:26 -0500] SF 3289064 uniarch binutils missing far section support
-dcb0e38 [2011-04-13 19:06:23 -0500] SF 3286248 broken #hlo calculation for small constants
-70a7a85 [2011-04-10 21:39:34 -0500] SF 3237855: clean up -mmcu documentation
-91dba7a [2011-04-02 09:11:34 -0500] SF 3266079: binutils link does not preserve cpu architecture
-20259dc [2011-04-02 09:09:52 -0500] Clone genelf.em prior to msp430-specific mods
-db51645 [2011-03-22 09:55:52 -0500] Store architecture, not CPU, in elf flags field
-4364b29 [2011-03-14 12:55:23 -0500] Clean up section management.
-3a654d7 [2011-03-12 11:19:17 -0600] SF 3207853: bad constant extraction on 64-bit systems
-6a35125 [2011-03-12 09:55:14 -0600] SF 3207853: validate llo/lhi/hlo/hhi
-029ecf2 [2011-03-12 09:28:50 -0600] Update to match current output (whitespace variations only)
-15d3065 [2011-03-02 18:24:57 -0600] SF 3197755: long long type not working
-d6615cd [2011-02-20 14:44:58 -0600] Eliminate warning that breaks gcc test infrastructure
-81d85e2 [2011-02-10 17:01:58 -0600] SF 3177314: undefined reference with too many template parameters
-5bde150 [2011-02-07 10:49:43 -0600] Parse cpu/mpy directives in assembly code
-dad77fa [2011-02-07 09:03:21 -0600] Remove hard-coded MCU-specific information from msp430 port.
-d74a659 [2011-02-05 21:37:53 -0600] Correct vector start for ISA_24 chips
-b2bc67a [2011-02-05 13:31:09 -0600] Regenerate
-b8bddf2 [2011-02-05 13:29:08 -0600] Update to match MCUs in msp430all.sh
-7ccc76c [2011-01-26 11:53:58 -0600] SF 3154622: Correct support for MSP430F2132
-df8c640 [2011-01-26 11:12:49 -0600] SF 3146404: Support for msp430f550x chips
-66dc30f [2011-01-21 16:01:15 +0200] Add support for msp430f471x3
+dea9a0d [2011-02-10 23:44:12 +0000] Revert 2010-11-02  H.J. Lu.
+d67e991 [2011-06-12 11:09:24 -0500] SF 3315471 remove _init_section__ function
+674669c [2011-05-07 11:43:29 -0500] SF 3293911 gas 2.21 segfault when building gcc 4.4.5
+04e54de [2011-04-21 10:02:40 -0500] Avoid complaints in relocatable links
+3d4651b [2011-04-18 16:42:26 -0500] SF 3289064 uniarch binutils missing far section support
+61941d8 [2011-04-13 19:06:23 -0500] SF 3286248 broken #hlo calculation for small constants
+4ecb659 [2011-04-10 21:39:34 -0500] SF 3237855: clean up -mmcu documentation
+492b386 [2011-04-02 09:11:34 -0500] SF 3266079: binutils link does not preserve cpu architecture
+0cf6f04 [2011-04-02 09:09:52 -0500] Clone genelf.em prior to msp430-specific mods
+88c78f9 [2011-03-22 09:55:52 -0500] Store architecture, not CPU, in elf flags field
+8b0914d [2011-03-14 12:55:23 -0500] Clean up section management.
+0967a41 [2011-03-12 11:19:17 -0600] SF 3207853: bad constant extraction on 64-bit systems
+e76d094 [2011-03-12 09:55:14 -0600] SF 3207853: validate llo/lhi/hlo/hhi
+bd6984f [2011-03-12 09:28:50 -0600] Update to match current output (whitespace variations only)
+4f48d67 [2011-03-02 18:24:57 -0600] SF 3197755: long long type not working
+9ee0da1 [2011-02-20 14:44:58 -0600] Eliminate warning that breaks gcc test infrastructure
+68710d7 [2011-02-10 17:01:58 -0600] SF 3177314: undefined reference with too many template parameters
+3c372b3 [2011-02-07 10:49:43 -0600] Parse cpu/mpy directives in assembly code
+dbbc6f6 [2011-02-07 09:06:23 -0600] Regenerate
+5877af8 [2011-02-07 09:03:21 -0600] Remove hard-coded MCU-specific information from msp430 port.
+5083be6 [2011-02-05 21:37:53 -0600] Correct vector start for ISA_24 chips
+1ce656f [2011-02-05 13:56:25 -0600] Regenerate
+f07e5a2 [2011-02-05 13:56:08 -0600] Add MCUs supported by msp430all.sh
+f4dc7c0 [2011-02-05 13:31:09 -0600] Regenerate
+5dfc571 [2011-02-05 13:29:08 -0600] Update to match MCUs in msp430all.sh
+bea8d7b [2011-01-26 11:53:58 -0600] SF 3154622: Correct support for MSP430F2132
+4674f3a [2011-01-26 11:12:49 -0600] SF 3146404: Support for msp430f550x chips
+c8aacc6 [2011-01-21 16:01:15 +0200] Add support for msp430f471x3
 e845ac1 [2010-11-14 10:07:12 -0600] SF 3109143: Support value-line MSP430G22x1 devices
 3909fd6 [2010-11-06 14:31:43 -0500] SF 3096352: Illegal disassembly instruction (addx.a R14,R15)
 e291e09 [2010-08-29 13:11:44 -0500] SF 3055519: add support for 55xx chips
@@ -71,10 +75,10 @@ a0f3a60 [2010-05-27 12:22:04 -0500] Replace undefined cc430x5123 with missing cc
 aeec5cc [2010-05-27 11:32:07 -0500] Fix info/bsl locations on newer chips
 70aa46c [2011-01-02 10:53:49 -0600] Apply binutils-2.20.patch from revision aac9a66b of mspgcc4 repository.
 
-diff --git binutils-2.21.orig/bfd/archures.c binutils-2.21/bfd/archures.c
+diff --git binutils-2.21.1.orig/bfd/archures.c binutils-2.21.1/bfd/archures.c
 index 1867154..9ad71ab 100644
---- binutils-2.21.orig/bfd/archures.c
-+++ binutils-2.21/bfd/archures.c
+--- binutils-2.21.1.orig/bfd/archures.c
++++ binutils-2.21.1/bfd/archures.c
 @@ -398,21 +398,8 @@ DESCRIPTION
  .  bfd_arch_xstormy16,
  .#define bfd_mach_xstormy16	1
@@ -99,11 +103,11 @@ index 1867154..9ad71ab 100644
  .  bfd_arch_xc16x,     {* Infineon's XC16X Series.               *}
  .#define bfd_mach_xc16x         1
  .#define bfd_mach_xc16xl        2
-diff --git binutils-2.21.orig/bfd/bfd-in2.h binutils-2.21/bfd/bfd-in2.h
-index c6a54b5..79f0d2c 100644
---- binutils-2.21.orig/bfd/bfd-in2.h
-+++ binutils-2.21/bfd/bfd-in2.h
-@@ -2078,21 +2078,8 @@ enum bfd_architecture
+diff --git binutils-2.21.1.orig/bfd/bfd-in2.h binutils-2.21.1/bfd/bfd-in2.h
+index 59b1b8f..4179b93 100644
+--- binutils-2.21.1.orig/bfd/bfd-in2.h
++++ binutils-2.21.1/bfd/bfd-in2.h
+@@ -2085,21 +2085,8 @@ enum bfd_architecture
    bfd_arch_xstormy16,
  #define bfd_mach_xstormy16     1
    bfd_arch_msp430,    /* Texas Instruments MSP430 architecture.  */
@@ -127,7 +131,7 @@ index c6a54b5..79f0d2c 100644
    bfd_arch_xc16x,     /* Infineon's XC16X Series.               */
  #define bfd_mach_xc16x         1
  #define bfd_mach_xc16xl        2
-@@ -4554,6 +4541,25 @@ This is the 5 bits of a value.  */
+@@ -4561,6 +4548,25 @@ This is the 5 bits of a value.  */
    BFD_RELOC_MSP430_16_BYTE,
    BFD_RELOC_MSP430_2X_PCREL,
    BFD_RELOC_MSP430_RL_PCREL,
@@ -153,10 +157,10 @@ index c6a54b5..79f0d2c 100644
  
  /* IQ2000 Relocations.  */
    BFD_RELOC_IQ2000_OFFSET_16,
-diff --git binutils-2.21.orig/bfd/cpu-msp430.c binutils-2.21/bfd/cpu-msp430.c
+diff --git binutils-2.21.1.orig/bfd/cpu-msp430.c binutils-2.21.1/bfd/cpu-msp430.c
 index 63c301a..9e9fcdd 100644
---- binutils-2.21.orig/bfd/cpu-msp430.c
-+++ binutils-2.21/bfd/cpu-msp430.c
+--- binutils-2.21.1.orig/bfd/cpu-msp430.c
++++ binutils-2.21.1/bfd/cpu-msp430.c
 @@ -23,86 +23,14 @@
  #include "bfd.h"
  #include "libbfd.h"
@@ -284,10 +288,10 @@ index 63c301a..9e9fcdd 100644
 +  bfd_default_scan,
 +  &bfd_msp430x_arch
 +};
-diff --git binutils-2.21.orig/bfd/elf32-msp430.c binutils-2.21/bfd/elf32-msp430.c
+diff --git binutils-2.21.1.orig/bfd/elf32-msp430.c binutils-2.21.1/bfd/elf32-msp430.c
 index 9a5fb2a..a2fc8c1 100644
---- binutils-2.21.orig/bfd/elf32-msp430.c
-+++ binutils-2.21/bfd/elf32-msp430.c
+--- binutils-2.21.1.orig/bfd/elf32-msp430.c
++++ binutils-2.21.1/bfd/elf32-msp430.c
 @@ -90,7 +90,7 @@ static reloc_howto_type elf_msp430_howto_table[] =
  	 0xffff,		/* dst_mask */
  	 FALSE),		/* pcrel_offset */
@@ -1075,10 +1079,10 @@ index 9a5fb2a..a2fc8c1 100644
 +#define elf_backend_object_p                 msp430_elf_backend_object_p
  
  #include "elf32-target.h"
-diff --git binutils-2.21.orig/bfd/libbfd.h binutils-2.21/bfd/libbfd.h
+diff --git binutils-2.21.1.orig/bfd/libbfd.h binutils-2.21.1/bfd/libbfd.h
 index e706ce4..c21ca2f 100644
---- binutils-2.21.orig/bfd/libbfd.h
-+++ binutils-2.21/bfd/libbfd.h
+--- binutils-2.21.1.orig/bfd/libbfd.h
++++ binutils-2.21.1/bfd/libbfd.h
 @@ -2165,6 +2165,25 @@ static const char *const bfd_reloc_code_real_names[] = { "@@uninitialized@@",
    "BFD_RELOC_MSP430_16_BYTE",
    "BFD_RELOC_MSP430_2X_PCREL",
@@ -1105,10 +1109,10 @@ index e706ce4..c21ca2f 100644
    "BFD_RELOC_IQ2000_OFFSET_16",
    "BFD_RELOC_IQ2000_OFFSET_21",
    "BFD_RELOC_IQ2000_UHI16",
-diff --git binutils-2.21.orig/bfd/reloc.c binutils-2.21/bfd/reloc.c
+diff --git binutils-2.21.1.orig/bfd/reloc.c binutils-2.21.1/bfd/reloc.c
 index 5a428a2..8fa1386 100644
---- binutils-2.21.orig/bfd/reloc.c
-+++ binutils-2.21/bfd/reloc.c
+--- binutils-2.21.1.orig/bfd/reloc.c
++++ binutils-2.21.1/bfd/reloc.c
 @@ -5216,6 +5216,44 @@ ENUMX
    BFD_RELOC_MSP430_2X_PCREL
  ENUMX
@@ -1154,10 +1158,10 @@ index 5a428a2..8fa1386 100644
  ENUMDOC
    msp430 specific relocation codes
  
-diff --git binutils-2.21.orig/gas/config/tc-msp430.c binutils-2.21/gas/config/tc-msp430.c
+diff --git binutils-2.21.1.orig/gas/config/tc-msp430.c binutils-2.21.1/gas/config/tc-msp430.c
 index 98d90c6..15eefb1 100644
---- binutils-2.21.orig/gas/config/tc-msp430.c
-+++ binutils-2.21/gas/config/tc-msp430.c
+--- binutils-2.21.1.orig/gas/config/tc-msp430.c
++++ binutils-2.21.1/gas/config/tc-msp430.c
 @@ -23,7 +23,6 @@
  
  #include <limits.h>
@@ -3699,10 +3703,10 @@ index 98d90c6..15eefb1 100644
  	default:
  	  as_fatal (_("line %d: unknown relocation type: 0x%x"),
  		    fixp->fx_line, fixp->fx_r_type);
-diff --git binutils-2.21.orig/gas/testsuite/gas/msp430/opcode.d binutils-2.21/gas/testsuite/gas/msp430/opcode.d
+diff --git binutils-2.21.1.orig/gas/testsuite/gas/msp430/opcode.d binutils-2.21.1/gas/testsuite/gas/msp430/opcode.d
 index 22df51c..297d3e1 100644
---- binutils-2.21.orig/gas/testsuite/gas/msp430/opcode.d
-+++ binutils-2.21/gas/testsuite/gas/msp430/opcode.d
+--- binutils-2.21.1.orig/gas/testsuite/gas/msp430/opcode.d
++++ binutils-2.21.1/gas/testsuite/gas/msp430/opcode.d
 @@ -5,41 +5,49 @@
  
  Disassembly of section .text:
@@ -3783,10 +3787,10 @@ index 22df51c..297d3e1 100644
 +0+084 <extract0\+0x4> 0b 43       	clr	r11		
 +0+086 <extract0\+0x6> 0c 43       	clr	r12		
 +0+088 <extract0\+0x8> 0d 43       	clr	r13		
-diff --git binutils-2.21.orig/gas/testsuite/gas/msp430/opcode.s binutils-2.21/gas/testsuite/gas/msp430/opcode.s
+diff --git binutils-2.21.1.orig/gas/testsuite/gas/msp430/opcode.s binutils-2.21.1/gas/testsuite/gas/msp430/opcode.s
 index b85a463..8fa444f 100644
---- binutils-2.21.orig/gas/testsuite/gas/msp430/opcode.s
-+++ binutils-2.21/gas/testsuite/gas/msp430/opcode.s
+--- binutils-2.21.1.orig/gas/testsuite/gas/msp430/opcode.s
++++ binutils-2.21.1/gas/testsuite/gas/msp430/opcode.s
 @@ -55,3 +55,19 @@ main:
  	;; This next instruction triggered a bug which
  	;; was fixed by a patch to msp430-dis.c on Jan 2, 2004
@@ -3807,10 +3811,10 @@ index b85a463..8fa444f 100644
 +	mov	#lhi(123), r11
 +	mov	#hlo(123), r12
 +	mov	#hhi(123), r13
-diff --git binutils-2.21.orig/include/elf/msp430.h binutils-2.21/include/elf/msp430.h
+diff --git binutils-2.21.1.orig/include/elf/msp430.h binutils-2.21.1/include/elf/msp430.h
 index 44f5c51..1eeb56b 100644
---- binutils-2.21.orig/include/elf/msp430.h
-+++ binutils-2.21/include/elf/msp430.h
+--- binutils-2.21.1.orig/include/elf/msp430.h
++++ binutils-2.21.1/include/elf/msp430.h
 @@ -23,24 +23,6 @@
  
  #include "elf/reloc-macros.h"
@@ -3908,10 +3912,10 @@ index 44f5c51..1eeb56b 100644
 +#endif
 +
  #endif /* _ELF_MSP430_H */
-diff --git binutils-2.21.orig/include/opcode/msp430.h binutils-2.21/include/opcode/msp430.h
+diff --git binutils-2.21.1.orig/include/opcode/msp430.h binutils-2.21.1/include/opcode/msp430.h
 index d3bf130..c281a49 100644
---- binutils-2.21.orig/include/opcode/msp430.h
-+++ binutils-2.21/include/opcode/msp430.h
+--- binutils-2.21.1.orig/include/opcode/msp430.h
++++ binutils-2.21.1/include/opcode/msp430.h
 @@ -26,7 +26,7 @@ struct msp430_operand_s
    int ol;	/* Operand length words.  */
    int am;	/* Addr mode.  */
@@ -4249,28 +4253,28 @@ index d3bf130..c281a49 100644
    /* End of instruction set.  */
    { NULL, 0, 0, 0, 0 }
  };
-diff --git binutils-2.21.orig/ld/Makefile.am binutils-2.21/ld/Makefile.am
-index b4364be..ac3df59 100644
---- binutils-2.21.orig/ld/Makefile.am
-+++ binutils-2.21/ld/Makefile.am
-@@ -311,65 +311,7 @@ ALL_EMULATION_SOURCES = \
- 	emipslit.c \
- 	emipslnews.c \
+diff --git binutils-2.21.1.orig/ld/Makefile.am binutils-2.21.1/ld/Makefile.am
+index 1280b64..9a290d8 100644
+--- binutils-2.21.1.orig/ld/Makefile.am
++++ binutils-2.21.1/ld/Makefile.am
+@@ -317,65 +317,7 @@ ALL_EMULATION_SOURCES = \
  	emipspe.c \
+ 	emn10200.c \
+ 	emn10300.c \
 -	emsp430x110.c \
--	emsp430x112.c \
 -	emsp430x1101.c \
 -	emsp430x1111.c \
+-	emsp430x112.c \
 -	emsp430x1121.c \
 -	emsp430x1122.c \
 -	emsp430x1132.c \
 -	emsp430x122.c \
--	emsp430x123.c \
 -	emsp430x1222.c \
+-	emsp430x123.c \
 -	emsp430x1232.c \
 -	emsp430x133.c \
--	emsp430x135.c \
 -	emsp430x1331.c \
+-	emsp430x135.c \
 -	emsp430x1351.c \
 -	emsp430x147.c \
 -	emsp430x148.c \
@@ -4278,12 +4282,12 @@ index b4364be..ac3df59 100644
 -	emsp430x155.c \
 -	emsp430x156.c \
 -	emsp430x157.c \
--	emsp430x167.c \
--	emsp430x168.c \
--	emsp430x169.c \
 -	emsp430x1610.c \
 -	emsp430x1611.c \
 -	emsp430x1612.c \
+-	emsp430x167.c \
+-	emsp430x168.c \
+-	emsp430x169.c \
 -	emsp430x2101.c \
 -	emsp430x2111.c \
 -	emsp430x2121.c \
@@ -4301,38 +4305,34 @@ index b4364be..ac3df59 100644
 -	emsp430x413.c \
 -	emsp430x415.c \
 -	emsp430x417.c \
--	emsp430xE423.c \
--	emsp430xE425.c \
--	emsp430xE427.c \
--	emsp430xW423.c \
--	emsp430xW425.c \
--	emsp430xW427.c \
--	emsp430xG437.c \
--	emsp430xG438.c \
--	emsp430xG439.c \
 -	emsp430x435.c \
 -	emsp430x436.c \
 -	emsp430x437.c \
 -	emsp430x447.c \
 -	emsp430x448.c \
 -	emsp430x449.c \
+-	emsp430xE423.c \
+-	emsp430xE425.c \
+-	emsp430xE427.c \
+-	emsp430xG437.c \
+-	emsp430xG438.c \
+-	emsp430xG439.c \
+-	emsp430xW423.c \
+-	emsp430xW425.c \
+-	emsp430xW427.c \
 +	emsp430.c \
  	enews.c \
  	ens32knbsd.c \
  	eor32.c \
-@@ -1436,242 +1378,10 @@ emn10300.c: $(srcdir)/emulparams/mn10300.sh \
- emn10200.c: $(srcdir)/emulparams/mn10200.sh \
-   $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
- 	${GENSCRIPTS} mn10200 "$(tdir_mn10200)"
+@@ -1335,242 +1277,10 @@ emn10300.c: $(srcdir)/emulparams/mn10300.sh \
+   $(srcdir)/emulparams/mn10200.sh \
+   $(ELF_DEPS) $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+ 	${GENSCRIPTS} mn10300 "$(tdir_mn10300)"
 -emsp430x110.c: $(srcdir)/emulparams/msp430all.sh \
 +emsp430.c: $(srcdir)/emulparams/msp430uni.sh \
    $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
    ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x110 "$(tdir_msp430x110)" msp430all
--emsp430x112.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430x112 "$(tdir_msp430x112)" msp430all
 -emsp430x1101.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
@@ -4341,6 +4341,10 @@ index b4364be..ac3df59 100644
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x1111 "$(tdir_msp430x1111)" msp430all
+-emsp430x112.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430x112 "$(tdir_msp430x112)" msp430all
 -emsp430x1121.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
@@ -4357,14 +4361,14 @@ index b4364be..ac3df59 100644
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x122 "$(tdir_msp430x122)" msp430all
--emsp430x123.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430x123 "$(tdir_msp430x123)" msp430all
 -emsp430x1222.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x1222 "$(tdir_msp430x1222)" msp430all
+-emsp430x123.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430x123 "$(tdir_msp430x123)" msp430all
 -emsp430x1232.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
@@ -4373,14 +4377,14 @@ index b4364be..ac3df59 100644
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x133 "$(tdir_msp430x133)" msp430all
--emsp430x135.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430x135 "$(tdir_msp430x135)" msp430all
 -emsp430x1331.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x1331 "$(tdir_msp430x1331)" msp430all
+-emsp430x135.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430x135 "$(tdir_msp430x135)" msp430all
 -emsp430x1351.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
@@ -4409,18 +4413,6 @@ index b4364be..ac3df59 100644
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x157 "$(tdir_msp430x157)" msp430all
--emsp430x167.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430x167 "$(tdir_msp430x167)" msp430all
--emsp430x168.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430x168 "$(tdir_msp430x168)" msp430all
--emsp430x169.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430x169 "$(tdir_msp430x169)" msp430all
 -emsp430x1610.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
@@ -4433,6 +4425,18 @@ index b4364be..ac3df59 100644
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x1612 "$(tdir_msp430x1612)" msp430all
+-emsp430x167.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430x167 "$(tdir_msp430x167)" msp430all
+-emsp430x168.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430x168 "$(tdir_msp430x168)" msp430all
+-emsp430x169.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430x169 "$(tdir_msp430x169)" msp430all
 -emsp430x2101.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
@@ -4501,42 +4505,6 @@ index b4364be..ac3df59 100644
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x417 "$(tdir_msp430x417)" msp430all
--emsp430xE423.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xE423 "$(tdir_msp430xE423)" msp430all
--emsp430xE425.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xE425 "$(tdir_msp430xE425)" msp430all
--emsp430xE427.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xE427 "$(tdir_msp430xE427)" msp430all
--emsp430xW423.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xW423 "$(tdir_msp430xW423)" msp430all
--emsp430xW425.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xW425 "$(tdir_msp430xW425)" msp430all
--emsp430xW427.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xW427 "$(tdir_msp430xW427)" msp430all
--emsp430xG437.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xG437 "$(tdir_msp430xG437)" msp430all
--emsp430xG438.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xG438 "$(tdir_msp430xG438)" msp430all
--emsp430xG439.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xG439 "$(tdir_msp430xG439)" msp430all
 -emsp430x435.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
@@ -4561,32 +4529,68 @@ index b4364be..ac3df59 100644
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x449 "$(tdir_msp430x449)" msp430all
+-emsp430xE423.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xE423 "$(tdir_msp430xE423)" msp430all
+-emsp430xE425.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xE425 "$(tdir_msp430xE425)" msp430all
+-emsp430xE427.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xE427 "$(tdir_msp430xE427)" msp430all
+-emsp430xG437.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xG437 "$(tdir_msp430xG437)" msp430all
+-emsp430xG438.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xG438 "$(tdir_msp430xG438)" msp430all
+-emsp430xG439.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xG439 "$(tdir_msp430xG439)" msp430all
+-emsp430xW423.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xW423 "$(tdir_msp430xW423)" msp430all
+-emsp430xW425.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xW425 "$(tdir_msp430xW425)" msp430all
+-emsp430xW427.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xW427 "$(tdir_msp430xW427)" msp430all
 +	${GENSCRIPTS} msp430 "$(tdir_msp430)" msp430uni
  enews.c: $(srcdir)/emulparams/news.sh \
    $(srcdir)/emultempl/generic.em $(srcdir)/scripttempl/aout.sc ${GEN_DEPENDS}
  	${GENSCRIPTS} news "$(tdir_news)"
-diff --git binutils-2.21.orig/ld/Makefile.in binutils-2.21/ld/Makefile.in
-index dac81b3..44418d5 100644
---- binutils-2.21.orig/ld/Makefile.in
-+++ binutils-2.21/ld/Makefile.in
-@@ -611,65 +611,7 @@ ALL_EMULATION_SOURCES = \
- 	emipslit.c \
- 	emipslnews.c \
+diff --git binutils-2.21.1.orig/ld/Makefile.in binutils-2.21.1/ld/Makefile.in
+index 00fcd72..5e1dbc0 100644
+--- binutils-2.21.1.orig/ld/Makefile.in
++++ binutils-2.21.1/ld/Makefile.in
+@@ -622,65 +622,7 @@ ALL_EMULATION_SOURCES = \
  	emipspe.c \
+ 	emn10200.c \
+ 	emn10300.c \
 -	emsp430x110.c \
--	emsp430x112.c \
 -	emsp430x1101.c \
 -	emsp430x1111.c \
+-	emsp430x112.c \
 -	emsp430x1121.c \
 -	emsp430x1122.c \
 -	emsp430x1132.c \
 -	emsp430x122.c \
--	emsp430x123.c \
 -	emsp430x1222.c \
+-	emsp430x123.c \
 -	emsp430x1232.c \
 -	emsp430x133.c \
--	emsp430x135.c \
 -	emsp430x1331.c \
+-	emsp430x135.c \
 -	emsp430x1351.c \
 -	emsp430x147.c \
 -	emsp430x148.c \
@@ -4594,12 +4598,12 @@ index dac81b3..44418d5 100644
 -	emsp430x155.c \
 -	emsp430x156.c \
 -	emsp430x157.c \
--	emsp430x167.c \
--	emsp430x168.c \
--	emsp430x169.c \
 -	emsp430x1610.c \
 -	emsp430x1611.c \
 -	emsp430x1612.c \
+-	emsp430x167.c \
+-	emsp430x168.c \
+-	emsp430x169.c \
 -	emsp430x2101.c \
 -	emsp430x2111.c \
 -	emsp430x2121.c \
@@ -4617,29 +4621,29 @@ index dac81b3..44418d5 100644
 -	emsp430x413.c \
 -	emsp430x415.c \
 -	emsp430x417.c \
--	emsp430xE423.c \
--	emsp430xE425.c \
--	emsp430xE427.c \
--	emsp430xW423.c \
--	emsp430xW425.c \
--	emsp430xW427.c \
--	emsp430xG437.c \
--	emsp430xG438.c \
--	emsp430xG439.c \
 -	emsp430x435.c \
 -	emsp430x436.c \
 -	emsp430x437.c \
 -	emsp430x447.c \
 -	emsp430x448.c \
 -	emsp430x449.c \
+-	emsp430xE423.c \
+-	emsp430xE425.c \
+-	emsp430xE427.c \
+-	emsp430xG437.c \
+-	emsp430xG438.c \
+-	emsp430xG439.c \
+-	emsp430xW423.c \
+-	emsp430xW425.c \
+-	emsp430xW427.c \
 +	emsp430.c \
  	enews.c \
  	ens32knbsd.c \
  	eor32.c \
-@@ -1211,65 +1153,7 @@ distclean-compile:
- @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/emipslnews.Po@am__quote@
- @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/emipspe.Po@am__quote@
+@@ -1228,65 +1170,7 @@ distclean-compile:
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/emmo.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/emn10200.Po@am__quote@
+ @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/emn10300.Po@am__quote@
 -@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/emsp430x110.Po@am__quote@
 -@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/emsp430x1101.Po@am__quote@
 -@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/emsp430x1111.Po@am__quote@
@@ -4703,19 +4707,15 @@ index dac81b3..44418d5 100644
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/enews.Po@am__quote@
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ens32knbsd.Po@am__quote@
  @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/eor32.Po@am__quote@
-@@ -2859,242 +2743,10 @@ emn10300.c: $(srcdir)/emulparams/mn10300.sh \
- emn10200.c: $(srcdir)/emulparams/mn10200.sh \
-   $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
- 	${GENSCRIPTS} mn10200 "$(tdir_mn10200)"
+@@ -2770,242 +2654,10 @@ emn10300.c: $(srcdir)/emulparams/mn10300.sh \
+   $(srcdir)/emulparams/mn10200.sh \
+   $(ELF_DEPS) $(srcdir)/scripttempl/elf.sc ${GEN_DEPENDS}
+ 	${GENSCRIPTS} mn10300 "$(tdir_mn10300)"
 -emsp430x110.c: $(srcdir)/emulparams/msp430all.sh \
 +emsp430.c: $(srcdir)/emulparams/msp430uni.sh \
    $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
    ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x110 "$(tdir_msp430x110)" msp430all
--emsp430x112.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430x112 "$(tdir_msp430x112)" msp430all
 -emsp430x1101.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
@@ -4724,6 +4724,10 @@ index dac81b3..44418d5 100644
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x1111 "$(tdir_msp430x1111)" msp430all
+-emsp430x112.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430x112 "$(tdir_msp430x112)" msp430all
 -emsp430x1121.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
@@ -4740,14 +4744,14 @@ index dac81b3..44418d5 100644
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x122 "$(tdir_msp430x122)" msp430all
--emsp430x123.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430x123 "$(tdir_msp430x123)" msp430all
 -emsp430x1222.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x1222 "$(tdir_msp430x1222)" msp430all
+-emsp430x123.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430x123 "$(tdir_msp430x123)" msp430all
 -emsp430x1232.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
@@ -4756,14 +4760,14 @@ index dac81b3..44418d5 100644
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x133 "$(tdir_msp430x133)" msp430all
--emsp430x135.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430x135 "$(tdir_msp430x135)" msp430all
 -emsp430x1331.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x1331 "$(tdir_msp430x1331)" msp430all
+-emsp430x135.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430x135 "$(tdir_msp430x135)" msp430all
 -emsp430x1351.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
@@ -4792,18 +4796,6 @@ index dac81b3..44418d5 100644
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x157 "$(tdir_msp430x157)" msp430all
--emsp430x167.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430x167 "$(tdir_msp430x167)" msp430all
--emsp430x168.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430x168 "$(tdir_msp430x168)" msp430all
--emsp430x169.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430x169 "$(tdir_msp430x169)" msp430all
 -emsp430x1610.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
@@ -4816,6 +4808,18 @@ index dac81b3..44418d5 100644
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x1612 "$(tdir_msp430x1612)" msp430all
+-emsp430x167.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430x167 "$(tdir_msp430x167)" msp430all
+-emsp430x168.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430x168 "$(tdir_msp430x168)" msp430all
+-emsp430x169.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430x169 "$(tdir_msp430x169)" msp430all
 -emsp430x2101.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
@@ -4884,42 +4888,6 @@ index dac81b3..44418d5 100644
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x417 "$(tdir_msp430x417)" msp430all
--emsp430xE423.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xE423 "$(tdir_msp430xE423)" msp430all
--emsp430xE425.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xE425 "$(tdir_msp430xE425)" msp430all
--emsp430xE427.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xE427 "$(tdir_msp430xE427)" msp430all
--emsp430xW423.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xW423 "$(tdir_msp430xW423)" msp430all
--emsp430xW425.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xW425 "$(tdir_msp430xW425)" msp430all
--emsp430xW427.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xW427 "$(tdir_msp430xW427)" msp430all
--emsp430xG437.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xG437 "$(tdir_msp430xG437)" msp430all
--emsp430xG438.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xG438 "$(tdir_msp430xG438)" msp430all
--emsp430xG439.c: $(srcdir)/emulparams/msp430all.sh \
--  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
--  ${GEN_DEPENDS}
--	${GENSCRIPTS} msp430xG439 "$(tdir_msp430xG439)" msp430all
 -emsp430x435.c: $(srcdir)/emulparams/msp430all.sh \
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
@@ -4944,15 +4912,51 @@ index dac81b3..44418d5 100644
 -  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
 -  ${GEN_DEPENDS}
 -	${GENSCRIPTS} msp430x449 "$(tdir_msp430x449)" msp430all
+-emsp430xE423.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xE423 "$(tdir_msp430xE423)" msp430all
+-emsp430xE425.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xE425 "$(tdir_msp430xE425)" msp430all
+-emsp430xE427.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xE427 "$(tdir_msp430xE427)" msp430all
+-emsp430xG437.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xG437 "$(tdir_msp430xG437)" msp430all
+-emsp430xG438.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xG438 "$(tdir_msp430xG438)" msp430all
+-emsp430xG439.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xG439 "$(tdir_msp430xG439)" msp430all
+-emsp430xW423.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xW423 "$(tdir_msp430xW423)" msp430all
+-emsp430xW425.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xW425 "$(tdir_msp430xW425)" msp430all
+-emsp430xW427.c: $(srcdir)/emulparams/msp430all.sh \
+-  $(ELF_GEN_DEPS) $(srcdir)/scripttempl/elf32msp430.sc \
+-  ${GEN_DEPENDS}
+-	${GENSCRIPTS} msp430xW427 "$(tdir_msp430xW427)" msp430all
 +	${GENSCRIPTS} msp430 "$(tdir_msp430)" msp430uni
  enews.c: $(srcdir)/emulparams/news.sh \
    $(srcdir)/emultempl/generic.em $(srcdir)/scripttempl/aout.sc ${GEN_DEPENDS}
  	${GENSCRIPTS} news "$(tdir_news)"
-diff --git binutils-2.21.orig/ld/configure.tgt binutils-2.21/ld/configure.tgt
-index 4e90739..3efc475 100644
---- binutils-2.21.orig/ld/configure.tgt
-+++ binutils-2.21/ld/configure.tgt
-@@ -425,8 +425,7 @@ mn10300-*-*)		targ_emul=mn10300
+diff --git binutils-2.21.1.orig/ld/configure.tgt binutils-2.21.1/ld/configure.tgt
+index 90d7461..b9a0624 100644
+--- binutils-2.21.1.orig/ld/configure.tgt
++++ binutils-2.21.1/ld/configure.tgt
+@@ -429,8 +429,7 @@ mn10300-*-*)		targ_emul=mn10300
  			;;
  mt-*elf)                targ_emul=elf32mt
  			;;
@@ -4962,10 +4966,10 @@ index 4e90739..3efc475 100644
  			;;
  ns32k-pc532-mach* | ns32k-pc532-ux*)  targ_emul=pc532macha ;;
  ns32k-*-netbsd* | ns32k-pc532-lites*) targ_emul=ns32knbsd
-diff --git binutils-2.21.orig/ld/emulparams/msp430all.sh binutils-2.21/ld/emulparams/msp430all.sh
+diff --git binutils-2.21.1.orig/ld/emulparams/msp430all.sh binutils-2.21.1/ld/emulparams/msp430all.sh
 deleted file mode 100644
 index 57d21c2..0000000
---- binutils-2.21.orig/ld/emulparams/msp430all.sh
+--- binutils-2.21.1.orig/ld/emulparams/msp430all.sh
 +++ /dev/null
 @@ -1,553 +0,0 @@
 -#!/bin/sh
@@ -5521,11 +5525,11 @@ index 57d21c2..0000000
 -RAM_SIZE=0x400
 -STACK=0x600
 -fi
-diff --git binutils-2.21.orig/ld/emulparams/msp430uni.sh binutils-2.21/ld/emulparams/msp430uni.sh
+diff --git binutils-2.21.1.orig/ld/emulparams/msp430uni.sh binutils-2.21.1/ld/emulparams/msp430uni.sh
 new file mode 100644
 index 0000000..ac7473f
 --- /dev/null
-+++ binutils-2.21/ld/emulparams/msp430uni.sh
++++ binutils-2.21.1/ld/emulparams/msp430uni.sh
 @@ -0,0 +1,13 @@
 +#!/bin/sh
 +
@@ -5540,11 +5544,11 @@ index 0000000..ac7473f
 +MAXPAGESIZE=1
 +EMBEDDED=yes
 +
-diff --git binutils-2.21.orig/ld/emultempl/msp430.em binutils-2.21/ld/emultempl/msp430.em
+diff --git binutils-2.21.1.orig/ld/emultempl/msp430.em binutils-2.21.1/ld/emultempl/msp430.em
 new file mode 100644
 index 0000000..f4586f8
 --- /dev/null
-+++ binutils-2.21/ld/emultempl/msp430.em
++++ binutils-2.21.1/ld/emultempl/msp430.em
 @@ -0,0 +1,107 @@
 +# This shell script emits a C file. -*- C -*-
 +#   Copyright 2006, 2007, 2008, 2009 Free Software Foundation, Inc.
@@ -5653,10 +5657,10 @@ index 0000000..f4586f8
 +LDEMUL_BEFORE_ALLOCATION=gld${EMULATION_NAME}_before_allocation
 +LDEMUL_AFTER_ALLOCATION=gld${EMULATION_NAME}_after_allocation
 +LDEMUL_FINISH=gld${EMULATION_NAME}_finish
-diff --git binutils-2.21.orig/ld/scripttempl/elf32msp430.sc binutils-2.21/ld/scripttempl/elf32msp430.sc
-index 54c35be..5ae094c 100644
---- binutils-2.21.orig/ld/scripttempl/elf32msp430.sc
-+++ binutils-2.21/ld/scripttempl/elf32msp430.sc
+diff --git binutils-2.21.1.orig/ld/scripttempl/elf32msp430.sc binutils-2.21.1/ld/scripttempl/elf32msp430.sc
+index cbffe48..497e62e 100644
+--- binutils-2.21.1.orig/ld/scripttempl/elf32msp430.sc
++++ binutils-2.21.1/ld/scripttempl/elf32msp430.sc
 @@ -1,37 +1,11 @@
  #!/bin/sh
  
@@ -5872,8 +5876,8 @@ index 54c35be..5ae094c 100644
    /* Stabs for profiling information*/
    .profiler 0 : { *(.profiler) }
 @@ -239,11 +208,12 @@ SECTIONS
-   .debug_loc      0 : { *(.debug_loc .zdebug_loc) }
-   .debug_macinfo  0 : { *(.debug_macinfo .zdebug_macinfo) }
+   .debug_loc      0 : { *(.debug_loc) }
+   .debug_macinfo  0 : { *(.debug_macinfo) }
  
 -  PROVIDE (__stack = ${STACK}) ;
 -  PROVIDE (__data_start_rom = _etext) ;
@@ -5890,10 +5894,10 @@ index 54c35be..5ae094c 100644
 +  ${RELOCATING+ PROVIDE (__data_end_rom   = _etext + SIZEOF (.data));}
  }
  EOF
-diff --git binutils-2.21.orig/ld/scripttempl/elf32msp430_3.sc binutils-2.21/ld/scripttempl/elf32msp430_3.sc
+diff --git binutils-2.21.1.orig/ld/scripttempl/elf32msp430_3.sc binutils-2.21.1/ld/scripttempl/elf32msp430_3.sc
 deleted file mode 100644
-index 1c44d93..0000000
---- binutils-2.21.orig/ld/scripttempl/elf32msp430_3.sc
+index 15eb517..0000000
+--- binutils-2.21.1.orig/ld/scripttempl/elf32msp430_3.sc
 +++ /dev/null
 @@ -1,192 +0,0 @@
 -cat <<EOF
@@ -6065,21 +6069,21 @@ index 1c44d93..0000000
 -  .line           0 : { *(.line) }
 -
 -  /* GNU DWARF 1 extensions */
--  .debug_srcinfo  0 : { *(.debug_srcinfo .zdebug_srcinfo) }
--  .debug_sfnames  0 : { *(.debug_sfnames .zdebug_sfnames) }
+-  .debug_srcinfo  0 : { *(.debug_srcinfo) }
+-  .debug_sfnames  0 : { *(.debug_sfnames) }
 -
 -  /* DWARF 1.1 and DWARF 2 */
--  .debug_aranges  0 : { *(.debug_aranges .zdebug_aranges) }
--  .debug_pubnames 0 : { *(.debug_pubnames .zdebug_pubnames) }
+-  .debug_aranges  0 : { *(.debug_aranges) }
+-  .debug_pubnames 0 : { *(.debug_pubnames) }
 -
 -  /* DWARF 2 */
--  .debug_info     0 : { *(.debug_info${RELOCATING+ .gnu.linkonce.wi.*} .zdebug_info) }
--  .debug_abbrev   0 : { *(.debug_abbrev .zdebug_abbrev) }
--  .debug_line     0 : { *(.debug_line .zdebug_line) }
--  .debug_frame    0 : { *(.debug_frame .zdebug_frame) }
--  .debug_str      0 : { *(.debug_str .zdebug_str) }
--  .debug_loc      0 : { *(.debug_loc .zdebug_loc) }
--  .debug_macinfo  0 : { *(.debug_macinfo .zdebug_macinfo) }
+-  .debug_info     0 : { *(.debug_info) *(.gnu.linkonce.wi.*) }
+-  .debug_abbrev   0 : { *(.debug_abbrev) }
+-  .debug_line     0 : { *(.debug_line) }
+-  .debug_frame    0 : { *(.debug_frame) }
+-  .debug_str      0 : { *(.debug_str) }
+-  .debug_loc      0 : { *(.debug_loc) }
+-  .debug_macinfo  0 : { *(.debug_macinfo) }
 -
 -  PROVIDE (__stack = ${STACK}) ;
 -  PROVIDE (__data_start_rom = _etext) ;
@@ -6088,10 +6092,10 @@ index 1c44d93..0000000
 -  PROVIDE (__noinit_end_rom = _etext + SIZEOF (.data) + SIZEOF (.noinit)) ;
 -}
 -EOF
-diff --git binutils-2.21.orig/opcodes/msp430-dis.c binutils-2.21/opcodes/msp430-dis.c
+diff --git binutils-2.21.1.orig/opcodes/msp430-dis.c binutils-2.21.1/opcodes/msp430-dis.c
 index 9d7edbe..a00c718 100644
---- binutils-2.21.orig/opcodes/msp430-dis.c
-+++ binutils-2.21/opcodes/msp430-dis.c
+--- binutils-2.21.1.orig/opcodes/msp430-dis.c
++++ binutils-2.21.1/opcodes/msp430-dis.c
 @@ -52,12 +52,153 @@ msp430dis_opcode (bfd_vma addr, disassemble_info *info)
    return bfd_getl16 (buffer);
  }

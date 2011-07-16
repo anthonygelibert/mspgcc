@@ -21,7 +21,7 @@ Unpack the distribution, apply the patch, and build.  (Note: The example
 commands are in Bourne-shell syntax.)
 
   tar xjf gcc-4.5.3.tar.bz2
-  ( cd gcc-4.5.3 ; patch -p1 < ../msp430-gcc-4.5.3-20110716.patch )
+  ( cd gcc-4.5.3 ; patch -p1 < ../msp430-gcc-4.5.3-20110706.patch )
   mkdir -p BUILD/gcc
   cd BUILD/gcc
   ../../gcc-4.5.3/configure \

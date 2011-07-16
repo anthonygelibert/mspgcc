@@ -1081,8 +1081,8 @@ parameters:
 workaround for bitwise operations.</entry></row>
 <row><entry>-mendup-at=</entry><entry>Jump to the specified routine at the end of
 <emphasis>main()</emphasis>.</entry></row>
-<row><entry>-mforce-hwmul</entry><entry>Force use of a hardware multiplier.</entry></row>
-<row><entry>-mdisable-hwmul</entry><entry>Do not use the hardware multiplier.</entry></row>
+<row><entry>-mdisable-hwmul</entry><entry>Do not use the hardware
+    multiplier.  Deprecated; use -mmpy=none. </entry></row>
 <row><entry>-minline-hwmul</entry><entry>Issue inline code for 32-bit integer operations
 for devices with a hardware multiplier.</entry></row>
 <row><entry>-mnoint-hwmul</entry><entry>Do not disable and enable interrupts around

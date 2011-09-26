@@ -255,7 +255,7 @@ if [ ! -e "$LIBC.tar.bz2" ]; then
 fi
 echo "## Unpacking"
 tar xjf $LIBC.tar.bz2
-cd $LIBC
+cd $LIBC/src
 echo "## Build"
 make -j$NUM_CPU
 echo "## Install"

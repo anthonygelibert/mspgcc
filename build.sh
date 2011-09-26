@@ -36,7 +36,7 @@ MIRROR_GMP="http://ftp.uni-kl.de/pub/gnu/gmp"
 MIRROR_MPFR="http://ftp.uni-kl.de/pub/gnu/mpfr"
 MIRROR_MPC="http://www.multiprecision.org/mpc/download"
 MIRROR_MCU="http://sourceforge.net/projects/mspgcc/files/msp430mcu"
-MIRROR_LIBC="https://sourceforge.net/projects/mspgcc/files/msp430-libc"
+MIRROR_LIBC="http://sourceforge.net/projects/mspgcc/files/msp430-libc"
 
 NUM_CPU="`sysctl hw.availcpu | cut -f3 -d' '`"
 
@@ -215,6 +215,52 @@ make -j$NUM_CPU
 echo "## Install"
 echo "Note: I will request your root password to install in the target directory"
 sudo make -j$NUM_CPU install
+clear
 
+cd $BUILDDIR
+echo "###############################################################################"
+echo "##  msp430-mcu ($MCU_VERSION)"
+echo "###############################################################################"
+echo "## Clean"
+rm -rf $MCU
+echo "## Download"
+if [ ! -e "$MCU.tar.bz2" ]; then
+    wget "$MIRROR_MCU/$MCU.tar.bz2"
+    if [ $? -ne 0 ]; then
+        echo "I can't download GCC MCU $MCU_VERSION from $MIRROR_MCU/$MCU.tar.bz2";
+        exit 2;
+    fi
+fi
+echo "## Unpacking"
+tar xjf $MCU.tar.bz2
+cd $MCU
+echo "## Install"
+echo "Note: I will request your root password to install in the target directory"
+sudo MSP430MCU_ROOT="`pwd`" scripts/install.sh "$TARGETDIR"
+clear
+
+cd $BUILDDIR
+echo "###############################################################################"
+echo "##  msp430-libc ($LIBC_VERSION)"
+echo "###############################################################################"
+echo "## Clean"
+rm -rf $LIBC
+echo "## Download"
+if [ ! -e "$LIBC.tar.bz2" ]; then
+    wget "$MIRROR_LIBC/$LIBC.tar.bz2"
+    if [ $? -ne 0 ]; then
+        echo "I can't download GCC LIBC $LIBC_VERSION from $MIRROR_LIBC/$LIBC.tar.bz2";
+        exit 2;
+    fi
+fi
+echo "## Unpacking"
+tar xjf $LIBC.tar.bz2
+cd $LIBC
+echo "## Build"
+make -j$NUM_CPU
+echo "## Install"
+echo "Note: I will request your root password to install in the target directory"
+sudo make -j$NUM_CPU PREFIX="$TARGETDIR" install
+clear
 
 

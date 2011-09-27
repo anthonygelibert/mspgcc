@@ -3,12 +3,28 @@
 
 [ "root" = "`whoami`" ] && echo "Being root in all the build process isn't a good idea" && exit 1
 
-BINUTILS_PATCH="`ls | grep binutils | tail`"
-GCC_PATCH="`ls | grep gcc | tail`"
-GDB_PATCH="`ls | grep gdb | tail`"
-BINUTILS_VERSION="`ls | grep binutils | tail | cut -f3 -d-`"
-GCC_VERSION="`ls | grep gcc | tail | cut -f3 -d-`"
-GDB_VERSION="`ls | grep gdb | tail | cut -f3 -d-`"
+function num_cpus() {
+	local tmp;
+
+    case $(uname -s) in
+        Darwin)
+            tmp="`sysctl -n hw.availcpu 2> /dev/null`";;
+		FreeBSD)
+            tmp="`sysctl -n hw.ncpu 2> /dev/null`";;
+		Linux|CYGWIN_NT*)
+			tmp="`grep ^processor /proc/cpuinfo 2>/dev/null| wc -l`";;
+		*)	tmp=1;;
+	esac
+	[ $tmp = 0 ] && tmp=1;
+    echo "${tmp}";
+}
+
+BINUTILS_PATCH="`ls | grep binutils | tail -1`"
+GCC_PATCH="`ls | grep gcc | tail -1`"
+GDB_PATCH="`ls | grep gdb | tail -1`"
+BINUTILS_VERSION="`ls | grep binutils | tail -1 | cut -f3 -d-`"
+GCC_VERSION="`ls | grep gcc | tail -1 | cut -f3 -d-`"
+GDB_VERSION="`ls | grep gdb | tail -1 | cut -f3 -d-`"
 MSP430MCU_VERSION="`cat msp430mcu.version`"
 MSP430LIBC_VERSION="`cat msp430-libc.version`"
 GMP_VERSION="5.0.2"
@@ -38,7 +54,7 @@ MIRROR_MPC="http://www.multiprecision.org/mpc/download"
 MIRROR_MCU="http://sourceforge.net/projects/mspgcc/files/msp430mcu"
 MIRROR_LIBC="http://sourceforge.net/projects/mspgcc/files/msp430-libc"
 
-NUM_CPU="`sysctl hw.availcpu | cut -f3 -d' '`"
+NUM_CPU=$(num_cpus);
 
 clear
 echo "/---------------------------------+"
@@ -262,5 +278,4 @@ echo "## Install"
 echo "Note: I will request your root password to install in the target directory"
 sudo make -j$NUM_CPU PREFIX="$TARGETDIR" install
 clear
-
 

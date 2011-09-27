@@ -3,7 +3,7 @@
 
 [ "root" = "`whoami`" ] && echo "Being root in all the build process isn't a good idea" && exit 1
 
-function num_cpus() {
+num_cpus() {
 	local tmp;
 
     case $(uname -s) in
@@ -56,6 +56,9 @@ MIRROR_LIBC="http://sourceforge.net/projects/mspgcc/files/msp430-libc"
 
 NUM_CPU=$(num_cpus);
 
+TAR_GZIP=xzf
+TAR_BZIP=xjf
+
 clear
 echo "/---------------------------------+"
 echo "| mspgcc build and install script |"
@@ -84,7 +87,7 @@ echo "Build order: binutils, gcc, gdb, mcu, libc\n"
 
 sudo rm -rf $TARGETDIR
 
-mkdir $BUILDDIR
+mkdir $BUILDDIR 2> /dev/null
 
 cd $BUILDDIR
 echo "###############################################################################"
@@ -102,7 +105,7 @@ if [ ! -e $BINUTILS.tar.gz ]; then
     fi
 fi
 echo "## Unpacking"
-tar xjf $BINUTILS.tar.gz
+tar $TAR_GZIP $BINUTILS.tar.gz
 echo "## Patch"
 ( cd $BINUTILS ; patch -p1 < ../../$BINUTILS_PATCH )
 mkdir -p "$BINUTILS-build"
@@ -165,10 +168,10 @@ fi
 
 
 echo "## Unpacking"
-tar xjf "gcc-core-$GCC_VERSION.tar.bz2"
-tar xjf "gcc-g++-$GCC_VERSION.tar.bz2"
+tar $TAR_BZIP "gcc-core-$GCC_VERSION.tar.bz2"
+tar $TAR_BZIP "gcc-g++-$GCC_VERSION.tar.bz2"
 cd $GCC
-tar xjf "../$GMP.tar.bz2"
+tar $TAR_BZIP "../$GMP.tar.bz2"
 rm -rf gmp
 mv "$GMP" gmp
 
@@ -176,11 +179,11 @@ echo "## Patch"
 ( cd $GCC ; patch -p1 < ../../$GCC_PATCH )
 
 echo "## Unpacking"
-tar xjf "../$MPFR.tar.bz2"
+tar $TAR_BZIP "../$MPFR.tar.bz2"
 rm -rf mpfr
 mv $MPFR mpfr
 
-tar xjf "../$MPC.tar.gz"
+tar $TAR_GZIP "../$MPC.tar.gz"
 rm -rf mpc
 mv $MPC mpc
 
@@ -216,9 +219,9 @@ if [[ ! -e "$GDB.tar.gz" && ! -e "${GDB}a.tar.gz" ]]; then
     fi
 fi
 echo "## Unpacking"
-tar xjf $GDB.tar.gz 2> /dev/null
+tar $TAR_GZIP $GDB.tar.gz 2> /dev/null
 if [ $? -ne 0 ]; then
-    tar xjf ${GDB}a.tar.gz
+    tar $TAR_GZIP ${GDB}a.tar.gz
 fi
 echo "## Patch"
 ( cd $GDB ; patch -p1 < ../../$GDB_PATCH )
@@ -248,7 +251,7 @@ if [ ! -e "$MCU.tar.bz2" ]; then
     fi
 fi
 echo "## Unpacking"
-tar xjf $MCU.tar.bz2
+tar $TAR_BZIP $MCU.tar.bz2
 cd $MCU
 echo "## Install"
 echo "Note: I will request your root password to install in the target directory"
@@ -270,7 +273,7 @@ if [ ! -e "$LIBC.tar.bz2" ]; then
     fi
 fi
 echo "## Unpacking"
-tar xjf $LIBC.tar.bz2
+tar $TAR_BZIP $LIBC.tar.bz2
 cd $LIBC/src
 echo "## Build"
 make -j$NUM_CPU

@@ -208,15 +208,13 @@ echo "## Clean"
 rm -rf $GDB
 rm -rf $GDB-build
 echo "## Download"
-if [[ ! -e "$GDB.tar.gz" && ! -e "${GDB}a.tar.gz" ]]; then
-    wget $MIRROR_GDB/$GDB.tar.gz
-    if [ $? -ne 0 ]; then
-        wget "$MIRROR_GDB/${GDB}a.tar.gz"
-        if [ $? -ne 0 ]; then
-            echo "I can't download GDB $GDB_VERSION from $MIRROR_GDB/$GDB{,a}.tar.gz";
-            exit 3;
-        fi
-    fi
+if [ -e "$GDB.tar.gz" ] ; then
+	wget $MIRROR_GDB/$GDB.tar.gz
+elif [ -e "${GDB}a.tar.gz" ]; then
+	wget $MIRROR_GDB/${GDB}a.tar.gz
+else
+	echo "I can't download GDB $GDB_VERSION from $MIRROR_GDB/$GDB{,a}.tar.gz";
+	exit 3;
 fi
 echo "## Unpacking"
 tar $TAR_GZIP $GDB.tar.gz 2> /dev/null

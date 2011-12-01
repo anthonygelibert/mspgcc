@@ -20,13 +20,17 @@ num_cpus() {
 }
 
 BINUTILS_PATCH="`ls | grep binutils | tail -1`"
+BINUTILS_PATCHES="`ls | grep -e 'binutils.*sf'`"
 GCC_PATCH="`ls | grep gcc | tail -1`"
+GCC_PATCHES="`ls | grep 'gcc.*sf'`"
 GDB_PATCH="`ls | grep gdb | tail -1`"
 BINUTILS_VERSION="`ls | grep binutils | tail -1 | cut -f3 -d-`"
 GCC_VERSION="`ls | grep gcc | tail -1 | cut -f3 -d-`"
 GDB_VERSION="`ls | grep gdb | tail -1 | cut -f3 -d-`"
 MSP430MCU_VERSION="`cat msp430mcu.version`"
+MSP430MCU_PATCHES="`ls | grep -e 'mcu.*sf'`"
 MSP430LIBC_VERSION="`cat msp430-libc.version`"
+MSP430LIBC_PATCHES="`ls | grep -e 'libc.*sf'`"
 GMP_VERSION="5.0.2"
 MPFR_VERSION="3.0.1"
 MPC_VERSION="0.9"
@@ -107,7 +111,13 @@ fi
 echo "## Unpacking"
 tar $TAR_GZIP $BINUTILS.tar.gz
 echo "## Patch"
+echo "### Global patch"
 ( cd $BINUTILS ; patch -p1 < ../../$BINUTILS_PATCH )
+for i in $BINUTILS_PATCHES; do
+    (echo "### Patch : $i"; cd $BINUTILS ; patch -p1 < ../../$i)
+done
+
+
 mkdir -p "$BINUTILS-build"
 cd "$BINUTILS-build"
 echo "## Configure"
@@ -165,8 +175,6 @@ if [ ! -e "$MPC.tar.gz" ]; then
     fi
 fi
 
-
-
 echo "## Unpacking"
 tar $TAR_BZIP "gcc-core-$GCC_VERSION.tar.bz2"
 tar $TAR_BZIP "gcc-g++-$GCC_VERSION.tar.bz2"
@@ -176,7 +184,11 @@ rm -rf gmp
 mv "$GMP" gmp
 
 echo "## Patch"
-( cd $GCC ; patch -p1 < ../../$GCC_PATCH )
+echo "### Global Patch"
+( patch -p1 < ../../$GCC_PATCH )
+for i in $GCC_PATCHES; do
+    (echo "### Patch : $i"; patch -p1 < ../../$i)
+done
 
 echo "## Unpacking"
 tar $TAR_BZIP "../$MPFR.tar.bz2"
@@ -199,7 +211,6 @@ echo "Note: I will request your root password to install in the target directory
 sudo make -j$NUM_CPU install
 clear
 
-
 cd $BUILDDIR
 echo "###############################################################################"
 echo "##  msp430-gdb ($GDB_VERSION)"
@@ -208,13 +219,15 @@ echo "## Clean"
 rm -rf $GDB
 rm -rf $GDB-build
 echo "## Download"
-if [ -e "$GDB.tar.gz" ] ; then
-	wget $MIRROR_GDB/$GDB.tar.gz
-elif [ -e "${GDB}a.tar.gz" ]; then
-	wget $MIRROR_GDB/${GDB}a.tar.gz
-else
-	echo "I can't download GDB $GDB_VERSION from $MIRROR_GDB/$GDB{,a}.tar.gz";
-	exit 3;
+if [[ ! -e "$GDB.tar.gz" && ! -e "${GDB}a.tar.gz" ]]; then
+    wget $MIRROR_GDB/$GDB.tar.gz
+    if [ $? -ne 0 ]; then
+        wget "$MIRROR_GDB/${GDB}a.tar.gz"
+        if [ $? -ne 0 ]; then
+            echo "I can't download GDB $GDB_VERSION from $MIRROR_GDB/$GDB{,a}.tar.gz";
+            exit 3;
+        fi
+    fi
 fi
 echo "## Unpacking"
 tar $TAR_GZIP $GDB.tar.gz 2> /dev/null
@@ -250,6 +263,10 @@ if [ ! -e "$MCU.tar.bz2" ]; then
 fi
 echo "## Unpacking"
 tar $TAR_BZIP $MCU.tar.bz2
+echo "## Patch"
+for i in $MSP430MCU_PATCHES; do
+    (echo "### Patch : $i"; cd $MCU ; patch -p1 < ../../$i)
+done
 cd $MCU
 echo "## Install"
 echo "Note: I will request your root password to install in the target directory"
@@ -272,6 +289,10 @@ if [ ! -e "$LIBC.tar.bz2" ]; then
 fi
 echo "## Unpacking"
 tar $TAR_BZIP $LIBC.tar.bz2
+echo "## Patch"
+for i in $MSP430LIBC_PATCHES; do
+    (echo "### Patch : $i"; cd $LIBC ; patch -p1 < ../../$i)
+done
 cd $LIBC/src
 echo "## Build"
 make -j$NUM_CPU
